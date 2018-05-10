@@ -1,49 +1,122 @@
 <!doctype html>
 <html>
-<title>jspm.org - Frictionless Browser Package Management</title>
+<title>jspm.org - Browser Package Manager</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="favicon.ico">
-<script src="https://jspm.io/system@0.19.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Advent+Pro:300" rel="stylesheet">
 <style type="text/css">
-  @import url('https://fonts.googleapis.com/css?family=Advent+Pro');
-  code {
-    padding: 5px;
-  }
-  code.javascript, code.html {
-    padding: 0px;
-  }
-  code .comment, code .comment .keyword {
-    color: #494;
-    font-weight: 100;
-  }
-  code .string, code .string .comment {
-    color: #BE1717;
-  }
-  code .keyword {
-    font-weight: bold;
-    color: #767;
-  }
   body {
     margin: 20px;
-    margin-top: 100px;
+    margin-top: 50px;
     padding: 0;
-    background-image: url(bgtexture.jpg);
-    background-repeat: repeat;
-    background-color: #eee;
+    background-color: rgb(247, 247, 247);
   }
+  .logobox {
+    background-image: url(jspm.png);
+    background-size: 250px;
+    width: 200px;
+    height: 223px;
+    margin-bottom: -150px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 310px;
+    background-repeat: no-repeat;
+    margin-top: 50px;
+  }
+  .content {
+    margin-top: 50px;
+    width: 750px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: justify;
+    margin-bottom: 150px;
+  }
+  h1.logo {
+    font-family: 'Advent Pro', 'Myriad Pro', sans-serif;
+    color: rgb(165, 165, 165);
+    font-size: 80px;
+    margin: 0;
+    margin-bottom: 80px;
+    padding-left: 200px;
+    text-align: center;
+
+  }
+  h1.logo span {
+    color: rgb(214, 149, 64);
+  }
+
   h1, h2, h3, h4, h5, h6, p, li, a {
-    font-family: 'Myriad Pro', 'Myriad Set Pro', Myriad, 'Helvetica Neue', Helvetica, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 400;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-weight: 100;
   }
-  h1, h2, h3, h4 {
-    -webkit-font-smoothing: antialiased;
-    font-weight: 200;
+  h1 {
+    color: rgb(214, 149, 64);
+    text-align: center;
   }
-  code {
-    -webkit-font-smoothing: antialiased;
+  h2 {
+    font-size: 22px;
+    color: #555;
+    text-align: center;
   }
+  h3 {
+    font-size: 28px;
+    color: #444;
+  }
+  h4 {
+    font-size: 22px;
+    color: #666;
+  }
+  .content em {
+    text-shadow: 1px 1px 1px #fff;
+  }
+  .content strong {
+    color: #666;
+  }
+  .content p, .content li {
+    line-height: 26px;
+    color: #333;
+  }
+  .content pre {
+    background-color: #f5f5f5;
+    padding: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 12px;
+    line-height: 16px;
+    border: 1px solid #C5C5C5;
+    border-radius: 7px;
+    color: #444;
+    white-space: pre-wrap;
+  }
+  .content a {
+    color: #333;
+    text-shadow: 1px 1px 1px #fff;
+  }
+  .content a:hover {
+    color: #C0781A;
+  }
+  .content a[id] {
+    display: block;
+    height: 20px;
+  }
+  .footer {
+    margin-bottom: 30px;
+  }
+  .footer p {
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    font-style: italic;
+    line-height: 26px;
+    color: #333;
+    text-shadow: 1px 1px 1px #fff;
+  }
+  .footer p a {
+    color: #333;
+  }
+
+  /* icons */
   .cdn-icon, .cli-icon, .loader-icon {
     background-image: url(icons.png);
     width: 46px;
@@ -71,89 +144,6 @@
   .cdn-icon {
     background-position: 0 -153px;
   }
-  .logobox {
-    background-image: url(icons.png);
-    width: 46px;
-    height: 46px;
-    margin-bottom: -55px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 180px;
-    background-repeat: no-repeat;
-    margin-top: 50px;
-  }
-  strong {
-    color: #666;
-  }
-  h1.logo {
-    font-family: 'Advent Pro', 'Myriad Pro', sans-serif;
-    color: #7F7F7F;
-    font-size: 60px;
-    margin: 0;
-    margin-bottom: 40px;
-    text-align: center;
-    text-shadow: 1px 1px 1px #fff;
-  }
-  h1.logo span {
-    color: #CE882C;
-  }
-  h1 {
-    color: #C0781A;
-    text-shadow: 1px 1px 1px #fff;
-    text-align: center;
-  }
-  h2 {
-    font-size: 22px;
-    text-shadow: 1px 1px 1px #fff;
-    color: #555;
-    text-align: center;
-  }
-  h3 {
-    font-size: 28px;
-    color: #444;
-    text-shadow: 1px 1px 1px #fff;
-  }
-  h4 {
-    font-size: 22px;
-    color: #666;
-    text-shadow: 1px 1px 1px #fff;
-  }
-  .content {
-    margin-top: 50px;
-    width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: justify;
-    margin-bottom: 200px;
-  }
-  .content p, .content li {
-    line-height: 26px;
-    color: #333;
-    text-shadow: 1px 1px 1px #fff;
-  }
-  .content pre {
-    background-color: #f5f5f5;
-    padding: 10px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    font-size: 12px;
-    line-height: 16px;
-    border: 1px solid #C5C5C5;
-    border-radius: 7px;
-    color: #444;
-    white-space: pre-wrap;
-  }
-  .content a {
-    color: #333;
-    text-shadow: 1px 1px 1px #fff;
-  }
-  .content a:hover {
-    color: #C0781A;
-  }
-  .content a[id] {
-    display: block;
-    height: 20px;
-  }
   .loading {
     margin-top: 80px;
     text-align: center;
@@ -174,48 +164,8 @@
     margin-left: auto;
     margin-right: auto;
   }
-  .signup-group {
-    margin-bottom: 40px;
-    width: 301px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-  }
-  input.signup {
-    border: 1px solid #555;
-    font-size: 12px;
-    width: 210px;
-    color: #888;
-    padding: 10px;
-    border: 1px solid #C1C1C1;
-    text-shadow: 1px 1px 1px #fff;
-    font-style: italic;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    margin: 0;
-  }
-  .signup-group input.signup-submit {
-    border: 1px solid #C1C1C1;
-    background-color: #E2E2E2;
-    font-size: 12px;
-    color: #666;
-    height: 37px;
-    width: 70px;
-    padding: 0;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    cursor: pointer;
-    background-repeat: no-repeat;
-  }
-  .signup-group input.signup-submit:hover {
-    background-color: #eee;
-  }
-  .signup-group input.signup-submit:active {
-    background-color: #ddd;
-  }
 
+  /* toc */
   .contents {
     position: fixed;
     top: 100px;
@@ -240,26 +190,23 @@
     background-color: #ddd;
   }
 
-  a.button {
-    width: 178px;
-    height: 40px;
-    text-align: center;
-    float: left;
-    margin-left: 10px;
-    margin-right: 10px;
-    line-height: 42px;
-
-    color: #666;
-    text-decoration: none;
-    text-shadow: 1px 1px 1px #fff;
-    background-color: #ddd;
-    border: 1px solid #aaa;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+  /* code */
+  code {
+    padding: 5px;
   }
-  a.button:hover {
-    color: #444;
+  code.javascript, code.html {
+    padding: 0px;
+  }
+  code .comment, code .comment .keyword {
+    color: #494;
+    font-weight: 100;
+  }
+  code .string, code .string .comment {
+    color: #BE1717;
+  }
+  code .keyword {
+    font-weight: bold;
+    color: #767;
   }
 
   @media screen and (max-width: 640px),
@@ -273,57 +220,63 @@
   }
 </style>
 <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-2"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-40327700-2');
+  gtag('config', 'UA-40327700-1');
 </script>
 
 <body>
 <a id="intro"></a>
 <div class="logobox"></div>
-<h1 class="logo">&nbsp;&nbsp;&nbsp;&nbsp;<span>jspm</span></h1>
-<h2 class="tagline">Frictionless browser package management</h2>
+<h1 class="logo"><span>jspm</span>&nbsp;&nbsp;&nbsp;</h1>
+<br />
 <div class="content">
   <!-- <div class="contents">
-    <a href="#introduction">Introduction</a>
-    <a href="#examples">Examples</a>
-    <a href="#feedbackroadmap">Feedback &amp; Roadmap</a>
+    <a target=_blank href="#introduction">Introduction</a>
+    <a target=_blank href="#examples">Examples</a>
+    <a target=_blank href="#feedbackroadmap">Feedback &amp; Roadmap</a>
   </div> -->
 
-  <!--
   <p><em><strong>10/05/2018</strong>: Now that all stable browsers support ES modules, the latest version of the
-  jspm CDN has been released at <a href="https://jspm.io">jspm.io</a>, fully-utilizing the native module loader.
-  As a result, the previous version of the jspm CDN will be deprecated soon.</p>
-  <br>-->
-  
-  <!-- <div class="loading">
-    <div class="cog"></div>
-  </div> -->
+  jspm CDN has been released at <a target=_blank href="https://jspm.io">jspm.io</a>, fully-utilizing the native module loader.
+  As a result, the previous version of the jspm CDN will be deprecated soon.</em></p>
+  <br>
+
+  <h1 id="status">Project Status</h1>
+  <p>jspm was first released in 2013 in order to align JavaScript module workflows with the <a target=_blank href="https://github.com/whatwg/loader">module loader specification of the time</a>, on top of which <a target=_blank href="https://github.com/systemjs/systemjs">SystemJS</a> is based.
+    Since then, the loader spefication has been discontinued and broken out into separate <a target=_blank href="https://github.com/tc39/proposal-dynamic-import">module</a> <a target=_blank href="https://github.com/tc39/proposal-import-meta">specification</a> <a target=_blank href="https://github.com/domenic/package-name-maps">processes</a> for JavaScript, the browser and <a target=_blank href="https://github.com/nodejs/modules">NodeJS</a>.</p>
+  <p>As a result, the design decisions of jspm need to be rebuilt to align with these current trends.</p>
+  <p>The first step of this process, updating the jspm CDN to modules has been launched at <a target=_blank href="https://jspm.io">jspm.io</a>.
+    Work to update the jspm package manager and its associated tooling is taking place through aligning on the <a target=_blank href="https://github.com/systemjs/systemjs/blob/master/docs/production-build.md">SystemJS Production loader</a> and <a target=_blank href="https://rollupjs.org/guide/en#experimental-code-splitting">Rollup code splitting workflows</a>.</p>
+  <p>The overall initiative here towards a jspm 2.0 is very much an uncertain work-in-progress depending on support and interest. Updates will be posted here over the coming months.</p>
+  <p><br/></p>
+
+  <h1 id="summary">Summary</h1>
 
   <ul>
-  <li><p>jspm is a package manager for the <a href="https://github.com/systemjs/systemjs">SystemJS universal module loader</a>, built on top of the dynamic <a href="https://github.com/ModuleLoader/es6-module-loader">ES6 module loader</a></p></li>
-  
-  <li><p>Load any module format (ES6, AMD, CommonJS and globals) directly from any registry such as <code>npm</code> and <code>GitHub</code> with flat versioned dependency management. Any custom registry endpoints can be created through the Registry API.</p></li>
-  
-  <li><p>For development, load modules as separate files with ES6 and plugins compiled in the browser.</p></li>
-  
-  <li><p>For production (or development too), optimize into a bundle, layered bundles or a self-executing bundle with a single command.</p></li>
-  </ul>
-  
-  <p><br></p>
+      <li><p>jspm is a package manager for the <a target=_blank href="https://github.com/systemjs/systemjs">SystemJS universal module loader</a>, built on top of the dynamic <a target=_blank href="https://github.com/ModuleLoader/es6-module-loader">ES6 module loader</a></p></li>
+      
+      <li><p>Load any module format (ES6, AMD, CommonJS and globals) directly from any registry such as <code>npm</code> and <code>GitHub</code> with flat versioned dependency management. Any custom registry endpoints can be created through the Registry API.</p></li>
+      
+      <li><p>For development, load modules as separate files with ES6 and plugins compiled in the browser.</p></li>
+      
+      <li><p>For production (or development too), optimize into a bundle, layered bundles or a self-executing bundle with a single command.</p></li>
+      </ul>
+      
+      <p><br></p>
   
   <p><a name="guides"></a></p>
   
   <h1 id="docs">Docs</h1>
   
   <ul>
-  <li><p>jspm 0.17 beta - <a href="http://jspm.io/0.17-beta-guide/index.html">Beta overview and guide</a></p></li>
+  <li><p>jspm 0.17 beta - <a target=_blank href="http://jspm.io/0.17-beta-guide/index.html">Beta overview and guide</a></p></li>
   
-  <li><p>jspm 0.16 - <a href="http://jspm.io/docs/getting-started.html">Getting Started guide in the documentation</a></p></li>
+  <li><p>jspm 0.16 - <a target=_blank href="http://jspm.io/docs/getting-started.html">Getting Started guide in the documentation</a></p></li>
   </ul>
   
   <p><br></p>
@@ -331,15 +284,15 @@
   <h1 id="articlesvideos">Articles / Videos</h1>
   
   <ul>
-  <li><p><a href="http://developer.telerik.com/featured/choose-es6-modules-today/">Choose ES6 Modules Today</a> article with screencasts by <a href="http://codylindley.com/">Cody Lindley</a></p></li>
+  <li><p><a target=_blank href="http://developer.telerik.com/featured/choose-es6-modules-today/">Choose ES6 Modules Today</a> article with screencasts by <a target=_blank href="http://codylindley.com/">Cody Lindley</a></p></li>
   
-  <li><p><a href="https://www.youtube.com/watch?v=NpMnRifyGyw">ES6 Modules &amp; React with SystemJS</a> live coding presentation by <a href="https://twitter.com/Jack_Franklin">Jack Franklin</a></p></li>
+  <li><p><a target=_blank href="https://www.youtube.com/watch?v=NpMnRifyGyw">ES6 Modules &amp; React with SystemJS</a> live coding presentation by <a target=_blank href="https://twitter.com/Jack_Franklin">Jack Franklin</a></p></li>
   
-  <li><p><a href="http://glenmaddern.com/articles/javascript-in-2015">JavaScript in 2015</a> article and screencast by <a href="https://twitter.com/glenmaddern">Glen Maddern</a></p></li>
+  <li><p><a target=_blank href="http://glenmaddern.com/articles/javascript-in-2015">JavaScript in 2015</a> article and screencast by <a target=_blank href="https://twitter.com/glenmaddern">Glen Maddern</a></p></li>
   
-  <li><p><a href="http://javascriptplayground.com/blog/2014/11/js-modules-jspm-systemjs/">JavaScript Modules and Dependencies with jspm</a> tutorial by <a href="https://twitter.com/Jack_Franklin">Jack Franklin</a></p></li>
+  <li><p><a target=_blank href="http://javascriptplayground.com/blog/2014/11/js-modules-jspm-systemjs/">JavaScript Modules and Dependencies with jspm</a> tutorial by <a target=_blank href="https://twitter.com/Jack_Franklin">Jack Franklin</a></p></li>
   
-  <li><p><a href="https://www.youtube.com/watch?v=szJjsduHBQQ">Package Management for ES6 Modules</a> JSConf 2014 presentation introducing jspm by <a href="https://twitter.com/guybedford">Guy Bedford</a></p></li>
+  <li><p><a target=_blank href="https://www.youtube.com/watch?v=szJjsduHBQQ">Package Management for ES6 Modules</a> JSConf 2014 presentation introducing jspm by <a target=_blank href="https://twitter.com/guybedford">Guy Bedford</a></p></li>
   </ul>
   
   <p><br></p>
@@ -352,15 +305,15 @@
   
   <h4 id="systemjs">SystemJS</h4>
   
-  <p>jspm package management is designed around the <a href="https://github.com/systemjs/systemjs">SystemJS dynamic ES6 loader</a>.</p>
+  <p>jspm package management is designed around the <a target=_blank href="https://github.com/systemjs/systemjs">SystemJS dynamic ES6 loader</a>.</p>
   
   <ul>
-  <li>RequireJS-style module loader with similar configuration and <a href="https://github.com/systemjs/systemjs#plugins">plugin system</a>.</li>
+  <li>RequireJS-style module loader with similar configuration and <a target=_blank href="https://github.com/systemjs/systemjs#plugins">plugin system</a>.</li>
   
-  <li>Built on top of the <a href="https://github.com/ModuleLoader/es6-module-loader">ES6 Module Loader polyfill</a>, making it standards-compliant and future-friendly.</li>
+  <li>Built on top of the <a target=_blank href="https://github.com/ModuleLoader/es6-module-loader">ES6 Module Loader polyfill</a>, making it standards-compliant and future-friendly.</li>
   </ul>
   
-  <p><a href="https://github.com/systemjs/systemjs">Read more at the SystemJS project page on GitHub</a></p>
+  <p><a target=_blank href="https://github.com/systemjs/systemjs">Read more at the SystemJS project page on GitHub</a></p>
   
   <p><em>Note that SystemJS is built on top of a draft module loader specification that is subject to change.</em></p>
   
@@ -375,10 +328,10 @@
   
   <li>Shares versions between dependencies, upgrading or downgrading dependency resolutions within their supported ranges to minimize forks during install.</li>
   
-  <li>Because the installer understands the loader, modular code <a href="https://github.com/systemjs/systemjs#plugins">including loader plugins</a>, works with a single install and a single require.</li>
+  <li>Because the installer understands the loader, modular code <a target=_blank href="https://github.com/systemjs/systemjs#plugins">including loader plugins</a>, works with a single install and a single require.</li>
   </ul>
   
-  <p><a href="https://github.com/jspm/jspm-cli">Read the CLI documentation on Github</a></p>
+  <p><a target=_blank href="https://github.com/jspm/jspm-cli">Read the CLI documentation on Github</a></p>
   
   <p><strong>Registries</strong></p>
   
@@ -414,13 +367,13 @@
   
   <p><strong>Registry</strong></p>
   
-  <p>The <a href="https://github.com/jspm/registry">jspm registry</a> provides a convenience mapping from shortcut names into full registry names.</p>
+  <p>The <a target=_blank href="https://github.com/jspm/registry">jspm registry</a> provides a convenience mapping from shortcut names into full registry names.</p>
   
   <p>This allows for easier installation - <code>jspm install jquery</code> over <code>jspm install github:components/jquery</code>, and provides the default aliasing.</p>
   
   <p>It also indicates packages which are jspm-compatible and makes it clear where the primary package source for jspm is (GitHub or npm).</p>
   
-  <p><a href="http://kasperlewau.github.io/registry">Browse the registry</a></p>
+  <p><a target=_blank href="http://kasperlewau.github.io/registry">Browse the registry</a></p>
   
   <p><strong>Version Management</strong></p>
   
@@ -430,13 +383,16 @@
   
   <p><strong>Package Configuration</strong></p>
   
-  <p><a href="https://github.com/jspm/registry/wiki/Configuring-Packages-for-jspm">jspm extends the package.json spec</a> with some new properties to understand how to treat packages.</p>
+  <p><a target=_blank href="https://github.com/jspm/registry/wiki/Configuring-Packages-for-jspm">jspm extends the package.json spec</a> with some new properties to understand how to treat packages.</p>
   
   <p>Configuration options include the main entry point, module format, files and ignore rules, map config and dependencies (when combined with a registry property).</p>
   
-  <p>To provide configuration for existing libraries on GitHub or npm without access to the underlying repo, the jspm registry provides a <a href="https://github.com/jspm/registry#packagejson-overrides">package.json override service</a>.</p>
-  
-  <p><br></p></div>
+  <p>To provide configuration for existing libraries on GitHub or npm without access to the underlying repo, the jspm registry provides a <a target=_blank href="https://github.com/jspm/registry#packagejson-overrides">package.json override service</a>.</p>
+    
+  </div>
+  <div class="footer">
+  <p>jspm.org &nbsp;&nbsp;•&nbsp;&nbsp; Logo design by <a target=_blank href="https://dribbble.com/luukdv">Luuk de Vlieger</a></p>
+  </div>
 </div>
 </body>
 </html>
