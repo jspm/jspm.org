@@ -1,0 +1,23 @@
+{
+  "about": {
+    "title": "About",
+    "index": {
+      "features": "Features",
+      "background": "Background",
+      "architecture": "Architecture"
+    }
+  },
+  "guide": {
+    "title": "Guide",
+    "index": {
+      "getting-started": "Getting Started",
+      "workflows": "Workflows",
+      "integrations": "Tool Integrations"
+    }
+  },
+  "pages": {
+    "index": {
+      "index": "ES Module Package Manager"
+    }
+  }
+}

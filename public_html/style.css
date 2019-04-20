@@ -1,0 +1,393 @@
+body {
+  padding: 0;
+  margin: 4.5em 0 0 15em;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif;
+}
+a {
+  color: inherit;
+}
+.topbar {
+  background-color: rgb(250, 251, 250);
+  height: 3.5em;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 12;
+  border-bottom: 1px solid #eee;
+  box-sizing: border-box;
+}
+.topbar .logobox {
+  width: 2.8em;
+  height: 2.7em;
+  background-size: 2.8em 2.7em;
+  position: absolute;
+  top: 0.4em;
+  left: 1.5em;
+  background-image: url(jspm.png);
+  background-repeat: no-repeat;
+}
+.topbar h1.logo {
+  font-size: 2em;
+  margin: 0;
+  display: block;
+  position: absolute;
+  z-index: 15;
+  top: 0.15em;
+  left: 2.3em;
+  letter-spacing: 0.03em;
+}
+.topbar ul.toplinks {
+  display: flex;
+  width: 15em;
+  position: absolute;
+  right: 0.1em;
+  top: 0.2em;
+}
+.topbar ul.toplinks li {
+  font-weight: 100;
+  font-size: 1em;
+  display: block;
+  flex-grow: 1;
+}
+.topbar ul.toplinks li a {
+  color: #666;
+  text-decoration: none;
+}
+.topbar ul.toplinks li a:hover {
+  color: #333;
+}
+.topbar ul.toplinks li.github a {
+  display: block;
+  background-image: url(github.png);
+  width: 1.2em;
+  height: 1.2em;
+  background-size: 1.2em 1.2em;
+  margin-top: 0em;
+  opacity: 0.7;
+}
+.topbar ul.toplinks li.github a:hover {
+  opacity: 0.8;
+}
+.sidebar {
+  font-weight: 100;
+  width: 15em;
+  position: fixed;
+  top: 3.5em;
+  left: 0;
+  background-color: rgb(249, 248, 245);
+  overflow-y: scroll;
+  bottom: 0;
+}
+.sidebar .footer {
+  margin-top: 8em;
+  width: 100%;
+  font-size: 0.7em;
+  text-align: center;
+  font-style: italic;
+  line-height: 26px;
+  color: #666;
+  text-shadow: 1px 1px 1px #fff;
+}
+.sidebar .toc ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar .toc ul li a {
+  text-decoration: none;
+  color: #333;
+  text-shadow: 1px 1px 1px #fff;
+}
+.sidebar .toc ul.subsection > li > a:hover, .sidebar .toc ul.subsection li a.active {
+  text-decoration: underline;
+  color: #333;
+}
+.sidebar .toc ul li.active > a, .sidebar .toc ul li > a[href]:hover {
+  color: #000;
+}
+.sidebar .toc ul.sections > li {
+  margin: 1.5em;
+}
+.sidebar .toc ul.sections > li > a {
+  font-size: 1.4em;
+  display: block;
+  margin: 0 0 0.5em 0;
+}
+.sidebar .toc ul li {
+  display: block;
+}
+.sidebar .toc ul.sections > li > ul > li {
+  padding: 0.5em 0 0 0.1em;
+}
+.sidebar .toc ul.sections > li > ul > li > ul {
+  padding-bottom: 1em;
+}
+.sidebar .toc ul.sections > li > ul > li > ul > li {
+  padding: 0.7em 0 0 1em;
+}
+.sidebar .toc ul.sections > li > ul > li > ul > li > a {
+  font-size: 0.9em;
+}
+.sidebar .toc ul.sections > li > ul > li > ul > li > a:hover, .sidebar .toc ul.sections > li > ul > li > ul > li > a.active {
+  text-decoration: underline;
+}
+.content .logobox {
+  background-image: url(jspm.png);
+  background-repeat: no-repeat;
+  background-size: 250px;
+  background-position: -41px -27px;
+  width: 170px;
+  height: 198px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7em;
+  margin-bottom: -1em;
+}
+.content {
+  margin-top: 7em;
+  width: 750px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 5em;
+}
+.content a.anchor {
+  display: block;
+  position: relative;
+  top: -4.5em;
+  visibility: hidden;
+}
+.content h1.logo {
+  font-weight: 100;
+  color: rgb(165, 165, 165);
+  font-size: 80px;
+  margin: 0;
+  margin-bottom: 80px;
+  padding-left: 200px;
+  text-align: center;
+}
+.content .nextprev a {
+  color: #555;
+  font-size: 1.2em;
+  text-decoration: none;
+}
+.content .nextprev {
+  margin-top: 5em;
+  padding-top: 2.5em;
+  border-top: 1px solid #ccc;
+  height: 3em;
+}
+.content .nextprev .next {
+  float: right;
+}
+.content .nextprev .prev {
+  float: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 400;
+}
+h1 {
+  color: /*rgb(214, 149, 64);*/ rgb(221, 167, 41);
+  text-align: center;
+  font-size: 4em;
+  font-weight: 100;
+  margin-bottom: 1em;
+}
+h2 {
+  font-size: 1.8em;
+  color: /*rgb(214, 149, 64);*/ rgb(221, 167, 41);
+  
+  text-align: left;
+}
+h3 {
+  font-size: 1.4em;
+  color: #666;
+}
+h4 {
+  font-size: 1.4em;
+  color: rgb(134, 134, 134);
+}
+.content em {
+  text-shadow: 1px 1px 1px #fafafa;
+}
+.content p, .content li {
+  line-height: 26px;
+  color: #333;
+}
+.content a, details summary {
+  cursor: pointer;
+  color: #333;
+  text-shadow: 1px 1px 1px #fafafa;
+}
+details {
+  border: 1px solid #eee;
+  padding: 1em 1em 0 1em;
+  background-color: #fafafa;
+}
+details summary {
+  margin-bottom: 1em;
+}
+.content a:hover, details summary:hover {
+  color: #C0781A;
+}
+.content a[id] {
+  display: block;
+  height: 20px;
+}
+p strong {
+  color: #777;
+}
+p a {
+  color: #333;
+}
+
+blockquote {
+  border-left: 3px solid #326889;
+  background-color: #f4f7f9;
+  margin: 1.5em 0 1.5em 0;
+  padding: 1em 2em;
+}
+
+/* toc */
+.contents {
+  position: fixed;
+  top: 100px;
+  left: 0px;
+}
+.contents a {
+  height: 40px;
+  line-height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 16px;
+  border-bottom: 1px dashed #999;
+  display: block;
+  color: #777;
+  text-decoration:none;
+  text-shadow: 1px 1px 1px #fff;
+}
+.contents a:active {
+  background-color: #ddd;
+}
+.contents a:hover {
+  background-color: #ddd;
+}
+
+/* code */
+.content code {
+  background-color: #fafafa;
+  border-radius: 5px;
+  color: #000;
+  padding: 0.2em;
+}
+.content pre {
+  clear: both;
+  background-color: #fefefe;
+  padding: 20px;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: 14px;
+  line-height: 18px;
+  border: 1px solid #e7e7e7;
+  border-radius: 7px;
+  color: #333;
+  font-weight: 100;
+}
+.content pre {
+  overflow-x: auto;
+}
+.content button.copy {
+  background-image: url(clipboard.png);
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  background-position: 0.5em 0.5em;
+  opacity: 0.5;
+  width: 2em;
+  height: 2em;
+  color: #ccc;
+  float: right;
+  position: relative;
+  top: -4.1em;
+  height: 2em;
+  cursor: pointer;
+  background-color: #fdfdfd;
+  border-style: none;
+  border-bottom-right-radius: 5px;
+  border-top-left-radius: 5px;
+  border: 1px solid #e7e7e7;
+  border-top: none;
+  border-left: none;
+}
+.content button.copy:hover {
+  opacity: 0.8;
+}
+.content button.copy:active {
+  background-color: #eee;
+}
+.content pre code {
+  padding: 0;
+  background-color: transparent;
+  border-radius: none;
+  font-weight: 300;
+}
+.content pre code.javascript, .content pre code.html {
+  font-size: 16px;
+  padding: 0px;
+}
+code .comment, code .comment .keyword {
+  color: #494;
+  font-weight: 100;
+}
+code .string, code .string .comment {
+  color: #BE1717;
+}
+code .keyword {
+  color: #0003e3;
+}
+
+@media screen and (max-width: 1200px),
+screen and (max-device-width: 1200px) {
+  .content {
+    width: auto;
+    margin: 2em;
+    margin-top: 6em;
+  }
+}
+@media screen and (max-width: 800px),
+screen and (max-device-width: 800px) {
+  .logobox {
+    background-size: 150px;
+    width: 150px;
+    height: 150px;
+    margin-bottom: -130px;
+    padding-left: 230px;
+  }
+  .content h1.logo {
+    padding-left: 130px;
+  }
+  .topbar {
+    position: absolute;
+  }
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: 8em;
+    margin-top: -1em;
+  }
+  .content {
+    padding: 0;
+    margin: 1.5em; 
+  }
+  .sidebar .footer {
+    display: none;
+  }
+  body {
+    margin-left: 0;
+  }
+  .content pre {
+    overflow-x: scroll;
+  }
+}
