@@ -6,9 +6,9 @@
 
 # jspm 2.0-beta.1
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 2em; font-size: 0.9em; padding-right: 10em;"><em>Released 25 April 2019</em></p>
+<p style="text-align: center; margin-top: -4em; margin-bottom: 3em; font-size: 0.9em; padding-left: 14.5em;"><em>First public experimental beta, 25 April 2019</em></p>
 
-_jspm is a JavaScript package manager designed from the ground up to work with <br/>native ES modules seamlessly between the browser and Node.js_
+_jspm is a JavaScript package manager designed to <br/>work seamlessly with native modules in universal workflows,<br/>while providing full compatlbility with the npm ecosystem._
 
 <br/>
 

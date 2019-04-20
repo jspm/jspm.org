@@ -213,8 +213,14 @@ h4 {
 .content em {
   text-shadow: 1px 1px 1px #fafafa;
 }
+.content ul {
+  padding-left: 3em;
+}
+.content ul li {
+  padding: 0.1em 0 0.1em 0.5em;
+}
 .content p, .content li {
-  line-height: 26px;
+  line-height: 1.5em;
   color: #333;
 }
 .content a, details summary {
