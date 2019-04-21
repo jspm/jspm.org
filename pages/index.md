@@ -4,7 +4,7 @@
   ul, ol, details, blockquote { text-align: left; }
 </style>
 
-# jspm 2.0-beta.1
+# jspm 2.0-beta
 
 <p style="text-align: center; margin-top: -4em; margin-bottom: 3em; font-size: 0.9em; padding-left: 14.5em;"><em>First public experimental beta, 25 April 2019</em></p>
 
@@ -19,4 +19,4 @@ _jspm is a JavaScript package manager designed to <br/>work seamlessly with nati
 
 <br/>
 
-> Read more about the [features](/features) and [architecture](/architecture), or jump straight in with the [getting started guide](/guide/getting-started).
+> Read more about the [features](/about/features) and [architecture](/about/architecture), or jump straight in with the [getting started guide](/guide/getting-started).

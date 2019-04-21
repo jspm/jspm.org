@@ -5,6 +5,7 @@ import { readFile as _readFile, writeFile as _writeFile } from 'fs';
 const readFile = promisify(_readFile), writeFile = promisify(_writeFile);
 const { JSDOM } = jsdom;
 
+const github = 'https://github.com/jspm/jspm.org/blob/master';
 const templatePromise = readFile('./template.html');
 
 async function generatePage (section, name, title, tocHtml) {
@@ -54,19 +55,18 @@ async function generatePage (section, name, title, tocHtml) {
     }
   }
 
-  if (prevSection || nextSection) {
-    const nextprev = document.createElement('div');
-    nextprev.className = 'nextprev';
-    body.querySelector('.content').appendChild(nextprev);
+  const nextprev = document.createElement('div');
+  nextprev.className = 'nextprev';
+  nextprev.innerHTML = `<a class="edit" target="_blank" href="${github}/${section}/${name}.md">Edit</a>`;
+  body.querySelector('.content').appendChild(nextprev);
 
-    if (nextSection) {
-      nextprev.innerHTML += `<div class="next">${nextSection.querySelector('a').outerHTML}</div>`;
-      nextprev.querySelector('.next a').innerHTML += '&nbsp;⯈';
-    }
-    if (prevSection) {
-      nextprev.innerHTML += `<div class="prev">${prevSection.querySelector('a').outerHTML}</div>`;
-      nextprev.querySelector('.prev a').innerHTML = '⯇&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
-    }
+  if (nextSection) {
+    nextprev.innerHTML += `<div class="next">${nextSection.querySelector('a').outerHTML}</div>`;
+    nextprev.querySelector('.next a').innerHTML += '&nbsp;⯈';
+  }
+  if (prevSection) {
+    nextprev.innerHTML += `<div class="prev">${prevSection.querySelector('a').outerHTML}</div>`;
+    nextprev.querySelector('.prev a').innerHTML = '⯇&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
   }
   
   // add rel=noopener to all target=blank links

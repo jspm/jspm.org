@@ -101,7 +101,7 @@ a {
   color: #333;
   text-shadow: 1px 1px 1px #fff;
 }
-.sidebar .toc ul.subsection > li > a:hover, .sidebar .toc ul.subsection li a.active {
+.sidebar .toc ul ul ul.subsection > li > a:hover, .sidebar .toc ul ul.subsection li a.active {
   text-decoration: underline;
   color: #000;
 }
@@ -175,7 +175,7 @@ a {
 }
 .content .nextprev {
   margin-top: 5em;
-  padding-top: 2.5em;
+  padding-top: 1.5em;
   border-top: 1px solid #ccc;
   height: 3em;
 }
@@ -184,6 +184,25 @@ a {
 }
 .content .nextprev .prev {
   float: left;
+}
+
+.content .nextprev a.edit {
+  background-image: url(/pencil.png);
+  background-size: 1em 1em;
+  background-repeat: no-repeat;
+  padding-left: 1.2em;
+  float: right;
+  margin-top: -4em;
+  margin-right: 0.5em;
+  font-size: 0.8em;
+  background-position-y: 0.14em;
+  text-decoration: none;
+  opacity: 0.6;
+}
+.content .nextprev a.edit:hover {
+  color: #333;
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 h1, h2, h3, h4, h5, h6 {
