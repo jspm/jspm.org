@@ -1,0 +1,10 @@
+{
+  "imports": {
+    "lit-html": "./sandbox_data/lit-html.js",
+    "codemirror": "./sandbox_data/codemirror.js",
+    "util": "./sandbox_data/util.js",
+    "buffer": "./sandbox_data/buffer.js",
+    "zlib": "./sandbox_data/zlib.js",
+    "codemirror/mode/javascript/javascript.js": "./sandbox_data/javascript.js"
+  }
+}

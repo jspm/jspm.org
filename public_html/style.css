@@ -41,7 +41,7 @@ a {
 }
 .topbar ul.toplinks {
   display: flex;
-  width: 15em;
+  width: 20em;
   position: absolute;
   right: 0.1em;
   top: 0.2em;
@@ -56,8 +56,8 @@ a {
   color: #666;
   text-decoration: none;
 }
-.topbar ul.toplinks li a:hover {
-  color: #333;
+.topbar ul.toplinks li a:hover, .topbar ul.toplinks li a.active {
+  color: #000;
 }
 .topbar ul.toplinks li.github a {
   display: block;
@@ -103,7 +103,7 @@ a {
 }
 .sidebar .toc ul.subsection > li > a:hover, .sidebar .toc ul.subsection li a.active {
   text-decoration: underline;
-  color: #333;
+  color: #000;
 }
 .sidebar .toc ul li.active > a, .sidebar .toc ul li > a[href]:hover {
   color: #000;
@@ -343,15 +343,18 @@ blockquote {
   font-size: 16px;
   padding: 0px;
 }
-code .comment, code .comment .keyword {
+code .comment, .cm-s-default .cm-comment, code .comment .keyword {
   color: #494;
   font-weight: 100;
 }
-code .string, code .string .comment {
+code .string, .cm-s-default .cm-string, .cm-s-default .cm-string-2, code .string .comment {
   color: #BE1717;
 }
-code .keyword {
+code .keyword, .cm-s-default .cm-keyword {
   color: #0003e3;
+}
+.cm-s-default .cm-def {
+  color: #000;
 }
 
 @media screen and (max-width: 1200px),

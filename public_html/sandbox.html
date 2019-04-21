@@ -1,0 +1,46 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400">
+<link rel="stylesheet" href="/sandbox_data/codemirror.css">
+<link rel="stylesheet" href="/style.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<script>
+  let development = true;
+  // import maps in development mode
+  if (development) {
+    (async () => {
+      const s = document.createElement('script');
+      s.type = 'importmap';
+      s.innerHTML = await (await fetch('./sandbox-map.json')).text();
+      document.head.appendChild(s);
+      await import('./sandbox.js');
+    })();
+  }
+  else {
+    import('./sandbox_data/sandbox.js');
+  }
+</script>
+<body>
+  <div class="topbar">
+    <a style="display: block" href="/">
+      <div class="logobox" href="/"></div>
+      <h1 class="logo">jspm</h1>
+    </a>
+    <ul class="toplinks">
+      <li><a href="/about/features">About</a></li>
+      <li><a href="/guide/getting-started">Guide</a></li>
+      <li><a class="active" href="/sandbox">Sandbox</a></li>      
+      <li class="github"><a target="_blank" href="https://github.com/jspm/jspm2-cli"></a></li>
+    </ul>
+  </div>
+  <div class="container"></div>
+</body>
