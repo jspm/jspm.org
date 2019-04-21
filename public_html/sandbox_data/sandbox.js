@@ -22,7 +22,7 @@ const defaultContents = `/*
 * </script>
 * <body>
 *   <div id="container"></div>
-*   <div id="canvas"></div>
+*   <canvas id="canvas"></canvas>
 * </body>
 * 
 * That's all it does!

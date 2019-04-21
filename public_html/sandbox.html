@@ -14,20 +14,19 @@
   gtag('config', 'UA-40327700-2');
 </script>
 <script>
-  let development = true;
-  // import maps in development mode
-  if (development) {
-    (async () => {
-      const s = document.createElement('script');
-      s.type = 'importmap';
-      s.innerHTML = await (await fetch('./sandbox-map.json')).text();
-      document.head.appendChild(s);
-      await import('./sandbox.js');
-    })();
-  }
-  else {
-    import('./sandbox_data/sandbox.js');
-  }
+(async () => {
+  document.head.appendChild(Object.assign(document.createElement('script'), {
+    type: 'importmap',
+    innerHTML: await (await fetch('./sandbox-map.json')).text()
+  }));
+  await import('./sandbox.js');
+})();
+</script>
+<script type="production">
+document.head.appendChild(Object.assign(document.createElement('script'), {
+  type: 'module',
+  src: './sandbox_data/sandbox.js'
+}));
 </script>
 <body>
   <div class="topbar">

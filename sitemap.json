@@ -4,8 +4,7 @@
     "index": {
       "features": "Features",
       "background": "Background",
-      "architecture": "Architecture",
-      "cdn": "CDN"
+      "architecture": "Architecture"
     }
   },
   "guide": {

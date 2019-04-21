@@ -1,6 +1,7 @@
 {
   "imports": {
     "lit-html": "./sandbox_data/lit-html.js",
+    "lit-html/directives/unsafe-html.js": "./sandbox_data/unsafe-html.js",
     "codemirror": "./sandbox_data/codemirror.js",
     "util": "./sandbox_data/util.js",
     "buffer": "./sandbox_data/buffer.js",
