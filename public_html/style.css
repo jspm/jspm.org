@@ -5,6 +5,9 @@ body {
   -webkit-font-smoothing: antialiased;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif;
 }
+body.page-index .nextprev {
+  display: none;
+}
 a {
   color: inherit;
 }
@@ -87,8 +90,11 @@ a {
   font-size: 0.7em;
   text-align: center;
   font-style: italic;
-  line-height: 26px;
-  color: #666;
+  line-height: 2em;
+}
+.sidebar .footer a {
+  color: #333;
+  text-decoration: none;
   text-shadow: 1px 1px 1px #fff;
 }
 .sidebar .toc ul {
@@ -175,7 +181,7 @@ a {
 }
 .content .nextprev {
   margin-top: 5em;
-  padding-top: 1.5em;
+  padding-top: 2.5em;
   border-top: 1px solid #ccc;
   height: 3em;
 }
@@ -192,7 +198,7 @@ a {
   background-repeat: no-repeat;
   padding-left: 1.2em;
   float: right;
-  margin-top: -4em;
+  margin-top: -5em;
   margin-right: 0.5em;
   font-size: 0.8em;
   background-position-y: 0.14em;
@@ -251,6 +257,8 @@ details {
   border: 1px solid #eee;
   padding: 1em 1em 0 1em;
   background-color: #fafafa;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 details summary {
   margin-bottom: 1em;
@@ -263,7 +271,7 @@ details summary {
   height: 20px;
 }
 p strong {
-  color: #777;
+  color: #333;
 }
 p a {
   color: #333;
@@ -274,6 +282,9 @@ blockquote {
   background-color: #f4f7f9;
   margin: 1.5em 0 1.5em 0;
   padding: 1em 2em;
+}
+.content blockquote ul {
+  padding-left: 0.7em;
 }
 
 /* toc */
@@ -311,11 +322,11 @@ blockquote {
 .content pre {
   clear: both;
   background-color: #fefefe;
-  padding: 20px;
+  padding: 1em;
   margin-top: 2em;
   margin-bottom: 2em;
-  font-size: 14px;
-  line-height: 18px;
+  font-size: 1em;
+  line-height: 1.4em;
   border: 1px solid #e7e7e7;
   border-radius: 7px;
   color: #333;
@@ -335,13 +346,13 @@ blockquote {
   color: #ccc;
   float: right;
   position: relative;
-  top: -4.1em;
+  top: -4em;
   height: 2em;
   cursor: pointer;
   background-color: #fdfdfd;
   border-style: none;
-  border-bottom-right-radius: 5px;
-  border-top-left-radius: 5px;
+  border-bottom-right-radius: 7px;
+  border-top-left-radius: 7px;
   border: 1px solid #e7e7e7;
   border-top: none;
   border-left: none;
@@ -374,6 +385,15 @@ code .keyword, .cm-s-default .cm-keyword {
 }
 .cm-s-default .cm-def {
   color: #000;
+}
+
+.content details pre {
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+.content details pre code {
+  font-size: 0.8em;
 }
 
 @media screen and (max-width: 1200px),

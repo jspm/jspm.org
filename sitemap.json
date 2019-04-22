@@ -2,16 +2,15 @@
   "about": {
     "title": "About",
     "index": {
-      "features": "Features",
+      "introduction": "Introduction",
       "background": "Background",
       "architecture": "Architecture"
     }
   },
-  "guide": {
-    "title": "Guide",
+  "docs": {
+    "title": "Docs",
     "index": {
-      "getting-started": "Getting Started",
-      "workflows": "Workflows",
+      "guide": "Guide",
       "integrations": "Tool Integrations"
     }
   },

@@ -39,7 +39,7 @@
     const copy = document.createElement('button');
     copy.className = 'copy';
     copy.addEventListener('click', function () {
-      copyToClipboard(code.innerHTML);
+      copyToClipboard(code.innerHTML.replace(/<span class="(keyword|string|comment|number)">|<\/span>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<'));
     });
     code.parentNode.parentNode.insertBefore(copy, code.parentNode.nextSibling);
   }

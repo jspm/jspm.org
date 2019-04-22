@@ -1,13 +1,15 @@
 # Background
 
+## Browser ES Modules
+
 ## Import Maps
 
-## ES Modules
+> - import map (+ scopes section specificially for link)
 
-## ES Module Optimization
+## ES Module Shims
 
-## Modular CDN
+## SystemJS
 
 ## Node.js --experimental-modules
 
-## Flat Folder Structure
+## jspm Resolver

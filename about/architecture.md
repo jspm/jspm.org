@@ -1,3 +1,11 @@
+## Why is this both a package manager and a build tool?
+
+## How does jspm provide compatibility with CommonJS?
+
+## Why jspm_packages and not node_modules?
+
+# What's with the CDN? Can we deliver modules unbuilt with HTTP/2?
+
 # Architecture
 
 The first version was based on SystemJS as the spec for JS execution, which became stalled when that spec was no longer supported.

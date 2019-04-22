@@ -16,6 +16,7 @@ async function generatePage (section, name, title, tocHtml) {
   const document = dom.window.document;
   document.title = `${title} - jspm.org`;
   const body = document.body;
+  body.className = `section-${section} page-${name}`;
   body.querySelector('.content').innerHTML = html;
   
   // Get all the primary headings
@@ -81,7 +82,7 @@ async function generatePage (section, name, title, tocHtml) {
       .replace(/('[^']*')/gm, '<span class=string>$1</span>')
       .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
       .replace(/([^#\d\-a-z\:])(-?\d+)/gm, '$1<span class=number>$2</span>')
-      .replace(/([^\.])?(for|function|new|await|throw|return|var|let|const|if|else|true|false|this|import|export class|export|from)([^\(a-zA-Z])/gm, '$1<span class=keyword>$2</span>$3');
+      .replace(/([^\.])?(for|function|new|await|throw|return|var|let|const|if|else|true|false|this|import|export class|export|from)([^-a-zA-Z])/gm, '$1<span class=keyword>$2</span>$3');
   }
   
   // Extract the modified HTML
