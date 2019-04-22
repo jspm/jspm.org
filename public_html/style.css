@@ -373,7 +373,7 @@ blockquote {
   font-size: 16px;
   padding: 0px;
 }
-code .comment, .cm-s-default .cm-comment, code .comment .keyword {
+code .comment, .cm-s-default .cm-comment, code .comment .keyword, code .comment .string {
   color: #494;
   font-weight: 100;
 }
@@ -394,6 +394,9 @@ code .keyword, .cm-s-default .cm-keyword {
 }
 .content details pre code {
   font-size: 0.8em;
+}
+.content details button.copy {
+  top: -3em;
 }
 
 @media screen and (max-width: 1200px),

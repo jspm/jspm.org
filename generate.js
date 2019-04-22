@@ -70,6 +70,15 @@ async function generatePage (section, name, title, tocHtml) {
     nextprev.querySelector('.prev a').innerHTML = '⯇&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
   }
   
+  // make all external links open in a new window
+  body.querySelectorAll('a').forEach(x => {
+    try { new URL(x.href) }
+    catch { return }
+    if (x.href.startsWith('about:blank'))
+      return;
+    x.target = '_blank';
+  });
+  
   // add rel=noopener to all target=blank links
   body.querySelectorAll('a[target]').forEach(x => x.rel = 'noopener');
 

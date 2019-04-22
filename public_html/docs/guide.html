@@ -166,7 +166,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 <p><em>Have a look at the network tab when loading the page. We are loading 100s of ES modules converted from Node.js semantics to work natively in the browser with only a import map and no build step.</em></p>
 <p><strong>Note:</strong> This is a development-only workflow, and optimizations are still needed in production, at least while the majority of installed packages are not themselves optimized for delivery.</p>
 <a name="shimming-import-maps-in-all-browsers" class="anchor"></a><h2>Shimming Import Maps in all Browsers</h2>
-<p>If not running Chrome, the above workflow won't work at all. Instead, we can support import maps in all browsers with the shim provided by <a href="http://npmjs.org/package/es-module-shims">es-module-shims</a>.</p>
+<p>If not running Chrome, the above workflow won't work at all. Instead, we can support import maps in all browsers with the shim provided by <a href="http://npmjs.org/package/es-module-shims" target="_blank" rel="noopener">es-module-shims</a>.</p>
 <pre><code>jspm install es-module-shims --dev</code></pre><p>To find out where es-module-shims is located, we can use <code>jspm resolve</code>:</p>
 <pre><code>jspm resolve es-module-shims --relative</code></pre><p>This will output the relative path to the main entry point of es-module-shims.</p>
 <p>This path is then included in <code>test.html</code>:</p>
@@ -191,7 +191,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 <p>This will output a file at <code>dist/test.js</code> containing the following build files:</p>
 <pre><code>- test.js
 - chunk-55a0e531.js
-- chunk-bd22664c.js</code></pre><p>This is a <a href="https://rollupjs.org/guide/en#code-splitting">Rollup Code Splitting</a> build output, where we have three different files for this build, because our <code>test.js</code> example uses a dynamic import to load Babel after the initial page load:</p>
+- chunk-bd22664c.js</code></pre><p>This is a <a href="https://rollupjs.org/guide/en#code-splitting" target="_blank" rel="noopener">Rollup Code Splitting</a> build output, where we have three different files for this build, because our <code>test.js</code> example uses a dynamic import to load Babel after the initial page load:</p>
 <ul>
 <li>The <code>test.js</code> file represent just the code needed for the first initializion of the page (ie <code>lodash/clone</code>).</li>
 <li>The second chunk represents the dynamic import for <code>@babel/core</code>, which shares dependencies with the first chunk (Babel also uses Lodash itself).</li>
@@ -227,7 +227,7 @@ jspm resolve systemjs/dist/s.min.js --relative</code></pre><p>Then in <code>test
   }
 &lt;/script&gt;</code></pre>
 <blockquote>
-<p>For IE11 support, <a href="https://github.com/systemjs/systemjs#polyfills-for-older-browsers">see the polyfills section of the SystemJS readme</a>,
+<p>For IE11 support, <a href="https://github.com/systemjs/systemjs#polyfills-for-older-browsers" target="_blank" rel="noopener">see the polyfills section of the SystemJS readme</a>,
 and also note the appropriate Babel plugins for browser support would need to be applied as well. See the <a href="TODO">custom builds section</a> for workflows around this.</p>
 </blockquote>
 <p><strong>This workflow provides optimized modular support in all browsers back to IE11, with the guarantee of the SystemJS module format being that we ensure support for all modular features.</strong></p>
@@ -285,7 +285,7 @@ lodash/clone.js</code></pre><p>This is important, because we've only used one su
 <p>The <code>package.json</code> <code><span class="string">"main"</span></code> can then be set to the built file for publish.</p>
 <p><code>devDependencies</code> are not excluded by <code>--exclude-deps</code>, and will be inlined. This can be a useful way to distinguish between dependencies that should be built, and dependencies that shouldn't. For example, a one-line library like left-pad can be inlined by just installing it as a devDependency (<code>jspm install leftpad --dev</code>), while a large shared dependency, like React, can still be shared and version-managed by your library consumers.</p>
 <blockquote>
-<p>Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like <code>fs.readFile(__dirname + <span class="string">'/path'</span>)</code> will not be able to retain their references. For comprehensive Node.js build support see <a href="https://github.com/zeit/ncc/">ncc</a>.</p>
+<p>Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like <code>fs.readFile(__dirname + <span class="string">'/path'</span>)</code> will not be able to retain their references. For comprehensive Node.js build support see <a href="https://github.com/zeit/ncc/" target="_blank" rel="noopener">ncc</a>.</p>
 </blockquote>
 <a name="optimizing-universal-libraries" class="anchor"></a><h2>Optimizing Universal Libraries</h2>
 <p>For libraries that provide both a browser and a Node.js version, it's best to approach these as two separate builds.</p>

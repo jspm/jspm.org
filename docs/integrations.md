@@ -1,61 +1,301 @@
 # Tool Integrations
 
-> [Contributions welcome](TODO).
+This section, still a work-in-progress, provides sample workflows and links to plugins to implement the jspm resolver in other tools.
+
+Because the jspm integration is just a `resolve` hook, it is relatively straightforward to support in tools, provided they support a resolver hook.
+
+[Provide a PR to this page](https://github.com/jspm/jspm.org/blob/master/docs/integrations.md) to list new tooling and framework integrations here, or to revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the [jspm organization on GitHub](https://github.com/jspm).
+
+## Angular
+
+_Integration workflows pending._
+
+## Babel
+
+To run a jspm build with Babel see the [jspm Rollup build example](#Rollup) which uses Babel.
+
+To run Babel as a precompilation (recommended), use the workflow below.
+
+<details>
+<summary>Babel Precompilation Workflow</summary>
+
+> `jspm install` support for Babel CLI currently doesn't work as there is no way to use dynamic `import()` to provide the plugins which is required for the jspm integration. If and when Babel supports asynchronous / promise-based plugin configuration, then we'll be able to support this. See the tracking issue at https://github.com/babel/babel/issues/9888.
+
+First [separate the jspm and npm dependencies](#npm) in the `package.json`:
+
+```json
+{
+  "jspm": {}
+}
+```
+
+Install Babel and any plugins:
+
+```
+npm install @babel/core @babel/cli @babel/preset-env --dev
+```
+
+Create a `babel.config.js`:
+
+```
+module.exports = {
+  sourceMap: true,
+  presets: ["@babel/preset-env"]
+};
+```
+
+And set up the `package.json` `"scripts"` entry:
+
+```js
+{
+  "scripts": {
+    "compile": "babel src -d lib",
+    "compile-watch": "babel src -d lib --watch"
+  }
+}
+```
+
+`jspm run compile` (or `compile-watch`) will now compile all the individual `src` files to the `lib` directory, where they can then be optimized further [as in the main guide workflows](/docs/guide).
+
+</details>
 
 ## Jest
 
-> 404
+_Jest plugin pending._
 
 ## Mocha
 
+Mocha tests can be run with a custom jspm test harness. A boilerplate approach for this is provided below.
+
+<details>
+<summary>Mocha Test Runner</summary>
+
+```
+jspm install mocha
+```
+
+Create the following runner in a `test/test.js` file:
+
+```js
+import Mocha from 'mocha';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { promises as fs } from 'fs';
+
+(async () => {
+  const __dirname = dirname(fileURLToPath(import.meta.url));
+  const tests = (await fs.readdir(__dirname)).filter(name => name.endsWith('.js'));
+  const mocha = new Mocha({
+    // Set Mocha options here
+  });
+
+  for (const test of tests) {
+    mocha.suite.emit('pre-require', global, test, mocha);
+    await import('./' + test);
+  }
+
+  mocha.run();
+})()
+.catch(e => {
+  console.error(e);
+});
+```
+
+This can be executed with `jspm test/test.js`, or in the `package.json`:
+
+```json
+{
+  "scripts": {
+    "test": "jspm test/test.js"
+  }
+}
+```
+
+The above will run all `test/*.js` test files through Mocha.
+</details>
+
+Support for the Mocha CLI still needs to be provided, likely with some PR work to Mocha itself. This is because Mocha uses `require()` to load tests, which doesn't support ES modules in jspm. If it had a mode to use the ES dynamic `import()` then we could support it fully natively.
+
+## npm
+
+If using npm and jspm in the same project, add a `"jspm"` property to your `package.json` to separate jspm dependencies from npm dependencies:
+
+```json
+{
+  "jspm": {}
+}
+```
+
+* `jspm install x`: Will install into `jspm.dependencies` in the `package.json` file.
+* `npm install x`: Will install into `dependencies` in the `package.json` file.
+
+Package.json scripts via `jspm run` will support bin files in both `jspm_packages/.bin` falling back to `node_modules/.bin`.
+
+Imports in Node.js throgh `jspm` will also fall back to the `node_modules` resolution before the module not found error.
+
 ## Parcel
 
-> 404
+_Parcel plugin pending._
+
+## React
+
+React will install with jspm and build for the browser, Node.js (`--node`), development or production (`--production`) through `jspm build`.
+
+To support JSX compilation, use a [Babel](#Babel) or [TypeScript](#TypeScript) workflow, with the [Babel JSX Preset](https://babeljs.io/docs/en/babel-preset-react), or setting the `jsx` TypeScript compilation option.
 
 ## Rollup
 
-> - Rollup custom build as a Babel+legacy / modern ES dual bulid, linked from getting started
+The Rollup plugin for jspm is [rollup-plugin-jspm](https://github.com/jspm/rollup-plugin-jspm).
 
-> - Node.js build ala rollup-plugin-jspm (which will now need --exclude-deps)
+`jspm build` provides a simple wrapper around this plugin, but for more advanced build workflows you'll typically want to use this plugin directly. A sample dual-build workflow is provided below.
 
-The `jspm build` command only offers the very basic JS semantics for builds. For custom build configurations, you'll usually want
-to "eject" out of this workflow and just use Rollup directly.
+<details>
+<summary>Babel Build with rollup-plugin-jspm</summary>
 
-Let's do that now:
+Install Rollup, The [Rollup jspm plugin](https://github.com/jspm/rollup-plugin-jspm), and [Rollup Plugin Babel](https://github.com/rollup/rollup-plugin-babel):
 
 ```
-jspm install rollup rollup-plugin-jspm=github:jspm/rollup-plugin-jspm --dev
+jspm install rollup rollup-plugin-jspm rollup-plugin-babel@latest --dev
 ```
 
-Create the following `rollup.config.js`:
+Create the following `rollup.config.js` file:
 
 ```js
-import jspmPlugin from 'rollup-plugin-jspm';
+import jspm from 'rollup-plugin-jspm';
+import babel from 'rollup-plugin-babel';
 
 export default {
-  input: ['test.js'],
+  // Leading "./" still important here
+  input: ['./test.js'],
   output: {
     dir: 'dist',
     format: 'esm'
   },
-  plugins: [jspmPlugin({
+  plugins: [jspm({
     env: {
+      node: true,
       production: true
     }
+  }), babel({
+    exclude: 'jspm_packages/**'
   })]
 };
 ```
 
-We can then run `jspm_packages/.bin/rollup -c` or again set this up as a package.json "scripts" entry.
+Run `jspm_packages/.bin/rollup -c` or setup the `package.json` `"scripts"` entry:
 
-> To build for Node.js set the `env.node: true` build flag.
+```json
+{
+  "scripts": {
+    "build": "rollup -c"
+  }
+}
+```
 
-In this way we can now add any custom configuration support for Babel / TypeScript etc.
+> In this example we're building for the Node.js production environment (handling the correct resolutions, `process.env.NODE_ENV` etc). By default, jspm will build for the browser development environment.
 
-Because the jspm plugin is just a `resolve` function in Rollup, it is very simple to make plugins for Webpack, Parcel and other tools. Help expanding this is very welcome!
+Further plugins and build customizations can then be added to the above.
+</details>
+
+## Svelte
+
+_Integration workflows pending._
+
+## Terser
+
+Terser minification is provided by `jspm build` when passing the `--minify` option.
+
+To use [Terser](https://github.com/terser-js/terser) directly, use the [Terser Rollup plugin](https://github.com/TrySound/rollup-plugin-terser) in a custom [jspm Rollup build](#Rollup).
+
+## TypeScript
+
+TypeScript support can be included through a Rollup, Parcel or Webpack integration, but if you'd like to avoid a monolithic build, running `typescript` directly as a separate step before jspm, can provide a nice incremental workflow where only changed files are build on each rerun.
+
+TypeScript itself needs to be installed with `npm install -g typescript` (jspm support tracking in https://github.com/jspm/jspm2-cli/issues/61).
+
+See the workflow below for more details.
+
+<details>
+<summary>Direct Incremental TypeScript Compilation</summary>
+
+Since we are installing TypeScript with npm, we should [separate the jspm dependencies from npm dependencies](#npm) in the `package.json`:
+
+```json
+{
+  "jspm": {}
+}
+```
+
+Install TypeScript:
+
+```
+npm install typescript
+```
+
+Installing any dependencies does require installing both the TypeScript types with npm and the jspm version separately:
+```
+jspm install react
+npm install @types/react
+```
+
+> You can skip installing the type dependencies, but this will provide compilation errors, even though the compilation will still complete successfully.
+
+Create the `tsconfig.json` file:
+```json
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "target": "esnext",
+    "typeRoots": ["node_modules/@types"],
+  },
+  "include": [
+    "src/**/*.ts",
+  ]
+}
+```
+
+Set up the compilation as a `package.json` script with:
+
+```json
+{
+  "scripts": {
+    "compile": "tsc",
+    "compile-watch": "tsc --watch"
+  }
+}
+```
+
+Running `jspm run compile` (or `compile-watch`) will now compile the all `.ts` files in the `"src"` folder to the `"lib"` folder as ES modules. In addition this compilation workflow will be fully incremental, only doing the work it needs to do.
+
+This can then be combined with a `"build"` script to handle optimization or browser mappings. The `"lib"` folder can be treated like the `"src"` folder from the perspective of all the jspm map and optimization workflows as described in the [main guide](/docs/guide). For example, build a single-file browser script build with `jspm build lib/test.js --production -f iife`, etc.
+
+</details>
+
+## Vue.js
+
+Vue.js production builds are supported with `jspm build --production`.
+
+To support `.vue` files, use a custom build workflow like [Rollup](#Rollup) with the [Rollup Vue plugin](https://github.com/vuejs/rollup-plugin-vue).
+
+_Precompilation Vue.js workflow pending._
 
 ## Webpack
 
-Note libraryTarget.
+_Webpack plugin still needs to be created._
 
-Note SystemJS parser options.
+## One Weird Trick to Support jspm in Tools
+
+If you're a tooling author, whenever loading or executing code dynamically, use the pattern:
+
+```js
+Promise.resolve(require(dynamicModuleExpression))
+```
+
+By immediately wrapping the `require` statement in `Promise.resolve()`, and handling the async promise properly, jspm will then know to replace this [during conversion](/about/architecture#commonjs-conversion) with `import(dynamicModuleExpresion)`, thereby providing comprehensive dependency resolution support.
+
+This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.
