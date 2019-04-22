@@ -27,7 +27,7 @@
 </div>
 <div class="sidebar">
   <div class="toc">
-    <ul class="sections"><li class="about"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li><li class="background"><a href="/about/background">Background</a></li><li class="architecture"><a href="/about/architecture">Architecture</a></li></ul></li><li class="docs active"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide active"><a href="/docs/guide">Guide</a><ul class="subsection"><li><a href="#install-jspm">Install jspm</a></li><li><a href="#create-a-project">Create a Project</a></li><li><a href="#install-dependencies">Install Dependencies</a></li><li><a href="#es-modules-in-nodejs">ES Modules in Node.js</a></li><li><a href="#http-server-bin-script">http-server bin Script</a></li><li><a href="#browser-modules-with-import-maps">Browser Modules with Import Maps</a></li><li><a href="#shimming-import-maps-in-all-browsers">Shimming Import Maps in all Browsers</a></li><li><a href="#optimized-browser-builds">Optimized Browser Builds</a></li><li><a href="#systemjs-legacy-browser-support">SystemJS Legacy Browser Support</a></li><li><a href="#optimized-dependency-builds">Optimized Dependency Builds</a></li><li><a href="#optimizing-nodejs-libraries">Optimizing Node.js Libraries</a></li><li><a href="#optimizing-universal-libraries">Optimizing Universal Libraries</a></li><li><a href="#optimizing-browser-libraries">Optimizing Browser Libraries</a></li><li><a href="#cdn-package-maps">CDN Package Maps</a></li><li><a href="#development-cdn">Development CDN</a></li></ul></li><li class="integrations"><a href="/docs/integrations">Tool Integrations</a></li></ul></li>
+    <ul class="sections"><li class="about"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li><li class="background"><a href="/about/background">Background</a></li><li class="architecture"><a href="/about/architecture">Architecture</a></li></ul></li><li class="docs active"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide active"><a href="/docs/guide">Guide</a><ul class="subsection"><li><a href="#install-jspm">Install jspm</a></li><li><a href="#create-a-project">Create a Project</a></li><li><a href="#install-dependencies">Install Dependencies</a></li><li><a href="#es-modules-in-nodejs">ES Modules in Node.js</a></li><li><a href="#http-server-bin-script">http-server bin Script</a></li><li><a href="#browser-modules-with-import-maps">Browser Modules with Import Maps</a></li><li><a href="#shimming-import-maps-in-all-browsers">Shimming Import Maps in all Browsers</a></li><li><a href="#optimized-browser-builds">Optimized Browser Builds</a></li><li><a href="#systemjs-legacy-browser-support">SystemJS Legacy Browser Support</a></li><li><a href="#optimized-dependency-builds">Optimized Dependency Builds</a></li><li><a href="#optimizing-nodejs-libraries">Optimizing Node.js Libraries</a></li><li><a href="#optimizing-universal-libraries">Optimizing Universal Libraries</a></li><li><a href="#cdn-package-maps">CDN Package Maps</a></li><li><a href="#development-cdn">Development CDN</a></li></ul></li><li class="integrations"><a href="/docs/integrations">Tool Integrations</a></li></ul></li>
       <!-- Table of contents links will be added here -->
       <li><a>Resources</a>
       <ul class="subsection">
@@ -278,21 +278,22 @@ lodash/clone.js</code></pre><p>This is important, because we've only used one su
 <p>There is absolutely nothing wrong with copy and pasting of import maps as well, and using <code>jspm map -o ./test.js</code> will output the map to stdout where it an be manually maintained too. Both <code>jspm build</code> and <code>jspm map</code> support an <code>-i &lt;custommap.json&gt;</code> argument to extend the output map with custom manual mappings.</p>
 <p><strong>Dependency optimization is a useful workflow both in development and production, but there are many ways to work with import maps. These, and the other flags of <code>jspm map</code> and <code>jspm build</code>, aim to provide a low-level and flexible toolkit for working with import maps and the many various scenarios in which they can apply.</strong></p>
 <a name="optimizing-nodejs-libraries" class="anchor"></a><h2>Optimizing Node.js Libraries</h2>
+<p>If you're writing a Node.js library that will be publised to npm, <code>jspm build</code> provides a great standard workflow for optimization before publishing.</p>
+<p>Assuming the entry point is at <code>src/library.js</code>, we can build the local code, while excluding dependencies, with the build command:</p>
+<pre><code>jspm build ./src/library.js --node --exclude-deps -d .</code></pre><p>The <code>--node</code> flag is important here to ensure we are using Node.js resolutions for builtins and not following any <code>package.json</code> <code><span class="string">"browser"</span></code> mappings.</p>
+<p>Passing <code>-d .</code> will build to the current folder creating a single, built <code>library.js</code>. For multiple entry points you may wish to output to the <code>dist/</code> folder.</p>
+<p>The <code>package.json</code> <code><span class="string">"main"</span></code> can then be set to the built file for publish.</p>
+<p><code>devDependencies</code> are not excluded by <code>--exclude-deps</code>, and will be inlined. This can be a useful way to distinguish between dependencies that should be built, and dependencies that shouldn't. For example, a one-line library like left-pad can be inlined by just installing it as a devDependency (<code>jspm install leftpad --dev</code>), while a large shared dependency, like React, can still be shared and version-managed by your library consumers.</p>
 <blockquote>
-<ul>
-<li>The ncc note on Node builds is EXACTLY asset relocation</li>
-</ul>
-</blockquote>
-<p>If you're writing a Node.js library that will be publised to npm, a good build workflow to follow is the following.</p>
-<p>// Note universal split</p>
-<blockquote>
-<p>--exclude-deps and note devDependencies inlined</p>
-</blockquote>
-<blockquote>
-<p>By default <code>jspm build</code> will build for the browser development environment. Use <code>--node</code> to build for Node.js resolution (not applying the package.json "browser" field, or similarly <code>--production</code> for the production environment).</p>
+<p>Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like <code>fs.readFile(__dirname + <span class="string">'/path'</span>)</code> will not be able to retain their references. For comprehensive Node.js build support see <a href="https://github.com/zeit/ncc/">ncc</a>.</p>
 </blockquote>
 <a name="optimizing-universal-libraries" class="anchor"></a><h2>Optimizing Universal Libraries</h2>
-<a name="optimizing-browser-libraries" class="anchor"></a><h2>Optimizing Browser Libraries</h2>
+<p>For libraries that provide both a browser and a Node.js version, it's best to approach these as two separate builds.</p>
+<p>So if there were a <code>src/library-browser.js</code> as well as <code>src/library-node.js</code> for Node, we could do another build for the browser:</p>
+<pre><code>jspm build ./src/library-browser.js --exclude-deps -d .</code></pre><p>And then setting the <code>package.json</code> <code><span class="string">"browser"</span>: "./library-browser.js</code> field we can provide an optimized build for both environments.</p>
+<blockquote>
+<p>jspm will always respect the <code><span class="string">"browser"</span></code> field in the package.json for any installed packages, and for both ES modules and CommonJS.</p>
+</blockquote>
 <a name="cdn-package-maps" class="anchor"></a><h2>CDN Package Maps</h2>
 <p>Instead of building a import map against the local jspm_packages packages folder, the jspm CDN can be used instead as the import map target. Because the structure of jspm_packages is universal, we can just change the reference.</p>
 <p>To do this in the <a href="#browser-modules-with-import-maps">original import map example</a> add the <code>--cdn</code> flag:</p>
@@ -302,8 +303,20 @@ lodash/clone.js</code></pre><p>This is important, because we've only used one su
 <p>These workflows are still highly experimental and not currently recommended for production.</p>
 </blockquote>
 <a name="development-cdn" class="anchor"></a><h2>Development CDN</h2>
-<p><code>https://dev.jspm.io/pkg</code></p>
-<p>SANDBOX</p>
+<p>For quick experiments, <code>https://dev.jspm.io</code> provides a version of jspm_packages and the resolver that will always inline resolutions to their latest versions.</p>
+<p>This makes it easy to import any package into any environment, without even needing jspm installed:</p>
+<pre><code class="language-js">&lt;!doctype html&gt;
+&lt;script type=<span class="string">"module"</span>&gt;
+<span class="keyword">import</span> clone <span class="keyword">from</span> <span class="string">'https://dev.jspm.io/lodash/clone.js'</span>;
+
+console.log(clone({ a: <span class="string">'b'</span> }));
+
+<span class="keyword">import</span>(<span class="string">'https://dev.jspm.io/@babel/core'</span>).then(({ default: babel }) =&gt; {
+  console.log(babel.transform(<span class="string">'test'</span>).code);
+});
+&lt;/script&gt;</code></pre>
+<p>Packages are still cached and optimized where possible to make this a good development experience, although it is certainly not a production workflow.</p>
+<p>To easily experiment with the above, the <a href="/sandbox">jspm sandbox</a> provides a simple online tool for these workflows.</p>
 <blockquote>
 <p>For further reading, the full documentation will only be released with the stable jspm 2.0 release. <a href="/guide/integrations">Tooling integrations</a> are still being fleshed out. Feedback and <a href="TODO">contributions</a> to this experimental beta are very much appreciated.</p>
 </blockquote>

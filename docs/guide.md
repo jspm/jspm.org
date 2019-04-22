@@ -387,19 +387,37 @@ There is absolutely nothing wrong with copy and pasting of import maps as well, 
 
 ## Optimizing Node.js Libraries
 
-> - The ncc note on Node builds is EXACTLY asset relocation
+If you're writing a Node.js library that will be publised to npm, `jspm build` provides a great standard workflow for optimization before publishing.
 
-If you're writing a Node.js library that will be publised to npm, a good build workflow to follow is the following.
+Assuming the entry point is at `src/library.js`, we can build the local code, while excluding dependencies, with the build command:
 
-// Note universal split
+```
+jspm build ./src/library.js --node --exclude-deps -d .
+```
 
-> --exclude-deps and note devDependencies inlined
+The `--node` flag is important here to ensure we are using Node.js resolutions for builtins and not following any `package.json` `"browser"` mappings.
 
-> By default `jspm build` will build for the browser development environment. Use `--node` to build for Node.js resolution (not applying the package.json "browser" field, or similarly `--production` for the production environment).
+Passing `-d .` will build to the current folder creating a single, built `library.js`. For multiple entry points you may wish to output to the `dist/` folder.
+
+The `package.json` `"main"` can then be set to the built file for publish.
+
+`devDependencies` are not excluded by `--exclude-deps`, and will be inlined. This can be a useful way to distinguish between dependencies that should be built, and dependencies that shouldn't. For example, a one-line library like left-pad can be inlined by just installing it as a devDependency (`jspm install leftpad --dev`), while a large shared dependency, like React, can still be shared and version-managed by your library consumers.
+
+> Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like `fs.readFile(__dirname + '/path')` will not be able to retain their references. For comprehensive Node.js build support see [ncc](https://github.com/zeit/ncc/).
 
 ## Optimizing Universal Libraries
 
-## Optimizing Browser Libraries
+For libraries that provide both a browser and a Node.js version, it's best to approach these as two separate builds.
+
+So if there were a `src/library-browser.js` as well as `src/library-node.js` for Node, we could do another build for the browser:
+
+```
+jspm build ./src/library-browser.js --exclude-deps -d .
+```
+
+And then setting the `package.json` `"browser": "./library-browser.js` field we can provide an optimized build for both environments.
+
+> jspm will always respect the `"browser"` field in the package.json for any installed packages, and for both ES modules and CommonJS.
 
 ## CDN Package Maps
 
@@ -419,8 +437,25 @@ To use a custom jspm_packages path such as your own CDN library server use `--js
 
 ## Development CDN
 
-`https://dev.jspm.io/pkg`
+For quick experiments, `https://dev.jspm.io` provides a version of jspm_packages and the resolver that will always inline resolutions to their latest versions.
 
-SANDBOX
+This makes it easy to import any package into any environment, without even needing jspm installed:
+
+```js
+<!doctype html>
+<script type="module">
+import clone from 'https://dev.jspm.io/lodash/clone.js';
+
+console.log(clone({ a: 'b' }));
+
+import('https://dev.jspm.io/@babel/core').then(({ default: babel }) => {
+  console.log(babel.transform('test').code);
+});
+</script>
+```
+
+Packages are still cached and optimized where possible to make this a good development experience, although it is certainly not a production workflow.
+
+To easily experiment with the above, the [jspm sandbox](/sandbox) provides a simple online tool for these workflows.
 
 > For further reading, the full documentation will only be released with the stable jspm 2.0 release. [Tooling integrations](/guide/integrations) are still being fleshed out. Feedback and [contributions](TODO) to this experimental beta are very much appreciated.
