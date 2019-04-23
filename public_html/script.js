@@ -53,3 +53,14 @@
     document.body.removeChild(el);
   }
 })();
+
+/* Mobile menu button */
+(function () {
+  const sidebar = document.querySelector('.sidebar');
+  document.querySelector('.mobile-menu').addEventListener('click', function () {
+    if (sidebar.className === 'sidebar')
+      sidebar.className = 'sidebar open';
+    else
+      sidebar.className = 'sidebar';
+  });
+})();

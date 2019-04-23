@@ -4,7 +4,13 @@ This section, still a work-in-progress, provides sample workflows and links to p
 
 Because the jspm integration is just a `resolve` hook, it is relatively straightforward to support in tools, provided they support a resolver hook.
 
-[Provide a PR to this page](https://github.com/jspm/jspm.org/blob/master/docs/integrations.md) to list new tooling and framework integrations here, or to revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the [jspm organization on GitHub](https://github.com/jspm).
+[Provide a PR to this page](https://github.com/jspm/jspm.org/blob/master/docs/integrations.md) to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the [jspm organization on GitHub](https://github.com/jspm). If you'd like to work on one of these workflows, but don't know where to start, see the [contributing guide](TODO).
+
+## Resolver Hook
+
+Integrating a tool that performs module resolution, such as a build tool, requires providing the jspm resolver as a hook or plugin to that tool.
+
+The jspm resolver is maintained as a library at [https://github.com/jspm/jspm-resolve](https://github.com/jspm/jspm-resolve), where the full API details are found at the GitHub page.
 
 ## Angular
 
@@ -58,6 +64,12 @@ And set up the `package.json` `"scripts"` entry:
 `jspm run compile` (or `compile-watch`) will now compile all the individual `src` files to the `lib` directory, where they can then be optimized further [as in the main guide workflows](/docs/guide).
 
 </details>
+
+## Electron
+
+_Electron workflows pending._
+
+Support for Electron package resolution is provided via the `--electron` flag in all commands that take environment conditions such as `jspm build` and `jspm map`.
 
 ## Jest
 
@@ -142,6 +154,12 @@ _Parcel plugin pending._
 React will install with jspm and build for the browser, Node.js (`--node`), development or production (`--production`) through `jspm build`.
 
 To support JSX compilation, use a [Babel](#Babel) or [TypeScript](#TypeScript) workflow, with the [Babel JSX Preset](https://babeljs.io/docs/en/babel-preset-react), or setting the `jsx` TypeScript compilation option.
+
+## React Native
+
+_React Native workflows pending._
+
+jspm does provide support for React Native resolution through the `--react-native` flag. All commands that support `--browser` and `--node` also support `--react-native` to resolve the React Native package main in dependencies.
 
 ## Rollup
 
@@ -290,12 +308,12 @@ _Webpack plugin still needs to be created._
 
 ## One Weird Trick to Support jspm in Tools
 
-If you're a tooling author, whenever loading or executing code dynamically, use the pattern:
+If you're a tooling author, whenever loading or executing code dynamically in CommonJS, use the pattern:
 
 ```js
 Promise.resolve(require(dynamicModuleExpression))
 ```
 
-By immediately wrapping the `require` statement in `Promise.resolve()`, and handling the async promise properly, jspm will then know to replace this [during conversion](/about/architecture#commonjs-conversion) with `import(dynamicModuleExpresion)`, thereby providing comprehensive dependency resolution support.
+By immediately wrapping the `require` statement in `Promise.resolve()`, and handling the promise properly, jspm will then automatically replace this [during conversion](/about/architecture#commonjs-conversion) with `import(dynamicModuleExpresion)`, thereby providing comprehensive ES module and dependency resolution support.
 
 This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.

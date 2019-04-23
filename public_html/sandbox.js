@@ -13,38 +13,25 @@ import zlib from 'zlib';
 // window.JSHINT = jshint.JSHINT;
 
 const examples = {
-  Babel: '#H4sIAAAAAAAAA4VSwWojMQy9+yvUsDDd0IyPhXQSAkthD7sQaG9LIc7Y6bh4LGNr0oaQf1/ZTg89FeYgPek9yU8j52IObymM8KS83uOHyMDzYBOkCoD5MP1EJsHjE4yoJ8fhu6UB3qZEQIOBAzqH79a/wu/nv3+WLMBfd6Oxp1MwMNDo1hlJfbSBKQyuZlVqlgsAbdtSnmm0JYzQozYMZY6spMLfoz7V/k7bI1i9mvXoSVlv4mzdSQav5V75o0q1o4S5XKOiJD+lymMVNQmUc2AJNJp0I+ZSCDsGjAR7tTcODhFHaAaikJZSanNss2mtRbkpDbLHaDb3zcMX2tZNr9ZvIwZMyv1yKqWcmEiWTfxWMxT6Ilz5iz4LlLQqlHmCLeA7nItpcIFVHd1SVD4dMI63OwFQqLCFM8fX7LrJiRnNUbnJNFy7iN1daaqz0xL+ff+SF3H5yYvwvafReGqzua31fJX8P7D+rgvRrH+c84qXTuZk9yD+Axt71gR8AgAA',
-  Babylon: '#H4sIAAAAAAAAA4VTbW/TMBD+nl9x65ekVXBWJoa0tRV0KmxSB4hOSPDNjW+Nq8SO7Eu78uvxS7uOAkKyFOt5uzvbKQbJANa2bWDBlVjqp8QDD5W0YCMA+IRlR2hhtoBGi652262kCtadJaAK4VHXtd5KtYLbh/v5lQtwa3QmdEm7FqGipp54xJZGts7iwHEvRvU8AcAYI18ThSRtoNQCHeQ9RTQF/1KLXdSPhNyAFONeqRVxqdD0JqPCgXu65GrDbVSErafjLiQVh6gwLKfUAq9rkARCoz1LBkWSyKbVhmD6fvp9/vkTPBrdQFoRtfaqKARumD82JnWx5MtdrdXavrtIr5PEteTOZd/B2AWWXYOK2AppVqPfTnd3IkujIu1f7x2oVm4Q51C4PVRlswBmUZsDmQ77zzVsiX8YFh7LYlb/RTcNGv5FW0lSqxPLNyzdoV9k5zm8yeHV8Py5pWg7kX8wiDeB8DP47zDNTyrksTcfFHBmkR64cUeQnVRlP9DorH9UciJeVjfuXo2u/zF4LVcV/X+aYQ7HWYLnRHuLjbRthUaWc09naVD5eX4rcRwnwEwqQuWoncs7Z2+PF+Kz/I0cCtyjrdiNQU64CFyWRo0vMbzM4fUxOhKs3ddkPnx46H5ldKfE35M/Bi5Lo8YnX4b1IjuJD4KZTn1FJdDMtW6zrA/jSdQwE+BwEe5PFnrLuBCzjXutc2ndtI5LDVr5E11+NB4yA+p8vwCEMEvkTAQAAA==',
-  'lit-html': '#H4sIAAAAAAAAA0VRy27CMBC8+yuWqBIP0fhOk5xaiUN7KXwAJl4aI78Ub3gI8e+1nUIlH1Yzu7OzY75gCzgGb2AjrNy7C0vAtlMBwggAXrAdCAN8bMA4OehYnhV1cBwCAXUIB6e1Oyv7A+vt1+cqCsRXTaRr6eoROjK6SUhoe+XjSATrYpQqEgFQliWlnSgVuR5aJzFCaYaPQ3l+7+R17K+kOoGSddE6S0JZ7Ium4hH8o1thTyKMHblM9FhlJf6QyscKmgYQWoMikA7DhC04Y8p41xPckv0l9Ggl9nc49M7AtCPyYcW5xFOZ0iuV41rRa+qdvjHGObzjIfoCAYTGa0ExpsG2pJxl0XRMzly3D6aGmRUG51A3Oa1d5Zs1xlDh5ZaIe8V9sxt1v7ORnPtTOX9HcAZBChJs9Dr7XzCbPs3Nl/HEdjBoqUwhzN/YL+rqQAwEAgAA',
-  'Material UI': '#H4sIAAAAAAAAA5VTTW/aQBC9+1dMuBgQ2GkPPRBAaT6kViptFLhVPSzeAU+y9lreMQFV/e+d9ZJaiUqrSJa8fjPvzZuZdTqMhvDgqgKWqtRru488sMrJgQsA4B6zhtHB7RIKqxsjxyfiHB4ax8A5wsYaY5+o3MKn1eLLRATkmZ5pm/GhQsi5MHOPuKymSigCznpBqucDAEmSsK+JmtjWkFmNAnlOGkgtf231IeRPNe2A9KyX2ZIVlVj35tNUwGM4U+VOuZDRHn04nFql9FmqbVZx7EAZA8SgLbqzaJhGERWVrRnuUWUMm9oWEOfMlZukqcZd4oeWkE1rH7989yG+eMG4+bb4H2msbfGCuGholWOBd7Xdkcb6HwKFYqxJmXFDl+fJ+/PU8UEWk76W6MQ/VtWVepNkYHQKN5JwR9nj24x1LFGKZF+u9QIz6A9gNofvEYSJJZlMhfHWiP2S+6F6onGjGsMj+Cl5AI94mEDMxAbX4m3Ugu2nwCv/PmIkla6Ncu6rKvCetjlLQtGQXEo39sFxqXa0VUxyxH0ll31c2BpjYf8ajE6Y6pr5uzEt8So0G2zkVPIK9774tZEAsIUlGpQrpdqBhnrRD5nN871Jaixldf0THl6vuHNSNsaEsicGGlIGktJ2KLNofCjZIh+zrg6fdT/+81fFg2hw8Rt+yVTnJAQAAA==',
-  Tensorflow: '#H4sIAAAAAAAAA21TTU/cMBC951cMe0kWRQ5LQZUCu+KC2kOrVlp6Qhy88YR4ldjGnsBuEf+dcbyoi1Qpiuz5eDPvzbg6zU5hG9wAa2nUxu6yaLjrdICQDIA7bEbCALdrGKwaez6+aOpgOwYC6hBa2/f2RZtH+H7380fNAPxdnyjb0N4hdDT0q2gJjdeOU9i4nCWoWXQACCEo1kSlyXporEI2xZwqJU35G6v2Kf5a6WfQajlrrCGpDfrZ6rpi48HdSPMsQ4qYjtGdThNS9QE1kZWUB5B9D5pAWQwn2WmVZXpw1nO3LbTeDpB3RC7UVaXwWUTFhLbVDaEJ1rdMv6J2G27OxOJMnOVXWcadsTzMEntYMooI+DSiIS37Yn6VTQ4hlSrY1cs9+iAUg2HxOhpNoYZFCdq4kdaddFjD/eLhbc6JWVXBb49OepzETxVaVo08K8FTqGHtsNHtfvL3NjA5o6aLdaQH/Re9ODTQ2MHpnovGsBryAaVZP40Mrm69tz4v/+WwOzyq/O3QxDdk2SUhBDvwb2+4AOkGlCT5qR9x0GIXkhBJs3NV3DPF8xK+lHDxUML9RQmLBwZP0fv/RXPoZQlfj6NjK3ex0pEaY4jLGO+xmQ+uraZiF0pGnvO2oSmKOSxX8JoBMMafcKwnWd4E1r9Fj6Zh4QzIxMxZbegospPB5AQB0cAGmTfWCfCXw9TTxtuXgB54ccjaPkRwDk8DGYlHzAn8WMaB10PEzRTasLbxMbEGqXnHE9ENFZ8UuYxCLCYhmJJdk2fecbt4Ru+VNixC2gMAAA==',
-  VueJS: '#H4sIAAAAAAAAAz1QO2/CMBDe/SuOdEiLqngPIVslhnYCdcbEV2Lk2FZ8CSCU/95zUipZ1ul73UOuxRouMXSwV06f/E0k4NCaCHEBAG/YDIQRPvbQeT1YLq+GWrgMkYBahB9vrb8ad4bd4euz5AB+1Ur7hu4BoaXO1gmJTW8CWxjcZktUlgiAoigo9URtyPfQeI0MJY9cTLP/5PV90VfajGD0Nmu8I2Uc9lldSQb/6Ea5UcVFMZeJXqo5ST6j5mUV5RGUtWAItMe4EmsphOmC7wm+B16w9x3kLVGIpZQaxyKdrDBejgNy20ipyDdC/M9TGMd/ugds4ViF+vGADmNUZ4RpqmSojyx3eE0NXh8CAG0J+ct/QP7OmFakSkgsPN0s2iHfO/l4jFXO5CSmt80vjswGI8sBAAA='
+  Babel: '#H4sIAAAAAAAAA4VSTWsCMRC976+YSmFbqZtjQVcRitBDC4LeSsFsMmpkNwlJdusi+9+bDyv05CEw82bem5dJyDiDMZysbmBDJa/U2ecB2h6FBZsgwDOy1qGF1QYaxdvah52g09AYTvnAFXO9Rji6pl5EyDIjtIOAzkeJNIoVgKIoXJBHLpwywBRHD0UWSbQkUSneXyklFx0IPh8xJR0VEs1oURIP/tUZlR21qSWGoZ6iJEZuauGsTsi8uSPe7lj1YEWj6x5aK+QBosMfQ7VGE7yRLPNlZRxUtMIa9kY1kB+d03ZKCMeuCFsshCLL2ECYMrh8zWf/aOu6PQi5NkorS+u3mlobEjRO+J3e1dSRPtFX/oQFgZgmhTgv8zuyDi5xsTDAPI0unKHS7pVpnnYZQKTCGi4+vmZXJ71n5B2tW8x9bch2L7EpzbZT+Lp/k+9sePZG/K9oG5SuCLsvhPTP9r79/PD6u1IbXDxegsWhJCHZzbJfV7knuo4CAAA=',
+  Babylon: '#H4sIAAAAAAAAA4VSWY/TMBB+z68Y+hJ3FZyWFYu021bQqrBI5RBdIcGbGw+Nq8SObCfd8Ovx0WMpIKREcb5rZmznVwlcwc40NayZ5Bv16P499FAKAyZCgI9YtBYNLNdQK95WbtkJduuF/p0846qwfYNQ2rqaBcgUWjQWPDodRNMgMACUUuvjkQurNBSKo4OCK4+2GLFRvD9YJlx0IPh0UChpmZCoB7NJ7sAjXzDZMRMlYen5uIph+SnNv8sdFq65Ek8zbnpojZBbCK3tNWsa1L6pPElE3ShtYf5m/m316SP80KqGtLS2Mbd5zrGjfgOpUPmGbfpKyZ15fZ3eJYlr1lg4tDYFt0ltjdLSLdplhX45799zkkZFOrw7OFBu3YjOIXF/rEqXASRRm4HVLQ5PNUyBfxjWHiMxa/ikmxo1+6yMsELJC8tXtytKX5NRBi8zeD4enVqKtgv5W424CISfwX/HaXZRIYu9+aCAU4P2gWm3BeSiKv2OWpHhWcmsZUW5cCeuVfWPwSuxLe3/pxlncJ4leC6091gL05SoRbHyNEmDys/zW4nzOAGmQlqUjupd3oi+Oh+Iz/IncizwAU1JFxqZxXXgSBo1vsT4JoMX5+hI0OZQk/rw8bH7rVat5H9Pfhc4kkaNT74Jz5PsJF4Iqlv5BSVHvVKqIWQI01nUUB3gcBB7IbnaU8b5snO3dSWMm9ZxqUYjfqLLj8ZjZkCd7xffqnkvVwQAAA==',
+  'lit-html': '#H4sIAAAAAAAAA0VRy27CMBC85yu2USUeovEdkpyK1HPhAzD20hjFD9mbQIT498ZxSQ+W1jO745k1W2ewhmtwGg7cyLO9j/cIHRsVICQI8I6iIwywP4C2smvHsld8GxvjKd+kFTQ4hIZ0W09QEF45gohWeRrKJwagKAqK8igVWQ/CShyhaYqlsSRxtnL4Gyml6kHJKhfWEFcGfV6XbARfvOCm5yG1TGXkU5XE2KwWz/6KYjTX4JzxPEAXlPmBydrNc+fQR1Msy5R21hM8YroNeDQS/RMu3mpYNEQubBmT2Bdxj4WyrFX0EXsXuyxjDD7xMjoGDoTatZwQLp0RpKzJxjiBQA/HF1PB0nCNK6jqaZmn0tVf2LYW3h+ReJbM1aek+z0ZmVLMyjdFDQSrESQnniWvy/8HlovZ3GoD47d1Gg0VcTmrXfYLR09mNA8CAAA=',
+  'Material UI': '#H4sIAAAAAAAAA5VTsW7bMBDd9RVXL7IDW0o7dHBsI03ioUPaIPZWdKDFi8VEFAnypFoo+u85io6NBHWLDITId/fevTtS+VkCZ/DorYaVqOXG7PgcoHWpPPgIAe6waAg9LFegjWwq3rZKTENiWLMP0hTUWYSSdLXoIV84ZQkCOh9E0qCPAGRZRkEepSLjoDASGepZeaRFiY2R3Z4yk6oFJeeDwtQkVI1usJjlDL7EC1G3wseUfhvicRfF8oNaWMtHLNhciYceNx00XtVb6K39csJadMFUniRKW+MI7lEw6cEZDWlJZP00zyW2WRhfpkzuQvzy4+f04hXj5vvt/0gTafQr4m2j1iVqvHOmVRLdPwS0IHRKVJNGXZ5nn85zTx1fUP5W4ij+xdor8S7JyDgq3HDCnSqe3mfsyGKlhG/S915gDsMRzBfwI4E4sazgqRAuK7Zf0zBWzyQ+iKaiMfzmPIAn7KaQkqIKN+xt3IP9keF1+O4xxZWuK+H9N6HxXm1L4gTdKH6zfhKCk1q0aitI8RZ3lh/ERBuHKbP/jMYnTB2b+bsxyXEbm402SlXTGneh+HXFASADK6zCOxT9QGO95CfP5uXdZA5rvrrhCQ9vr/jopG6qKpY9MdCYMuKUvkOeRRNC2RZpn3XVfZXD9PC/paNkdPEMumIlDi8EAAA=',
+  Tensorflow: '#H4sIAAAAAAAAA21TTU/cMBC951dM97JZFDksBVUKLOKC2kOrVsr2hDh44wlrlNjGniybIv57xzFLF6mHRM58PL/3ZlKeZHACj8H1UEujNnbP3zG03uoAIYUA99gMhAFua+itGjo+7rSsYmF8rj4p29DoELbUd9dTKDReO4IYXc1S02zKAAghKMKj0mQ9NFYhh6auMrUliI1V41vLldI70Go1a6whqQ362fVVycFDvpFmJ0MqmY4xn04JrHxHi8/tIzZMbovvGjcjDEGbB5ioPXvpHPpIqswy3TvrubyF1tse5lsiF6qyVLgT0TuhbXlDaIL1bWefS2ofw82pWJ6K0/llljHnQNE47GDFKCLg04CGtOzyxWU2JYRUKudUJ0f0QSgGw/xlMJpCBcsCtHED1VvpsIK75f3rghuzsoRfHp30OElJN7RsKXn2iMVUUDtsdDtO+c6GACx3+rCOdK//RI2JQGN7pzu+NJZVMO9RmvppYHB167318+JfD6fDg5q/vpH4ijwQSWym7fk1Gr6AdANKkvzAR7x5sQ/JiOTZmcrvWOJZAZ8LOL8v4O68gOU9g6fq8X/VXHpRwJfj6khlHW86cuMwU5zIHLS2mvJ9KBh5wauIJs8XsLqGlwyAMX6HYz/JgrLsf4seTcPGGZBJmbPa0FHlVgYzJwiIBjbIurFKgD8dJk4bb58DeuDFIWu7EMG5PA1kIB4xN/C/NPS8HiJurNCGvf22/vGdPUjkHU9EN5R/cOQiGrGcjGBJtibPuuN28Yz+AvJQmC/lAwAA',
+  'Vue.js': '#H4sIAAAAAAAAAz1QsW7DIBTc+YoXd3AbVWZ3bG+RMrRTos4h8BoT2YAAO7Ei/3vBNB5Ax92744BuCWzh5kwPR6bERT/COVKnVjpwiQJ8IB88Otgfoddi6AIcJSvjYFzVRmjuJ4PQ+r5rFspxK42HyNZZMmWLAlAUhY/xKKTXFrgWGKjFRZMtRVy0mP4tlZAjSFFnXCvPpEKbNRUN5EvnTI3MpZEFRj2hFEbXtLj2N+ShXIvrGy8TDE6qKyzV7pYZgzaWooTI3mjr4WdA+LW6h7z13riSUoFjET+vkJqOA4ZCzkeQ7whZmxZShf1w+v6CGs6VaZ5P6NE5dkWY54qa5hzGFd7jBe9PAoBdCfnbGpB/Bk4wz0qIKrzcYeiAXaejL9TY5EGcyfyx+wP6CeLh1gEAAA=='
 };
-
-const defaultContents = `/*
-* jspm Sandbox
-*
-* This sandbox executes ES modules with just the following HTML:
-* 
-* <!doctype html>
-* <script type="module">
-*   ...this editor code...
-* </script>
-* <body>
-*   <div id="container"></div>
-*   <canvas id="canvas"></canvas>
-* </body>
-* 
-* That's all it does!
-*/
-`;
 
 const sandboxTpl = () => html`
 <style>
-  @media screen and (max-width: 750px), screen and (max-device-width: 750px) {
-    .editor {
-      display: none;
-    }
+  .editor {
+    position: absolute;
+    top: 3.5em;
+    left: 0;
+    width: 50%;
+    height: calc(100% - 3.5em);
+  }
+  .codemirror {
+    height: 100%;
   }
   .CodeMirror {
     background: transparent;
@@ -87,12 +74,45 @@ const sandboxTpl = () => html`
     cursor: wait;
     color: #aaa;
   }
+  .output {
+    position: absolute;
+    top: 3.5em;
+    right: 0;
+    width: 50%;
+    height: calc(100% - 3.5em);
+    border-left: 1px solid #eee;
+  }
+  .output .log {
+    font-size: 1em;
+    background-color: #444;
+    color: #eee;
+    overflow-y: scroll;
+    height: 30%;
+  }
   .output .log .item {
     border-bottom: 1px solid #777;
     padding-bottom: 0.5em;
     padding: 0.5em 2em;
     margin: 0;
     white-space: pre-wrap;
+  }
+  @media screen and (max-width: 850px), screen and (max-device-width: 850px) {
+    .codemirror {
+      height: 
+      width: 100%;
+    }
+    .output {
+      left: 0;
+      top: calc(3.5em + 50%);
+      height: calc(50% - 3.5em);
+      width: 100%;
+    }
+    .topbar ul.toplinks {
+      display: none;
+    }
+    .editor-bar {
+      left: 70%;
+    }
   }
 </style>
 <div class="editor-bar">
@@ -104,15 +124,15 @@ const sandboxTpl = () => html`
     <button class="run">&#9654;&nbsp;Run</button>
   </div>
 </div>
-<div class="editor" style="position: absolute; top: 3.5em; left: 0; width: 50%; height: calc(100% - 3.5em);">
+<div class="editor">
   <div style="width: 100%; height: 100%;">
-    <div class="codemirror" style="height: 100%;"></div>
+    <div class="codemirror"></div>
   </div>
 </div>
-<div class="output" style="position: absolute; top: 3.5em; right: 0; width: 50%; height: calc(100% - 3.5em); border-left: 1px solid #eee;">
+<div class="output">
   <div style="position: absolute; width: 100%; height: 100%; z-index: 11;">
     <div class="browser-wrapper" style="width:100%; height: 70%; background-color:#fff"></div>
-    <div class="log" style="font-size: 1em; background-color: #444; color: #eee; overflow-y: scroll; height: 30%;"></div>
+    <div class="log"></div>
   </div>
 </div>
 `;
@@ -124,15 +144,15 @@ function initSandbox (contents) {
     if (hash) {
       curHash = hash;
       try {
-        contents = zlib.gunzipSync(new Buffer(hash, 'base64')).toString('utf8');
+        contents = hashToSource(hash);
       }
       catch (e) {
         console.error(e);
-        contents = defaultContents;
+        contents = hashToSource(examples.Babel);
       }
     }
     else {
-      contents = defaultContents;
+      contents = hashToSource(examples.Babel);
     }
   }
   sandbox = document.createElement('div');
@@ -160,10 +180,15 @@ function initSandbox (contents) {
   window.addEventListener('popstate', function () {
     const hash = location.hash.slice(1);
     if (hash && hash !== curHash) {
-      editor.setValue(curJs = zlib.gunzipSync(new Buffer(hash, 'base64')).toString('utf8'));
+      editor.setValue(curJs = hashToSource(hash));
       curHash = hash;
-      select.value = '';
     }
+  });
+
+  let selectChange = false;
+  editor.on('change', () => {
+    if (!selectChange)
+      select.value = '';
   });
 
   function run () {
@@ -178,7 +203,6 @@ function initSandbox (contents) {
       curHash = '#' + zlib.gzipSync(new Buffer(js)).toString('base64');
       if (location.hash !== curHash) {
         window.history.pushState(null, document.title, curHash);
-        select.value = '';
       }
     }
     curJs = js;
@@ -222,6 +246,9 @@ window.console = window.parent.jspmConsole;
       if (!started) {
         if (loading) {
           jspmLog('Network error loading modules. Check the browser network panel.');
+          loading = false;
+          button.disabled = false;
+          iframe.contentDocument.body.style.cursor = 'default';
         }
       }
       else {
@@ -277,14 +304,17 @@ window.console = window.parent.jspmConsole;
 
   const select = document.body.querySelector('select.examples');
   select.addEventListener('change', () => {
-    if (select.value && location.hash !== select.value) {
-      editor.setValue(curJs = zlib.gunzipSync(new Buffer(curHash = select.value.slice(1), 'base64')).toString('utf8'));
-      location.hash = select.value;
-    }
+    selectChange = true;
+    editor.setValue(hashToSource(select.value.slice(1)));
+    selectChange = false;
   });
 
   if (curHash)
     run();
+}
+
+function hashToSource (hash) {
+  return zlib.gunzipSync(new Buffer(hash, 'base64')).toString('utf8');
 }
 
 initSandbox();

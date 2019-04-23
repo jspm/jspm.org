@@ -29,6 +29,8 @@ _Both of these files are used by the jspm resolver - they should not be removed.
 
 > Installs have been heavily optimized for performance, and include support for `install --offline` and `install --prefer-offline`.
 
+After install if you inspect the package.json it will now contain a `"type": "module"` field. This matches the Node.js `--experimental-modules` support for ES modules in `.js` files. Set this to `"commonjs"` if working with CommonJS files.
+
 ## ES Modules in Node.js
 
 We can now load the installed dependencies as ES modules:
@@ -379,31 +381,36 @@ We can then execute the built application with:
 <script type="module" src="./dist/test.js"></script>
 ```
 
-> If we had wanted to leave the externals as bare specifiers, we could have just provided the list of externals via something like `jspm build ./test.js -e @babel/core lodash/clone` (`-e` is short for `--external`). Or with the dedicated flag, `jspm build ./test.js --exclude-deps`. The `deps-buildmap.json` would then be required in production, and could be used in a corresponding legacy workflow (eg SystemJS / ES Module Shims). The main benefit of this approach would be that the dependency code cache for users can be updated independent of application code cache (because the dependency references don't have to be updated when the dependency build changes, as that is what the import map does handles us).
+> If we had wanted to leave the externals as bare specifiers, we could have just provided the list of externals via something like `jspm build ./test.js -e @babel/core lodash/clone` (`-e` is short for `--external`). The `deps-buildmap.json` would then be required in production, and could be used in a corresponding legacy workflow (eg SystemJS / ES Module Shims). The main benefit of this approach would be that the dependency code cache for users can be updated independent of application code cache (because the dependency references don't have to be updated when the dependency build changes, as that is what the import map does handles us).
 
 There is absolutely nothing wrong with copy and pasting of import maps as well, and using `jspm map -o ./test.js` will output the map to stdout where it an be manually maintained too. Both `jspm build` and `jspm map` support an `-i <custommap.json>` argument to extend the output map with custom manual mappings.
 
 **Dependency optimization is a useful workflow both in development and production, but there are many ways to work with import maps. These, and the other flags of `jspm map` and `jspm build`, aim to provide a low-level and flexible toolkit for working with import maps and the many various scenarios in which they can apply.**
 
-## Optimizing Node.js Libraries
+## Optimizing Node.js Libraries for Publishing
 
 If you're writing a Node.js library that will be publised to npm, `jspm build` provides a great standard workflow for optimization before publishing.
 
 Assuming the entry point is at `src/library.js`, we can build the local code, while excluding dependencies, with the build command:
 
 ```
-jspm build ./src/library.js --node --exclude-deps -d .
+jspm build ./src/library.js --node --exclude-deps -d . -f commonjs
 ```
 
-The `--node` flag is important here to ensure we are using Node.js resolutions for builtins and not following any `package.json` `"browser"` mappings.
+* `--node` informs jspm that we are building for the Node.js resolution environment, using Node.js builtins and not following any `package.json` `"browser"` mappings.
+* `--exclude-deps` will exclude the local `package.json` `"dependencies"` from the build, so that these dependencies are still shared and version-managed by the library consumers.
+* Passing `-d .` will build to the current folder creating a single, built `library.js`. For multiple entry points you may wish to output to the `dist/` folder.
+* `-f commonjs` sets the output module format as CommonJS so that the library can be supported in Node.js without `--experimental-modules`, which is still important for compatibility.
 
-Passing `-d .` will build to the current folder creating a single, built `library.js`. For multiple entry points you may wish to output to the `dist/` folder.
+The `package.json` `"main"` can then be set to the built file for publishing via `jspm publish`.
 
-The `package.json` `"main"` can then be set to the built file for publish.
-
-`devDependencies` are not excluded by `--exclude-deps`, and will be inlined. This can be a useful way to distinguish between dependencies that should be built, and dependencies that shouldn't. For example, a one-line library like left-pad can be inlined by just installing it as a devDependency (`jspm install leftpad --dev`), while a large shared dependency, like React, can still be shared and version-managed by your library consumers.
+> Note that `devDependencies` are not excluded by `--exclude-deps`, and will instead be inlined. This can be a useful way to distinguish on install between dependencies that should be built, and dependencies that shouldn't. For example, a one-line library like left-pad can be inlined by just installing it as a devDependency (`jspm install leftpad --dev`), while a large dependency like `React` can still be shared.
 
 > Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like `fs.readFile(__dirname + '/path')` will not be able to retain their references. For comprehensive Node.js build support see [ncc](https://github.com/zeit/ncc/).
+
+It is possible to publish packages as ES modules by setting the `package.json` `"main"` to an ES module, provided you know your consumers (say within the same company) will be using either jspm or Node.js `--experimental-modules`. Since the [package.json contains a `"type": "module"`](/about/introduction#type-module), the package will be fullyl supported when loaded under `--experimental-modules`.
+
+Note that the `"module"` field in the package.json will likely not be supported in Node.js, so isn't a reliable pattern to use here. If you are looking to publish packages as both CommonJS and ES modules, this workflow is currently not recommended. The patterns are still being worked out and there are no clear paths here yet.
 
 ## Optimizing Universal Libraries
 

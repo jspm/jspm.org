@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Source Sans Pro Light'), local('SourceSansPro-Light'), url(/sourcesans.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'), url(/sourcesans-light.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 body {
   padding: 0;
   margin: 4.5em 0 0 15em;
@@ -56,7 +70,7 @@ a {
   flex-grow: 1;
 }
 .topbar ul.toplinks li a {
-  color: #666;
+  color: #333;
   text-decoration: none;
 }
 .topbar ul.toplinks li a:hover, .topbar ul.toplinks li a.active {
@@ -75,13 +89,13 @@ a {
   opacity: 0.8;
 }
 .sidebar {
-  font-weight: 100;
+  font-weight: 300;
   width: 15em;
   position: fixed;
   top: 3.5em;
   left: 0;
   background-color: rgb(249, 248, 245);
-  overflow-y: scroll;
+  overflow-y: auto;
   bottom: 0;
 }
 .sidebar .footer {
@@ -107,9 +121,13 @@ a {
   color: #333;
   text-shadow: 1px 1px 1px #fff;
 }
+.sidebar .toc ul li ul a {
+  font-weight: 400;
+  color: #777;
+}
 .sidebar .toc ul ul ul.subsection > li > a:hover, .sidebar .toc ul ul.subsection li a.active {
   text-decoration: underline;
-  color: #000;
+  color: #777;
 }
 .sidebar .toc ul li.active > a, .sidebar .toc ul li > a[href]:hover {
   color: #000;
@@ -181,6 +199,7 @@ a {
 }
 .content .nextprev {
   margin-top: 5em;
+  margin-bottom: 7em;
   padding-top: 2.5em;
   border-top: 1px solid #ccc;
   height: 3em;
@@ -250,7 +269,7 @@ h4 {
 }
 .content a, details summary {
   cursor: pointer;
-  color: #333;
+  color: #555;
   text-shadow: 1px 1px 1px #fafafa;
 }
 details {
@@ -318,6 +337,9 @@ blockquote {
   border-radius: 5px;
   color: #000;
   padding: 0.2em;
+}
+.content p code {
+  white-space: nowrap;
 }
 .content pre {
   clear: both;
@@ -407,6 +429,9 @@ screen and (max-device-width: 1200px) {
     margin-top: 6em;
   }
 }
+.mobile-menu {
+  display: none;
+}
 @media screen and (max-width: 800px),
 screen and (max-device-width: 800px) {
   .logobox {
@@ -420,13 +445,35 @@ screen and (max-device-width: 800px) {
     padding-left: 130px;
   }
   .topbar {
+    position: fixed;
+  }
+  .topbar ul.toplinks {
+    display: none;
+  }
+  .topbar .mobile-menu {
+    display: block;
+    background-image: url(/hamburger.png);
+    background-size: 3em 3em;
+    width: 3em;
+    height: 3em;
     position: absolute;
+    top: 0.25em;
+    right: 0.5em;
+    opacity: 0.4;
+    cursor: pointer;
+  }
+  .topbar .mobile-menu:hover {
+    opacity: 0.5;
   }
   .sidebar {
-    position: static;
     width: 100%;
-    height: 8em;
-    margin-top: -1em;
+    height: auto;
+    position: fixed;
+    left: -100%;
+    transition: left 0.3s;
+  }
+  .sidebar.open {
+    left: 0%;
   }
   .content {
     padding: 0;

@@ -1,7 +1,6 @@
 <html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400">
 <link rel="stylesheet" href="/style.css">
 <script defer="" src="/script.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -24,10 +23,11 @@
     <li><a href="/sandbox">Sandbox</a></li>
     <li class="github"><a target="_blank" href="https://github.com/jspm/jspm2-cli" rel="noopener"></a></li>
   </ul>
+  <div class="mobile-menu"></div>
 </div>
 <div class="sidebar">
   <div class="toc">
-    <ul class="sections"><li class="about active"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li><li class="background active"><a href="/about/background">Background</a><ul class="subsection"><li><a href="#browser-es-modules">Browser ES Modules</a></li><li><a href="#import-maps">Import Maps</a></li><li><a href="#es-module-shims">ES Module Shims</a></li><li><a href="#systemjs">SystemJS</a></li><li><a href="#nodejs-experimental-modules">Node.js --experimental-modules</a></li><li><a href="#jspm-resolver">jspm Resolver</a></li></ul></li><li class="architecture"><a href="/about/architecture">Architecture</a></li></ul></li><li class="docs"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide"><a href="/docs/guide">Guide</a></li><li class="integrations"><a href="/docs/integrations">Tool Integrations</a></li></ul></li>
+    <ul class="sections"><li class="about active"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li><li class="background active"><a href="/about/background">Background</a><ul class="subsection"><li><a href="#nodejs-experimental-modules">Node.js --experimental-modules</a></li><li><a href="#packagejson-type-module">Package.json "type": "module"</a></li><li><a href="#commonjs-conversion">CommonJS Conversion</a></li><li><a href="#import-maps">Import Maps</a></li><li><a href="#es-module-shims">ES Module Shims</a></li><li><a href="#systemjs">SystemJS</a></li><li><a href="#jspm-resolver">jspm Resolver</a></li><li><a href="#cdn">CDN</a></li><li><a href="#dynamic-import">Dynamic Import</a></li><li><a href="#top-level-await">Top-Level Await</a></li><li><a href="#rollup-code-splitting">Rollup Code-Splitting</a></li></ul></li></ul></li><li class="docs"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide"><a href="/docs/guide">Guide</a></li><li class="integrations"><a href="/docs/integrations">Tool Integrations</a></li></ul></li>
       <!-- Table of contents links will be added here -->
       <li><a>Resources</a>
       <ul class="subsection">
@@ -46,18 +46,25 @@
   </p></div>
 </div>
 <div class="content"><h1>Background</h1>
-<a name="browser-es-modules" class="anchor"></a><h2>Browser ES Modules</h2>
+<p>This section provides some reference material on jspm, related projects and technologies around ES modules.</p>
+<a name="nodejs-experimental-modules" class="anchor"></a><h2>Node.js --experimental-modules</h2>
+<ul>
+<li>note about file extensions in --experimental-modules</li>
+</ul>
+<a name="packagejson-type-module" class="anchor"></a><h2>Package.json "type": "module"</h2>
+<a name="commonjs-conversion" class="anchor"></a><h2>CommonJS Conversion</h2>
 <a name="import-maps" class="anchor"></a><h2>Import Maps</h2>
-<blockquote>
 <ul>
 <li>import map (+ scopes section specificially for link)</li>
 </ul>
-</blockquote>
 <a name="es-module-shims" class="anchor"></a><h2>ES Module Shims</h2>
 <a name="systemjs" class="anchor"></a><h2>SystemJS</h2>
-<a name="nodejs-experimental-modules" class="anchor"></a><h2>Node.js --experimental-modules</h2>
 <a name="jspm-resolver" class="anchor"></a><h2>jspm Resolver</h2>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/about/background.md" rel="noopener">Edit</a><div class="next"><a href="/about/architecture">Architecture&nbsp;⯈</a></div><div class="prev"><a href="/about/introduction">⯇&nbsp;Introduction</a></div></div></div>
+<a name="cdn" class="anchor"></a><h2>CDN</h2>
+<a name="dynamic-import" class="anchor"></a><h2>Dynamic Import</h2>
+<a name="top-level-await" class="anchor"></a><h2>Top-Level Await</h2>
+<a name="rollup-code-splitting" class="anchor"></a><h2>Rollup Code-Splitting</h2>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/about/background.md" rel="noopener">Edit</a><div class="next"><a href="/docs/guide">Docs&nbsp;⯈</a></div><div class="prev"><a href="/about/introduction">⯇&nbsp;Introduction</a></div></div></div>
 
 
 </body></html>

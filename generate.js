@@ -8,7 +8,7 @@ const { JSDOM } = jsdom;
 const github = 'https://github.com/jspm/jspm.org/blob/master';
 const templatePromise = readFile('./template.html');
 
-async function generatePage (section, name, title, tocHtml) {
+async function generatePage (section, name, title, tocHtml, sitemap) {
   const source = (await readFile(section + '/' + name + '.md')).toString();
   const html = marked(source, { breaks: true, headerIds: false });
 
@@ -44,6 +44,17 @@ async function generatePage (section, name, title, tocHtml) {
     const sectionNode = sectionContents.parentNode.parentNode;
     prevSection = sectionContents.previousSibling;
     nextSection = sectionContents.nextSibling;
+    if (!prevSection) {
+      prevSection = sectionNode.previousSibling;
+    }
+    if (!nextSection) {
+      nextSection = sectionNode.nextSibling;
+      while (nextSection && nextSection.nodeType !== 1)
+        nextSection = nextSection.nextSibling;
+      if (nextSection && !nextSection.querySelector('a').href)
+        nextSection = null;
+    }
+    
     sectionNode.className += ' active';
     sectionContents.className += ' active';
     if (contents.length) {
@@ -103,7 +114,7 @@ async function generatePage (section, name, title, tocHtml) {
 async function generateSection (section, sitemap, tocHtml) {
   const generations = [];
   for (const [name, title] of Object.entries(sitemap[section].index)) {
-    generations.push(generatePage(section, name, title, tocHtml));
+    generations.push(generatePage(section, name, title, tocHtml, sitemap));
   }
   await Promise.all(generations);
 }

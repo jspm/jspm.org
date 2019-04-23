@@ -1,7 +1,6 @@
 <html><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400">
 <link rel="stylesheet" href="/style.css">
 <script defer="" src="/script.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -24,10 +23,11 @@
     <li><a href="/sandbox">Sandbox</a></li>
     <li class="github"><a target="_blank" href="https://github.com/jspm/jspm2-cli" rel="noopener"></a></li>
   </ul>
+  <div class="mobile-menu"></div>
 </div>
 <div class="sidebar">
   <div class="toc">
-    <ul class="sections"><li class="about"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li><li class="background"><a href="/about/background">Background</a></li><li class="architecture"><a href="/about/architecture">Architecture</a></li></ul></li><li class="docs active"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide"><a href="/docs/guide">Guide</a></li><li class="integrations active"><a href="/docs/integrations">Tool Integrations</a><ul class="subsection"><li><a href="#angular">Angular</a></li><li><a href="#babel">Babel</a></li><li><a href="#jest">Jest</a></li><li><a href="#mocha">Mocha</a></li><li><a href="#npm">npm</a></li><li><a href="#parcel">Parcel</a></li><li><a href="#react">React</a></li><li><a href="#rollup">Rollup</a></li><li><a href="#svelte">Svelte</a></li><li><a href="#terser">Terser</a></li><li><a href="#typescript">TypeScript</a></li><li><a href="#vuejs">Vue.js</a></li><li><a href="#webpack">Webpack</a></li><li><a href="#one-weird-trick-to-support-jspm-in-tools">One Weird Trick to Support jspm in Tools</a></li></ul></li></ul></li>
+    <ul class="sections"><li class="about"><a href="/about/introduction">About</a><ul class="section-about"><li class="introduction"><a href="/about/introduction">Introduction</a></li></ul></li><li class="docs active"><a href="/docs/guide">Docs</a><ul class="section-docs"><li class="guide"><a href="/docs/guide">Guide</a></li><li class="integrations active"><a href="/docs/integrations">Tool Integrations</a><ul class="subsection"><li><a href="#resolver-hook">Resolver Hook</a></li><li><a href="#angular">Angular</a></li><li><a href="#babel">Babel</a></li><li><a href="#electron">Electron</a></li><li><a href="#jest">Jest</a></li><li><a href="#mocha">Mocha</a></li><li><a href="#npm">npm</a></li><li><a href="#parcel">Parcel</a></li><li><a href="#react">React</a></li><li><a href="#react-native">React Native</a></li><li><a href="#rollup">Rollup</a></li><li><a href="#svelte">Svelte</a></li><li><a href="#terser">Terser</a></li><li><a href="#typescript">TypeScript</a></li><li><a href="#vuejs">Vue.js</a></li><li><a href="#webpack">Webpack</a></li><li><a href="#one-weird-trick-to-support-jspm-in-tools">One Weird Trick to Support jspm in Tools</a></li></ul></li></ul></li>
       <!-- Table of contents links will be added here -->
       <li><a>Resources</a>
       <ul class="subsection">
@@ -48,7 +48,10 @@
 <div class="content"><h1>Tool Integrations</h1>
 <p>This section, still a work-in-progress, provides sample workflows and links to plugins to implement the jspm resolver in other tools.</p>
 <p>Because the jspm integration is just a <code>resolve</code> hook, it is relatively straightforward to support in tools, provided they support a resolver hook.</p>
-<p><a href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" target="_blank" rel="noopener">Provide a PR to this page</a> to list new tooling and framework integrations here, or to revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the <a href="https://github.com/jspm" target="_blank" rel="noopener">jspm organization on GitHub</a>.</p>
+<p><a href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" target="_blank" rel="noopener">Provide a PR to this page</a> to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the <a href="https://github.com/jspm" target="_blank" rel="noopener">jspm organization on GitHub</a>. If you'd like to work on one of these workflows, but don't know where to start, see the <a href="TODO">contributing guide</a>.</p>
+<a name="resolver-hook" class="anchor"></a><h2>Resolver Hook</h2>
+<p>Integrating a tool that performs module resolution, such as a build tool, requires providing the jspm resolver as a hook or plugin to that tool.</p>
+<p>The jspm resolver is maintained as a library at <a href="https://github.com/jspm/jspm-resolve" target="_blank" rel="noopener">https://github.com/jspm/jspm-resolve</a>, where the full API details are found at the GitHub page.</p>
 <a name="angular" class="anchor"></a><h2>Angular</h2>
 <p><em>Integration workflows pending.</em></p>
 <a name="babel" class="anchor"></a><h2>Babel</h2>
@@ -79,6 +82,9 @@
 <p><code>jspm run compile</code> (or <code>compile-watch</code>) will now compile all the individual <code>src</code> files to the <code>lib</code> directory, where they can then be optimized further <a href="/docs/guide">as in the main guide workflows</a>.</p>
 </details>
 
+<a name="electron" class="anchor"></a><h2>Electron</h2>
+<p><em>Electron workflows pending.</em></p>
+<p>Support for Electron package resolution is provided via the <code>--electron</code> flag in all commands that take environment conditions such as <code>jspm build</code> and <code>jspm map</code>.</p>
 <a name="jest" class="anchor"></a><h2>Jest</h2>
 <p><em>Jest plugin pending.</em></p>
 <a name="mocha" class="anchor"></a><h2>Mocha</h2>
@@ -135,6 +141,9 @@
 <a name="react" class="anchor"></a><h2>React</h2>
 <p>React will install with jspm and build for the browser, Node.js (<code>--node</code>), development or production (<code>--production</code>) through <code>jspm build</code>.</p>
 <p>To support JSX compilation, use a <a href="#Babel">Babel</a> or <a href="#TypeScript">TypeScript</a> workflow, with the <a href="https://babeljs.io/docs/en/babel-preset-react" target="_blank" rel="noopener">Babel JSX Preset</a>, or setting the <code>jsx</code> TypeScript compilation option.</p>
+<a name="react-native" class="anchor"></a><h2>React Native</h2>
+<p><em>React Native workflows pending.</em></p>
+<p>jspm does provide support for React Native resolution through the <code>--react-native</code> flag. All commands that support <code>--browser</code> and <code>--node</code> also support <code>--react-native</code> to resolve the React Native package main in dependencies.</p>
 <a name="rollup" class="anchor"></a><h2>Rollup</h2>
 <p>The Rollup plugin for jspm is <a href="https://github.com/jspm/rollup-plugin-jspm" target="_blank" rel="noopener">rollup-plugin-jspm</a>.</p>
 <p><code>jspm build</code> provides a simple wrapper around this plugin, but for more advanced build workflows you'll typically want to use this plugin directly. A sample dual-build workflow is provided below.</p>
@@ -230,9 +239,9 @@ npm install @types/react</code></pre><blockquote>
 <a name="webpack" class="anchor"></a><h2>Webpack</h2>
 <p><em>Webpack plugin still needs to be created.</em></p>
 <a name="one-weird-trick-to-support-jspm-in-tools" class="anchor"></a><h2>One Weird Trick to Support jspm in Tools</h2>
-<p>If you're a tooling author, whenever loading or executing code dynamically, use the pattern:</p>
+<p>If you're a tooling author, whenever loading or executing code dynamically in CommonJS, use the pattern:</p>
 <pre><code class="language-js">Promise.resolve(require(dynamicModuleExpression))</code></pre>
-<p>By immediately wrapping the <code>require</code> statement in <code>Promise.resolve()</code>, and handling the async promise properly, jspm will then know to replace this <a href="/about/architecture#commonjs-conversion">during conversion</a> with <code><span class="keyword">import</span>(dynamicModuleExpresion)</code>, thereby providing comprehensive dependency resolution support.</p>
+<p>By immediately wrapping the <code>require</code> statement in <code>Promise.resolve()</code>, and handling the promise properly, jspm will then automatically replace this <a href="/about/architecture#commonjs-conversion">during conversion</a> with <code><span class="keyword">import</span>(dynamicModuleExpresion)</code>, thereby providing comprehensive ES module and dependency resolution support.</p>
 <p>This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/guide">⯇&nbsp;Guide</a></div></div></div>
 

@@ -2,9 +2,7 @@
   "about": {
     "title": "About",
     "index": {
-      "introduction": "Introduction",
-      "background": "Background",
-      "architecture": "Architecture"
+      "introduction": "Introduction"
     }
   },
   "docs": {
