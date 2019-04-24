@@ -74,11 +74,11 @@ async function generatePage (section, name, title, tocHtml, sitemap) {
 
   if (nextSection) {
     nextprev.innerHTML += `<div class="next">${nextSection.querySelector('a').outerHTML}</div>`;
-    nextprev.querySelector('.next a').innerHTML += '&nbsp;⯈';
+    nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
   }
   if (prevSection) {
     nextprev.innerHTML += `<div class="prev">${prevSection.querySelector('a').outerHTML}</div>`;
-    nextprev.querySelector('.prev a').innerHTML = '⯇&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
+    nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
   }
   
   // make all external links open in a new window

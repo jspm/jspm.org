@@ -242,7 +242,7 @@ npm install @types/react</code></pre><blockquote>
 <pre><code class="language-js">Promise.resolve(require(dynamicModuleExpression))</code></pre>
 <p>By immediately wrapping the <code>require</code> statement in <code>Promise.resolve()</code>, and handling the promise properly, jspm will then automatically replace this during CommonJS conversion on install with <code><span class="keyword">import</span>(dynamicModuleExpresion)</code>, thereby providing comprehensive ES module and dependency resolution for dynamic requires, which would usually be a problem as they are not statically analyzable.</p>
 <p>This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.</p>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/guide">⯇&nbsp;Guide</a></div></div></div>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/guide">◀&nbsp;Guide</a></div></div></div>
 
 
 </body></html>
