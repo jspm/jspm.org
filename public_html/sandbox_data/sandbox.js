@@ -46,8 +46,8 @@ const sandboxTpl = () => html`
     z-index: 12;
   }
   .editor-bar .inner {
-    width: 11em;
-    margin-left: -5.5em;
+    width: 12em;
+    margin-left: 6em;
     margin-top: 1.2em;
   }
   .editor-bar select {
