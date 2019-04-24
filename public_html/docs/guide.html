@@ -82,6 +82,9 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 </blockquote>
 <p>Alternatively, use the <code>jspm bin</code> command to execute the correct local bin script:</p>
 <pre><code>jspm bin http-server</code></pre><p>jspm supports many npm packages in Node.js using the same <code>jspm_packages</code> resolution and ES module conversion that is designed for the browser. In this example, the whole of <code>http-server</code> and all its dependencies are executing as ES modules in Node.js, running through <code>--experimental-modules</code> and the jspm resolver.</p>
+<blockquote>
+<p>Global installs and global bins are supported via <code>jspm install -g</code>, although this should be used sparingly.</p>
+</blockquote>
 <p>Optionally, set this up to run as a package.json script:</p>
 <pre><code class="language-json">{
   <span class="string">"scripts"</span>: {
@@ -205,7 +208,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 <a name="systemjs-legacy-browser-support" class="anchor"></a><h2>SystemJS Legacy Browser Support</h2>
 <p>This workflow is based on two builds - a modern build and a legacy build, where the legacy build uses the SystemJS module format for compatiblity with ES module semantics.</p>
 <p>To build into the System module format:</p>
-<pre><code>jspm build ./test.js -f system -o dist-system</code></pre><blockquote>
+<pre><code>jspm build ./test.js -f system --minify --production -d dist-system</code></pre><blockquote>
 <p>The benefit of the System module format is that it ensures live bindings, dynamic import, import.meta, Web Assembly imports, top-level await support, and even import maps in the full build, but if these features aren't needed, alternative approaches like <code>-f iife</code> can work just fine.</p>
 </blockquote>
 <p>Install SystemJS, and get its path:</p>
@@ -245,10 +248,8 @@ lodash/clone.js</code></pre><p>This is important, because only one subpath of th
 <li><code>--hash-entries</code> will output these entry points with hashed file names for caching as <code>dist/core-[hash].js</code> for Babel and <code>dist/clone-[hash].js</code> for Lodash clone.</li>
 <li><code>-o deps-buildmap.json</code> specifies that the import map for the <strong>build</strong> should be output. This map represents the mapping that <code>@babel/core</code> is now found at <code>dist/core-[hash].js</code> and similarly for Lodash clone.</li>
 </ol>
-<blockquote>
-<p>Alternatively, skip the copy-paste in this workflow with <code>jspm build $(jspm trace --deps ./text.js) -h -o deps-buildmap.json</code>.</p>
-</blockquote>
-<p>The build map contains:</p>
+<p>Alternatively, skip the copy-paste of the dependency modules in this workflow with:</p>
+<pre><code>jspm build $(jspm trace --deps ./test.js) -h -o deps-buildmap.json</code></pre><p>The build map contains:</p>
 <pre><code class="language-json">{
   <span class="string">"imports"</span>: {
     <span class="string">"@babel/core"</span>: <span class="string">"./dist/core-bd22664c.js"</span>,
@@ -270,11 +271,11 @@ lodash/clone.js</code></pre><p>This is important, because only one subpath of th
 <p>The application modules still need to be optimized though, which can be done with a secondary build:</p>
 <pre><code>jspm build ./test.js --external deps-buildmap.json</code></pre><p><code>--external</code> allows us to list the externals and optionally provide their new aliases. In this case, by providing the previous build map as the external map, this results in any import to <code>@babel/core</code> or <code>lodash/clone.js</code> being re-aliased to <code>dist/core-[hash].js</code> and <code>dist/clone-[hash].js</code> respectively.</p>
 <p>At this point no import maps are needed to run the built application as all plain specifiers have been resolved.</p>
-<p>The build application can be execued with:</p>
+<p>The build application can be executed with:</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
 &lt;script type=<span class="string">"module"</span> src=<span class="string">"./dist/test.js"</span>&gt;&lt;/script&gt;</code></pre>
 <blockquote>
-<p>To leave the externals as bare specifiers, the list of externals can be passed as arguments via something like <code>jspm build ./test.js -e @babel/core lodash/clone</code> (<code>-e</code> is short for <code>--external</code>). The <code>deps-buildmap.json</code> would then be required in production, and could be used in a corresponding legacy workflow (eg SystemJS / ES Module Shims). The main benefit of this approach would be that the dependency code cache for users can be updated independent of application code cache (because the dependency references don't have to be updated when the dependency build changes, as that is what the import map handles).</p>
+<p>To leave the externals as bare specifiers, the list of externals can be passed as arguments via something like <code>jspm build ./test.js -e @babel/core lodash/clone.js</code> (<code>-e</code> is short for <code>--external</code>). The <code>deps-buildmap.json</code> would then be required in production, and could be used in a corresponding legacy workflow (eg SystemJS / ES Module Shims). The main benefit of this approach would be that the dependency code cache for users can be updated independent of application code cache (because the dependency references don't have to be updated when the dependency build changes, as that is what the import map handles).</p>
 </blockquote>
 <p>There is absolutely nothing wrong with copy and pasting of import maps as well, and using <code>jspm map -o ./test.js</code> will output the map to <code>stdout</code> where it an be manually maintained too. Both <code>jspm build</code> and <code>jspm map</code> support an <code>-i &lt;custommap.json&gt;</code> argument to extend the output map with custom manual mappings.</p>
 <p><strong>Dependency optimization is a useful workflow both in development and production, but there are many ways to work with import maps. These, and the other flags of <code>jspm map</code> and <code>jspm build</code>, aim to provide a low-level and flexible toolkit for working with import maps and the many various scenarios in which they can apply.</strong></p>
@@ -306,7 +307,17 @@ lodash/clone.js</code></pre><p>This is important, because only one subpath of th
 <a name="cdn-package-maps" class="anchor"></a><h2>CDN Package Maps</h2>
 <p>Instead of building a import map against the local jspm_packages packages folder, the jspm CDN can even be used as the import map target. Because the structure of jspm_packages is universal, we can just change the reference.</p>
 <p>To do this in the <a href="#browser-modules-with-import-maps">original import map example</a> add the <code>--cdn</code> flag:</p>
-<pre><code>jspm map ./test.js -o importmap.json --cdn</code></pre><p>Loading the same <code>test.html</code> in the browser, in the network tab all requests are now made against <code>https://dev-cdn.jspm.io</code>.</p>
+<pre><code>jspm map ./test.js --flat-scope -o importmap.json --cdn</code></pre><p>Loading the same <code>test.html</code> in the browser from the initial import maps example, check the network tab to see all requests are now made against <code>https://dev-cdn.jspm.io</code>.</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;script&gt;
+(async () =&gt; {
+  document.head.appendChild(Object.assign(document.createElement(<span class="string">'script'</span>), {
+    type: <span class="string">'importmap'</span>,
+    innerHTML: <span class="keyword">await</span> (<span class="keyword">await</span> fetch(<span class="string">'./importmap.json'</span>)).text()
+  }));
+  <span class="keyword">import</span>(<span class="string">'./test.js'</span>);
+})();
+&lt;/script&gt;</code></pre>
 <p>To use a custom jspm_packages path such as your own CDN library server use <code>--jspmPackages https://mysite.com</code> rather.</p>
 <blockquote>
 <p>These workflows are still highly experimental and not recommended for production.</p>
@@ -325,7 +336,7 @@ console.log(clone({ a: <span class="string">'b'</span> }));
 });
 &lt;/script&gt;</code></pre>
 <p>Packages are still cached and optimized where possible to make this a good development experience, although it is certainly not a production workflow.</p>
-<p>To easily experiment with the above, the <a href="/sandbox">jspm sandbox</a> provides a simple online tool for these workflows.</p>
+<p>To easily experiment with the above, <a href="/sandbox#H4sIAAAAAAAAA21Ry27DIBC8+yu2vtjJwdydh3rJF6Q/gGETE2HWAuzGivLvXXAT9dDDSsvMzjAsYlvAFm5hHOAsne7ozucEffUmQFghwDuqKWKA0xkG0pPldjayTYOp9h+aVFxGhD4O9pihoLwZIyT0UK6iMjMATdPEZI/aRPKgSCNDWSVW2WrRkV5+JXttZjD6UCpyURqHvjzuBYMvXkk3y7CO5Dbxa7eaibdbqtMNFYfr8f3GboFghtEuMAXjrpATfns5juhTNlEUTJOPoCw5hIunAao+xjG0Qmicm7TFxpCwpGXoRR5jsNoVBacOZLGxdK0zXj9AtlB1FTw3m93Luv7X77OTHVqhyGO14c2hq1mu8SInG1vILNvA4QiPAuDvXZlropcuXMgPdcWfGNkkrZyvfXL9ANJXMe8CAgAA">try running the above example in the jspm sandbox</a>, which provides a convenience online tool for these experiments.</p>
 <blockquote>
 <p>For further reading, the full documentation will only be released with the stable jspm 2.0 release. <a href="/guide/integrations">Tooling integrations</a> are still being fleshed out. Feedback and <a href="https://github.com/jspm/project/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">contributions</a> to this experimental beta are very much appreciated.</p>
 </blockquote>
