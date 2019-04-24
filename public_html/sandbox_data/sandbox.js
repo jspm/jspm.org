@@ -47,7 +47,7 @@ const sandboxTpl = () => html`
   }
   .editor-bar .inner {
     width: 12em;
-    margin-left: 6em;
+    margin-left: -6em;
     margin-top: 1.2em;
   }
   .editor-bar select {
