@@ -13,8 +13,8 @@
   },
   "scripts": {
     "generate": "jspm generate.js",
-    "build-deps": "jspm build lit-html lit-html/directives/unsafe-html.js codemirror util buffer zlib codemirror/mode/javascript/javascript.js -d public_html/sandbox_data -o public_html/sandbox-map.json",
-    "build": "jspm build ./public_html/sandbox.js -e public_html/sandbox-map.json -d public_html/sandbox_data"
+    "build-deps": "jspm build lit-html lit-html/directives/unsafe-html.js codemirror util buffer zlib codemirror/mode/javascript/javascript.js -d public_html/sandbox_data -o public_html/sandbox-map.json --production --minify",
+    "build": "jspm build ./public_html/sandbox.js -e public_html/sandbox-map.json -d public_html/sandbox_data --production --minify"
   },
   "type": "module"
 }
