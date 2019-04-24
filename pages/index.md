@@ -8,7 +8,7 @@
 
 <p style="text-align: center; margin-top: -4em; margin-bottom: 3em; font-size: 0.9em; padding-left: 14.5em;"><em>ES module package manager</em></p>
 
-_jspm is a JavaScript package manager designed to <br/>work seamlessly with native modules in universal workflows,<br/>while providing full compatlbility with the npm ecosystem._
+_jspm is a JavaScript package manager designed to <br/>work seamlessly with native modules in universal workflows,<br/>while providing full compatibility with the npm ecosystem._
 
 <br/>
 
