@@ -434,13 +434,6 @@ screen and (max-device-width: 1200px) {
 }
 @media screen and (max-width: 800px),
 screen and (max-device-width: 800px) {
-  .topbar .logobox {
-    background-size: 150px;
-    width: 150px;
-    height: 150px;
-    margin-bottom: -130px;
-    padding-left: 230px;
-  }
   .content h1.logo {
     padding-left: 130px;
   }
