@@ -4,7 +4,7 @@
 
 ## What is jspm
 
-jspm is designed to provide the npm-style JavaScript workflows of _install and require_ directly in the browser. In the previous jspm 0.16 and 0.17 releases, these workflows were provided through the previous WhatWG Loader API.
+jspm is designed to provide the npm-style JavaScript workflows of _install and require_ directly in the browser. In the jspm 0.16 and 0.17 releases, these workflows were provided through the former WhatWG Loader API.
 
 [Import maps](https://github.com/wicg/import-maps) are the new way of defining module resolution in the browser, which have just been implemented in Chrome 74 under the _Experimental Web Platform Features_ flag, marking a major step in bringing package dependency resolution to the browser.
 
