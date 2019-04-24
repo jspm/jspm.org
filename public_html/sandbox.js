@@ -46,8 +46,8 @@ const sandboxTpl = () => html`
     z-index: 12;
   }
   .editor-bar .inner {
-    width: 10em;
-    margin-left: -5em;
+    width: 11em;
+    margin-left: -5.5em;
     margin-top: 1.2em;
   }
   .editor-bar select {
@@ -56,7 +56,7 @@ const sandboxTpl = () => html`
   }
   .editor-bar button {
     float: right;
-    width: 3em;
+    padding-left: 1em;
     margin-top: 0.05em;
     z-index: 13;
     cursor: pointer;
@@ -97,8 +97,7 @@ const sandboxTpl = () => html`
     white-space: pre-wrap;
   }
   @media screen and (max-width: 850px), screen and (max-device-width: 850px) {
-    .codemirror {
-      height: 
+    .editor {
       width: 100%;
     }
     .output {
