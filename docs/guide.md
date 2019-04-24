@@ -6,7 +6,7 @@
 npm install -g jspm
 ```
 
-Make sure you are running Node.js 10.x or greater (Node.js 8.x will also work, but without dynamic import support).
+Node.js 10.x or greater must be installed (Node.js 8.x will also work, but without dynamic import support).
 
 To see the full list of options available run `jspm help`. This guide only touches on the basics.
 
@@ -23,9 +23,7 @@ cd jspm-test
 jspm install lodash @babel/core
 ```
 
-This will populate the dependencies in `package.json` and also generate a `jspm.json` lockfile.
-
-_Both of these files are used by the jspm resolver - they should not be removed._
+This populates the dependencies in `package.json` and will also generate a `jspm.json` lockfile.
 
 > Installs have been heavily optimized for performance, and include support for `install --offline` and `install --prefer-offline`.
 
@@ -62,11 +60,11 @@ To see how jspm is executing Node.js running `jspm bin` will output the Node.js 
 jspm bin --cmd
 ```
 
-This command can be used directly to execute Node.js with the jspm resolution. All jspm needs to work in any execution environment, builder or other tool is the [jspm resolver](TODO) hook to integrate the jspm_packages resolution.
+This command can be used directly to execute Node.js with the jspm resolution. All jspm needs to work in any execution environment, builder or other tool is the [jspm resolver](https://github.com/jspm/jspm-resolve) hook to integrate the jspm_packages resolution.
 
 ## http-server bin Script
 
-To run a local server lets install `http-server` from npm with jspm:
+To run a local server install `http-server` from npm with jspm:
 
 ```
 jspm install http-server --dev
@@ -75,15 +73,15 @@ jspm_packages/.bin/http-server
 
 > If running on Windows, use `jspm_packages/.bin/http-server.cmd` in the above.
 
-Alternatively, we can use the `jspm bin` command to execute the correct local bin script:
+Alternatively, use the `jspm bin` command to execute the correct local bin script:
 
 ```
 jspm bin http-server
 ```
 
-jspm supports many npm packages using the same jspm_packages resolution and ES module conversion that we run in the browser. The whole of http-server and all its dependencies are executing as ES modules in Node.js, running through `--experimental-modules` and the jspm resolver.
+jspm supports many npm packages in Node.js using the same `jspm_packages` resolution and ES module conversion that is designed for the browser. In this example, the whole of `http-server` and all its dependencies are executing as ES modules in Node.js, running through `--experimental-modules` and the jspm resolver.
 
-We can then set this up with a package.json script:
+Optionally, set this up to run as a package.json script:
 
 ```json
 {
@@ -93,7 +91,7 @@ We can then set this up with a package.json script:
 }
 ```
 
-and use this with:
+to use it with:
 
 ```
 jspm run serve
@@ -117,7 +115,7 @@ Going through the command step-by-step:
 
 * The `map` command is tracing the `./test.js` module, working out all the resolutions it needs to load properly, populating only the needed maps into `importmap.json` (shown below). _The leading `./` here is important, if we had not provided this, we would instead be attempting to map a dependency called `test.js`, which would fail._
 * The `-o` flag argument sets the output file file for the map, `importmap.json`.
-* The `--flat-scope` (`-f`) flag tells jspm not to use the [scopes](TODO) feature, which is not yet supported in Chrome. Note that when using this flag, any multi-version conflicts will cause a hard error.
+* The `--flat-scope` (`-f`) flag tells jspm not to use the [scopes](https://github.com/wicg/import-maps#scoping-examples) feature, which is not yet supported in Chrome. Note that when using this flag, any multi-version conflicts will cause a hard error.
 * The `--map-base .` flag argument tells jspm to output absolute paths in the import map, relative to the current directory. This is needed because Chrome doesn't yet support loading import maps from URLs, so this will come in useful in how we load the import map below.
 
 > `jspm map` can be called against any number of modules to create a map that maps all of those modules. Providing no arguments will create one big map for all installed dependencies.
@@ -283,6 +281,7 @@ Then in `test-build.html`, selectively load the dual-build version:
 ```html
 <!doctype html>
 <script defer>
+  // modernBuild = Modules + Dynamic Import support
   import('./dist/test.js');
   window.modernBuild = true;
 </script>
@@ -299,7 +298,7 @@ Then in `test-build.html`, selectively load the dual-build version:
 ```
 
 > For IE11 support, [see the polyfills section of the SystemJS readme](https://github.com/systemjs/systemjs#polyfills-for-older-browsers),
-and also note the appropriate Babel plugins for browser support would need to be applied as well. See the [custom builds section](TODO) for workflows around this.
+and also note the appropriate Babel plugins for browser support would need to be applied as well. See the [Babel integration section](/docs/integrations#babel) for workflows around this.
 
 **This workflow provides optimized modular support in all browsers back to IE11, with the guarantee of the SystemJS module format being that we ensure support for all modular features.**
 
@@ -400,7 +399,7 @@ jspm build ./src/library.js --node --exclude-deps -d . -f commonjs
 * `--node` informs jspm that we are building for the Node.js resolution environment, using Node.js builtins and not following any `package.json` `"browser"` mappings.
 * `--exclude-deps` will exclude the local `package.json` `"dependencies"` from the build, so that these dependencies are still shared and version-managed by the library consumers.
 * Passing `-d .` will build to the current folder creating a single, built `library.js`. For multiple entry points you may wish to output to the `dist/` folder.
-* `-f commonjs` sets the output module format as CommonJS so that the library can be supported in Node.js without `--experimental-modules`, which is still important for compatibility.
+* `-f commonjs` sets the output module format as CommonJS so that the library is supported in Node.js without `--experimental-modules`, which is still important for compatibility.
 
 The `package.json` `"main"` can then be set to the built file for publishing via `jspm publish`.
 
@@ -408,7 +407,7 @@ The `package.json` `"main"` can then be set to the built file for publishing via
 
 > Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like `fs.readFile(__dirname + '/path')` will not be able to retain their references. For comprehensive Node.js build support see [ncc](https://github.com/zeit/ncc/).
 
-It is possible to publish packages as ES modules by setting the `package.json` `"main"` to an ES module, provided you know your consumers (say within the same company) will be using either jspm or Node.js `--experimental-modules`. Since the [package.json contains a `"type": "module"`](/about/introduction#type-module), the package will be fullyl supported when loaded under `--experimental-modules`.
+It is possible to publish packages as ES modules by setting the `package.json` `"main"` to an ES module, provided you know your consumers (say within the same company) will be using either jspm or Node.js `--experimental-modules`. Since the [package.json contains a `"type": "module"`](/about/introduction#type-module), the package will be supported when loaded under `--experimental-modules`.
 
 Note that the `"module"` field in the package.json will likely not be supported in Node.js, so isn't a reliable pattern to use here. If you are looking to publish packages as both CommonJS and ES modules, this workflow is currently not recommended. The patterns are still being worked out and there are no clear paths here yet.
 
@@ -465,4 +464,4 @@ Packages are still cached and optimized where possible to make this a good devel
 
 To easily experiment with the above, the [jspm sandbox](/sandbox) provides a simple online tool for these workflows.
 
-> For further reading, the full documentation will only be released with the stable jspm 2.0 release. [Tooling integrations](/guide/integrations) are still being fleshed out. Feedback and [contributions](TODO) to this experimental beta are very much appreciated.
+> For further reading, the full documentation will only be released with the stable jspm 2.0 release. [Tooling integrations](/guide/integrations) are still being fleshed out. Feedback and [contributions](https://github.com/jspm/project/blob/master/CONTRIBUTING.md) to this experimental beta are very much appreciated.

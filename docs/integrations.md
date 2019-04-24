@@ -1,10 +1,8 @@
 # Tool Integrations
 
-This section, still a work-in-progress, provides sample workflows and links to plugins to implement the jspm resolver in other tools.
+This section, still a work-in-progress, provides sample workflows and links to plugins for jspm support in other tools.
 
-Because the jspm integration is just a `resolve` hook, it is relatively straightforward to support in tools, provided they support a resolver hook.
-
-[Provide a PR to this page](https://github.com/jspm/jspm.org/blob/master/docs/integrations.md) to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the [jspm organization on GitHub](https://github.com/jspm). If you'd like to work on one of these workflows, but don't know where to start, see the [contributing guide](TODO).
+[Provide a PR to this page](https://github.com/jspm/jspm.org/blob/master/docs/integrations.md) to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the [jspm organization on GitHub](https://github.com/jspm). If you'd like to work on one of these workflows, but don't know where to start, see the [contributing guide](https://github.com/jspm/project/blob/master/CONTRIBUTING.md).
 
 ## Resolver Hook
 
@@ -25,7 +23,7 @@ To run Babel as a precompilation (recommended), use the workflow below.
 <details>
 <summary>Babel Precompilation Workflow</summary>
 
-> `jspm install` support for Babel CLI currently doesn't work as there is no way to use dynamic `import()` to provide the plugins which is required for the jspm integration. If and when Babel supports asynchronous / promise-based plugin configuration, then we'll be able to support this. See the tracking issue at https://github.com/babel/babel/issues/9888.
+> `jspm install` support for Babel CLI currently doesn't work as there is no way to use dynamic `import()` to load the Babel plugins which is required if they are installed with jspm. If and when Babel supports asynchronous / promise-based plugin configuration, then we'll be able to support this. See the tracking issue at https://github.com/babel/babel/issues/9888.
 
 First [separate the jspm and npm dependencies](#npm) in the `package.json`:
 
@@ -61,7 +59,7 @@ And set up the `package.json` `"scripts"` entry:
 }
 ```
 
-`jspm run compile` (or `compile-watch`) will now compile all the individual `src` files to the `lib` directory, where they can then be optimized further [as in the main guide workflows](/docs/guide).
+`jspm run compile` (or `compile-watch`) will now compile all the individual `src` files to the `lib` directory, where they can then be optimized further [as in the main guide workflows](/docs/guide#optimized-browser-builds).
 
 </details>
 
@@ -314,6 +312,6 @@ If you're a tooling author, whenever loading or executing code dynamically in Co
 Promise.resolve(require(dynamicModuleExpression))
 ```
 
-By immediately wrapping the `require` statement in `Promise.resolve()`, and handling the promise properly, jspm will then automatically replace this [during conversion](/about/architecture#commonjs-conversion) with `import(dynamicModuleExpresion)`, thereby providing comprehensive ES module and dependency resolution support.
+By immediately wrapping the `require` statement in `Promise.resolve()`, and handling the promise properly, jspm will then automatically replace this during CommonJS conversion on install with `import(dynamicModuleExpresion)`, thereby providing comprehensive ES module and dependency resolution for dynamic requires, which would usually be a problem as they are not statically analyzable.
 
 This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.

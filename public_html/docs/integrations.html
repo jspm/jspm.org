@@ -46,9 +46,8 @@
   </p></div>
 </div>
 <div class="content"><h1>Tool Integrations</h1>
-<p>This section, still a work-in-progress, provides sample workflows and links to plugins to implement the jspm resolver in other tools.</p>
-<p>Because the jspm integration is just a <code>resolve</code> hook, it is relatively straightforward to support in tools, provided they support a resolver hook.</p>
-<p><a href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" target="_blank" rel="noopener">Provide a PR to this page</a> to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the <a href="https://github.com/jspm" target="_blank" rel="noopener">jspm organization on GitHub</a>. If you'd like to work on one of these workflows, but don't know where to start, see the <a href="TODO">contributing guide</a>.</p>
+<p>This section, still a work-in-progress, provides sample workflows and links to plugins for jspm support in other tools.</p>
+<p><a href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" target="_blank" rel="noopener">Provide a PR to this page</a> to list new tooling and framework integrations here, or to improve or revise an existing one. If you write a plugin for a tooling integration, you can request access to have it transferred into the <a href="https://github.com/jspm" target="_blank" rel="noopener">jspm organization on GitHub</a>. If you'd like to work on one of these workflows, but don't know where to start, see the <a href="https://github.com/jspm/project/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">contributing guide</a>.</p>
 <a name="resolver-hook" class="anchor"></a><h2>Resolver Hook</h2>
 <p>Integrating a tool that performs module resolution, such as a build tool, requires providing the jspm resolver as a hook or plugin to that tool.</p>
 <p>The jspm resolver is maintained as a library at <a href="https://github.com/jspm/jspm-resolve" target="_blank" rel="noopener">https://github.com/jspm/jspm-resolve</a>, where the full API details are found at the GitHub page.</p>
@@ -61,7 +60,7 @@
 <summary>Babel Precompilation Workflow</summary>
 
 <blockquote>
-<p><code>jspm install</code> support for Babel CLI currently doesn't work as there is no way to use dynamic <code><span class="keyword">import</span>()</code> to provide the plugins which is required for the jspm integration. If and when Babel supports asynchronous / promise-based plugin configuration, then we'll be able to support this. See the tracking issue at <a href="https://github.com/babel/babel/issues/9888" target="_blank" rel="noopener">https://github.com/babel/babel/issues/9888</a>.</p>
+<p><code>jspm install</code> support for Babel CLI currently doesn't work as there is no way to use dynamic <code><span class="keyword">import</span>()</code> to load the Babel plugins which is required if they are installed with jspm. If and when Babel supports asynchronous / promise-based plugin configuration, then we'll be able to support this. See the tracking issue at <a href="https://github.com/babel/babel/issues/9888" target="_blank" rel="noopener">https://github.com/babel/babel/issues/9888</a>.</p>
 </blockquote>
 <p>First <a href="#npm">separate the jspm and npm dependencies</a> in the <code>package.json</code>:</p>
 <pre><code class="language-json">{
@@ -79,7 +78,7 @@
     <span class="string">"compile-watch"</span>: <span class="string">"babel src -d lib --watch"</span>
   }
 }</code></pre>
-<p><code>jspm run compile</code> (or <code>compile-watch</code>) will now compile all the individual <code>src</code> files to the <code>lib</code> directory, where they can then be optimized further <a href="/docs/guide">as in the main guide workflows</a>.</p>
+<p><code>jspm run compile</code> (or <code>compile-watch</code>) will now compile all the individual <code>src</code> files to the <code>lib</code> directory, where they can then be optimized further <a href="/docs/guide#optimized-browser-builds">as in the main guide workflows</a>.</p>
 </details>
 
 <a name="electron" class="anchor"></a><h2>Electron</h2>
@@ -241,7 +240,7 @@ npm install @types/react</code></pre><blockquote>
 <a name="one-weird-trick-to-support-jspm-in-tools" class="anchor"></a><h2>One Weird Trick to Support jspm in Tools</h2>
 <p>If you're a tooling author, whenever loading or executing code dynamically in CommonJS, use the pattern:</p>
 <pre><code class="language-js">Promise.resolve(require(dynamicModuleExpression))</code></pre>
-<p>By immediately wrapping the <code>require</code> statement in <code>Promise.resolve()</code>, and handling the promise properly, jspm will then automatically replace this <a href="/about/architecture#commonjs-conversion">during conversion</a> with <code><span class="keyword">import</span>(dynamicModuleExpresion)</code>, thereby providing comprehensive ES module and dependency resolution support.</p>
+<p>By immediately wrapping the <code>require</code> statement in <code>Promise.resolve()</code>, and handling the promise properly, jspm will then automatically replace this during CommonJS conversion on install with <code><span class="keyword">import</span>(dynamicModuleExpresion)</code>, thereby providing comprehensive ES module and dependency resolution for dynamic requires, which would usually be a problem as they are not statically analyzable.</p>
 <p>This pattern is exactly what allows RollupJS configuration files to full support loading Rollup plugins as ES modules through jspm, and hopefully other tools can follow.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/integrations.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/guide">⯇&nbsp;Guide</a></div></div></div>
 

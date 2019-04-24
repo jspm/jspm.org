@@ -47,13 +47,12 @@
 </div>
 <div class="content"><h1>jspm 2.0 Beta Guide</h1>
 <a name="install-jspm" class="anchor"></a><h2>Install jspm</h2>
-<pre><code>npm install -g jspm</code></pre><p>Make sure you are running Node.js 10.x or greater (Node.js 8.x will also work, but without dynamic import support).</p>
+<pre><code>npm install -g jspm</code></pre><p>Node.js 10.x or greater must be installed (Node.js 8.x will also work, but without dynamic import support).</p>
 <p>To see the full list of options available run <code>jspm help</code>. This guide only touches on the basics.</p>
 <a name="create-a-project" class="anchor"></a><h2>Create a Project</h2>
 <pre><code>mkdir jspm-test
 cd jspm-test</code></pre><a name="install-dependencies" class="anchor"></a><h2>Install Dependencies</h2>
-<pre><code>jspm install lodash @babel/core</code></pre><p>This will populate the dependencies in <code>package.json</code> and also generate a <code>jspm.json</code> lockfile.</p>
-<p><em>Both of these files are used by the jspm resolver - they should not be removed.</em></p>
+<pre><code>jspm install lodash @babel/core</code></pre><p>This populates the dependencies in <code>package.json</code> and will also generate a <code>jspm.json</code> lockfile.</p>
 <blockquote>
 <p>Installs have been heavily optimized for performance, and include support for <code>install --offline</code> and <code>install --prefer-offline</code>.</p>
 </blockquote>
@@ -74,22 +73,22 @@ console.log(clone({ a: <span class="string">'b'</span> }));
 <p>The jspm resolver is fully compatible with the Node.js resolver. Dependencies will be loaded from <code>node_modules</code> if not found in <code>jspm_packages</code>.</p>
 </blockquote>
 <p>To see how jspm is executing Node.js running <code>jspm bin</code> will output the Node.js execution command:</p>
-<pre><code>jspm bin --cmd</code></pre><p>This command can be used directly to execute Node.js with the jspm resolution. All jspm needs to work in any execution environment, builder or other tool is the <a href="TODO">jspm resolver</a> hook to integrate the jspm_packages resolution.</p>
+<pre><code>jspm bin --cmd</code></pre><p>This command can be used directly to execute Node.js with the jspm resolution. All jspm needs to work in any execution environment, builder or other tool is the <a href="https://github.com/jspm/jspm-resolve" target="_blank" rel="noopener">jspm resolver</a> hook to integrate the jspm_packages resolution.</p>
 <a name="http-server-bin-script" class="anchor"></a><h2>http-server bin Script</h2>
-<p>To run a local server lets install <code>http-server</code> from npm with jspm:</p>
+<p>To run a local server install <code>http-server</code> from npm with jspm:</p>
 <pre><code>jspm install http-server --dev
 jspm_packages/.bin/http-server</code></pre><blockquote>
 <p>If running on Windows, use <code>jspm_packages/.bin/http-server.cmd</code> in the above.</p>
 </blockquote>
-<p>Alternatively, we can use the <code>jspm bin</code> command to execute the correct local bin script:</p>
-<pre><code>jspm bin http-server</code></pre><p>jspm supports many npm packages using the same jspm_packages resolution and ES module conversion that we run in the browser. The whole of http-server and all its dependencies are executing as ES modules in Node.js, running through <code>--experimental-modules</code> and the jspm resolver.</p>
-<p>We can then set this up with a package.json script:</p>
+<p>Alternatively, use the <code>jspm bin</code> command to execute the correct local bin script:</p>
+<pre><code>jspm bin http-server</code></pre><p>jspm supports many npm packages in Node.js using the same <code>jspm_packages</code> resolution and ES module conversion that is designed for the browser. In this example, the whole of <code>http-server</code> and all its dependencies are executing as ES modules in Node.js, running through <code>--experimental-modules</code> and the jspm resolver.</p>
+<p>Optionally, set this up to run as a package.json script:</p>
 <pre><code class="language-json">{
   <span class="string">"scripts"</span>: {
     <span class="string">"serve"</span>: <span class="string">"http-server"</span>
   }
 }</code></pre>
-<p>and use this with:</p>
+<p>to use it with:</p>
 <pre><code>jspm run serve</code></pre><a name="browser-modules-with-import-maps" class="anchor"></a><h2>Browser Modules with Import Maps</h2>
 <p>Import Maps are currently an experimental feature in Chrome 74 (April 23 release). To enable Import Maps in Chrome, you will first need to enable the <strong>Experimental Web Platform Features</strong> flag in <strong>chrome://flags</strong>, or copy the URL below directly:</p>
 <pre><code>chrome://flags/#enable-experimental-web-platform-features</code></pre><p>Create an import map for a specific module with:</p>
@@ -97,7 +96,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 <ul>
 <li>The <code>map</code> command is tracing the <code>./test.js</code> module, working out all the resolutions it needs to load properly, populating only the needed maps into <code>importmap.json</code> (shown below). <em>The leading <code>./</code> here is important, if we had not provided this, we would instead be attempting to map a dependency called <code>test.js</code>, which would fail.</em></li>
 <li>The <code>-o</code> flag argument sets the output file file for the map, <code>importmap.json</code>.</li>
-<li>The <code>--flat-scope</code> (<code>-f</code>) flag tells jspm not to use the <a href="TODO">scopes</a> feature, which is not yet supported in Chrome. Note that when using this flag, any multi-version conflicts will cause a hard error.</li>
+<li>The <code>--flat-scope</code> (<code>-f</code>) flag tells jspm not to use the <a href="https://github.com/wicg/import-maps#scoping-examples" target="_blank" rel="noopener">scopes</a> feature, which is not yet supported in Chrome. Note that when using this flag, any multi-version conflicts will cause a hard error.</li>
 <li>The <code>--map-base .</code> flag argument tells jspm to output absolute paths in the import map, relative to the current directory. This is needed because Chrome doesn't yet support loading import maps from URLs, so this will come in useful in how we load the import map below.</li>
 </ul>
 <blockquote>
@@ -214,6 +213,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 jspm resolve systemjs/dist/s.min.js --relative</code></pre><p>Then in <code>test-build.html</code>, selectively load the dual-build version:</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
 &lt;script defer&gt;
+<span class="comment">  // modernBuild = Modules + Dynamic Import support</span>
   <span class="keyword">import</span>(<span class="string">'./dist/test.js'</span>);
   window.modernBuild = <span class="keyword">true</span>;
 &lt;/script&gt;
@@ -229,7 +229,7 @@ jspm resolve systemjs/dist/s.min.js --relative</code></pre><p>Then in <code>test
 &lt;/script&gt;</code></pre>
 <blockquote>
 <p>For IE11 support, <a href="https://github.com/systemjs/systemjs#polyfills-for-older-browsers" target="_blank" rel="noopener">see the polyfills section of the SystemJS readme</a>,
-and also note the appropriate Babel plugins for browser support would need to be applied as well. See the <a href="TODO">custom builds section</a> for workflows around this.</p>
+and also note the appropriate Babel plugins for browser support would need to be applied as well. See the <a href="/docs/integrations#babel">Babel integration section</a> for workflows around this.</p>
 </blockquote>
 <p><strong>This workflow provides optimized modular support in all browsers back to IE11, with the guarantee of the SystemJS module format being that we ensure support for all modular features.</strong></p>
 <a name="optimized-dependency-builds" class="anchor"></a><h2>Optimized Dependency Builds</h2>
@@ -285,7 +285,7 @@ lodash/clone.js</code></pre><p>This is important, because we've only used one su
 <li><code>--node</code> informs jspm that we are building for the Node.js resolution environment, using Node.js builtins and not following any <code>package.json</code> <code><span class="string">"browser"</span></code> mappings.</li>
 <li><code>--exclude-deps</code> will exclude the local <code>package.json</code> <code><span class="string">"dependencies"</span></code> from the build, so that these dependencies are still shared and version-managed by the library consumers.</li>
 <li>Passing <code>-d .</code> will build to the current folder creating a single, built <code>library.js</code>. For multiple entry points you may wish to output to the <code>dist/</code> folder.</li>
-<li><code>-f commonjs</code> sets the output module format as CommonJS so that the library can be supported in Node.js without <code>--experimental-modules</code>, which is still important for compatibility.</li>
+<li><code>-f commonjs</code> sets the output module format as CommonJS so that the library is supported in Node.js without <code>--experimental-modules</code>, which is still important for compatibility.</li>
 </ul>
 <p>The <code>package.json</code> <code><span class="string">"main"</span></code> can then be set to the built file for publishing via <code>jspm publish</code>.</p>
 <blockquote>
@@ -294,7 +294,7 @@ lodash/clone.js</code></pre><p>This is important, because we've only used one su
 <blockquote>
 <p>Not all third-party npm packages will support the jspm build. Specifically, those that do any type of asset loading like <code>fs.readFile(__dirname + <span class="string">'/path'</span>)</code> will not be able to retain their references. For comprehensive Node.js build support see <a href="https://github.com/zeit/ncc/" target="_blank" rel="noopener">ncc</a>.</p>
 </blockquote>
-<p>It is possible to publish packages as ES modules by setting the <code>package.json</code> <code><span class="string">"main"</span></code> to an ES module, provided you know your consumers (say within the same company) will be using either jspm or Node.js <code>--experimental-modules</code>. Since the <a href="/about/introduction#type-module">package.json contains a <code><span class="string">"type"</span>: <span class="string">"module"</span></code></a>, the package will be fullyl supported when loaded under <code>--experimental-modules</code>.</p>
+<p>It is possible to publish packages as ES modules by setting the <code>package.json</code> <code><span class="string">"main"</span></code> to an ES module, provided you know your consumers (say within the same company) will be using either jspm or Node.js <code>--experimental-modules</code>. Since the <a href="/about/introduction#type-module">package.json contains a <code><span class="string">"type"</span>: <span class="string">"module"</span></code></a>, the package will be supported when loaded under <code>--experimental-modules</code>.</p>
 <p>Note that the <code><span class="string">"module"</span></code> field in the package.json will likely not be supported in Node.js, so isn't a reliable pattern to use here. If you are looking to publish packages as both CommonJS and ES modules, this workflow is currently not recommended. The patterns are still being worked out and there are no clear paths here yet.</p>
 <a name="optimizing-universal-libraries" class="anchor"></a><h2>Optimizing Universal Libraries</h2>
 <p>For libraries that provide both a browser and a Node.js version, it's best to approach these as two separate builds.</p>
@@ -327,7 +327,7 @@ console.log(clone({ a: <span class="string">'b'</span> }));
 <p>Packages are still cached and optimized where possible to make this a good development experience, although it is certainly not a production workflow.</p>
 <p>To easily experiment with the above, the <a href="/sandbox">jspm sandbox</a> provides a simple online tool for these workflows.</p>
 <blockquote>
-<p>For further reading, the full documentation will only be released with the stable jspm 2.0 release. <a href="/guide/integrations">Tooling integrations</a> are still being fleshed out. Feedback and <a href="TODO">contributions</a> to this experimental beta are very much appreciated.</p>
+<p>For further reading, the full documentation will only be released with the stable jspm 2.0 release. <a href="/guide/integrations">Tooling integrations</a> are still being fleshed out. Feedback and <a href="https://github.com/jspm/project/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">contributions</a> to this experimental beta are very much appreciated.</p>
 </blockquote>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/guide.md" rel="noopener">Edit</a><div class="next"><a href="/docs/integrations">Tool Integrations&nbsp;⯈</a></div><div class="prev"><a href="/about/introduction">⯇&nbsp;About</a></div></div></div>
 
