@@ -25,7 +25,7 @@
     "index": {
       "index": {
         "title": "ES Module Package Manager",
-        "description": "Native ES module package management with import maps and Node.js --experimental-modules."
+        "description": "Native ES module package management with import maps and Node.js --experimental-modules support."
       }
     }
   }
