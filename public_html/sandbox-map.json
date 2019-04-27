@@ -8,4 +8,4 @@
     "zlib": "./sandbox_data/zlib.js",
     "codemirror/mode/javascript/javascript.js": "./sandbox_data/javascript.js"
   }
-}
+}
