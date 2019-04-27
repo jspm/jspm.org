@@ -71,7 +71,7 @@ Support for Electron package resolution is provided via the `--electron` flag in
 
 ## Jest
 
-_Jest plugin pending._
+_Jest plugin pending ([tracking issue](https://github.com/jspm/jspm-cli/issues/2451))._
 
 ## Mocha
 
@@ -302,7 +302,7 @@ _Precompilation Vue.js workflow pending._
 
 ## Webpack
 
-_Webpack plugin still needs to be created._
+_Webpack plugin pending ([tracking issue](https://github.com/jspm/jspm-cli/issues/2450))._
 
 ## One Weird Trick to Support jspm in Tools
 

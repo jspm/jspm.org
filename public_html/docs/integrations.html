@@ -85,7 +85,7 @@
 <p><em>Electron workflows pending.</em></p>
 <p>Support for Electron package resolution is provided via the <code>--electron</code> flag in all commands that take environment conditions such as <code>jspm build</code> and <code>jspm map</code>.</p>
 <a name="jest" class="anchor"></a><h2>Jest</h2>
-<p><em>Jest plugin pending.</em></p>
+<p><em>Jest plugin pending (<a href="https://github.com/jspm/jspm-cli/issues/2451" target="_blank" rel="noopener">tracking issue</a>).</em></p>
 <a name="mocha" class="anchor"></a><h2>Mocha</h2>
 <p>Mocha tests can be run with a custom jspm test harness. A boilerplate approach for this is provided below.</p>
 <details>
@@ -236,7 +236,7 @@ npm install @types/react</code></pre><blockquote>
 <p>To support <code>.vue</code> files, use a custom build workflow like <a href="#Rollup">Rollup</a> with the <a href="https://github.com/vuejs/rollup-plugin-vue" target="_blank" rel="noopener">Rollup Vue plugin</a>.</p>
 <p><em>Precompilation Vue.js workflow pending.</em></p>
 <a name="webpack" class="anchor"></a><h2>Webpack</h2>
-<p><em>Webpack plugin still needs to be created.</em></p>
+<p><em>Webpack plugin pending (<a href="https://github.com/jspm/jspm-cli/issues/2450" target="_blank" rel="noopener">tracking issue</a>).</em></p>
 <a name="one-weird-trick-to-support-jspm-in-tools" class="anchor"></a><h2>One Weird Trick to Support jspm in Tools</h2>
 <p>If you're a tooling author, whenever loading or executing code dynamically in CommonJS, use the pattern:</p>
 <pre><code class="language-js">Promise.resolve(require(dynamicModuleExpression))</code></pre>
