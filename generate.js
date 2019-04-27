@@ -30,6 +30,12 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
   }
   {
     const meta = document.createElement('meta');
+    meta.setAttribute('property', 'og:description');
+    meta.content = description;
+    document.head.insertBefore(meta, document.head.firstChild);
+  }
+  {
+    const meta = document.createElement('meta');
     meta.setAttribute('property', 'og:image');
     meta.content = 'https://jspm.org/jspm.png';
     document.head.insertBefore(meta, document.head.firstChild);
