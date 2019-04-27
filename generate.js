@@ -18,25 +18,25 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
 
   {
     const meta = document.createElement('meta');
-    meta.name = 'twitter:card';
+    meta.setAttribute('name', 'twitter:card');
     meta.content = 'summary_large_image';
     document.head.insertBefore(meta, document.head.firstChild);
   }
   {
     const meta = document.createElement('meta');
-    meta.property = 'og:url';
+    meta.setAttribute('property', 'og:url');
     meta.content = 'https://jspm.org/' + (section === 'pages' ? (name === 'index' ? '' : name) : section + '/' + name);
     document.head.insertBefore(meta, document.head.firstChild);
   }
   {
     const meta = document.createElement('meta');
-    meta.property = 'og:image';
+    meta.setAttribute('property', 'og:image');
     meta.content = 'https://jspm.org/jspm.png';
     document.head.insertBefore(meta, document.head.firstChild);
   }
   {
     const meta = document.createElement('meta');
-    meta.property = 'og:title';
+    meta.setAttribute('property', 'og:title');
     meta.content = 'jspm.org - ' + title;
     document.head.insertBefore(meta, document.head.firstChild);
   }
