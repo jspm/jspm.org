@@ -2,19 +2,31 @@
   "about": {
     "title": "About",
     "index": {
-      "introduction": "Introduction"
+      "introduction": {
+        "title": "Introduction",
+        "description": "jspm 2.0 beta release - native ES module package management with import maps and Node.js --experimental-modules support."
+      }
     }
   },
   "docs": {
     "title": "Docs",
     "index": {
-      "guide": "Guide",
-      "integrations": "Tool Integrations"
+      "guide": {
+        "title": "Guide",
+        "description": "jspm 2.0 guide"
+      },
+      "integrations": {
+        "title": "Tool Integrations",
+        "description": "Integrating jspm 2.0 in other tools."
+      }
     }
   },
   "pages": {
     "index": {
-      "index": "ES Module Package Manager"
+      "index": {
+        "title": "ES Module Package Manager",
+        "description": "Native ES module package management with import maps and Node.js --experimental-modules."
+      }
     }
   }
 }

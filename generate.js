@@ -8,13 +8,39 @@ const { JSDOM } = jsdom;
 const github = 'https://github.com/jspm/jspm.org/blob/master';
 const templatePromise = readFile('./template.html');
 
-async function generatePage (section, name, title, tocHtml, sitemap) {
+async function generatePage (section, name, title, description, tocHtml, sitemap) {
   const source = (await readFile(section + '/' + name + '.md')).toString();
   const html = marked(source, { breaks: true, headerIds: false });
 
   const dom = new JSDOM((await templatePromise).toString());
   const document = dom.window.document;
   document.title = `${title} - jspm.org`;
+
+  {
+    const meta = document.createElement('meta');
+    meta.name = 'twitter:card';
+    meta.content = 'summary_large_image';
+    document.head.insertBefore(meta, document.head.firstChild);
+  }
+  {
+    const meta = document.createElement('meta');
+    meta.property = 'og:url';
+    meta.content = 'https://jspm.org/' + (section === 'pages' ? (name === 'index' ? '' : name) : section + '/' + name);
+    document.head.insertBefore(meta, document.head.firstChild);
+  }
+  {
+    const meta = document.createElement('meta');
+    meta.property = 'og:image';
+    meta.content = 'https://jspm.org/jspm.png';
+    document.head.insertBefore(meta, document.head.firstChild);
+  }
+  {
+    const meta = document.createElement('meta');
+    meta.property = 'og:title';
+    meta.content = 'jspm.org - ' + title;
+    document.head.insertBefore(meta, document.head.firstChild);
+  }
+
   const body = document.body;
   body.className = `section-${section} page-${name}`;
   body.querySelector('.content').innerHTML = html;
@@ -113,8 +139,8 @@ async function generatePage (section, name, title, tocHtml, sitemap) {
 
 async function generateSection (section, sitemap, tocHtml) {
   const generations = [];
-  for (const [name, title] of Object.entries(sitemap[section].index)) {
-    generations.push(generatePage(section, name, title, tocHtml, sitemap));
+  for (const [name, { title, description }] of Object.entries(sitemap[section].index)) {
+    generations.push(generatePage(section, name, title, description, tocHtml, sitemap));
   }
   await Promise.all(generations);
 }
@@ -128,7 +154,7 @@ function generateToc (sitemap) {
     // section title links to first page of section
     tocHtml += `<li class="${section}"><a href="/${section}/${Object.keys(index)[0]}">${title}</a>`;
     tocHtml += `<ul class="section-${section}">`;
-    for (const [name, title] of Object.entries(index)) {
+    for (const [name, { title }] of Object.entries(index)) {
       tocHtml += `<li class="${name}"><a href="/${section}/${name}">${title}</a></li>`;
     }
     tocHtml += `</ul></li>`;
