@@ -211,7 +211,7 @@ This path is then included in `test.html`:
 
 ```html
 <!doctype html>
-<script defer src="jspm_packages/npm/es-module-shims@0.2.4/dist/es-module-shims.js"></script>
+<script defer src="jspm_packages/npm/es-module-shims@0.2.6/dist/es-module-shims.js"></script>
 <script type="importmap-shim" src="importmap.json"></script>
 <script type="module-shim" src="test.js"></script>
 ```
