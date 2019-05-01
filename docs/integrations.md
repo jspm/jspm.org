@@ -227,7 +227,7 @@ To use [Terser](https://github.com/terser-js/terser) directly, use the [Terser R
 
 TypeScript support can be included through a Rollup, Parcel or Webpack integration, but if you'd like to avoid a monolithic build, running `typescript` directly as a separate step before jspm, can provide a nice incremental workflow where only changed files are build on each rerun.
 
-TypeScript itself needs to be installed with `npm install -g typescript` (jspm support tracking in https://github.com/jspm/jspm2-cli/issues/61).
+TypeScript itself needs to be installed with `npm install -g typescript` (jspm support tracking in https://github.com/jspm/jspm-cli/issues/61).
 
 See the workflow below for more details.
 

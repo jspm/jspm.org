@@ -2,8 +2,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css">
-<link rel="preload" as="font" href="/sourcesans.woff2">
-<link rel="preload" as="font" href="/sourcesans-light.woff2">
+<link rel="preload" as="font" href="/sourcesans.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
 <script defer="" src="/script.js"></script>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
@@ -34,7 +34,7 @@
       <li><a>Resources</a>
       <ul class="subsection">
         <li><a href="/sandbox">Sandbox</a></li>
-        <li><a target="_blank" href="https://github.com/jspm/jspm2-cli" rel="noopener">GitHub</a></li>
+        <li><a target="_blank" href="https://github.com/jspm/jspm-cli" rel="noopener">GitHub</a></li>
         <li><a target="_blank" href="https://github.com/jspm/project/blob/master/CONTRIBUTING.md" rel="noopener">Contributing</a></li>
         <li><a target="_blank" href="https://gitter.im/jspm/jspm" rel="noopener">Gitter</a></li>
         <li><a target="_blank" href="/docs/0.16/index.html" rel="noopener">jspm 0.16</a></li>
@@ -176,7 +176,7 @@ jspm_packages/.bin/http-server</code></pre><blockquote>
 <pre><code>jspm resolve es-module-shims --relative</code></pre><p>This will output the relative path to the main entry point of es-module-shims.</p>
 <p>This path is then included in <code>test.html</code>:</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
-&lt;script defer src=<span class="string">"jspm_packages/npm/es-module-shims@<span class="number">0</span>.<span class="number">2</span>.<span class="number">6</span>/dist/es-module-shims.js"</span>&gt;&lt;/script&gt;
+&lt;script defer src=<span class="string">"jspm_packages/npm/es-module-shims@<span class="number">0</span>.<span class="number">2</span>.<span class="number">6</span>/dist/es-module-shims.min.js"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"importmap-shim"</span> src=<span class="string">"importmap.json"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"module-shim"</span> src=<span class="string">"test.js"</span>&gt;&lt;/script&gt;</code></pre>
 <p>Where <code>test.js</code> and <code>importmap.json</code> are exactly as we <a href="#browser-modules-with-import-maps">created in the previous section</a>.</p>
