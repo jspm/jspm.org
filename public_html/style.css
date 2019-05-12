@@ -375,9 +375,9 @@ blockquote {
   border-style: none;
   border-bottom-right-radius: 7px;
   border-top-left-radius: 7px;
-  border: 1px solid #e7e7e7;
   border-top: none;
   border-left: none;
+  border: 1px solid transparent;
 }
 .content button.copy:hover {
   opacity: 0.8;
