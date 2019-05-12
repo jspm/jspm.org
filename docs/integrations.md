@@ -29,7 +29,9 @@ First [separate the jspm and npm dependencies](#npm) in the `package.json`:
 
 ```json
 {
-  "jspm": {}
+  "jspm": {
+    "dependencies": {}
+  }
 }
 ```
 
@@ -132,7 +134,9 @@ If using npm and jspm in the same project, add a `"jspm"` property to your `pack
 
 ```json
 {
-  "jspm": {}
+  "jspm": {
+    "dependencies": {}
+  }
 }
 ```
 
@@ -238,7 +242,9 @@ Since we are installing TypeScript with npm, we should [separate the jspm depend
 
 ```json
 {
-  "jspm": {}
+  "jspm": {
+    "dependencies": {}
+  }
 }
 ```
 

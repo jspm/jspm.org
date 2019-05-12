@@ -66,7 +66,9 @@
 </blockquote>
 <p>First <a href="#npm">separate the jspm and npm dependencies</a> in the <code>package.json</code>:</p>
 <pre><code class="language-json">{
-  <span class="string">"jspm"</span>: {}
+  <span class="string">"jspm"</span>: {
+    <span class="string">"dependencies"</span>: {}
+  }
 }</code></pre>
 <p>Install Babel and any plugins:</p>
 <pre><code>npm install @babel/core @babel/cli @babel/preset-env --dev</code></pre><p>Create a <code>babel.config.js</code>:</p>
@@ -129,7 +131,9 @@
 <a name="npm" class="anchor"></a><h2>npm</h2>
 <p>If using npm and jspm in the same project, add a <code><span class="string">"jspm"</span></code> property to your <code>package.json</code> to separate jspm dependencies from npm dependencies:</p>
 <pre><code class="language-json">{
-  <span class="string">"jspm"</span>: {}
+  <span class="string">"jspm"</span>: {
+    <span class="string">"dependencies"</span>: {}
+  }
 }</code></pre>
 <ul>
 <li><code>jspm install x</code>: Will install into <code>jspm.dependencies</code> in the <code>package.json</code> file.</li>
@@ -198,7 +202,9 @@
 
 <p>Since we are installing TypeScript with npm, we should <a href="#npm">separate the jspm dependencies from npm dependencies</a> in the <code>package.json</code>:</p>
 <pre><code class="language-json">{
-  <span class="string">"jspm"</span>: {}
+  <span class="string">"jspm"</span>: {
+    <span class="string">"dependencies"</span>: {}
+  }
 }</code></pre>
 <p>Install TypeScript:</p>
 <pre><code>npm install typescript</code></pre><p>Installing any dependencies does require installing both the TypeScript types with npm and the jspm version separately:</p>
