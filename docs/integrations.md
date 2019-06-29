@@ -178,6 +178,12 @@ Install Rollup, The [Rollup jspm plugin](https://github.com/jspm/rollup-plugin-j
 jspm install rollup rollup-plugin-jspm rollup-plugin-babel@latest --dev
 ```
 
+Install babel plugins/presets using npm due to https://github.com/babel/babel/issues/9888. Read more under [Babel](#Babel) section.
+
+```
+npm install --save-dev @babel/preset-react
+```
+
 Create the following `rollup.config.js` file:
 
 ```js
