@@ -156,7 +156,8 @@
 <summary>Babel Build with rollup-plugin-jspm</summary>
 
 <p>Install Rollup, The <a href="https://github.com/jspm/rollup-plugin-jspm" target="_blank" rel="noopener">Rollup jspm plugin</a>, and <a href="https://github.com/rollup/rollup-plugin-babel" target="_blank" rel="noopener">Rollup Plugin Babel</a>:</p>
-<pre><code>jspm install rollup rollup-plugin-jspm rollup-plugin-babel@latest --dev</code></pre><p>Create the following <code>rollup.config.js</code> file:</p>
+<pre><code>jspm install rollup rollup-plugin-jspm rollup-plugin-babel@latest --dev</code></pre><p>Install babel plugins/presets using npm due to <a href="https://github.com/babel/babel/issues/9888" target="_blank" rel="noopener">https://github.com/babel/babel/issues/9888</a>. Read more under <a href="#Babel">Babel</a> section.</p>
+<pre><code>npm install --save-dev @babel/preset-react</code></pre><p>Create the following <code>rollup.config.js</code> file:</p>
 <pre><code class="language-js"><span class="keyword">import</span> jspm <span class="keyword">from</span> <span class="string">'rollup-plugin-jspm'</span>;
 <span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">'rollup-plugin-babel'</span>;
 
