@@ -126,22 +126,22 @@ Going through the command step-by-step:
 <summary><code>importmap.json</code></summary>
 <pre><code class="language-json">{
   "imports": {
-    "@babel/core": "/jspm_packages/npm/@babel/core@7.4.3/lib/index.js",
+    "@babel/core": "/jspm_packages/npm/@babel/core@7.5.5/lib/index.js",
+    "@babel/core/lib/config/files/index.dew.js": "/jspm_packages/npm/@babel/core@7.5.5/lib/config/files/index-browser.dew.js",
+    "@babel/core/lib/transform-file.dew.js": "/jspm_packages/npm/@babel/core@7.5.5/lib/transform-file-browser.dew.js",
     "buffer": "/jspm_packages/npm/@jspm/core@1.0.4/nodelibs/buffer.js",
     "fs": "/jspm_packages/npm/@jspm/core@1.0.4/nodelibs/@empty.js",
-    "lodash/": "/jspm_packages/npm/lodash@4.17.11/",
+    "lodash/": "/jspm_packages/npm/lodash@4.17.15/",
     "path": "/jspm_packages/npm/@jspm/core@1.0.4/nodelibs/path.js",
     "process": "/jspm_packages/npm/@jspm/core@1.0.4/nodelibs/process.js",
-    "@babel/highlight/": "/jspm_packages/npm/@babel/highlight@7.0.0/",
-    "@babel/code-frame/": "/jspm_packages/npm/@babel/code-frame@7.0.0/",
-    "@babel/core/lib/config/files/index.dew.js": "/jspm_packages/npm/@babel/core@7.4.3/lib/config/files/index-browser.dew.js",
-    "@babel/core/lib/transform-file.dew.js": "/jspm_packages/npm/@babel/core@7.4.3/lib/transform-file-browser.dew.js",
-    "@babel/generator/": "/jspm_packages/npm/@babel/generator@7.4.0/",
-    "@babel/helpers/": "/jspm_packages/npm/@babel/helpers@7.4.3/",
-    "@babel/parser/": "/jspm_packages/npm/@babel/parser@7.4.3/",
-    "@babel/template/": "/jspm_packages/npm/@babel/template@7.4.0/",
-    "@babel/traverse/": "/jspm_packages/npm/@babel/traverse@7.4.3/",
-    "@babel/types/": "/jspm_packages/npm/@babel/types@7.4.0/",
+    "@babel/highlight/": "/jspm_packages/npm/@babel/highlight@7.5.0/",
+    "@babel/code-frame/": "/jspm_packages/npm/@babel/code-frame@7.5.5/",
+    "@babel/generator/": "/jspm_packages/npm/@babel/generator@7.5.5/",
+    "@babel/helpers/": "/jspm_packages/npm/@babel/helpers@7.5.5/",
+    "@babel/parser/": "/jspm_packages/npm/@babel/parser@7.5.5/",
+    "@babel/template/": "/jspm_packages/npm/@babel/template@7.4.4/",
+    "@babel/traverse/": "/jspm_packages/npm/@babel/traverse@7.5.5/",
+    "@babel/types/": "/jspm_packages/npm/@babel/types@7.5.5/",
     "convert-source-map/": "/jspm_packages/npm/convert-source-map@1.6.0/",
     "debug/index.dew.js": "/jspm_packages/npm/debug@4.1.1/src/browser.dew.js",
     "semver/": "/jspm_packages/npm/semver@5.7.0/",
@@ -150,11 +150,11 @@ Going through the command step-by-step:
     "trim-right/": "/jspm_packages/npm/trim-right@1.0.1/",
     "@babel/helper-get-function-arity/": "/jspm_packages/npm/@babel/helper-get-function-arity@7.0.0/",
     "chalk/": "/jspm_packages/npm/chalk@2.4.2/",
-    "esutils/": "/jspm_packages/npm/esutils@2.0.2/",
+    "esutils/": "/jspm_packages/npm/esutils@2.0.3/",
     "js-tokens/": "/jspm_packages/npm/js-tokens@4.0.0/",
     "@babel/helper-function-name/": "/jspm_packages/npm/@babel/helper-function-name@7.1.0/",
-    "@babel/helper-split-export-declaration/": "/jspm_packages/npm/@babel/helper-split-export-declaration@7.4.0/",
-    "globals/": "/jspm_packages/npm/globals@11.11.0/",
+    "@babel/helper-split-export-declaration/": "/jspm_packages/npm/@babel/helper-split-export-declaration@7.4.4/",
+    "globals/": "/jspm_packages/npm/globals@11.12.0/",
     "to-fast-properties/": "/jspm_packages/npm/to-fast-properties@2.0.0/",
     "color-convert/": "/jspm_packages/npm/color-convert@1.9.3/",
     "ansi-styles/": "/jspm_packages/npm/ansi-styles@3.2.1/",
@@ -162,7 +162,7 @@ Going through the command step-by-step:
     "supports-color/index.dew.js": "/jspm_packages/npm/supports-color@5.5.0/browser.dew.js",
     "color-name/": "/jspm_packages/npm/color-name@1.1.3/",
     "safe-buffer/": "/jspm_packages/npm/safe-buffer@5.1.2/",
-    "ms/": "/jspm_packages/npm/ms@2.1.1/"
+    "ms/": "/jspm_packages/npm/ms@2.1.2/"
   }
 }
 </code></pre>
@@ -211,7 +211,7 @@ This path is then included in `test.html`:
 
 ```html
 <!doctype html>
-<script defer src="jspm_packages/npm/es-module-shims@0.2.6/dist/es-module-shims.min.js"></script>
+<script defer src="jspm_packages/npm/es-module-shims@0.2.15/dist/es-module-shims.min.js"></script>
 <script type="importmap-shim" src="importmap.json"></script>
 <script type="module-shim" src="test.js"></script>
 ```
@@ -290,7 +290,7 @@ Then in `test-build.html`, selectively load the dual-build version:
 <script defer>
   if (!window.modernBuild) {
     document.head.appendChild(Object.assign(document.createElement('script'), {
-      src: './jspm_packages/npm/systemjs@3.1.6/dist/s.min.js',
+      src: './jspm_packages/npm/systemjs@5.0.0/dist/s.min.js',
       onload: function () {
         System.import('./dist-system/test.js');
       }
