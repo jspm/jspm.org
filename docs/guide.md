@@ -352,7 +352,7 @@ The build map contains:
 }
 ```
 
-This build map can now be used directly directly in the browser with the original application code, either copy-pasting the build map directly, or using a similar dynamic import map loading approach as provided in the [import maps section above](#browser-modules-with-import-maps).
+This build map can now be used directly in the browser with the original application code, either copy-pasting the build map directly, or using a similar dynamic import map loading approach as provided in the [import maps section above](#browser-modules-with-import-maps).
 
 ```html
 <!doctype html>
