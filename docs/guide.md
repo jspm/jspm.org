@@ -433,7 +433,7 @@ Setting the `package.json` `"browser": "./library-browser.js` field then provide
 
 ## CDN Package Maps
 
-Instead of building a import map against the local jspm_packages packages folder, the jspm CDN can even be used as the import map target. Because the structure of jspm_packages is universal, we can just change the reference.
+Instead of building an import map against the local jspm_packages packages folder, the jspm CDN can even be used as the import map target. Because the structure of jspm_packages is universal, we can just change the reference.
 
 To do this in the [original import map example](#browser-modules-with-import-maps) add the `--cdn` flag:
 
