@@ -388,7 +388,7 @@ The build application can be executed with:
 
 > To leave the externals as bare specifiers, the list of externals can be passed as arguments via something like `jspm build ./test.js -e @babel/core lodash/clone.js` (`-e` is short for `--external`). The `deps-buildmap.json` would then be required in production, and could be used in a corresponding legacy workflow (eg SystemJS / ES Module Shims). The main benefit of this approach would be that the dependency code cache for users can be updated independent of application code cache (because the dependency references don't have to be updated when the dependency build changes, as that is what the import map handles).
 
-There is absolutely nothing wrong with copy and pasting of import maps as well, and using `jspm map -o ./test.js` will output the map to `stdout` where it an be manually maintained too. Both `jspm build` and `jspm map` support an `-i <custommap.json>` argument to extend the output map with custom manual mappings.
+There is absolutely nothing wrong with copy and pasting of import maps as well, and using `jspm map -o ./test.js` will output the map to `stdout` where it can be manually maintained too. Both `jspm build` and `jspm map` support an `-i <custommap.json>` argument to extend the output map with custom manual mappings.
 
 **Dependency optimization is a useful workflow both in development and production, but there are many ways to work with import maps. These, and the other flags of `jspm map` and `jspm build`, aim to provide a low-level and flexible toolkit for working with import maps and the many various scenarios in which they can apply.**
 
