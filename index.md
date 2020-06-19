@@ -8,7 +8,7 @@
 jspm provides a module CDN allowing any package from npm to be directly loaded<br/>in the browser and other JS environments as a fully optimized native JavaScript module.
 </em></p>
 
-> June 19<sup>th</sup> 2020: The new jspm.dev CDN has been released, [read the release post](/jspm-dev-release), or scroll down for documentation.
+> <strong>June 19<sup>th</sup> 2020:</strong> The new jspm.dev CDN has been released - [read the release post](/jspm-dev-release) or scroll down for documentation.
 
 Load any npm library in the browser with module scripts:
 
