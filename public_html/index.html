@@ -179,7 +179,7 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <p>For packages with multiple entry points or subpaths, each of those package subpaths are optimized, with private non-public internal modules combined into chunks to minimize the number of dependencies loaded.</p>
 <p>Source maps are included to map back to the unoptimized file structure.</p>
 <p>To control which entry points are exposed in this way, the <code><span class="string">"exports"</span></code> field can be used to define what is optimized by jspm.dev.</p>
-<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dev-release#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the prferred way to define subpaths for published packages.</p>
+<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dev-release#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the preferred way to define subpaths for published packages.</p>
 <a name="exports-field" class="anchor"></a><h2>Exports Field</h2>
 <p>Libraries published to npm can use the <code><span class="string">"exports"</span></code> field to define what entry points to expose and to which environments, and jspm.dev will optimize these with a RollupJS code splitting build.</p>
 <p>Exports support in jspm follows the exact features of the <a href="https://nodejs.org/dist/latest-v14.x/docs/api/esm.html#esm_package_entry_points" target="_blank" rel="noopener">Node.js ECMAScript modules implementation</a>.</p>

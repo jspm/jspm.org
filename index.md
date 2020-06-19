@@ -171,7 +171,7 @@ Source maps are included to map back to the unoptimized file structure.
 
 To control which entry points are exposed in this way, the `"exports"` field can be used to define what is optimized by jspm.dev.
 
-Packages without an `"exports"` field get their exports inferred by a [statistical analysis approach](/jspm-dev-release#subpath-detection). Whenever possible the `"exports"` field is the prferred way to define subpaths for published packages.
+Packages without an `"exports"` field get their exports inferred by a [statistical analysis approach](/jspm-dev-release#subpath-detection). Whenever possible the `"exports"` field is the preferred way to define subpaths for published packages.
 
 ## Exports Field
 
