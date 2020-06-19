@@ -40,7 +40,7 @@ Bug fixes and updates get applied to segments of the CDN over time, for example 
 
 All packages on `jspm.dev` are optimized with RollupJS. If the package only has a single main entry point it will be delivered as a single file. If the package has multiple entry points then a RollupJS code splitting build is done for those entry points.
 
-The recommended best-practice for packages to serve minimal JavaScript is to have users import subpaths for specific features - `import('pkg/featureA')` and `import('pkg/featureB')`. This way users only download the JavaScript they need for a specific feature.
+The recommended best-practice for packages to serve minimal JavaScript is to have users import subpaths for specific features - `import('pkg/featureA')` and `import('pkg/featureB')`. This way users only download the JavaScript for the package features they need.
 
 For example a package with two files `index.js` and `feature.js`, where `index.js` imports from `feature.js`, can be optimized with RollupJS to be served as a single file by inlining the contents of `feature.js` into `index.js`.
 
