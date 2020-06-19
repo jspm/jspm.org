@@ -246,14 +246,6 @@ Other conditions that can be used include `"browser"`, `"react-native"`, `"devel
 
 jspm.dev will always resolve to the `"browser"`, `"development"`, `"default"` conditions in exports. `"require"` and `"import"` as appropriate, as these are defined for Node.js.
 
-## Assets
-
-jspm.dev will serve the readme, license and typing files as assets.
-
-All other non-JavaScript assets will only be included if they are explicitly referenced using the `"exports"` field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (`https://jspm.dev/npm:pkg@x.y.z/path/to/asset`).
-
-Folder exports (exports entries ending in `/`) also support asset inclusion.
-
 ## Development Workflows
 
 If you have [Node.js installed](https://nodejs.org), a local server can be run with `npx http-server`, which is then the only step necessary to get going on a simple web application development workflow with native modules - no other tooling is required apart from a text editor.
@@ -314,6 +306,14 @@ Only CommonJS modules will go through a conversion process on jspm.dev - ECMAScr
 Modules are resolved as URLs, with the package.json `"dependencies"` field used to determine version ranges of package dependencies. Node.js builtin imports like `util` are replaced with optimized Browserify library references.
 
 Only dependencies on npm are supported - for other registry types [custom private registry installations](/private-registries) can be requested.
+
+## Assets
+
+jspm.dev will serve the readme, license and typing files as assets.
+
+All other non-JavaScript assets will only be included if they are explicitly referenced using the `"exports"` field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (`https://jspm.dev/npm:pkg@x.y.z/path/to/asset`).
+
+Folder exports (exports entries ending in `/`) also support asset inclusion.
 
 ## CommonJS Compatibility
 
