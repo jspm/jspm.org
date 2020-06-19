@@ -42,7 +42,7 @@ Guy is an open source software developer and core contributor to SystemJS, jspm,
 
 <strong>Jarred de Beer</strong>
 
-Jarred works as an Algorithmic Trading Developer at Rand Merchant Bank focused on systems for risk reporting workflows. In previous lives he's worked as a front-end web developer and also as an animator specializing in figure drawing and character rigging.<br/><br/><br/>
+Jarred works as an Algorithmic Trading Developer at Rand Merchant Bank focused on trading system frontends. In previous lives he's worked as a front-end web developer and also as an animator specializing in figure drawing and character rigging.<br/><br/><br/>
 
 <img src="/zach-2013-8-x-10.jpg" style="float: left; margin-right: 1em; width: 10em; clear: both;">
 
