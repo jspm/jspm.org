@@ -1,20 +1,12 @@
 {
   "name": "app",
-  "dependencies": {
-    "codemirror": "^5.45.0",
-    "lit-html": "^1.0.0",
-    "marked": "~0.6.2"
-  },
   "devDependencies": {
-    "@jspm/core": "^1.0.4",
-    "http-server": "~0.11.1",
     "jsdom": "^14.0.0",
+    "marked": "~0.6.2",
     "request": "^2.88.0"
   },
   "scripts": {
-    "generate": "jspm generate.js",
-    "build-deps": "jspm build lit-html lit-html/directives/unsafe-html.js codemirror util buffer zlib codemirror/mode/javascript/javascript.js -d public_html/sandbox_data -o public_html/sandbox-map.json --production --minify",
-    "build": "jspm build ./public_html/sandbox.js -e public_html/sandbox-map.json -d public_html/sandbox_data --production --minify"
+    "build": "node generate.js"
   },
   "type": "module"
 }

@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta property="og:title" content="jspm.org - jspm.dev Release"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="jspm.dev CDN release post"><meta property="og:description" content="jspm.dev CDN release post"><meta property="og:url" content="https://jspm.org/jspm-dev-release"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css">
+<link rel="preload" as="font" href="/sourcesans.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>jspm.dev Release - jspm.org</title></head><body class="page-jspm-dev-release">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks">
+    <li><a href="/jspm-dev-release">Latest Release</a></li>
+    <li><a href="/">jspm.dev</a></li>
+    <li><a href="/sandbox">Sandbox</a></li>
+    <li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li>
+  </ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li class="docs">
+        <a href="/">Docs</a>
+        <ul class="section">
+          <li class="guide"><a href="/">jspm.dev</a></li>
+        </ul>
+      </li>
+      <li><a>Resources</a>
+      <ul>
+        <li><a href="/sandbox">Online Sandbox</a></li>
+        <li><a target="_blank" href="https://github.com/jspm/project" rel="noopener">Issue Tracker</a></li>
+        <li><a target="_blank" href="https://discord.gg/dNRweUu" rel="noopener">Discord</a></li>
+        <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Open Collective</a></li>
+        <li><a target="_blank" href="https://twitter.com/jspm" rel="noopener">@jspm on Twitter</a></li>
+      </ul>
+      </li>
+      <li class="about">
+        <a>About</a>
+        <ul class="section">
+          <li class="jspm-dev"><a href="/jspm-dev-release">Latest Release</a></li>
+          <li class="private-registries"><a href="/private-registries">Private Registries</a></li>
+          <li class="background"><a href="/background">Background</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="footer"><p>
+    Logo design by <a target="_blank" href="https://www.luuk.site/" rel="noopener">Luuk de Vlieger</a>
+  </p></div>
+</div>
+<div class="content"><h1>jspm.dev Release</h1>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;">June <em>19<sup>th</sup> 2020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
+
+<p>The latest version of the jspm CDN, <code>https://jspm.dev</code> has been launched today as the new replacement for <code>https://dev.jspm.io</code>.</p>
+<p><em><code>jspm.dev</code> allows directly importing any package from npm into the browser using only native ECMAScript module import semantics like <code><span class="keyword">import</span>(<span class="string">'https://jspm.dev/pkgname'</span>)</code>.</em></p>
+<p>As of today, <code>dev.jspm.io</code> serves 6 million requests to over 150,000 users each month. With the <a href="#modular-javascript-cdns">rise of module CDNs</a>, continued development and performance work are needed to ensure the scalability requirements of fast and highly reliable delivery.</p>
+<p>This new release aligns with full support for the Node.js ECMAScript modules implementation (including the new <a href="#exports-field">"exports" field</a>) as well as deep <a href="#package-optimization">optimization improvements with RollupJS code splitting</a> and improved CommonJS compatibility, while <a href="#building-all-of-npm">precomputing all of npm</a> to ensure zero compile waiting times even when requesting new packages.</p>
+<p><code>dev.jspm.io</code> will still be available for a further 12 months until June 2021. Upgrading to <code>jspm.dev</code> should be a seamless upgrade path in most cases, with the main user-facing compatibility change being that not all internal subpaths are exposed due to the <a href="#package-optimization">code splitting optimizations</a>.</p>
+<p>With today's release the jspm package management CLI is being <a href="#sunsetting-the-cli">fully sunsetted</a>, which after many years of development unfortunately did not manage to meet its development goals as a viable universal package management alternative to npm.</p>
+<a name="modular-javascript-cdns" class="anchor"></a><h2>Modular JavaScript CDNs</h2>
+<p>The transition of JavaScript CDN's into fully modular ECMAScript module CDNs is now well underway. Existing CDNs such as <code>jsdelivr.net</code> and <code>unpkg.com</code> now regularly serve ES modules, and continue to innovate in improving their modular semantics, while new module-dedicated CDNs like <code>cdn.pika.dev</code> have joined jspm in directly exploring how a complete embrace of modular semantics can provide better library delivery mechnanisms for the web.</p>
+<p>The jspm CDN retains its same goals - to allow loading any package from npm optimized as an ECMAScript module, while supporting full dependency sharing. Under this simple statement hides a huge amount of complexity - from optimization and CommonJS compatibility to module interop semantics.</p>
+<a name="package-optimization" class="anchor"></a><h2>Package Optimization</h2>
+<p>Packages served from <code>jspm.dev</code> are highly optimized for delivery. To optimize an ES module CDN requires optimizing for three main things:</p>
+<ol>
+<li><strong>Minimal response times:</strong> CDN response times are minimized by having an edge CDN with unqiue version URLs for packages to enable far-future expires. This way the browser cache can be used whenever possible, avoiding any request at all. The remaining slow cases are (a) Loading non-exact version URLs like <code><span class="comment">//jspm.dev/pkg</span></code> and <code><span class="comment">//jspm.dev/pkg@<span class="number">1</span></span></code> and (b) loading a package that has never been loaded before. We handle (a) by using a push-based over a pull-based versioning architecture internally (watching the npm feed instead of querying it), and we handle (b) by <a href="#building-all-of-npm">precomputing all of npm</a> to ensure every package request takes the same constant time.</li>
+<li><strong>Minimal number of modules and code size:</strong> RollupJS code splitting is used to <a href="#package-optimization">optimize every package on jspm.dev</a>. This way a package with a single entry point will always be only a single file, while a package with multiple separate entry points will have carefully constructed shared chunks while avoiding code duplication. In addition all modules are optimized with level 9 Brotli compression, a fully supported compression algorithm across all browsers supporting ES modules.</li>
+<li><strong>Minimal dependency latency waterfall:</strong> The dependency latency waterfall occurs when importing a JavaScript module that depends on another module. The import to the second module is only seen once the first has already been loaded, so that each successive deep import requires waiting for a full latency-bound request response cycle. Because there is no limit to how deep a module tree can be, even with 20ms of latency this wait time can add up if left unchecked. All modules served on jspm.dev will expose all known deep dependencies from the first modular response to ensure the latency waterfall is always avoided where possible.</li>
+</ol>
+<a name="building-all-of-npm" class="anchor"></a><h2>Building all of npm</h2>
+<p>jspm.dev achieves instant response times for all requests because the entire compute job for npm has been completed on Google Cloud - every version of every package on npm has been built and optimized and stored for serving through Google Cloud CDN.</p>
+<p>When requesting a package that has never requested on <code>https://jspm.dev</code> the server does not need to build or optimize it, because it has already been built. New packages are built the moment they are published to npm.</p>
+<p>Bug fixes and updates get applied to segments of the CDN over time, for example packages exposing modules or using the "exports" field will be regularly updated. Use the package.json <a href="#exports-field">"exports" field</a> in your published packages to ensure you get the best support on jspm.dev.</p>
+<a name="package-optimization" class="anchor"></a><h2>Package Optimization</h2>
+<p>The recommended best-practice for packages to serve minimal JavaScript is to have users import subpaths for specific features - <code><span class="keyword">import</span>(<span class="string">'pkg/featureA'</span>)</code> and <code><span class="keyword">import</span>(<span class="string">'pkg/featureB'</span>)</code>. This way users only download the JavaScript they need for a specific feature.</p>
+<p>All packages on <code>jspm.dev</code> are optimized with RollupJS. If the package only has a single main entry point it will be delivered as a single file. If the package has multiple entry points then a RollupJS code splitting build is done for those entry points.</p>
+<p>For example a package with two files <code>index.js</code> and <code>feature.js</code>, where <code>index.js</code> imports from <code>feature.js</code>, can be optimized with RollupJS to be served as a single file by inlining the contents of <code>feature.js</code> into <code>index.js</code>.</p>
+<p>For the multiple entry point case, if the package expects consumers of the package to be able to import <code>pkg/feature.js</code>, then we use a code splitting build to build both <code>index.js</code> and <code>feature.js</code> as separate entry points, while perfoming the original inlining optimization to any other files which are not consumed by users.</p>
+<a name="subpath-detection" class="anchor"></a><h2>Subpath Detection</h2>
+<p>The major problem with separate entry points for npm packages is that when running the RollupJS code splitting optimizations, it isn't known which modules of the package are supposed to be available for import by the consumers of the package, and which are purely there for the private internal implementation.</p>
+<p>On <code>jspm.dev</code> this is handled by a statistical approach that uses an analysis of every npm package module to determine how they are imported by other packages on npm. This is then used to determine which modules are consumer-facing and which can be inlined internally with the RollupJS code splitting build.</p>
+<p>Being a statistical method, this approach isn't perfect, but it works very well. Even packages with many hundreds of entry points like Lodash, RxJS, CoreJS and Ramda work out correctly under this optimization while still getting the benefits of code splitting.</p>
+<a name="exports-field" class="anchor"></a><h2>Exports Field</h2>
+<p><em>The preferred way of defining package subpaths is with the <code><span class="string">"exports"</span></code> field, which when set, removes the need for any subpath detection analysis. The exports field directly informs and encapsulates the full list of public subpaths that the package provides.</em></p>
+<p>The <a href="https://nodejs.org/dist/latest-v14.x/docs/api/esm.html#esm_package_entry_points" target="_blank" rel="noopener">Node.js package "exports" field</a> is a way for packages to clearly define their public interface.</p>
+<p>For example, a package with a package.json file containing:</p>
+<pre><code class="language-json">{
+  <span class="string">"exports"</span>: {
+    <span class="string">"."</span>: <span class="string">"./main.js"</span>,
+    <span class="string">"./feature"</span>: <span class="string">"./feature.js"</span>
+  }
+}</code></pre>
+<p>will be optimized in RollupJS for <code>main.js</code> and <code>feature.js</code> as two separate entry points. jspm.dev will then support <code><span class="keyword">import</span>(<span class="string">'//jspm.dev/pkg'</span>)</code> as well as <code><span class="keyword">import</span>(<span class="string">'//jspm.dev/pkg/feature'</span>)</code> as fully optimized requests.</p>
+<p>Exports also permit environment-based conditional resolutions for having different resolutions between e.g. Node.js and browsers (or even <code><span class="string">"deno"</span></code>), making the <code><span class="string">"exports"</span></code> field a modern replacement for the Browserify <code><span class="string">"browser"</span></code> field.</p>
+<p>Read the Node.js documentation or <a href="/#exports-field">jspm.dev documentation</a> for further guidance on using this field in published packages.</p>
+<a name="sunsetting-the-cli" class="anchor"></a><h2>Sunsetting the CLI</h2>
+<p>It is a bittersweet announcement today in that the jspm package management CLI was formerly the primary way to use the project, but times have changed much since its initial announcement in 2014 (back when its primary competitor was Bower!).</p>
+<p>The original goal was for jspm CLI to provide an alternative to npm to support both Node.js and browser module semantics as a universal package manager, but the reality is that most users find npm complex enough without adding these further browser constraints and difficulties in ensuring modules include explicit file extensions and work universally etc.</p>
+<p>It was a really hard decision to drop many years of work, but after two unfinished major releases it's important to look forward to where modules are going today.</p>
+<p>With Deno supporting URL-based resolution and users now aware of concepts like on-demand package management, the idea of CDN-based package delivery is far more embraced today. With the jspm CDN as the focus, development resources will be freed up from other work to ensure the best possible experience here.</p>
+<p>Providing a modular CDN engages deeply with concepts of security and privacy to ensure the health of the ecosystem as such a tooling base is adopted, and continuing to actively work on these problems remains a primary objective for the project.</p>
+<a name="open-collective" class="anchor"></a><h2>Open Collective</h2>
+<p>Today we are also also starting <a href="https://opencollective.com/jspm" target="_blank" rel="noopener">a new Open Collective</a> for allowing sponsorship of jspm development and server costs. With the new CDN, now maintained alongside previous versions, server costs are not insignificant. If you'd like to support the project, please do consider <a href="https://opencollective.com/jspm" target="_blank" rel="noopener">donating to the Open Collective</a>.</p>
+<a name="next-steps" class="anchor"></a><h2>Next Steps</h2>
+<p>There are still plenty of new developments around browser modules and module delivery with many problems still to work out, from performance and development practicalities to integrity, trust and privacy; continuing to be involved in these discussions, specifications and developments remains a priority for the project. Watch out for further updates over the coming months!</p>
+<p>A huge thank you, as always, to all users and supporters of the project for their feedback, appreciation and patience in the development process.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/jspm-dev-release.md" rel="noopener">Edit</a><div class="prev"><a href="/">◀&nbsp;jspm.dev Documentation</a></div></div></div>
+
+
+</body></html>

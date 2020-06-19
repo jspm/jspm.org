@@ -129,7 +129,7 @@ a {
   text-decoration: underline;
   color: #777;
 }
-.sidebar .toc ul li.active > a, .sidebar .toc ul li > a[href]:hover {
+.sidebar .toc ul a.active, .sidebar .toc ul li > a[href]:hover {
   color: #000;
 }
 .sidebar .toc ul.sections > li {

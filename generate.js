@@ -8,9 +8,11 @@ const { JSDOM } = jsdom;
 const github = 'https://github.com/jspm/jspm.org/blob/master';
 const templatePromise = readFile('./template.html');
 
-async function generatePage (section, name, title, description, tocHtml, sitemap) {
-  const source = (await readFile(section + '/' + name + '.md')).toString();
+async function generatePage (name, { title, description, nextSection, prevSection }, sitemap) {
+  const source = (await readFile((name || 'index') + '.md')).toString();
   const html = marked(source, { breaks: true, headerIds: false });
+
+  const className = name.replace(/\//g, '-');
 
   const dom = new JSDOM((await templatePromise).toString());
   const document = dom.window.document;
@@ -25,7 +27,7 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
   {
     const meta = document.createElement('meta');
     meta.setAttribute('property', 'og:url');
-    meta.content = 'https://jspm.org/' + (section === 'pages' ? (name === 'index' ? '' : name) : section + '/' + name);
+    meta.content = 'https://jspm.org/' + (name || 'index');
     document.head.insertBefore(meta, document.head.firstChild);
   }
   {
@@ -54,7 +56,7 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
   }
 
   const body = document.body;
-  body.className = `section-${section} page-${name}`;
+  body.className = `page-${className}`;
   body.querySelector('.content').innerHTML = html;
   
   // Get all the primary headings
@@ -73,49 +75,21 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
     heading.parentNode.insertBefore(a, heading);
   }
 
-  let prevSection, nextSection;
-  
-  const contentsWrapper = body.querySelector('.toc .sections');
-  contentsWrapper.innerHTML = tocHtml + contentsWrapper.innerHTML;
-  if (section !== 'pages') {
-    const sectionContents = contentsWrapper.querySelector(`ul.section-${section} li.${name}`);
-    const sectionNode = sectionContents.parentNode.parentNode;
-    prevSection = sectionContents.previousSibling;
-    nextSection = sectionContents.nextSibling;
-    if (!prevSection) {
-      prevSection = sectionNode.previousSibling;
-    }
-    if (!nextSection) {
-      nextSection = sectionNode.nextSibling;
-      while (nextSection && nextSection.nodeType !== 1)
-        nextSection = nextSection.nextSibling;
-      if (nextSection && !nextSection.querySelector('a').href)
-        nextSection = null;
-    }
-    
-    sectionNode.className += ' active';
-    sectionContents.className += ' active';
-    if (contents.length) {
-      let sectionTocHtml = '<ul class="subsection">';
-      for (const { title, slug } of contents) {
-        sectionTocHtml += `<li><a href="#${slug}">${title}</a></li>`;
-      }
-      sectionTocHtml += '</ul>';
-      sectionContents.innerHTML += sectionTocHtml;
-    }
-  }
+  const sectionIndex = Object.keys(sitemap).indexOf(name);
+  nextSection = nextSection === undefined && Object.keys(sitemap)[sectionIndex + 1];
+  prevSection = prevSection === undefined && Object.keys(sitemap)[sectionIndex - 1];
 
   const nextprev = document.createElement('div');
   nextprev.className = 'nextprev';
-  nextprev.innerHTML = `<a class="edit" target="_blank" href="${github}/${section}/${name}.md">Edit</a>`;
+  nextprev.innerHTML = `<a class="edit" target="_blank" href="${github}/${name || 'index'}.md">Edit</a>`;
   body.querySelector('.content').appendChild(nextprev);
 
-  if (nextSection) {
-    nextprev.innerHTML += `<div class="next">${nextSection.querySelector('a').outerHTML}</div>`;
+  if (typeof nextSection === 'string') {
+    nextprev.innerHTML += `<div class="next"><a href="/${nextSection}">${sitemap[nextSection].title}</a></div>`;
     nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
   }
-  if (prevSection) {
-    nextprev.innerHTML += `<div class="prev">${prevSection.querySelector('a').outerHTML}</div>`;
+  if (typeof prevSection === 'string') {
+    nextprev.innerHTML += `<div class="prev"><a href="/${prevSection}">${sitemap[prevSection].title}</a></div>`;
     nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
   }
   
@@ -140,47 +114,20 @@ async function generatePage (section, name, title, description, tocHtml, sitemap
       .replace(/('[^']*')/gm, '<span class=string>$1</span>')
       .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
       .replace(/([^#\d\-a-z\:])(-?\d+)/gm, '$1<span class=number>$2</span>')
-      .replace(/([^\.])?(for|function|new|await|throw|return|var|let|const|if|else|true|false|this|import|export class|export|from)([^-a-zA-Z])/gm, '$1<span class=keyword>$2</span>$3');
+      .replace(/([^\.])?(for|function|new|await|async|throw|return|var|let|const|if|else|true|false|this|import|export class|export|from)([^-a-zA-Z])/gm, '$1<span class=keyword>$2</span>$3');
   }
   
   // Extract the modified HTML
-  const out = `./public_html/${section === 'pages' ? '' : section + '/'}${name}.html`;
+  const out = `./public_html/${name || 'index'}.html`;
   console.log('Writing ' + out);
   await writeFile(out, dom.serialize());
-}
-
-async function generateSection (section, sitemap, tocHtml) {
-  const generations = [];
-  for (const [name, { title, description }] of Object.entries(sitemap[section].index)) {
-    generations.push(generatePage(section, name, title, description, tocHtml, sitemap));
-  }
-  await Promise.all(generations);
-}
-
-function generateToc (sitemap) {
-  let tocHtml = ``;
-  const sections = Object.keys(sitemap).filter(name => sitemap[name].title);
-  for (const section of sections) {
-    const { title, index } = sitemap[section];
-
-    // section title links to first page of section
-    tocHtml += `<li class="${section}"><a href="/${section}/${Object.keys(index)[0]}">${title}</a>`;
-    tocHtml += `<ul class="section-${section}">`;
-    for (const [name, { title }] of Object.entries(index)) {
-      tocHtml += `<li class="${name}"><a href="/${section}/${name}">${title}</a></li>`;
-    }
-    tocHtml += `</ul></li>`;
-  }
-  return tocHtml;
 }
 
 Promise.resolve()
 .then(async () => {
   const sitemap = JSON.parse(await readFile('./sitemap.json'));
-  const tocHtml = generateToc(sitemap);
-
   await Promise.all(
-    Object.keys(sitemap).map(name => generateSection(name, sitemap, tocHtml))
+    Object.keys(sitemap).map(name => generatePage(name, sitemap[name], sitemap))
   );
 })
 .then(() => {

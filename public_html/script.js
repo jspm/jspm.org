@@ -1,34 +1,54 @@
+/* Highlight active page */
+(function () {
+  for (const a of document.querySelectorAll('a[href]')) {
+    if (a.pathname === location.pathname)
+      a.className += ' active';
+  }
+})();
+
 /* Dynamic Highlighting of Contents */
 (function () {
-  const anchors = document.querySelectorAll('a[name]');
-  const links = document.querySelectorAll('.active .subsection li a');
-  if (anchors.length !== links.length)
-    throw new Error('Link mismatch');
-  let activeLink;
-  const offset = document.querySelector('.topbar').offsetHeight;
-  function setActiveSubsection () {
-    const scrollTop = document.body.scrollTop;
-    let linkMatch;
-    for (let i = 0; i < anchors.length; i++) {
-      const anchor = anchors[i];
-      if (scrollTop + offset < anchor.nextSibling.offsetTop - anchor.nextSibling.offsetHeight) {
-        linkMatch = links[i === 0 ? 0 : i - 1];
-        break;
+  const section = document.querySelector(`.toc .section a[href="${location.pathname}"]`);
+  if (section) {
+    const anchors = document.querySelectorAll('a[name]');
+    let sectionTocHtml = '<ul class="subsection">';
+    for (const a of anchors) {
+      sectionTocHtml += `<li><a href="#${a.name}">${a.nextSibling.innerText}</a></li>`;
+    }
+    sectionTocHtml += '</ul>';
+
+    section.parentNode.innerHTML += sectionTocHtml;
+
+    const links = document.querySelectorAll('.subsection li a');
+    if (anchors.length !== links.length)
+      throw new Error('Link mismatch');
+    let activeLink;
+    const offset = document.querySelector('.topbar').offsetHeight;
+    const scrollingElement = document.scrollingElement;
+    function setActiveSubsection () {
+      const scrollTop = scrollingElement.scrollTop;
+      let linkMatch;
+      for (let i = 0; i < anchors.length; i++) {
+        const anchor = anchors[i];
+        if (scrollTop + offset < anchor.nextSibling.offsetTop - anchor.nextSibling.offsetHeight) {
+          linkMatch = links[i === 0 ? 0 : i - 1];
+          break;
+        }
+      }
+      if (!linkMatch || scrollTop > (scrollingElement.scrollHeight - scrollingElement.clientHeight - 20)) {
+        linkMatch = links[anchors.length - 1];
+      }
+      if (linkMatch !== activeLink) {
+        if (activeLink)
+          activeLink.className = '';
+        if (linkMatch)
+          linkMatch.className = 'active';
+        activeLink = linkMatch;
       }
     }
-    if (!linkMatch || scrollTop > (document.body.scrollHeight - document.body.clientHeight)) {
-      linkMatch = links[anchors.length - 1];
-    }
-    if (linkMatch !== activeLink) {
-      if (activeLink)
-        activeLink.className = '';
-      if (linkMatch)
-        linkMatch.className = 'active';
-      activeLink = linkMatch;
-    }
+    window.addEventListener('scroll', setActiveSubsection);
+    setActiveSubsection();
   }
-  window.addEventListener('scroll', setActiveSubsection);
-  setActiveSubsection();
 })();
 
 /* Copy Buttons on Code Examples */

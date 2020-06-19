@@ -1,32 +1,20 @@
 {
-  "about": {
-    "title": "About",
-    "index": {
-      "introduction": {
-        "title": "Introduction",
-        "description": "jspm 2.0 beta release - native ES module package management with import maps and Node.js --experimental-modules support."
-      }
-    }
+  "": {
+    "title": "jspm.dev Documentation",
+    "description": "jspm.dev native modules CDN for npm documentation"
   },
-  "docs": {
-    "title": "Docs",
-    "index": {
-      "guide": {
-        "title": "Guide",
-        "description": "jspm 2.0 guide"
-      },
-      "integrations": {
-        "title": "Tool Integrations",
-        "description": "Integrating jspm 2.0 in other tools."
-      }
-    }
+  "jspm-dev-release": {
+    "title": "jspm.dev Release",
+    "description": "jspm.dev CDN release post",
+    "nextSection": false
   },
-  "pages": {
-    "index": {
-      "index": {
-        "title": "ES Module Package Manager",
-        "description": "Native ES module package management with import maps and Node.js --experimental-modules support."
-      }
-    }
+  "private-registries": {
+    "title": "Private jspm.dev Registries",
+    "description": "Information on private jspm.dev registry integrations",
+    "prevSection": false
+  },
+  "background": {
+    "title": "Background",
+    "description": "Background on the jspm project"
   }
 }

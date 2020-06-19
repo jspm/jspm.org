@@ -1,2 +1,2 @@
-jspm.json
-jspm_packages
+node_modules
+package-lock.json
