@@ -16,7 +16,7 @@ With today's release the jspm package management CLI is being [fully sunsetted](
 
 ## Modular JavaScript CDNs
 
-The transition of JavaScript CDN's into fully modular ECMAScript module CDNs is now well underway. Existing CDNs such as `jsdelivr.net` and `unpkg.com` now regularly serve ES modules, and continue to innovate in improving their modular semantics, while new module-dedicated CDNs like `cdn.pika.dev` have joined jspm in directly exploring how a complete embrace of modular semantics can provide better library delivery mechnanisms for the web.
+The transition of JavaScript CDNs into fully modular ECMAScript module CDNs is now well underway. Existing CDNs such as `jsdelivr.net` and `unpkg.com` now regularly serve ES modules, and continue to innovate in improving their modular semantics, while new module-dedicated CDNs like `cdn.pika.dev` have joined jspm in directly exploring how a complete embrace of modular semantics can provide better library delivery mechnanisms for the web.
 
 The jspm CDN retains its same goals - to allow loading any package from npm optimized as an ECMAScript module, while supporting full dependency sharing. Under this simple statement hides a huge amount of complexity - from optimization and CommonJS compatibility to module interop semantics.
 
