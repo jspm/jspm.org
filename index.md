@@ -8,7 +8,7 @@
 jspm provides a module CDN allowing any package from npm to be directly loaded<br/>in the browser and other JS environments as a fully optimized native JavaScript module.
 </em></p>
 
-## jspm.dev
+> June 19<sup>th</sup> 2020: The new jspm.dev CDN has been released, [read the release post](/jspm-dev-release), or scroll down for documentation.
 
 Load any npm library in the browser with module scripts:
 
@@ -26,8 +26,6 @@ Load any npm library in the browser with module scripts:
 ```
 
 [Try this example in the online sandbox](/sandbox#H4sIAAAAAAAAA02QPW7DMAyFd5+C9RI7g7V0yh8yNCdIL0BLbKxCFg1JcWIUvXv10wQZBFDv8X2kJNYVrOHbTyOc0aqe7/GepM9Be/BFArqTvAbycDrDyOpqYjlr3KTGdHZvimVYJoIhjOaQJS+dngIkdV+XUJ0dgK7rQsKT0oEdSFYUpZwSJVYQPavlP7JTegat9rVkG1BbcvVhJ6L48CXaGX1pyWXyS1Vg4klL5/RNMi430PON/QJej5NZ4Oq1vUDe8OZwmsil3URVCQHngEFLNGbZVLGbXYAeezLw5XiE1RDC5DdCpA/tFM3imF0h2dFqW8XlPRvqDF+abLTbTP1YLI4PbIN+sRKaFvYH+KkAXlN4Qx2gTG5WL4MMK/TD8V1Iw5ZWbST/tk1bdRKDHBpKsAeInGPXUOr5A5dD1mcAAgAA).
-
-> June 19<sup>th</sup> 2020: The new jspm.dev CDN has been released, [read the release post](/jspm-dev-release), or scroll down for documentation.
 
 ## Features
 
