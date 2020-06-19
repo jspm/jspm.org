@@ -87,8 +87,6 @@ It was a really hard decision to drop many years of work, but after two unfinish
 
 With Deno supporting URL-based resolution and users now aware of concepts like on-demand package management, the idea of CDN-based package delivery is far more embraced today. With the jspm CDN as the focus, development resources will be freed up from other work to ensure the best possible experience here.
 
-Providing a modular CDN engages deeply with concepts of security and privacy to ensure the health of the ecosystem as such a tooling base is adopted, and continuing to actively work on these problems remains a primary objective for the project.
-
 ## Open Collective
 
 Today we are also also starting [a new Open Collective](https://opencollective.com/jspm) for allowing sponsorship of jspm development and server costs. With the new CDN, now maintained alongside previous versions, server costs are not insignificant. If you'd like to support the project, please do consider [donating to the Open Collective](https://opencollective.com/jspm).
