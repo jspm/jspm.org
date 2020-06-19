@@ -6,7 +6,7 @@ The latest version of the jspm CDN, `https://jspm.dev` has been launched today a
 
 _`jspm.dev` allows directly importing any package from npm into the browser using only native ECMAScript module import semantics like `import('https://jspm.dev/pkgname')`._
 
-As of today, `dev.jspm.io` serves 6 million requests to over 150,000 users each month. With the [rise of module CDNs](#modular-javascript-cdns), continued development and performance work are needed to ensure the scalability requirements of fast and highly reliable delivery.
+As of today, `dev.jspm.io` serves 6 million requests to over 150,000 users each month. With the [rise of module CDNs](#modular-javascript-cdns), continued development and performance work are needed to ensure the scalability requirements of fast and highly reliable module delivery.
 
 This new release aligns with full support for the Node.js ECMAScript modules implementation (including the new ["exports" field](#exports-field)) as well as deep [optimization improvements with RollupJS code splitting](#package-optimization) and improved CommonJS compatibility, while [precomputing all of npm](#building-all-of-npm) to ensure zero compile waiting times even when requesting new packages.
 
