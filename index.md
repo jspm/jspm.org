@@ -12,8 +12,6 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 
 <br />
 
-# jspm.dev
-
 Load any npm library in the browser with module scripts:
 
 ```html
