@@ -113,7 +113,7 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <tbody><tr><th style="width: 12em" align="left">jspm.dev/pkg/subpath</th><td>Load a subpath of a package - applies to all version patterns above.</td></tr>
 </tbody></table>
 
-<p>Packages that have an <a href="#exports-field">exports field</a> defined will expose the subpaths corresponding to the exports field. For packages without an exports field, a <a href="/jspm-dot-dev#subpath-detection">statistical analysis</a> process is used to determine the subpaths of a package in code splitting optimization.</p>
+<p>Packages that have an <a href="#exports-field">exports field</a> defined will expose the subpaths corresponding to the exports field. For packages without an exports field, a <a href="/jspm-dev-release#subpath-detection">statistical analysis</a> process is used to determine the subpaths of a package in code splitting optimization.</p>
 <!-- For information about a package, including what exports subpaths are available, see its listing page:
 
 <table cellpadding=5>
@@ -175,13 +175,13 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <p>ES Module Shims uses a very fast Wasm-based lexer for <a href="https://github.com/guybedford/es-module-shims#implementation-details" target="_blank" rel="noopener">rewriting JS import statements only</a> and will know to <a href="https://github.com/guybedford/es-module-shims#skip-processing" target="_blank" rel="noopener">skip jspm.dev source processing</a>, resulting in a minimal performance cost.</p>
 </blockquote>
 <a name="package-optimization" class="anchor"></a><h2>Package Optimization</h2>
-<p>All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been <a href="/jspm-dot-dev#building-every-package-on-npm">precomputed for all npm packages</a>.</p>
+<p>All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been <a href="/jspm-dev-release#building-all-of-npm">precomputed for all npm packages</a>.</p>
 <p>Whenever a new package is published to npm it is immediately processed by jspm and made available on jspm.dev. This usually takes only a few minutes from the time of publishing.</p>
 <p>Packages with only a main entry point will be loaded as a single module served at the direct URL of the package - <code>https://jspm.dev/npm:pkg@x.y.z</code>.</p>
 <p>For packages with multiple entry points or subpaths, each of those package subpaths are optimized, with private non-public internal modules combined into chunks to minimize the number of dependencies loaded.</p>
 <p>Source maps are included to map back to the unoptimized file structure.</p>
 <p>To control which entry points are exposed in this way, the <code><span class="string">"exports"</span></code> field can be used to define what is optimized by jspm.dev.</p>
-<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dot-dev#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the prferred way to define subpaths for published packages.</p>
+<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dev-release#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the prferred way to define subpaths for published packages.</p>
 <a name="exports-field" class="anchor"></a><h2>Exports Field</h2>
 <p>Libraries published to npm can use the <code><span class="string">"exports"</span></code> field to define what entry points to expose and to which environments, and jspm.dev will optimize these with a RollupJS code splitting build.</p>
 <p>Exports support in jspm follows the exact features of the <a href="https://nodejs.org/dist/latest-v14.x/docs/api/esm.html#esm_package_entry_points" target="_blank" rel="noopener">Node.js ECMAScript modules implementation</a>.</p>

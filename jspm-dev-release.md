@@ -32,7 +32,7 @@ Packages served from `jspm.dev` are highly optimized for delivery. To optimize a
 
 jspm.dev achieves instant response times for all requests because the entire compute job for npm has been completed on Google Cloud - every version of every package on npm has been built and optimized and stored for serving through Google Cloud CDN.
 
-When requesting a package that has never requested on `https://jspm.dev` the server does not need to build or optimize it, because it has already been built. New packages are built the moment they are published to npm.
+When requesting a package that has never been requested on `https://jspm.dev` the server does not need to build or optimize it, because it has already been built. New packages are built the moment they are published to npm.
 
 Bug fixes and updates get applied to segments of the CDN over time, for example packages exposing modules or using the "exports" field will be regularly updated. Use the package.json ["exports" field](#exports-field) in your published packages to ensure you get the best support on jspm.dev.
 

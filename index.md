@@ -63,7 +63,7 @@ Full subpath support is also provided for packages. It is a recommended best-pra
 <tr><th style="width: 12em" align=left>jspm.dev/pkg/subpath</th><td>Load a subpath of a package - applies to all version patterns above.</td></tr>
 </table>
 
-Packages that have an [exports field](#exports-field) defined will expose the subpaths corresponding to the exports field. For packages without an exports field, a [statistical analysis](/jspm-dot-dev#subpath-detection) process is used to determine the subpaths of a package in code splitting optimization.
+Packages that have an [exports field](#exports-field) defined will expose the subpaths corresponding to the exports field. For packages without an exports field, a [statistical analysis](/jspm-dev-release#subpath-detection) process is used to determine the subpaths of a package in code splitting optimization.
 
 <!-- For information about a package, including what exports subpaths are available, see its listing page:
 
@@ -161,7 +161,7 @@ When using ES Module Shims, modules can be imported statically with `"type": "mo
 
 ## Package Optimization
 
-All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been [precomputed for all npm packages](/jspm-dot-dev#building-every-package-on-npm).
+All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been [precomputed for all npm packages](/jspm-dev-release#building-all-of-npm).
 
 Whenever a new package is published to npm it is immediately processed by jspm and made available on jspm.dev. This usually takes only a few minutes from the time of publishing.
 
@@ -173,7 +173,7 @@ Source maps are included to map back to the unoptimized file structure.
 
 To control which entry points are exposed in this way, the `"exports"` field can be used to define what is optimized by jspm.dev.
 
-Packages without an `"exports"` field get their exports inferred by a [statistical analysis approach](/jspm-dot-dev#subpath-detection). Whenever possible the `"exports"` field is the prferred way to define subpaths for published packages.
+Packages without an `"exports"` field get their exports inferred by a [statistical analysis approach](/jspm-dev-release#subpath-detection). Whenever possible the `"exports"` field is the prferred way to define subpaths for published packages.
 
 ## Exports Field
 

@@ -80,7 +80,7 @@
 </ol>
 <a name="building-all-of-npm" class="anchor"></a><h2>Building all of npm</h2>
 <p>jspm.dev achieves instant response times for all requests because the entire compute job for npm has been completed on Google Cloud - every version of every package on npm has been built and optimized and stored for serving through Google Cloud CDN.</p>
-<p>When requesting a package that has never requested on <code>https://jspm.dev</code> the server does not need to build or optimize it, because it has already been built. New packages are built the moment they are published to npm.</p>
+<p>When requesting a package that has never been requested on <code>https://jspm.dev</code> the server does not need to build or optimize it, because it has already been built. New packages are built the moment they are published to npm.</p>
 <p>Bug fixes and updates get applied to segments of the CDN over time, for example packages exposing modules or using the "exports" field will be regularly updated. Use the package.json <a href="#exports-field">"exports" field</a> in your published packages to ensure you get the best support on jspm.dev.</p>
 <a name="package-optimization" class="anchor"></a><h2>Package Optimization</h2>
 <p>The recommended best-practice for packages to serve minimal JavaScript is to have users import subpaths for specific features - <code><span class="keyword">import</span>(<span class="string">'pkg/featureA'</span>)</code> and <code><span class="keyword">import</span>(<span class="string">'pkg/featureB'</span>)</code>. This way users only download the JavaScript they need for a specific feature.</p>
