@@ -38,7 +38,7 @@ _jspm provides an alternative to traditional JS build tooling without getting dr
 
 ## URL Patterns
 
-All packages from [npm](https://www.npmjs.com/) are precomputed and served through jspm.dev and are avaialble at their corresponding URLs.
+All packages from [npm](https://www.npmjs.com/) are precomputed and served through jspm.dev and are available at their corresponding URLs.
 
 ### Versions
 
