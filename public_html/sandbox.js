@@ -87,7 +87,7 @@ const sandboxTpl = () => html`
     background-color: #444;
     color: #eee;
     overflow-y: scroll;
-    height: 30%;
+    height: 50%;
   }
   .output .log .item {
     border-bottom: 1px solid #777;
@@ -130,7 +130,7 @@ const sandboxTpl = () => html`
 </div>
 <div class="output">
   <div style="position: absolute; width: 100%; height: 100%; z-index: 11;">
-    <div class="browser-wrapper" style="width:100%; height: 70%; background-color:#fff"></div>
+    <div class="browser-wrapper" style="width:100%; height: 50%; background-color:#fff"></div>
     <div class="log"></div>
   </div>
 </div>
@@ -216,23 +216,22 @@ function initSandbox (contents) {
       marginBottom: '-5px', // no idea, but it works
       overflow: 'scroll'
     });
-    const blobUrl = URL.createObjectURL(new Blob([
-`<!doctype html><style>body{cursor:wait}</style><script type="module">window.parent.jspmSandboxStarted();${js.replace(/<\/script>/g, '&lt;\/script>')/*UNSAFE!!*/}
-</script>
-<script type="module">
-window.parent.jspmSandboxFinished();
-</script>
-<script>
-window.onerror = function (msg, source, line, col, err) {
-  window.parent.jspmSandboxError(msg, source, line, col, err);
-};
-window.console = window.parent.jspmConsole;
-</script>
-<body style="margin: 0; padding: 0; height: 100%; background-color: #fff">
-  <canvas id="canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" touch-action="none"></canvas>
-  <div id="container"></div>
-</body>
-`], { type: 'text/html' }));
+    const blobUrl = URL.createObjectURL(new Blob([`<!doctype html><style>body{cursor:wait}</style><script type="module">window.parent.jspmSandboxStarted();${js.replace(/<\/script>/g, '&lt;\/script>')/*UNSAFE!!*/}
+      <${''}/script>
+      <script type="module">
+      window.parent.jspmSandboxFinished();
+      <${''}/script>
+      <script>
+      window.onerror = function (msg, source, line, col, err) {
+        window.parent.jspmSandboxError(msg, source, line, col, err);
+      };
+      window.console = window.parent.jspmConsole;
+      <${''}/script>
+      <body style="margin: 0; padding: 0; height: 100%; background-color: #fff">
+        <canvas id="canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" touch-action="none"></canvas>
+        <div id="container"></div>
+      </body>
+    `], { type: 'text/html' }));
     iframe.src = blobUrl;
     browserWrapper.innerHTML = '';
     browserWrapper.appendChild(iframe);
@@ -282,6 +281,9 @@ window.console = window.parent.jspmConsole;
       error (err) {
         let parts = (err && err.stack || err.toString()).split(blobUrl);
         jspmLog(parts.join('sandbox'), { color: 'red' });
+      },
+      warn (msg) {
+        jspmLog(msg, { backgroundColor: 'goldenrod' });
       }
     });
     function jspmLog (content, style) {
@@ -298,7 +300,7 @@ window.console = window.parent.jspmConsole;
   const button = sandbox.querySelector('button.run');
   button.addEventListener('click', run);
   window.jspmLog = function (content) {
-    logWrapper.innerHTML += '<pre class="item">' + content.replace(/</g, '&lt;') + '</pre>';
+    logWrapper.innerHTML += '<' + 'pre class="item">' + content.replace(/</g, '&lt;') + '</pre>';
   };
 
   const select = document.body.querySelector('select.examples');
