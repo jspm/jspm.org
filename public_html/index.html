@@ -46,11 +46,9 @@
       </ul>
       </li>
       <li class="about">
-        <a>About</a>
+        <a>Posts</a>
         <ul class="section">
-          <li class="jspm-dev"><a href="/jspm-dev-release">Latest Release</a></li>
-          <li class="private-registries"><a href="/private-registries">Private Registries</a></li>
-          <li class="background"><a href="/background">Background</a></li>
+          <li class="jspm-dev"><a href="/jspm-dev-release"><em>19/06/20 • jspm.dev Release</em></a></li>
         </ul>
       </li>
     </ul>
@@ -88,9 +86,10 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <p><em>jspm provides an alternative to traditional JS build tooling without getting dragged down into npm installs and build configurations. Just import packages directly from JS and start hacking!</em></p>
 <ul>
 <li>All modules on npm are converted into ES modules handling full <a href="#commonjs-compatibility">CommonJS compatibility</a> including strict mode conversions.</li>
-<li>Packages are served <a href="#package-optimization">heavily optimized</a> with RollupJS code splitting and dependency inlining, with the entire npm registry precomputed and served over Google Cloud CDN for global edge caching.</li>
+<li>Packages are served <a href="#package-optimization">heavily optimized</a> with RollupJS code splitting and dependency inlining and served over Google Cloud CDN for global edge caching.</li>
 <li>All Node.js module loading semantics are supported including the new <a href="#exports-field">package exports field</a>.</li>
 <li>Exact versions are cached with far-future expires for optimal loading. Non-exact versions redirect to exact versions, with the redirects refreshed from the edge CDN to pick up version updates every few minutes.</li>
+<li>High performance registry, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees.</li>
 </ul>
 <a name="url-patterns" class="anchor"></a><h2>URL Patterns</h2>
 <p>All packages from <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a> are precomputed and served through jspm.dev and are available at their corresponding URLs.</p>
@@ -173,8 +172,7 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <p>ES Module Shims uses a very fast Wasm-based lexer for <a href="https://github.com/guybedford/es-module-shims#implementation-details" target="_blank" rel="noopener">rewriting JS import statements only</a> and will know to <a href="https://github.com/guybedford/es-module-shims#skip-processing" target="_blank" rel="noopener">skip jspm.dev source processing</a>, resulting in a minimal performance cost.</p>
 </blockquote>
 <a name="package-optimization" class="anchor"></a><h2>Package Optimization</h2>
-<p>All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been <a href="/jspm-dev-release#building-all-of-npm">precomputed for all npm packages</a>.</p>
-<p>Whenever a new package is published to npm it is immediately processed by jspm and made available on jspm.dev. This usually takes only a few minutes from the time of publishing.</p>
+<p>All packages on jspm.dev are optimized served with a RollupJS code splitting build.</p>
 <p>Packages with only a main entry point will be loaded as a single module served at the direct URL of the package - <code>https://jspm.dev/npm:pkg@x.y.z</code>.</p>
 <p>For packages with multiple entry points or subpaths, each of those package subpaths are optimized, with private non-public internal modules combined into chunks to minimize the number of dependencies loaded.</p>
 <p>Source maps are included to map back to the unoptimized file structure.</p>
@@ -271,7 +269,7 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 </ul>
 <p>Only CommonJS modules will go through a conversion process on jspm.dev - ECMAScript module sources are left entirely as-is (although they will still be fully <a href="#package-optimization">optimized with RollupJS code splitting</a>).</p>
 <p>Modules are resolved as URLs, with the package.json <code><span class="string">"dependencies"</span></code> field used to determine version ranges of package dependencies. Node.js builtin imports like <code>util</code> are replaced with optimized Browserify library references.</p>
-<p>Only dependencies on npm are supported - for other registry types <a href="/private-registries">custom private registry installations</a> can be requested.</p>
+<p>Only dependencies on npm are supported - for other registry types custom private registry installations could be requested.</p>
 <a name="assets" class="anchor"></a><h2>Assets</h2>
 <p>jspm.dev will serve the readme, license and typing files as assets.</p>
 <p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://jspm.dev/npm:pkg@x.y.z/path/to/asset</code>).</p>

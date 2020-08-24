@@ -32,9 +32,10 @@ Load any npm library in the browser with module scripts:
 _jspm provides an alternative to traditional JS build tooling without getting dragged down into npm installs and build configurations. Just import packages directly from JS and start hacking!_
 
 * All modules on npm are converted into ES modules handling full [CommonJS compatibility](#commonjs-compatibility) including strict mode conversions.
-* Packages are served [heavily optimized](#package-optimization) with RollupJS code splitting and dependency inlining, with the entire npm registry precomputed and served over Google Cloud CDN for global edge caching.
+* Packages are served [heavily optimized](#package-optimization) with RollupJS code splitting and dependency inlining and served over Google Cloud CDN for global edge caching.
 * All Node.js module loading semantics are supported including the new [package exports field](#exports-field).
 * Exact versions are cached with far-future expires for optimal loading. Non-exact versions redirect to exact versions, with the redirects refreshed from the edge CDN to pick up version updates every few minutes.
+* High performance registry, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees.
 
 ## URL Patterns
 
@@ -159,9 +160,7 @@ When using ES Module Shims, modules can be imported statically with `"type": "mo
 
 ## Package Optimization
 
-All packages on jspm.dev are optimized with a RollupJS code splitting build, and this optimization has been [precomputed for all npm packages](/jspm-dev-release#building-all-of-npm).
-
-Whenever a new package is published to npm it is immediately processed by jspm and made available on jspm.dev. This usually takes only a few minutes from the time of publishing.
+All packages on jspm.dev are optimized served with a RollupJS code splitting build.
 
 Packages with only a main entry point will be loaded as a single module served at the direct URL of the package - `https://jspm.dev/npm:pkg@x.y.z`.
 
@@ -305,7 +304,7 @@ Only CommonJS modules will go through a conversion process on jspm.dev - ECMAScr
 
 Modules are resolved as URLs, with the package.json `"dependencies"` field used to determine version ranges of package dependencies. Node.js builtin imports like `util` are replaced with optimized Browserify library references.
 
-Only dependencies on npm are supported - for other registry types [custom private registry installations](/private-registries) can be requested.
+Only dependencies on npm are supported - for other registry types custom private registry installations could be requested.
 
 ## Assets
 

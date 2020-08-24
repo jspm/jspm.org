@@ -7,14 +7,5 @@
     "title": "jspm.dev Release",
     "description": "jspm.dev CDN release post",
     "nextSection": false
-  },
-  "private-registries": {
-    "title": "Private jspm.dev Registries",
-    "description": "Information on private jspm.dev registry integrations",
-    "prevSection": false
-  },
-  "background": {
-    "title": "Background",
-    "description": "Background on the jspm project"
   }
 }
