@@ -35,7 +35,7 @@ _jspm provides an alternative to traditional JS build tooling without getting dr
 * Packages are served [heavily optimized](#package-optimization) with RollupJS code splitting and dependency inlining and served over Google Cloud CDN for global edge caching.
 * All Node.js module loading semantics are supported including the new [package exports field](#exports-field).
 * Exact versions are cached with far-future expires for optimal loading. Non-exact versions redirect to exact versions, with the redirects refreshed from the edge CDN to pick up version updates every few minutes.
-* High performance registry, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees.
+* High performance CDN, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees. See for example [any popular CDN comparison](https://www.cdnperf.com/cdn-compare?type=performance&location=world&cdn=aws-cloudfront-cdn,cloudflare-cdn,google-cloud-cdn) to see how Google is faster than other cloud providers here.
 
 ## URL Patterns
 

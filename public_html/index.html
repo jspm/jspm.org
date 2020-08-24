@@ -89,7 +89,7 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <li>Packages are served <a href="#package-optimization">heavily optimized</a> with RollupJS code splitting and dependency inlining and served over Google Cloud CDN for global edge caching.</li>
 <li>All Node.js module loading semantics are supported including the new <a href="#exports-field">package exports field</a>.</li>
 <li>Exact versions are cached with far-future expires for optimal loading. Non-exact versions redirect to exact versions, with the redirects refreshed from the edge CDN to pick up version updates every few minutes.</li>
-<li>High performance registry, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees.</li>
+<li>High performance CDN, using Google Cloud CDN and Cloud Storage - no custom code lies between Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime guarantees. See for example <a href="https://www.cdnperf.com/cdn-compare?type=performance&amp;location=world&amp;cdn=aws-cloudfront-cdn,cloudflare-cdn,google-cloud-cdn" target="_blank" rel="noopener">any popular CDN comparison</a> to see how Google is faster than other cloud providers.</li>
 </ul>
 <a name="url-patterns" class="anchor"></a><h2>URL Patterns</h2>
 <p>All packages from <a href="https://www.npmjs.com/" target="_blank" rel="noopener">npm</a> are precomputed and served through jspm.dev and are available at their corresponding URLs.</p>
