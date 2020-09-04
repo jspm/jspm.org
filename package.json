@@ -2,7 +2,7 @@
   "name": "app",
   "devDependencies": {
     "jsdom": "^14.0.0",
-    "marked": "~0.6.2",
+    "marked": "~1.1.1",
     "request": "^2.88.0"
   },
   "scripts": {
