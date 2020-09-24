@@ -253,7 +253,7 @@ Alternatively, by using new browsers like [Beaker Browser](https://beakerbrowser
 
 These approaches can be a huge saving in avoiding wasted time on complex build tool configurations or starter projects in the early development phase of a web application.
 
-The jspm [online sandbox](/sandbox) is entirely developed with this type of workflow using ES Module Shims, import maps, and jspm.dev. See the [very medicore source code here](https://github.com/jspm/jspm.org/blob/master/public_html/sandbox.html) (don't judge, it gets the job done... also PR's welcome!).
+The jspm [online sandbox](/sandbox) is entirely developed with this type of workflow using Import Maps and the jspm CDN ([source](https://github.com/jspm/jspm.org/blob/master/public_html/sandbox.html)).
 
 ### TypeScript Workflow
 
