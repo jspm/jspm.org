@@ -1,90 +1,84 @@
 <!doctype html><meta charset="utf-8">
 <title>jspm Sandbox</title><html lang="en"><head><meta property="og:title" content="jspm Sandbox`"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Load any modules from npm as fully native ES modules through jspm.dev."><meta property="og:description" content="Load any modules from npm as fully native ES modules through jspm.dev."><meta property="og:url" content="https://jspm.org/sandbox"><meta name="twitter:card" content="summary_large_image"><meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/sandbox_data/codemirror.css"><link rel="stylesheet" href="/style.css"><link rel="preload" as="font" href="/sourcesans.woff2" type="font/woff2" crossorigin="anonymous"><link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<link rel="shortcut icon" href="/favicon.ico"><link rel="stylesheet" href="/style.css"><link rel="preload" as="font" href="/sourcesans.woff2" type="font/woff2" crossorigin="anonymous"><link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
 <!-- Global site tag (gtag.js) - Google Analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-40327700-2');</script>
 
-<body><div class="topbar"><a style="display: block" href="/"><div class="logobox" href="/"></div><h1 class="logo">jspm</h1></a><ul class="toplinks"><li><a href="/jspm-dev-release">Latest Release</a></li><li><a href="/">jspm.dev</a></li><li><a href="/sandbox">Sandbox</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul></div><div class="container"></div></body>
+<body><div class="topbar"><a style="display: block" href="/"><div class="logobox" href="/"></div><h1 class="logo">jspm</h1></a><ul class="toplinks"><li><a href="/jspm-dev-release">Latest Release</a></li><li><a href="/">jspm.dev</a></li><li><a href="/sandbox">Sandbox</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul></div>
+  <div class="container">
+    <jspm-sandbox>
+      <jspm-example name="babel" content="#H4sIAAAAAAAAA4WSMWvDMBCFd/2Kqym4hcTqVnAcE+jSoQUP3UrBinxpXCRLSHLBBP/3nuxQnA7NeKd79713qLhpjAyDRTgGrUpW7E0zgA+Dwq0W7rPt8oey4LFLj1661gaI89uk1da4oIVNSnZiAOeGT3KIJTV2e7FHxaVxSM3kGIL1Oedf3uqswW++eN89JqsLkVU9wdfWGWu8UGuphPdTiS606P9beE1LMGKNbGQFnyP9zaZN0yukYHMmmPbCwRkN6cJ1urkYqCZudcY+RWr1C71UX7NIm5k0nQ9wAmkahBG2MyQLTnT+YJy+qynFJITqfHK5YA6kSL+F6jGd0taraWgm+xzer3v+YOM9GaEv0mvsQha/QdZ2Hbrnt9cX2l8X1mF5e4oWx4LHot4srvoDevcapF8CAAA="></jspm-example>
+      <jspm-example name="Babylon" content="#H4sIAAAAAAAAA4WTa4vTQBSGv+dXjAHJFOI0cXGFblu0pV6gXnBF0G9p5tjMksyEmdOWKPvfnUtC3KgIgSTnvO/z5sxMlo+4KrFrgVTY1OtoeVC8Iwa7GlZNoY9CLrJ1RMiyLOS5METwVRwe414VXwTHapFn2eN4bgFzR7B3U2rRInHsVSyaVmlsijZeRz8tri+YeEHcqy0cikNXK2kLcYXYmsV8fmfahnE4z/venXlxFVv1fXRvYwJ/GtQofqrBpoQAsnm5+br/8J5816ohSQ9KbqJSSYOkH2pF7CKcGpDIjoC7GtzjpnvLaRIUyWxwgLRLAtYh4TLA2c4XadCmBPUJrKF3mBL+MNy6Gg2sUVkWDejiozIChZITyxcoUekrmqXkWUqe5Nns5oFtIn+lAba+4WZw9zxJJwlp+DYH8nVmAD/bPQekk1T2DbSis1FZIBZltVUStar/MXgtjhX+f5o8JeMs3jPRvoFGmLYCLcq9a9PEq9w8DyLGcXyZCYkgbauzvIw9HzfEsdyODAHvwFRsq6FAuPU9mgSNi8ivU/J0RIcGa/tM5uD58PVHrU6S/5382vdoEjSOfO2v39hROBBMn+QnkBz0XqmW0hlZrYOGaV/2G3ERkqsLKzjfne1p3Qtjp7W9RIMRP8Dyg3Fg+qr1jT/OLxszjkL7AwAA"></jspm-example>
+      <jspm-example name="lit-html" content="#H4sIAAAAAAAAA12QzU7DMBCE736KJUJqI5Wac3B84sAZ8QA1yYYY+U/2BhRFeXfshhKJo2fW3+yOuOt9R3NAGMkaycS772dINBtsrYof2jWPUvCiZjN1UQeCMt9W2gYfyapQSbYwgF8hVQ2UZxaMpoeCzUo1EoXUcP6Zgj33+MX/zDy7spUJvtH/x1jfTwZzxoaHpXw6QUTXY1xhiN7C4QY7PDHGOTzjoB2CAkIbjCKEYXIdae9Y510isPPbzWnh6JTFGlp57eAignxBYzzcL8VYBQ/ysnFfr6FAI+7kb00jJG8RekWKbXsd94Djvlx9gtz2ZNHRuTRaZ+p+9g8qcsuZiwEAAA=="></jspm-example>
+      <jspm-example name="Material UI" content="#H4sIAAAAAAAAA3VTwW7bMAy9+ys0XxwDsR3smMXG1naHHboVXW7DDqrFxlolS5DooMbQfx9leXMWJCdZfI/ke6S8eydMi6MF1qFWTbJ7MmJkHkcFtebuIPvtpkkY2wl5ZFLUaWt65LIHlza7ioKUUoUcOn3rpEUWqtWp1NY41NymTfKbCswBn25ZuFLAAW+RrmmHaP22qn55q0sBxyoi6xNaIYy+Tp3Qma45gpNcFYOsLmacED5uyvebKqXEt+SNfEQD5060EYMCshEdsMfQkj07o1k2tc8+/Afdfbs/RYO4hXE/yH0HGh6cOUoBbmaeqp6G76tz5lLjk7U3/FJmBBbiHWEPsn252GYBKSGhtfqpMqvZKmd1w37QWCY/ZUs+ED4rEtPjKjahUT7zQeF63uYLjFuWoUQFTyQhLmO6UngfzjkmqdOt4t5/5Roe5aFDIuhB0jP0RQCLnh/lgaOkT3i1vBeFNg6ysKV8fUXUYuayMEG4jWajjE72uIfX0PxWEcDQsO+ggDbLp7nFfslPms3frZYOelrE6oqG84UtSvpBqdj2ykAjJSfK5JBmMQSoPADOrJvxi1hl/36+LE9yUrY82T/jHNJDyAMAAA=="></jspm-example>
+      <jspm-example name="Tensorflow" content="#H4sIAAAAAAAAA21Ty27bQAy86ytYXywDgmSnCQootpFL0R5atICTk+HDWkvFG2gfWVJN1MD/XkpyYafoRcCSQ85wSC0/aF9xFxAObJt1stx73QFx1+DKqvhoXDlfL4s+KkmqogkMPX41MTb4yFaFyTp5SwBOAZqU0D8lwOjIx7rxLxKbHJgDlUXxRMHmGn8Vd+d8wfUT3c3zxTyfT6T4mByTZTHS/ctrvW4bFNKRD7iGOnoL03O76W2SVN4Rg4CxgZWAcsLnFh0b1aSz22RI5ErrVFKN6jCSiHKE6VvrDFMJiwyMCy1vDipgCdvF7jiTwqQo4GfEoCICH/DEUPsIHJVxxj2WsAlYmbob8o0nAuX08PCBjTW/MeYnAZW3wTRC2sNKmFpUbvPcSnP9OUYfp9m5RtL0qKfHk4gv6DAqRiBv5dM5IWBTgVas3unJT1680mjE6NOVTrcy4lUGHzO43mWwvc5gsZPmI7r7H1qgNxl8ukT3Uu57pgs3WhLa4d2L+TtrbTh9pUw6z3LJuTSdwWo9HIv0eKBLP9mD9uJ/jRFdJcY5UONkwRvHF8iDIjdlIEQHe5S5sRwb/gg4atpH/0IYQW6OvW+oby7wcSEty4qlQH6D1sp55P2p58aJt1/vv38TD0bxQTZiKk7fOXLTG7EYjJCR/IajzN1f17Cj8wH/AfMSZpJmAwAA"></jspm-example>
+      <jspm-example name="Vue.js" content="#H4sIAAAAAAAAA12PMW/DIBCFd37FhQ5upMp0djFzhmaLOoeaa0IEBhnsyrL833vIaSp1Ae7p3vcecmdCl+eIcM3eKSY/g5kh5dlh6/VwsX3zqhiANHYCa1rehT5r2+PAlRQkkkUUD92pG2zMUGgttz6GIXsduWILAe5C4g2UkYRpRBr4NeeYGiFuKfra4CRIJ3DK5cFpdWUrZWzw/yk+mNEhRWx0+BgRvobgoSJz9cbYo25tezoPp+M7tHCWUS0LeExJXxDWVYqozrTe43dhPJeK6Bqonh6A6oU0o7P+/cDdTUsHdC4UX31Lu2qrvCfaX+sff8l2EmcBAAA="></jspm-example>
+    </jspm-sandbox>
+  </div>
+</body>
 
 <!--
-  jspm.dev Modules Architecture
-  * ES Module Shims
-  * Import Map dependency definitions
-  * Single <script type="module"> containing source for readability
-    but usually this would be separate file or two
+  All of the following HTML is automatically generated by the jspm CLI utility (currently in private beta)
+  This provides:
+  - version lock via import maps
+  - full inlining of all scripts in execution order for instant page loads
+  - integrity metadata
+  - System.js module format conversion for compatibility in older browsers
+
+  If you are interested in trying out the beta to build apps like this, request an invite from
+  the Discord:
+  https://discord.gg/dNRweUu
 -->
-<script src="https://ga.jspm.io/npm:systemjs@6.4.1/dist/s.js"></script>
+<script src="https://ga.system.jspm.io/npm:systemjs@6.6.1/dist/s.min.js" integrity="sha384-fNLxbFH9hT5mhtd6OSPEPv8pEHS8nFVmSwXSbDfJLVR35y4+4bxpsYf/Ui3D0Af6" crossorigin="anonymous"></script>
 <script type="systemjs-importmap">
 {
   "imports": {
-    "buffer": "https://ga.system.jspm.io/npm:buffer@5.6.0/index.js",
-    "codemirror": "https://ga.system.jspm.io/npm:codemirror@5.56.0/lib/codemirror.js",
-    "codemirror/mode/javascript/javascript.js": "https://ga.system.jspm.io/npm:codemirror@5.56.0/mode/javascript/javascript.js",
-    "lit-html": "https://ga.system.jspm.io/npm:lit-html@1.2.1/lit-html.js",
-    "lit-html/directives/unsafe-html.js": "https://ga.system.jspm.io/npm:lit-html@1.2.1/directives/unsafe-html.js",
+    "assert": "https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/assert.js",
+    "buffer": "https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/buffer.js",
+    "codemirror": "https://ga.system.jspm.io/npm:codemirror@5.58.1/lib/codemirror.js",
+    "codemirror/mode/css/css.js": "https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/css/css.js",
+    "codemirror/mode/htmlmixed/htmlmixed.js": "https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/htmlmixed/htmlmixed.js",
+    "codemirror/mode/javascript/javascript.js": "https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/javascript/javascript.js",
+    "codemirror/mode/xml/xml.js": "https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/xml/xml.js",
+    "lit-element": "https://ga.system.jspm.io/npm:lit-element@2.4.0/lit-element.js",
     "process": "https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/process.js",
     "util": "https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/util.js",
     "zlib": "https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/zlib.js"
   },
   "scopes": {
-    "https://ga.system.jspm.io/npm:available-typed-arrays@1.0.2/": {
-      "array-filter": "https://ga.system.jspm.io/npm:array-filter@1.0.0/index.js"
-    },
-    "https://ga.system.jspm.io/npm:buffer@5.6.0/": {
-      "base64-js": "https://ga.system.jspm.io/npm:base64-js@1.3.1/index.js",
-      "ieee754": "https://ga.system.jspm.io/npm:ieee754@1.1.13/index.js"
-    },
-    "https://ga.system.jspm.io/npm:es-abstract@1.17.6/": {
-      "function-bind": "https://ga.system.jspm.io/npm:function-bind@1.1.1/index.js",
-      "has-symbols": "https://ga.system.jspm.io/npm:has-symbols@1.0.1/index.js"
-    },
-    "https://ga.system.jspm.io/npm:is-typed-array@1.1.3/": {
-      "available-typed-arrays": "https://ga.system.jspm.io/npm:available-typed-arrays@1.0.2/index.js",
-      "es-abstract/helpers/callBound": "https://ga.system.jspm.io/npm:es-abstract@1.17.6/helpers/callBound.js",
-      "es-abstract/helpers/getOwnPropertyDescriptor": "https://ga.system.jspm.io/npm:es-abstract@1.17.6/helpers/getOwnPropertyDescriptor.js",
-      "foreach": "https://ga.system.jspm.io/npm:foreach@2.0.5/index.js",
-      "has-symbols": "https://ga.system.jspm.io/npm:has-symbols@1.0.1/index.js"
-    },
-    "https://ga.system.jspm.io/npm:util@0.12.3/": {
-      "inherits": "https://ga.system.jspm.io/npm:inherits@2.0.4/inherits_browser.js",
-      "is-arguments": "https://ga.system.jspm.io/npm:is-arguments@1.0.4/index.js",
-      "is-generator-function": "https://ga.system.jspm.io/npm:is-generator-function@1.0.7/index.js",
-      "is-typed-array": "https://ga.system.jspm.io/npm:is-typed-array@1.1.3/index.js",
-      "util/support/isBuffer.js": "https://ga.system.jspm.io/npm:util@0.12.3/support/isBufferBrowser.js",
-      "which-typed-array": "https://ga.system.jspm.io/npm:which-typed-array@1.1.2/index.js"
-    },
-    "https://ga.system.jspm.io/npm:which-typed-array@1.1.2/": {
-      "available-typed-arrays": "https://ga.system.jspm.io/npm:available-typed-arrays@1.0.2/index.js",
-      "es-abstract/helpers/callBound": "https://ga.system.jspm.io/npm:es-abstract@1.17.6/helpers/callBound.js",
-      "es-abstract/helpers/getOwnPropertyDescriptor": "https://ga.system.jspm.io/npm:es-abstract@1.17.6/helpers/getOwnPropertyDescriptor.js",
-      "foreach": "https://ga.system.jspm.io/npm:foreach@2.0.5/index.js",
-      "has-symbols": "https://ga.system.jspm.io/npm:has-symbols@1.0.1/index.js",
-      "is-typed-array": "https://ga.system.jspm.io/npm:is-typed-array@1.1.3/index.js"
+    "https://ga.system.jspm.io/npm:lit-element@2.4.0/": {
+      "lit-html/lib/shady-render.js": "https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/shady-render.js",
+      "lit-html/lit-html.js": "https://ga.system.jspm.io/npm:lit-html@1.3.0/lit-html.js"
     }
   }
 }
 </script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/directive.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/dom.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/part.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/template.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/_/75a6e768.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/template-factory.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lib/render.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/lit-html.js"></script>
-<script src="https://ga.system.jspm.io/npm:lit-html@1.2.1/directives/unsafe-html.js"></script>
-<script src="https://ga.system.jspm.io/npm:codemirror@5.56.0/lib/codemirror.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/e00d42bc.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/0859a6e8.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/util.js"></script>
-<script src="https://ga.system.jspm.io/npm:base64-js@1.3.1/index.js"></script>
-<script src="https://ga.system.jspm.io/npm:ieee754@1.1.13/index.js"></script>
-<script src="https://ga.system.jspm.io/npm:buffer@5.6.0/index.js"></script>
-<script src="https://ga.system.jspm.io/npm:codemirror@5.56.0/mode/javascript/javascript.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/assert.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/buffer.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/0440de41.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/events.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/95a9034e.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/stream.js"></script>
-<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/zlib.js"></script>
-<script src="dist/sandbox.js"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/directive.js" integrity="sha384-ZzdlymbF3TYXNOnSD+aGTmh/CarZifuqLzUH5JPwpes4nPglCLAFx6fSfOv//zvd" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/dom.js" integrity="sha384-aBtGsM1FZ60J0wMR+R+eyLVZcqfAoWLZMBxt5h7VoDXGvjhTyvQvgdh0Uv/QoON1" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/part.js" integrity="sha384-D9EksBma0XgJAOt4rEK7QB+liRJHnYRCnEkD9CBJzt68VbxwZzEAK624flLkj283" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/template.js" integrity="sha384-La9xwvBEYKf8pPvPXvs2FIZfOATvWYww2NR2xu5krbGeO+xv/wI1CbTKYq1T8p5a" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/_/5acc6875.js" integrity="sha384-kxTr3yzDrhZEzrnTmKeZyEfaB79ZrXr8F2gRWprSpY3aB3myjwbTx+vXVpnh8Bvv" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/template-factory.js" integrity="sha384-KFeqLjViTVsUkftEbnRCkXvOY9kCvLlibIFvFCjRKGkpuzWbLquswEjZXt8JPeY3" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/render.js" integrity="sha384-p+j0hphUAKuhtqGmuryzOjY+VNuugSVWbYzNd31J9TDQkOPdh5CbLv7zuKii+BL4" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lit-html.js" integrity="sha384-LspuyOKC5DDLbizeAwQrrq7VPXw9Vyo/DzLERPuJeXliukt/meRk9WXTh8BSRe2a" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-html@1.3.0/lib/shady-render.js" integrity="sha384-yMZoGxXGQvEfTxfl+dJXl5qt7mFbVvg+m39V2JYgZksVzLKCS8mytHmFpqHkuXqg" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-element@2.4.0/lib/updating-element.js" integrity="sha384-itOl5qL3KVBA0gAtoVblREAsjPOB8h13C63CSGrrCib977q0btBHgAGG8jDCJZ2p" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-element@2.4.0/lib/decorators.js" integrity="sha384-IUNlvPv9mYF0iAk/w9NH0AbqgOHsm6pkkvBz0K+BEOqjKko6b7wY+JVM0JY4Q3t1" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-element@2.4.0/lib/css-tag.js" integrity="sha384-PEIM0QdJy2I3hys1ZGiW3gSCc+/Dor7eBmUYC3Iu+4mt1IGAqYWDpI7zHUpD/sng" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:lit-element@2.4.0/lit-element.js" integrity="sha384-uyJGA/ysd8GatO7YQS5ksmyUzHiJPqvRY73A4KzosMorX0I0XkBv5Bqmk5e47p5L" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/buffer.js" integrity="sha384-35rt0tONoh2ksQosXGtawGz17I4xtBtuXbnl7EH35J72dJXGE3IHd834rgsar6YN" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/e00d42bc.js" integrity="sha384-wD1o3CQhXLtUjmsibBp/mwUZ7vojl8bWOLbfmAx0I0nJjz4v9ATxRaf+JEFRxiOe" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/0859a6e8.js" integrity="sha384-+7zI8wo+rEHIFNfRUnVfUHSWLrjyMsKXzIeS6AOGnhWLIoyxeFgeDhswPZpkemtc" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/assert.js" integrity="sha384-jJhOJHo0eolFEj6Dds/CF/zgyCrc51Z9I7MBr7F0xdWSkz+jzHSruVPvbJNizfcB" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/util.js" integrity="sha384-DvSXwB3MriaveNHmo9lwrzypPuS5A8DR3WC2MeZUK7ydY6/W8YULQBU4Qt9wWB5Z" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/0440de41.js" integrity="sha384-wAP/bO+EaKQdJuI39m1XnRWUHbQXNLAZKID/MvFeaoiQuOg1iImDDOw4v8pJxEK2" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/events.js" integrity="sha384-G5++oOFQsirbOnFLndjpZ4FBJRBz8g+4C43+qar9JZ3v3ZN42jiG/KRxXOlD7kic" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/_/95a9034e.js" integrity="sha384-foetNPsLlAvEDzzVsSMJu+9REeHQWVTLZ8YkJ5l2JAr6uLJbWsCp95kfcZb7YDcH" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/stream.js" integrity="sha384-8PCV8cWImCdbNgfAtl+y32wRWN1l3W4GU+u+nfS89nfVMxMDq0Ffdp+AxyKV46rA" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:@jspm/core@2.0.0-beta.7/nodelibs/zlib.js" integrity="sha384-4hQGHCuaKwv6Zo2lTwyVRwOC/JvnGidLdBGIQILVdM6jyxsPBNn6F5Pplubk5IfH" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:codemirror@5.58.1/lib/codemirror.js" integrity="sha384-X4X5K9E7AD9n4qr1QCkio6v4+dqt+BVEDprIPZv5xXzvJMsjUqUtdlvtUmtoNYCE" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/css/css.js" integrity="sha384-kCyqvbdv9RDVoHu8kmYQMy+EpKn3a2/C7DcmWX9Mr5gVhyG946NIbtzGPzXLpDU/" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/javascript/javascript.js" integrity="sha384-Jnp/kjyxOu/DvxKhfgVctqVgnsFEbCwanqeBZSBZL8hQFNLFxPD3rL+Q5QyOW3U1" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/xml/xml.js" integrity="sha384-NZ1K53GWyPCjdaQxJhvZl4Azl+rDv03gL6BuE0WD/K68pCmDBqxv7IOgcUd3EfF8" crossorigin="anonymous"></script>
+<script src="https://ga.system.jspm.io/npm:codemirror@5.58.1/mode/htmlmixed/htmlmixed.js" integrity="sha384-b7mH1oLdd1fxNgioy4vNhRW4n/3ciXBl9vebINCz/tR1G/7Kw7fKqzEf58vxClWR" crossorigin="anonymous"></script>
+<script src="dist/sandbox.js" integrity="sha384-tTCrnw1tWG7Qa6WE1bVW5+Xu8i1b2PHnK2G64akwo4yvtDvzfU+rmh46u8+ppCFF" jspm-cast></script>
+<script type="module" src="./sandbox.js" jspm-cast></script>

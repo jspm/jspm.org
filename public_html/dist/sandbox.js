@@ -1,114 +1,115 @@
-System.register(['lit-html','lit-html/directives/unsafe-html.js','codemirror','util','buffer','codemirror/mode/javascript/javascript.js','zlib'],function(){'use strict';var render,html,unsafeHTML,CodeMirror,util,Buffer,zlib;return{setters:[function(module){render=module.render;html=module.html;},function(module){unsafeHTML=module.unsafeHTML;},function(module){CodeMirror=module.default;},function(module){util=module.default;},function(module){Buffer=module.Buffer;},function(){},function(module){zlib=module.default;}],execute:function(){const examples={Babel:"#H4sIAAAAAAAAA4VSXWvCMBR976+4k4GbzOZxoFWEIexhA0HfxsA0uWqkTUKSdhbpf18+OmEv20Pg3nNyzj25LZlkMIGz1TVsqeSluvg+QLuTsGATBHhB1ji0sN5CrXhT+bIVdBYuhlPcccVcpxFOrq6WEbLMCO0goItREo0iA5DnuQv2yIVTBpji6KGoIkmWLErFu0FScNGC4IsRU9JRIdGMlgXx4A/PqGypTVdiGfhUJTNycwtnfUbmw53w9sayAytqXXXQWCGPEBN+Gao1mpCNZJmnlXFQ0hIrOBhVw/jknLYzQsIGc44tWUWWMGVw9Tye/9JsquYo5MYorSytXipqbWjQOOEX+rehjtqpHsRTFtSxTfI4LPPbsQ6ucaXQwyLNzZ2h0h6UqR/2GUCUwgauvh66IUbnFeOWVg2OPddn+6d4Kc22M/j4/xmfWf/og/j/oalRujxsPRfSf7DX3fub998X2uDy/hoi9gUJzX6efQP1ZXyTiAIAAA==",Babylon:"#H4sIAAAAAAAAA4VSWY/TMBB+z68Y+hJ3FZyWFYu021bQqrBI5RBdIcGbGw+Nq8SObCfd8Ovx0WMpIKREcb5rZmznVwlcwc40NayZ5Bv16P499FAKAyZCgI9YtBYNLNdQK95WbtkJduuF/p0846qwfYNQ2rqaBcgUWjQWPDodRNMgMACUUuvjkQurNBSKo4OCK4+2GLFRvD9YJlx0IPh0UChpmZCoB7NJ7sAjXzDZMRMlYen5uIph+SnNv8sdFq65Ek8zbnpojZBbCK3tNWsa1L6pPElE3ShtYf5m/m316SP80KqGtLS2Mbd57jePcuzyDdv0lZI78/o6vUsS16mxcOhrCm6H2hqlpVu0ywr9ct6/5ySNinR4d3Cg3Lr5nEPi/liSLgNIojYDq1scnmqYAv8wrD1GYtbwSTc1avZZGWGFkheWr25LlL4mowxeZvB8PDq1FG0X8rcacREIP4P/jtPsokIWe/NBAacG7QPTbgvIRVX6HbUiw7OSWcuKcuGOW6vqH4NXYlva/08zzuA8S/BcaO+xFqYpUYti5WmSBpWf57cS53ECTIW0KB3Vu7wRfXU+EJ/lT+RY4AOaki40MovrwJE0anyJ8U0GL87RkaDNoSb14eNj91utWsn/nvwucCSNGp98E54n2Um8EFS38gtKjnqlVEPIEKazqKE6wOEg9kJytaeM82XnbutKGDet41KNRvxElx+Nx8yAOt8vIPs6/VQEAAA=","lit-html":"#H4sIAAAAAAAAA0VRy27CMBC85yu2USUeovEdkpyK1HPhAzD20hjFD9mbQIT498ZxSQ+W1jO745k1W2ewhmtwGg7cyLO9j/cIHRsVICQI8I6iIwywP4C2smvHsld8GxvjKd+kFTQ4hIZ0W09QEF45gohWeRrKJwagKAqK8igVWQ/CShyhaYqlsSRxtnL4Gyml6kHJKhfWEFcGfV6XbARfvOCm5yG1TGXkU5XE2KwWz/6KYjTX4JzxPEAXlPmBydrNc+fQR1Msy5R21hM8YroNeDQS/RMu3mpYNEQubBmLOywk9qxV9BEbF7ssYww+8TLaBQ6E2rWcEC6dEaSsycYsgUAPxxdTwdJwjSuo6mmTp9LVX9i2Ft4fkXiWzNWnpPs9uZgizMo3RQ0EqxEkJ54lo8v/B5aL2dxqA+OfdRoNFXEzq132C68p/rMMAgAA","Material UI":"#H4sIAAAAAAAAA5VTsW7bMBDd9RVXL7IDW0o7dHBsI03ioUPaIPZWZKDFi8VEFAnypFoo+u89io6NBHXQDoTId+/dvTtS+VkCZ/DkrYaVqOXG7PgcoHWpPPgIAe6waAg9LFegjWwq3rZKTAMxrNkHaQrqLEJJulr0kC+csgQBnQ+iaNBHALIso5AepSLjoDASGepVeZTFFBsju71kJlULSs4HhalJqBrdYDHLGXyJF6JuhY+UfhvicReT5YdsYS2fsGBzJR563HTQeFVvobf20wlr0QVTeZIobY0juEfBokdnNKQlkfXTPA+jyyS2uQvBy4+f04tX9Jvvt+8qJtLoV6rbRq1L1HjnTKskulNqLQidEtWkUZfn2afz3FPH95K/1R8zf7H2Svx7vkg/ym+YcKeK5/+wdJRwmoSvzvcuYA7DEcwX8COBOKWs4GEQLis2XtMwluacj6KpaAy/mAfwjN0UUlJU4YaNjXuwPzK8Dt89prjSdSW8/yY03qttSUzQjeJH6ichOKlFq7aCFG9xZ/kFTLRxmLL692h8wtSxmb8bkxy3sdloo1Q1rXEXil9XHAAysMIqPDzRTzPWSx54Ni9vJXNY86UNT3h4e7lHJ3VTVbHsiYFGyogpfYc8iyaEsi3SnnXVfZXD9PCDpaNkdPEH6RTwLSAEAAA=",Tensorflow:"#H4sIAAAAAAAAA21TTU/cMBC951dM97JZFCUsBVUKLOKC2kOrVlp6Qhy88YQ1SmzjmSybIv57xzHQReohkTMfz++9mVRHGRzBA/ke1srqjdvLdwzdbA0BpRDgHpuBkeB6Db3TQyfHnVF1LIzPxSftGh49wpb77nIKUROMZ4jR1Sw1zaYMQFmWHOFRG3YBGqdRQlNXldoSxMbp8bXlQpsdGL2aNc6yMhbD7PKikuBbvlF2pyiVTMeYT6cEVr2jxef6ARsht8V3jZsRBjL2HiZqT0F5jyGSqrLM9N4FKW+hDa6H+ZbZU11V0bdS4666YrTkQtu5p4rbB7o6LpfH5fH8PMuEMHF0DTtYCURJ+DigZaO6fHGeTYlSaZ1LqlMjBhJES5g/D9Yw1bAswFg/8HqrPNZwu7x7WUhjVlXwK6BXAScd6YZW/OQgBomSGtYeG9OOU75zRCBapw/n2fTmTxSYCDSu96aTS2NZDfMelV0/DgKur0NwYV7865E03ev5yyuJryjTUCxOul5eo5UL2DSgFasPfMpXL/aUjEienej8ViSeFPC5gNO7Am5PC1jeCXiqHv9XLaVnBXw5rI5UbuJNB268DRQnMm9aW8P5ngpBXsgeos3zBawu4TkDEIzfdOgnO9BO/G8xoG3EOAsqKfPOWD6o3CqycwZCtLBB0Y11AvzpMXHaBPdEGEAWhp3rKIJLeRrIwDJiaZAfaehlPcq4rqWx4u23mx/fxYNE3stETMP5B0fOohHLyQiR5NYcRHfcLpnRX23AipniAwAA","Vue.js":"#H4sIAAAAAAAAAz1QsW7DIBTc+YoXd3AbVWZ3HG+RMrRTos4h8BoT2YAAO7Es/3vBNB4eOu7enQ7olsAW7s50cGJKXPUz3CN1bqQDlyjAJ/Leo4PDCTot+jbAQbIyLsapNkJzPxqExndtvVCOW2k8RHafJVO2KABFUfgYj0J6bYFrgYFaXDTZUsRVi/HfUgk5gBT7jGvlmVRos7qigXzpnKmBubSywKgnlMLomhbncEceyjW4vvE6Qu+kusFS7WGZMWhjKUqI7Iy2Hn56hF+rO8gb740rKY0fVwgc6NBjaON8BPmOkLVmIVU4j+fvL9jDpTL1NEGHzrEbwjxX1NSXsK7wEdPfJwKAbQn52xqQfwZOMM9KiCq83GHpiG2ro6+4u00exJnMH7s/PwfC8dMBAAA="};let editor,sandbox,curHash,curJs;function initSandbox(e){if(!e){const o=location.hash.slice(1);if(o){curHash=o;try{e=hashToSource(o);}catch(o){console.error(o),e=hashToSource(examples.Babel);}}else e=hashToSource(examples.Babel);}sandbox=document.createElement("div"),sandbox.className="sandbox",render(html`
-<style>
-  .editor {
-    position: absolute;
-    top: 3.5em;
-    left: 0;
-    width: 50%;
-    height: calc(100% - 3.5em);
-  }
-  .codemirror {
-    height: 100%;
-  }
-  .CodeMirror {
-    background: transparent;
-    height: 100%;
-  }
-  .editor-bar {
-    width: 0;
-    height: 3em;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    z-index: 12;
-  }
-  .editor-bar .inner {
-    width: 12em;
-    margin-left: -6em;
-    margin-top: 1.2em;
-  }
-  .editor-bar select {
-    float: left;
-    width: 8em;
-  }
-  .editor-bar button {
-    float: right;
-    padding-left: 1em;
-    margin-top: 0.05em;
-    z-index: 13;
-    cursor: pointer;
-    color: #666;
-    text-shadow: 1px 1px #efefef;
-    background: transparent;
-    border: none;
-    outline: none;
-  }
-  .editor-bar button:hover {
-    color: #222;
-    text-shadow-color: #fff;
-  }
-  .editor-bar button[disabled] {
-    cursor: wait;
-    color: #aaa;
-  }
-  .output {
-    position: absolute;
-    top: 3.5em;
-    right: 0;
-    width: 50%;
-    height: calc(100% - 3.5em);
-    border-left: 1px solid #eee;
-  }
-  .output .log {
-    font-size: 1em;
-    background-color: #444;
-    color: #eee;
-    overflow-y: scroll;
-    height: 50%;
-  }
-  .output .log .item {
-    border-bottom: 1px solid #777;
-    padding-bottom: 0.5em;
-    padding: 0.5em 2em;
-    margin: 0;
-    white-space: pre-wrap;
-  }
-  @media screen and (max-width: 850px), screen and (max-device-width: 850px) {
-    .editor {
-      width: 100%;
-    }
-    .output {
-      left: 0;
-      top: calc(3.5em + 50%);
-      height: calc(50% - 3.5em);
-      width: 100%;
-    }
-    .topbar ul.toplinks {
-      display: none;
-    }
-    .editor-bar {
-      left: 70%;
-    }
-  }
-</style>
-<div class="editor-bar">
-  <div class="inner">
-    <select class="examples">
-      <option value="">Examples</option>
-      ${unsafeHTML(Object.entries(examples).map(([e,o])=>`<option value="${o}">${e}</option>`).join(""))}
-    </select>
-    <button class="run">&#9654;&nbsp;Run</button>
-  </div>
-</div>
-<div class="editor">
-  <div style="width: 100%; height: 100%;">
-    <div class="codemirror"></div>
-  </div>
-</div>
-<div class="output">
-  <div style="position: absolute; width: 100%; height: 100%; z-index: 11;">
-    <div class="browser-wrapper" style="width:100%; height: 50%; background-color:#fff"></div>
-    <div class="log"></div>
-  </div>
-</div>
-`,sandbox);document.body.querySelector(".container").appendChild(sandbox),editor=CodeMirror(sandbox.querySelector(".codemirror"),{lineNumbers:!0,value:e,mode:"javascript",scrollbarStyle:"null",tabSize:2});const o=sandbox.querySelector(".browser-wrapper"),t=sandbox.querySelector(".log");window.addEventListener("popstate",(function(){const e=location.hash.slice(1);e&&e!==curHash&&(editor.setValue(curJs=hashToSource(e)),curHash=e);}));let r=!1;function i(){let e=!0;n.disabled=!0;document.createElement("script").type="module";const r=editor.getValue();curJs!==r&&(curHash="#"+zlib.gzipSync(new Buffer(r)).toString("base64"),location.hash!==curHash&&window.history.pushState(null,document.title,curHash)),curJs=r;const i=document.createElement("iframe");Object.assign(i.style,{margin:"0",padding:"0",borderStyle:"none",height:"100%",width:"100%",marginBottom:"-5px",overflow:"scroll"});const s=URL.createObjectURL(new Blob([`<!doctype html><style>body{cursor:wait}</style><script type="module">window.parent.jspmSandboxStarted();${r.replace(/<\/script>/g,"&lt;/script>")}\n      <\/script>\n      <script type="module">\n      window.parent.jspmSandboxFinished();\n      <\/script>\n      <script>\n      window.onerror = function (msg, source, line, col, err) {\n        window.parent.jspmSandboxError(msg, source, line, col, err);\n      };\n      window.console = window.parent.jspmConsole;\n      <\/script>\n      <body style="margin: 0; padding: 0; height: 100%; background-color: #fff">\n        <canvas id="canvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" touch-action="none"></canvas>\n        <div id="container"></div>\n      </body>\n    `],{type:"text/html"}));i.src=s,o.innerHTML="",o.appendChild(i);let a=!1;function d(e,o){const r=document.createElement("pre");o&&Object.assign(r.style,o),r.className="item",r.innerHTML=e,t.appendChild(r),t.scrollTop=t.scrollHeight;}window.jspmSandboxStarted=function(){a=!0;},window.jspmSandboxFinished=function(){a?(e=!1,n.disabled=!1,i.contentDocument.body.style.cursor="default"):e&&(d("Network error loading modules. Check the browser network panel."),e=!1,n.disabled=!1,i.contentDocument.body.style.cursor="default");},window.jspmSandboxError=function(o,t,r,a,l){e&&(e=!1,n.disabled=!1,i.contentDocument.body.style.cursor="default");let c=l.stack.split(s);1===c.length&&(1===r&&(a-=72),c=[`${o} sandbox:${r}:${a}`]),d(c.join("sandbox"),{color:"red"});},window.jspmConsole=Object.assign(Object.create(null),t,{log(e){let o="";for(let e=0;e<arguments.length;e++)o+=util.inspect(arguments[e],{depth:0})+(e<arguments.length-1?" ":"");d(o.replace(/\\n/g,"\n")),window.console.log.apply(t,arguments);},error(e){d((e&&e.stack||e.toString()).split(s).join("sandbox"),{color:"red"});},warn(e){d(e,{backgroundColor:"goldenrod"});}});}editor.on("change",()=>{r||(s.value="");});const n=sandbox.querySelector("button.run");n.addEventListener("click",i),window.jspmLog=function(e){t.innerHTML+='<pre class="item">'+e.replace(/</g,"&lt;")+"</pre>";};const s=document.body.querySelector("select.examples");s.addEventListener("change",()=>{r=!0,editor.setValue(hashToSource(s.value.slice(1))),r=!1;}),curHash&&i();}function hashToSource(e){return zlib.gunzipSync(new Buffer(e,"base64")).toString("utf8")}initSandbox();}}});
+System.register(['lit-element','buffer','zlib','codemirror','codemirror/mode/css/css.js','codemirror/mode/javascript/javascript.js','codemirror/mode/xml/xml.js','codemirror/mode/htmlmixed/htmlmixed.js','util'],function(){'use strict';var LitElement,html,css,Buffer,zlib,CodeMirror,util;return{setters:[function(module){LitElement=module.LitElement;html=module.html;css=module.css;},function(module){Buffer=module.Buffer;},function(module){zlib=module.default;},function(module){CodeMirror=module.default;},function(){},function(){},function(){},function(){},function(module){util=module.default;}],execute:function(){class JspmEditor extends LitElement{static get properties(){return {contents:{converter:{fromAttribute(t){if(!t||"#"!==t[0])return "";try{return zlib.gunzipSync(Buffer.from(t.slice(1),"base64")).toString("utf8")}catch(t){return console.error(t),""}},toAttribute:t=>"#"+zlib.gzipSync(Buffer.from(t)).toString("base64")},reflect:!0}}}constructor(){super();}render(){return html`
+      <link rel="stylesheet" @load=${this.attachCodeMirror} href="https://ga.system.jspm.io/npm:codemirror@5.58.1/lib/codemirror.css"/>
+      <div style="width: 100%; height: 100%;">
+        <div class="codemirror"></div>
+      </div>
+    `}updated(){this.editor&&this.editor.getValue()!==this.contents&&this.editor.setValue(this.contents);}attachCodeMirror(){this.editor=CodeMirror(this.shadowRoot.querySelector(".codemirror"),{lineNumbers:!0,value:this.contents,mode:"htmlmixed",scrollbarStyle:"null",tabSize:2,extraKeys:{"Ctrl-S":()=>this.dispatchEvent(new CustomEvent("save"))}}),window.editor=this.editor,this.dispatchEvent(new CustomEvent("load"));}async getContents(){const t=this.editor.getValue();return this.contents=t,await this.updateComplete,t}static get styles(){return css`
+      .codemirror {
+        height: 100%;
+      }
+      .CodeMirror {
+        height: 100%;
+      }
+    `}}customElements.define("jspm-editor",JspmEditor);class JspmConsole extends LitElement{constructor(){super(),this.api=Object.assign(Object.create(null),this.$logWrapper,{log:(...t)=>{let e="";for(let o=0;o<t.length;o++)e+=util.inspect(t[o],{depth:0})+(o<t.length-1?" ":"");this.log(e.replace(/\\n/g,"\n"));},error:t=>{let e=(t&&t.stack||t.toString()).split(/blob\:.+/);this.log(e.join("sandbox"),{color:"red"});},warn:t=>{this.log(t,{backgroundColor:"goldenrod"});}});}firstUpdated(){this.$log=this.shadowRoot.querySelector(".log");}render(){return html`<div class="log"></div>`}log(t,e){const o=Object.assign(document.createElement("pre"),{className:"item",innerHTML:t});e&&Object.assign(o.style,e),this.$log.appendChild(o),this.$log.scrollTop=this.$log.scrollHeight;}static get styles(){return css`
+      .log {
+        font-size: 1em;
+        background-color: #444;
+        color: #eee;
+        overflow-y: scroll;
+        height: 50%;
+      }
+      .log .item {
+        border-bottom: 1px solid #777;
+        padding-bottom: 0.5em;
+        padding: 0.5em 2em;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+    `}}customElements.define("jspm-console",JspmConsole);class JspmSandbox extends LitElement{static get properties(){return {selectedUrl:String,running:Boolean}}constructor(){super(),this.examples=Object.create(null),this.running=!1;for(const t of this.children)this.examples[t.getAttribute("name")]=t.getAttribute("content");this.selectedUrl=location.hash||Object.values(this.examples)[0];}firstUpdated(){this.$examples=this.shadowRoot.querySelector("select.examples"),this.$editor=this.shadowRoot.querySelector("jspm-editor"),this.$browserWrapper=this.shadowRoot.querySelector(".browser-wrapper"),this.$console=this.shadowRoot.querySelector("jspm-console"),window.addEventListener("popstate",()=>{this.$editor.getAttribute("contents")!==location.hash&&this.$editor.setAttribute("contents",location.hash);});}async onSelect(){this.selectedUrl=this.$examples.value,await this.updateComplete,this.run();}render(){return html`
+      <div class="editor-bar">
+        <div class="inner">
+          <select class="examples" @change=${this.onSelect}}>
+            <option value="">Examples</option>
+            ${Object.entries(this.examples).map(([t,e])=>html`<option value="${e}" ?selected=${e===this.selectedUrl}>${t}</option>`)}
+          </select>
+          <button class="run" @click=${this.run} ?disabled=${this.running}>&#9654;&nbsp;Run</button>
+        </div>
+      </div>
+      <jspm-editor contents="${this.selectedUrl}" @load=${this.run} @save=${this.run}></jspm-editor>
+      <div class="output">
+        <div style="position: absolute; width: 100%; height: 100%; z-index: 11;">
+          <div class="browser-wrapper" style="width:100%; height: 50%; background-color:#fff"></div>
+          <jspm-console></jspm-console>
+        </div>
+      </div>
+    `}async run(){const t=await this.$editor.getContents();location.hash!==this.$editor.getAttribute("contents")&&window.history.pushState(null,document.title,this.$editor.getAttribute("contents")),this.running=!0;document.createElement("script").type="module";const e=document.createElement("iframe");Object.assign(e.style,{margin:"0",padding:"0",borderStyle:"none",height:"100%",width:"100%",marginBottom:"-5px",overflow:"scroll"});const o=URL.createObjectURL(new Blob([`\n      ${t.replace(/type=["']?(module|importmap)['"]?/g,"type=$1-shim")}\n      <script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.6.0/dist/es-module-shims.js"><\/script>\n      <script>window.parent.jspmSandboxStarted()<\/script>\n      <script type="module-shim">window.parent.jspmSandboxFinished()<\/script>\n      <script>\n      window.onerror = function (msg, source, line, col, err) {\n        window.parent.jspmSandboxError(msg, source, line, col, err);\n      };\n      window.console = window.parent.jspmConsole;\n      <\/script>\n    `],{type:"text/html"}));e.src=o,this.$browserWrapper.innerHTML="",this.$browserWrapper.appendChild(e);let r=!1;window.jspmSandboxStarted=()=>r=!0,window.jspmSandboxFinished=()=>{r?(this.running=!1,e.contentDocument.body.style.cursor="default"):this.running&&(this.$console.log("Network error loading modules. Check the browser network panel."),this.running=!1,e.contentDocument.body.style.cursor="default");},window.jspmSandboxError=(t,r,s,i,n)=>{this.running&&(this.running=!1,e.contentDocument.body.style.cursor="default");let l=n.stack.split(o);1===l.length&&(1===s&&(i-=72),l=[`${t} sandbox:${s}:${i}`]),this.$console.log(l.join("sandbox"),{color:"red"});},window.jspmConsole=this.$console.api;}static get styles(){return css`
+      jspm-editor {
+        position: absolute;
+        top: 3.5em;
+        left: 0;
+        width: 50%;
+        height: calc(100% - 3.5em);
+      }
+      .editor-bar {
+        width: 0;
+        height: 3em;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 12;
+      }
+      .editor-bar .inner {
+        width: 12em;
+        margin-left: -6em;
+        margin-top: 1.2em;
+      }
+      .editor-bar select {
+        float: left;
+        width: 8em;
+      }
+      .editor-bar button {
+        float: right;
+        padding-left: 1em;
+        margin-top: 0.05em;
+        z-index: 13;
+        cursor: pointer;
+        color: #666;
+        text-shadow: 1px 1px #efefef;
+        background: transparent;
+        border: none;
+        outline: none;
+      }
+      .editor-bar button:hover {
+        color: #222;
+        text-shadow-color: #fff;
+      }
+      .editor-bar button[disabled] {
+        cursor: wait;
+        color: #aaa;
+      }
+      .output {
+        position: absolute;
+        top: 3.5em;
+        right: 0;
+        width: 50%;
+        height: calc(100% - 3.5em);
+        border-left: 1px solid #eee;
+      }
+      @media screen and (max-width: 850px), screen and (max-device-width: 850px) {
+        jspm-editor {
+          width: 100%;
+        }
+        .output {
+          left: 0;
+          top: calc(3.5em + 50%);
+          height: calc(50% - 3.5em);
+          width: 100%;
+        }
+        .topbar ul.toplinks {
+          display: none;
+        }
+        .editor-bar {
+          left: 70%;
+        }
+      }
+    `}}customElements.define("jspm-sandbox",JspmSandbox);}}});
