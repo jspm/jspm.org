@@ -7,6 +7,8 @@ import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 import util from 'util';
+import { parse as parseEsm } from 'es-module-lexer';
+import { parse } from './lib/script-lexer.js';
 
 class JspmEditor extends LitElement {
   static get properties () {
@@ -34,6 +36,10 @@ class JspmEditor extends LitElement {
   }
   constructor () {
     super();
+    window.addEventListener('popstate', () => {
+      if (this.getAttribute('contents') !== location.hash)
+        this.setAttribute('contents', location.hash);
+    });
   }
   render () {
     return html`
@@ -44,8 +50,25 @@ class JspmEditor extends LitElement {
     `;
   }
   updated () {
-    if (this.editor && this.editor.getValue() !== this.contents)
+    if (!this.editor)
+      return;
+    if (this.editor.getValue() !== this.contents) {
+      const pos = this.editor.getCursor();
+      let lineDiff = 0;
+      if (this.offset) {
+        if (pos.line > this.offset.start)
+          lineDiff = this.offset.lines;
+        this.offset = null;
+      }
+      const scroll = this.editor.getScrollInfo();
+      const bottom = scroll.height - scroll.top;
       this.editor.setValue(this.contents);
+      this.editor.setCursor({ line: pos.line + lineDiff, ch: pos.ch });
+      if (lineDiff)
+        this.editor.scrollTo(scroll.left, this.editor.getScrollInfo().height - bottom);
+      window.history.pushState(null, document.title, this.getAttribute('contents'));
+    }
+    this.editor.focus();
   }
   attachCodeMirror () {
     this.editor = CodeMirror(this.shadowRoot.querySelector('.codemirror'), {
@@ -54,6 +77,7 @@ class JspmEditor extends LitElement {
       mode: 'htmlmixed',
       scrollbarStyle: 'null',
       tabSize: 2,
+      smartIndent: false,
       extraKeys: {
         'Ctrl-S': () => this.dispatchEvent(new CustomEvent('save'))
       }
@@ -61,12 +85,19 @@ class JspmEditor extends LitElement {
     window.editor = this.editor;
     this.dispatchEvent(new CustomEvent('load'));
   }
-  async getContents () {
-    const contents = this.editor.getValue();
+
+  getContents () {
+    return this.editor.getValue();
+  }
+
+  async setContents (contents, offset) {
+    this.contents = this.editor.getValue();
+    this.offset = offset;
     this.contents = contents;
     await this.updateComplete;
     return contents;
   }
+
   static get styles () {
     return css`
       .codemirror {
@@ -159,10 +190,14 @@ class JspmSandbox extends LitElement {
     this.$editor = this.shadowRoot.querySelector('jspm-editor');
     this.$browserWrapper = this.shadowRoot.querySelector('.browser-wrapper');
     this.$console = this.shadowRoot.querySelector('jspm-console');
-    window.addEventListener('popstate', () => {
-      if (this.$editor.getAttribute('contents') !== location.hash)
-        this.$editor.setAttribute('contents', location.hash);
-    });
+    function keydown (e) {
+      if ((e.key === 'p' || e.key === 'P') && e.ctrlKey) {
+        import('./sandboxcmd.js');
+        e.preventDefault();
+        window.removeEventListener('keydown', keydown);
+      }
+    }
+    window.addEventListener('keydown', keydown);
   }
   async onSelect () {
     this.selectedUrl = this.$examples.value;
@@ -190,9 +225,57 @@ class JspmSandbox extends LitElement {
     `;
   }
   async run () {
-    const source = await this.$editor.getContents();
-    if (location.hash !== this.$editor.getAttribute('contents'))
-      window.history.pushState(null, document.title, this.$editor.getAttribute('contents'));
+    let source = this.$editor.getContents();
+
+    const scripts = parse(source);
+    
+    const moduleScripts = [];
+    let importMap;
+    for (const script of scripts) {
+      const typeAttr = script.attributes.find(attr => source.slice(attr.nameStart, attr.nameEnd) === 'type');
+      let typeValue = source.slice(typeAttr.valueStart, typeAttr.valueEnd);
+      if (typeValue[0] === '"' || typeValue[0] === '\'')
+        typeValue = typeValue.slice(1, -1);
+      if (typeValue === 'module')
+        moduleScripts.push(script);
+      else if (!importMap && typeValue === 'importmap')
+        importMap = script;
+    }
+
+    let importMapJson;
+    if (importMap) {
+      try {
+        importMapJson = JSON.parse(source.slice(importMap.innerStart, importMap.innerEnd).trim() || '{}');
+      }
+      catch {}
+    }
+
+    if (importMapJson) {
+      let addedImports = false;
+      if (typeof importMapJson.imports !== 'object')
+        importMapJson.imports = {};
+      for (const script of moduleScripts) {
+        const moduleSource = source.slice(script.innerStart, script.innerEnd);
+        try {
+          const [imports] = parseEsm(moduleSource);
+          for (const impt of imports) {
+            if (impt.d === -1) {
+              const imptSpecifier = moduleSource.slice(impt.s, impt.e);
+              if (!importMapJson.imports[imptSpecifier]) {
+                addedImports = true;
+                importMapJson.imports[imptSpecifier] = 'https://jspm.dev/' + imptSpecifier;
+              }
+            }
+          }
+        }
+        catch {}
+      }
+
+      if (addedImports)
+        source = source.slice(0, importMap.innerStart) + '\n' + JSON.stringify(importMapJson, null, 2) + '\n' + source.slice(importMap.innerEnd);
+    }
+
+    await this.$editor.setContents(source);
 
     this.running = true;
 
