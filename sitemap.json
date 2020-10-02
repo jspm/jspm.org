@@ -7,5 +7,9 @@
     "title": "jspm.dev Release",
     "description": "jspm.dev CDN release post",
     "nextSection": false
+  },
+  "cli": {
+    "title": "jspm 3.0 CLI",
+    "description": "jspm 3.0 CLI documentation"
   }
 }
