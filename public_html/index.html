@@ -148,7 +148,8 @@ jspm provides a module CDN allowing any package from npm to be directly loaded<b
 <span class="keyword">import</span> compiler <span class="keyword">from</span> <span class="string">'svelte/compiler'</span>;</code></pre>
 <h3>Enabling Import Maps in Chrome</h3>
 <p>To enable import maps in a Chrome / Chromium browser, navigate to <code>chrome://flags</code>, or copy the URL below:</p>
-<pre><code>chrome://flags/#enable-experimental-web-platform-features</code></pre><p>Select the <strong>Experimental Web Platform Features</strong> feature to <strong>Enabled</strong>, relaunch, and you're good to go.</p>
+<pre><code>chrome://flags/#enable-experimental-web-platform-features</code></pre>
+<p>Select the <strong>Experimental Web Platform Features</strong> feature to <strong>Enabled</strong>, relaunch, and you're good to go.</p>
 <h3>Polyfilling Import Maps with ES Module Shims</h3>
 <p>To support import maps in all modern browsers, <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> provides a performant shim based on a Web Assembly lexer for fast import specifier rewriting.</p>
 <p>This can be included from jspm.dev with the followinng HTML, and the import map defined instead by <code><span class="string">"importmap-shim"</span></code>:</p>
