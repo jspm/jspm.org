@@ -52,22 +52,20 @@ class JspmEditor extends LitElement {
   updated () {
     if (!this.editor)
       return;
-    if (this.editor.getValue() !== this.contents) {
-      const pos = this.editor.getCursor();
-      let lineDiff = 0;
-      if (this.offset) {
-        if (pos.line > this.offset.start)
-          lineDiff = this.offset.lines;
-        this.offset = null;
-      }
-      const scroll = this.editor.getScrollInfo();
-      const bottom = scroll.height - scroll.top;
-      this.editor.setValue(this.contents);
-      this.editor.setCursor({ line: pos.line + lineDiff, ch: pos.ch });
-      if (lineDiff)
-        this.editor.scrollTo(scroll.left, this.editor.getScrollInfo().height - bottom);
-      window.history.pushState(null, document.title, this.getAttribute('contents'));
+    const pos = this.editor.getCursor();
+    let lineDiff = 0;
+    if (this.offset) {
+      if (pos.line > this.offset.start)
+        lineDiff = this.offset.lines;
+      this.offset = null;
     }
+    const scroll = this.editor.getScrollInfo();
+    const bottom = scroll.height - scroll.top;
+    this.editor.setValue(this.contents);
+    this.editor.setCursor({ line: pos.line + lineDiff, ch: pos.ch });
+    if (lineDiff)
+      this.editor.scrollTo(scroll.left, this.editor.getScrollInfo().height - bottom);
+    window.history.pushState(null, document.title, this.getAttribute('contents'));
     this.editor.focus();
   }
   attachCodeMirror () {
@@ -87,7 +85,9 @@ class JspmEditor extends LitElement {
   }
 
   getContents () {
-    return this.editor.getValue();
+    const source = this.editor.getValue();
+    this.contents = source;
+    return source;
   }
 
   async setContents (contents, offset) {
@@ -261,6 +261,11 @@ class JspmSandbox extends LitElement {
           for (const impt of imports) {
             if (impt.d === -1) {
               const imptSpecifier = moduleSource.slice(impt.s, impt.e);
+              try {
+                new URL(imptSpecifier);
+                continue;
+              }
+              catch {}
               if (!importMapJson.imports[imptSpecifier]) {
                 addedImports = true;
                 importMapJson.imports[imptSpecifier] = 'https://jspm.dev/' + imptSpecifier;
@@ -293,8 +298,9 @@ class JspmSandbox extends LitElement {
     });
     const blobUrl = URL.createObjectURL(new Blob([`
       ${source.replace(/type=["']?(module|importmap)['"]?/g, 'type=$1-shim')}
-      <script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.6.0/dist/es-module-shims.js"><${''}/script>
+      <script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.7.0/dist/es-module-shims.js"><${''}/script>
       <script>window.parent.jspmSandboxStarted()<${''}/script>
+      <script type="module">importShim.onerror=e=>{window.parent.jspmSandboxError(e.message || e, '', '', '', e)}<${''}/script>
       <script type="module-shim">window.parent.jspmSandboxFinished()<${''}/script>
       <script>
       window.onerror = function (msg, source, line, col, err) {
@@ -327,7 +333,7 @@ class JspmSandbox extends LitElement {
         this.running = false;
         iframe.contentDocument.body.style.cursor = 'default';
       }
-      let parts = err.stack.split(blobUrl);
+      let parts = (err.stack || err).split(blobUrl);
       if (parts.length === 1) {
         if (line === 1) col = col - 72;
         parts = [`${msg} sandbox:${line}:${col}`];
