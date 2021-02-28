@@ -1,12 +1,12 @@
 import { LitElement, html, css } from 'lit-element';
-import { Buffer } from 'buffer';
-import zlib from 'zlib';
+import { Buffer } from '@jspm/core/nodelibs/buffer';
+import zlib from '@jspm/core/nodelibs/zlib';
 import CodeMirror from 'codemirror';
 import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
-import util from 'util';
+import util from '@jspm/core/nodelibs/util';
 import { parse as parseEsm } from 'es-module-lexer';
 import { parse } from './lib/script-lexer.js';
 
@@ -233,6 +233,7 @@ class JspmSandbox extends LitElement {
     let importMap;
     for (const script of scripts) {
       const typeAttr = script.attributes.find(attr => source.slice(attr.nameStart, attr.nameEnd) === 'type');
+      if (!typeAttr) continue;
       let typeValue = source.slice(typeAttr.valueStart, typeAttr.valueEnd);
       if (typeValue[0] === '"' || typeValue[0] === '\'')
         typeValue = typeValue.slice(1, -1);
