@@ -13,8 +13,8 @@
     "description": "JSPM workflows from development to production"
   },
   "import-map-cdn": {
-    "title": "Import Map CDN Launch",
-    "description": "Import map CDN launch"
+    "title": "Import Maps & Module CDN Launch",
+    "description": "Import maps have just landed in Chrome - JSPM.IO is module CDN for them"
   },
   "jspm-dev-release": {
     "title": "jspm.dev Release",

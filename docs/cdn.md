@@ -12,7 +12,7 @@ Both CDNs follow the exact same module semantics as descibed in the [CDN semanti
 * Univeral URLs with far-future expires _for all resources_.
 * The ability to configure all environment conditions for a package (eg development / production / browser / Node.js package variants).
 * SystemJS variant to support older browsers without needing an import maps polyfill.
-* High performance CDN, using Google Cloud CDN and Cloud Storage - no custom code lies between `https://ga.jspm.io` and Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime SLA guarantees. See for example [any popular CDN comparison](https://www.cdnperf.com/cdn-compare?type=performance&location=world&cdn=aws-cloudfront-cdn,cloudflare-cdn,google-cloud-cdn) to see how Google compares here.
+* High performance CDN, using Google Cloud CDN and Cloud Storage - no custom code lies between `ga.jspm.io` and Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime SLA guarantees. See for example [any popular CDN comparison](https://www.cdnperf.com/cdn-compare?type=performance&location=world&cdn=aws-cloudfront-cdn,cloudflare-cdn,google-cloud-cdn) to see how Google compares here.
 
 Import map CDNs have a huge caching benefit because we can both treat all URLs as immutable with far-future expires, while still giving each package a unique URL that can be shared even as its dependencies are updated.
 
@@ -22,7 +22,7 @@ Treating packages as the unit of optimization also means that the import map its
 
 For support in older browsers there are two options provided - firstly by default, [ES Module Shims](https://github.com/guybedford/es-module-shims) is included, a fast Wasm-based [polyfill for import maps](#import-maps-polyfill) that works on top of basic native modules support supported in the majority of browsers.
 
-Then secondly, for compatibility in all older browsers SystemJS is supported in all JSPM workflows, using the [SystemJS CDN variant](#systemjs-variant) (https://ga.system.jspm.io), which provides an incredibly fast alternative to native modules supported in all browsers while providing the exact same semantics support through its module format.
+Then secondly, for compatibility in all older browsers SystemJS is supported in all JSPM workflows, using the [SystemJS CDN variant](#systemjs-variant) (ga.system.jspm.io), which provides an incredibly fast alternative to native modules supported in all browsers while providing the exact same semantics support through its module format.
 
 ## JSPM Generator
 
