@@ -10,7 +10,7 @@
 (function () {
   const section = document.querySelector(`.toc .section a[href="${location.pathname}"]`);
   if (section) {
-    const anchors = document.querySelectorAll('a[name]');
+    const anchors = document.querySelectorAll('a[name].main');
     let sectionTocHtml = '<ul class="subsection">';
     for (const a of anchors) {
       sectionTocHtml += `<li><a href="#${a.name}">${a.nextSibling.innerText}</a></li>`;
@@ -24,7 +24,7 @@
       throw new Error('Link mismatch');
     let activeLink;
     const offset = document.querySelector('.topbar').offsetHeight;
-    const scrollingElement = document.scrollingElement;
+    const scrollingElement = document.querySelector('.content-container');
     function setActiveSubsection () {
       const scrollTop = scrollingElement.scrollTop;
       let linkMatch;
@@ -46,7 +46,7 @@
         activeLink = linkMatch;
       }
     }
-    window.addEventListener('scroll', setActiveSubsection);
+    scrollingElement.addEventListener('scroll', setActiveSubsection);
     setActiveSubsection();
   }
 })();
@@ -71,6 +71,9 @@
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+  }
+  // TODO
+  function runInSandbox (text) {
   }
 })();
 

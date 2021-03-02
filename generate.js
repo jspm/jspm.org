@@ -8,7 +8,7 @@ const { JSDOM } = jsdom;
 const github = 'https://github.com/jspm/jspm.org/blob/master';
 const templatePromise = readFile('./template.html');
 
-async function generatePage (name, { title, description, nextSection, prevSection }, sitemap) {
+async function generatePage (name, { title, description, nextSection, prevSection, edit }, sitemap) {
   const source = (await readFile((name || 'index') + '.md')).toString();
   const html = marked(source, { breaks: true, headerIds: false });
 
@@ -60,37 +60,40 @@ async function generatePage (name, { title, description, nextSection, prevSectio
   body.querySelector('.content').innerHTML = html;
   
   // Get all the primary headings
-  const contents = [];
   const headings = body.querySelectorAll('.content h2');
-  for (let i = 0; i < headings.length; i++) {
-    const heading = headings[i];
+  for (const heading of headings) {
     const slug = heading.textContent.replace(/\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');
     const a = document.createElement('a');
     a.name = slug;
-    a.className = 'anchor';
-    contents.push({
-      title: heading.textContent,
-      slug
-    });
+    a.className = 'anchor main';
     heading.parentNode.insertBefore(a, heading);
+  }
+  for (const subHeading of body.querySelectorAll('.content h3')) {
+    const slug = subHeading.textContent.replace(/\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');
+    const a = document.createElement('a');
+    a.name = slug;
+    a.className = 'anchor';
+    subHeading.parentNode.insertBefore(a, subHeading);
   }
 
   const sectionIndex = Object.keys(sitemap).indexOf(name);
   nextSection = nextSection === undefined && Object.keys(sitemap)[sectionIndex + 1];
   prevSection = prevSection === undefined && Object.keys(sitemap)[sectionIndex - 1];
 
-  const nextprev = document.createElement('div');
-  nextprev.className = 'nextprev';
-  nextprev.innerHTML = `<a class="edit" target="_blank" href="${github}/${name || 'index'}.md">Edit</a>`;
-  body.querySelector('.content').appendChild(nextprev);
+  if (edit !== false) {
+    const nextprev = document.createElement('div');
+    nextprev.className = 'nextprev';
+    nextprev.innerHTML = `<a class="edit" target="_blank" href="${github}/${name || 'index'}.md">Edit</a>`;
+    body.querySelector('.content').appendChild(nextprev);
 
-  if (typeof nextSection === 'string') {
-    nextprev.innerHTML += `<div class="next"><a href="/${nextSection}">${sitemap[nextSection].title}</a></div>`;
-    nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
-  }
-  if (typeof prevSection === 'string') {
-    nextprev.innerHTML += `<div class="prev"><a href="/${prevSection}">${sitemap[prevSection].title}</a></div>`;
-    nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
+    if (typeof nextSection === 'string') {
+      nextprev.innerHTML += `<div class="next"><a href="/${nextSection}">${sitemap[nextSection].title}</a></div>`;
+      nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
+    }
+    if (typeof prevSection === 'string') {
+      nextprev.innerHTML += `<div class="prev"><a href="/${prevSection}">${sitemap[prevSection].title}</a></div>`;
+      nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
+    }
   }
   
   // make all external links open in a new window
@@ -110,11 +113,13 @@ async function generatePage (name, { title, description, nextSection, prevSectio
   for (let i = 0; i < langs.length; i++) {
     const code = langs[i];
     code.innerHTML = code.innerHTML
-      .replace(/^(\s*\/\/.*)/gm, '<span class=comment>$1</span>')
-      .replace(/('[^']*')/gm, '<span class=string>$1</span>')
-      .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
-      .replace(/([^#\d\-a-z\:])(-?\d+)/gm, '$1<span class=number>$2</span>')
-      .replace(/([^\.])?(for|function|new|await|async|throw|return|var|let|const|if|else|true|false|this|import|export class|export|from)([^-a-zA-Z])/gm, '$1<span class=keyword>$2</span>$3');
+    .replace(/^(\s*\/\/.*)/gm, '<span class=comment>$1</span>')
+    .replace(/&lt;!--/g, '<span class=comment>&lt;!--')
+    .replace(/-->/g, '--></span>')
+    .replace(/('[^']*')/gm, '<span class=string>$1</span>')
+    .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
+    .replace(/([^#\d\-a-z\:])(-?\d+)/gm, '$1<span class=number>$2</span>')
+    .replace(/([^\.\-\/"']|^)(for|function|new|await|async|throw|return|var|let|const|if|else|true|as|false|this|import|export class|export|from)([^-a-zA-Z=]|$)/gm, '$1<span class=keyword>$2</span>$3');
   }
   
   // Extract the modified HTML

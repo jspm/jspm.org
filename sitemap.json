@@ -1,15 +1,24 @@
 {
   "": {
-    "title": "jspm.dev Documentation",
-    "description": "jspm.dev native modules CDN for npm documentation"
+    "title": "JSPM - ES Module Package Manager and CDN",
+    "description": "JSPM - ES Module Package Manager and CDN",
+    "edit": false
+  },
+  "docs/cdn": {
+    "title": "Native ES Module CDN - Documentation",
+    "description": "JSPM Module CDN Documentation"
+  },
+  "docs/workflows": {
+    "title": "JSPM Workflows - Documentation",
+    "description": "JSPM workflows from development to production"
+  },
+  "import-map-cdn": {
+    "title": "Import Map CDN Launch",
+    "description": "Import map CDN launch"
   },
   "jspm-dev-release": {
     "title": "jspm.dev Release",
     "description": "jspm.dev CDN release post",
     "nextSection": false
-  },
-  "cli": {
-    "title": "jspm 3.0 CLI",
-    "description": "jspm 3.0 CLI documentation"
   }
 }
