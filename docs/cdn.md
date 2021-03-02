@@ -44,9 +44,9 @@ The formats supported for adding a dependency in the generator "add dependency" 
 
 Individual package exports are installed separately as they are separate entries in the import map.
 
-Once a dependency has been added the UI allows changing the dependency version or adding or removing [package exports](#exports-field) from the import map. By default if no subpath is added initially only the main entry point for the package will be added to the import map. Each line of the import map `"imports"` section corresponds to a single dependency version and exports subpath in the dependencies bar.
+Once a dependency has been added, the UI allows changing the dependency version or adding or removing [package exports](#exports-field) from the import map. By default if no subpath is added initially, only the main entry point for the package will be added to the import map. Each line of the import map `"imports"` section corresponds to a single dependency version and exports subpath in the dependencies bar.
 
-The bottom left of the sidebar allows configuring the [conditional exports](#conditional-exports) environment resolution from the environment panel, allowing choosing eg the production or development variants of packages.
+The bottom left of the sidebar allows configuring the [conditional exports](#conditional-exports) environment resolution from the environment panel, allowing for choosing e.g. the production or development variants of packages.
 
 The import map generated can be downloaded or copied directly into an HTML application.
 
@@ -66,7 +66,7 @@ All packages contain a `package.json` file, which is the processed package.json 
 
 Import maps are only supported in the very latest version of Chrome, so to support import maps in all other modules browsers we use [ES Module Shims](https://github.com/guybedford/es-module-shims), a performant shim based on a Web Assembly lexer for fast import specifier rewriting.
 
-This can be included from JSPM with the followinng HTML, which is included by default in the JSPM generator output:
+This can be included from JSPM with the following HTML, which is included by default in the JSPM generator output:
 
 ```html
 <script async src="https://ga.jspm.io/npm:es-module-shims@0.10.1/dist/es-module-shims.min.js"></script>
@@ -118,7 +118,7 @@ Note that only the version of the initial package being requested is being set t
 
 ### Subpaths
 
-Full subpath support is also provided for packages. It is a recommended best-practice to use package subpaths where possible to load specific package features instead of loading all package code when some of it might be unused:
+Full subpath support is also provided for packages. It is a recommended best practice to use package subpaths where possible to load specific package features, instead of loading all package code when some of it might be unused:
 
 <table cellpadding=5>
 <tr><th style="width: 12em" align=left>jspm.dev/pkg/subpath</th><td>Load a subpath of a package - applies to all version patterns above.</td></tr>
@@ -132,7 +132,7 @@ Packages that have an [exports field](#exports-field) defined will expose the su
 
 As a result packges like React or Lit will run in their development modes, which may include a console message about this.
 
-If needing to customize the environment, use `jspm.io` instead which allows setting the conditional environment via the import map.
+If needing to customize the environment, use `jspm.io` instead, which allows setting the conditional environment via the import map.
 
 ## Module CDN Semantics
 
@@ -225,11 +225,11 @@ Conditional exports also apply to multiple entry points:
 
 Other conditions that can be used include `"browser"`, `"react-native"`, `"development"`, `"production"`, `"require"` and `"import"`.
 
-Some build tools like Webpack and RollupJS support the custom `"module"` condition in exports. This condition is not supported by JSPM because JSPM aims to replicate _runtime semantics_, while the `"module"` condition is considered a build-tool-only condition that would never be supported in Node.js itself. The idea of such a condition thus does not make sense in the context of JSPM. Typically these tools use this condition in order to replace a CommonJS `require('mod')` with an ES module if there is a `"module"` condition entry for `"mod"` during the build, since they want to avoid having a separate ESM and CJS build. This is considered by JSPM to be breaking against the Node.js semantics though since JSPM always seeks to replicate Node.js runtime semantics.
+Some build tools like Webpack and RollupJS support the custom `"module"` condition in exports. This condition is not supported by JSPM because JSPM aims to replicate _runtime semantics_, while the `"module"` condition is considered a build-tool-only condition that would never be supported in Node.js itself. The idea of such a condition thus does not make sense in the context of JSPM. Typically these tools use this condition in order to replace a CommonJS `require('mod')` with an ES module if there is a `"module"` condition entry for `"mod"` during the build, since they want to avoid having a separate ESM and CJS build. This is considered by JSPM to be breaking against the Node.js semantics though, since JSPM always seeks to replicate Node.js runtime semantics.
 
 ### Universal Module Semantics
 
-When publishing packages to npm for support on JSPM, the basic rule for module semantics is that if it works in Node.js or in a browser then it should work on JSPM when published to npm.
+When publishing packages to npm for support on JSPM, the basic rule for the module semantics is that if it works in Node.js or in a browser then it should work in JSPM when published to npm.
 
 Some guidelines for writing universal native ES modules:
 
@@ -245,7 +245,7 @@ Only CommonJS modules will go through a semantic conversion process on JSPM - EC
 
 Modules are resolved as URLs, with the package.json `"dependencies"` field used to determine version ranges of package dependencies. Node.js builtin imports like `util` are replaced with optimized Browserify library references.
 
-Only dependencies on npm are supported. New registries may be supported in future or for other registry types custom private registry installations could be requested.
+Only dependencies on npm are supported. New registries may be supported in future or for other registry types. Custom private registry installations could be requested.
 
 ### Assets
 

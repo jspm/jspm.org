@@ -87,8 +87,8 @@
 <li>lodash/sort</li>
 </ul>
 <p>Individual package exports are installed separately as they are separate entries in the import map.</p>
-<p>Once a dependency has been added the UI allows changing the dependency version or adding or removing <a href="#exports-field">package exports</a> from the import map. By default if no subpath is added initially only the main entry point for the package will be added to the import map. Each line of the import map <code><span class="string">"imports"</span></code> section corresponds to a single dependency version and exports subpath in the dependencies bar.</p>
-<p>The bottom left of the sidebar allows configuring the <a href="#conditional-exports">conditional exports</a> environment resolution from the environment panel, allowing choosing eg the production or development variants of packages.</p>
+<p>Once a dependency has been added, the UI allows changing the dependency version or adding or removing <a href="#exports-field">package exports</a> from the import map. By default if no subpath is added initially, only the main entry point for the package will be added to the import map. Each line of the import map <code><span class="string">"imports"</span></code> section corresponds to a single dependency version and exports subpath in the dependencies bar.</p>
+<p>The bottom left of the sidebar allows configuring the <a href="#conditional-exports">conditional exports</a> environment resolution from the environment panel, allowing for choosing e.g. the production or development variants of packages.</p>
 <p>The import map generated can be downloaded or copied directly into an HTML application.</p>
 <p>By default the <a href="/docs/workflows#import-maps-polyfill">import maps polyfill</a> is embedded in the provided source HTML as well. Alternatively a <a href="/docs/workflows#systemjs">SystemJS Import Map</a> can be generated instead to support older browsers even without any native modules support.</p>
 <a name="urls" class="anchor"></a><h3>URLs</h3>
@@ -98,7 +98,7 @@
 <p>All packages contain a <code>package.json</code> file, which is the processed package.json by JSPM including the enumerated exports and file listing. The <code>package.json</code> is all that is needed to enumerate the exports of a package and resolve their URLs in the package. This is exactly what the online generator does and is an important feature of the modern module resolver conventions. Files within the package are typically provided by their original file path, although names are sometimes rewritten, for example when constructing development builds for some modules.</p>
 <a name="import-maps-polyfill" class="anchor"></a><h3>Import Maps Polyfill</h3>
 <p>Import maps are only supported in the very latest version of Chrome, so to support import maps in all other modules browsers we use <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, a performant shim based on a Web Assembly lexer for fast import specifier rewriting.</p>
-<p>This can be included from JSPM with the followinng HTML, which is included by default in the JSPM generator output:</p>
+<p>This can be included from JSPM with the following HTML, which is included by default in the JSPM generator output:</p>
 <pre><code class="language-html">&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">0</span>.<span class="number">10</span>.<span class="number">1</span>/dist/es-module-shims.min.js"</span>&gt;&lt;/script&gt;</code></pre>
 <a name="systemjs-variant" class="anchor"></a><h3>SystemJS Variant</h3>
 <p>A SystemJS variant of the <code>jspm.io</code> CDN is available at <code>https://ga.system.jspm.io</code>. The URL scheme and modules provided is exactly identical to the <code>https://ga.jspm.io</code> variant but with the exception that all ES modules are converted into SystemJS modules.</p>
@@ -132,7 +132,7 @@
 <p>Exact version URLs are cached with far-future expires, while non-exact version URLs are cached with a short expiry to allow dependency updates over time.</p>
 <p>Note that only the version of the initial package being requested is being set this way, while the versions of deep dependencies will follow semver resolution.</p>
 <a name="subpaths" class="anchor"></a><h3>Subpaths</h3>
-<p>Full subpath support is also provided for packages. It is a recommended best-practice to use package subpaths where possible to load specific package features instead of loading all package code when some of it might be unused:</p>
+<p>Full subpath support is also provided for packages. It is a recommended best practice to use package subpaths where possible to load specific package features, instead of loading all package code when some of it might be unused:</p>
 <table cellpadding="5">
 <tbody><tr><th style="width: 12em" align="left">jspm.dev/pkg/subpath</th><td>Load a subpath of a package - applies to all version patterns above.</td></tr>
 </tbody></table>
@@ -141,7 +141,7 @@
 <a name="environment-conditions" class="anchor"></a><h3>Environment Conditions</h3>
 <p><code>jspm.dev</code> will always serve modules using the <code><span class="string">"development"</span></code>, and <code><span class="string">"browser"</span></code> <a href="#conditional-exports">exports conditions</a>.</p>
 <p>As a result packges like React or Lit will run in their development modes, which may include a console message about this.</p>
-<p>If needing to customize the environment, use <code>jspm.io</code> instead which allows setting the conditional environment via the import map.</p>
+<p>If needing to customize the environment, use <code>jspm.io</code> instead, which allows setting the conditional environment via the import map.</p>
 <a name="module-cdn-semantics" class="anchor main"></a><h2>Module CDN Semantics</h2>
 <p>The way in which JSPM will interpret and optimize packages is based on the common modules semantics between Node.js and browsers.</p>
 <p>For the most part these build on top of the <a href="https://nodejs.org/dist/latest-v15.x/docs/api/esm.html" target="_blank" rel="noopener">Node.js ES Modules</a> and <a href="https://nodejs.org/dist/latest-v15.x/docs/api/packages.html" target="_blank" rel="noopener">package semantics</a> as well as the native browser semantics, and are based on a sort of common subset of behaviours between these and current JS ecosystem tooling.</p>
@@ -199,9 +199,9 @@
   }
 }</code></pre>
 <p>Other conditions that can be used include <code><span class="string">"browser"</span></code>, <code><span class="string">"react-native"</span></code>, <code><span class="string">"development"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"require"</span></code> and <code><span class="string">"import"</span></code>.</p>
-<p>Some build tools like Webpack and RollupJS support the custom <code><span class="string">"module"</span></code> condition in exports. This condition is not supported by JSPM because JSPM aims to replicate <em>runtime semantics</em>, while the <code><span class="string">"module"</span></code> condition is considered a build-tool-only condition that would never be supported in Node.js itself. The idea of such a condition thus does not make sense in the context of JSPM. Typically these tools use this condition in order to replace a CommonJS <code>require(<span class="string">'mod'</span>)</code> with an ES module if there is a <code><span class="string">"module"</span></code> condition entry for <code><span class="string">"mod"</span></code> during the build, since they want to avoid having a separate ESM and CJS build. This is considered by JSPM to be breaking against the Node.js semantics though since JSPM always seeks to replicate Node.js runtime semantics.</p>
+<p>Some build tools like Webpack and RollupJS support the custom <code><span class="string">"module"</span></code> condition in exports. This condition is not supported by JSPM because JSPM aims to replicate <em>runtime semantics</em>, while the <code><span class="string">"module"</span></code> condition is considered a build-tool-only condition that would never be supported in Node.js itself. The idea of such a condition thus does not make sense in the context of JSPM. Typically these tools use this condition in order to replace a CommonJS <code>require(<span class="string">'mod'</span>)</code> with an ES module if there is a <code><span class="string">"module"</span></code> condition entry for <code><span class="string">"mod"</span></code> during the build, since they want to avoid having a separate ESM and CJS build. This is considered by JSPM to be breaking against the Node.js semantics though, since JSPM always seeks to replicate Node.js runtime semantics.</p>
 <a name="universal-module-semantics" class="anchor"></a><h3>Universal Module Semantics</h3>
-<p>When publishing packages to npm for support on JSPM, the basic rule for module semantics is that if it works in Node.js or in a browser then it should work on JSPM when published to npm.</p>
+<p>When publishing packages to npm for support on JSPM, the basic rule for the module semantics is that if it works in Node.js or in a browser then it should work in JSPM when published to npm.</p>
 <p>Some guidelines for writing universal native ES modules:</p>
 <ul>
 <li>Use explicit file extensions when loading one module from another - <code><span class="keyword">import</span> <span class="string">'./dep.js'</span></code> instead of <code><span class="keyword">import</span> <span class="string">'./dep'</span></code>.</li>
@@ -214,7 +214,7 @@
 </ul>
 <p>Only CommonJS modules will go through a semantic conversion process on JSPM - ECMAScript module sources are left entirely as-is (although they will still be fully <a href="#package-optimization">optimized with RollupJS code splitting</a>).</p>
 <p>Modules are resolved as URLs, with the package.json <code><span class="string">"dependencies"</span></code> field used to determine version ranges of package dependencies. Node.js builtin imports like <code>util</code> are replaced with optimized Browserify library references.</p>
-<p>Only dependencies on npm are supported. New registries may be supported in future or for other registry types custom private registry installations could be requested.</p>
+<p>Only dependencies on npm are supported. New registries may be supported in future or for other registry types. Custom private registry installations could be requested.</p>
 <a name="assets" class="anchor"></a><h3>Assets</h3>
 <p>JSPM will serve the readme, license and typing files as assets.</p>
 <p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://jspm.dev/npm:pkg@x.y.z/path/to/asset</code>).</p>

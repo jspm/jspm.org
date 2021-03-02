@@ -75,7 +75,7 @@
 }
 &lt;/script&gt;</code></pre>
 <p>In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.</p>
-<p>These shared mappings are useful because it enables dependencies to be shared both between local code and different third-party modules.</p>
+<p>These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.</p>
 <p><em>Import map management becomes a form of package management in the browser.</em></p>
 <p>Here's what a full React import map looks like output from <a href="https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA" target="_blank" rel="noopener">JSPM Generator</a> for a React development environment:</p>
 <pre><code class="language-html"><span class="comment">&lt;!--
@@ -140,9 +140,9 @@ ReactDOM.render(
 }
 &lt;/script&gt;</span></code></pre>
 <blockquote>
-<p>Only some packages have production variants, usually the library or framework will mention this in its documentation or in a console message.</p>
+<p>Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.</p>
 </blockquote>
-<p>The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and fully minified.</p>
+<p>The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and are fully minified.</p>
 <p>For small applications it is even possible to get away with leaving the local code as separate modules (and the JSPM sandbox and generator apps even do this).</p>
 <p>For larger applications you will always want to look at applying code optimizations for production, see the <a href="#optimization-with-rollupjs">RollupJS optimization</a> section below for more information. The important point here is that these further optimizations are optional and additive to the workflow later on. By using native standards it is more likely you can apply a wider variation of optimization tools as well.</p>
 <a name="import-maps-polyfill" class="anchor main"></a><h2>Import Maps Polyfill</h2>
@@ -200,7 +200,7 @@ ReactDOM.render(
 <blockquote>
 <p>This workflow follows the <a href="https://github.com/jspm/jspm-starters/tree/master/rollup" target="_blank" rel="noopener">Rollup Starter</a>.</p>
 </blockquote>
-<p>As the number of modules in your application grows there can start to be performance benefits to combining modules together that always load together into a single module.</p>
+<p>As the number of modules in your application grows, there can start to be performance benefits to combining modules together that always load together into a single module.</p>
 <p>While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.</p>
 <p>RollupJS (and other build tools) can do this module combination for us, including working out which modules can be combined together.</p>
 <p>First, install RollupJS:</p>
@@ -256,10 +256,11 @@ ReactDOM.render(
   },
   <span class="string">"include"</span>: [<span class="string">"src/**/*.ts"</span>]
 }</code></pre>
-<p>TypeScript files always use the <code>.ts</code> file extension, but the first big decision when it comes to TypeScript is then if you want to <em>import</em> modules using the <code>.ts</code> file extension or the <code>.js</code> extension, there are some pros and cons here:</p>
+<p>TypeScript files always use the <code>.ts</code> file extension, but the first big decision when it comes to TypeScript is whether to <em>import</em> modules using the <code>.ts</code> file extension or the <code>.js</code> extension, and there are some pros and cons here:</p>
 <ul>
 <li>Deno and some other browser projects use <code><span class="keyword">import</span> <span class="string">'./dependency.ts'</span></code> to import TypeScript, so if writing code that will be shared with these kinds of environments you'll want to do this.</li>
-<li>If not using the <code>.ts</code> file extension, then a build workflow will always be needed to run the TypeScript (SystemJS does provide a development-mode TypeScript loader, demonstrated in the starter).</li>
+<li>The TypeScript compiler will complain when using <code>.ts</code> extensions explicitly though, so needs a custom invocation or setup like Deno provides with its own custom VSCode extension.</li>
+<li>On the other hand, if not using the <code>.ts</code> file extension, then a build workflow will always be needed to run the TypeScript - it can't just be loaded directly into the target environment like Deno or SystemJS in its development-only mode (see the starter repo for a demonstration of this setup).</li>
 </ul>
 <blockquote>
 <p>We keep waiting for the day TypeScript just provides a configuration option for handling <code>.ts</code> -&gt; <code>.js</code> extensions in the build...</p>

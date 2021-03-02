@@ -30,7 +30,7 @@ The import map to do this would look like:
 
 In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.
 
-These shared mappings are useful because it enables dependencies to be shared both between local code and different third-party modules.
+These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.
 
 _Import map management becomes a form of package management in the browser._
 
@@ -116,9 +116,9 @@ Clicking the "Production" condition will then update the import map to use the p
 </script>
 ```
 
-> Only some packages have production variants, usually the library or framework will mention this in its documentation or in a console message.
+> Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.
 
-The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and fully minified.
+The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and are fully minified.
 
 For small applications it is even possible to get away with leaving the local code as separate modules (and the JSPM sandbox and generator apps even do this).
 
@@ -208,7 +208,7 @@ The promise of SystemJS is that if it worked with native modules and a native im
 
 > This workflow follows the [Rollup Starter](https://github.com/jspm/jspm-starters/tree/master/rollup).
 
-As the number of modules in your application grows there can start to be performance benefits to combining modules together that always load together into a single module.
+As the number of modules in your application grows, there can start to be performance benefits to combining modules together that always load together into a single module.
 
 While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.
 
@@ -294,10 +294,11 @@ Create the following `tsconfig.json` file:
 }
 ```
 
-TypeScript files always use the `.ts` file extension, but the first big decision when it comes to TypeScript is then if you want to _import_ modules using the `.ts` file extension or the `.js` extension, there are some pros and cons here:
+TypeScript files always use the `.ts` file extension, but the first big decision when it comes to TypeScript is whether to _import_ modules using the `.ts` file extension or the `.js` extension, and there are some pros and cons here:
 
 * Deno and some other browser projects use `import './dependency.ts'` to import TypeScript, so if writing code that will be shared with these kinds of environments you'll want to do this.
-* If not using the `.ts` file extension, then a build workflow will always be needed to run the TypeScript (SystemJS does provide a development-mode TypeScript loader, demonstrated in the starter).
+* The TypeScript compiler will complain when using `.ts` extensions explicitly though, so needs a custom invocation or setup like Deno provides with its own custom VSCode extension.
+* On the other hand, if not using the `.ts` file extension, then a build workflow will always be needed to run the TypeScript - it can't just be loaded directly into the target environment like Deno or SystemJS in its development-only mode (see the starter repo for a demonstration of this setup).
 
 > We keep waiting for the day TypeScript just provides a configuration option for handling `.ts` -> `.js` extensions in the build...
 
