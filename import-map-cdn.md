@@ -98,7 +98,7 @@ This effectively then provides something akin to the npm install workflow that c
 
 ## Support in Other Browsers
 
-While we wait for the years it will take for import maps to be widely supported, for browsers other than Chrome 89 with import maps support, there are two approaches currently available:
+While we wait the years it will take for import maps to be widely supported for browsers other than Chrome 89, there are two approaches currently available:
 
 1. [ES Module Shims](https://github.com/guybedford/es-module-shims): A fast Wasm-based polyfill that just replaces the specifiers with their full URLs while still using the native loader. It's good enough for production in most cases and is used by the JSPM generator itself.
 2. [SystemJS](https://github.com/systemjs/systemjs): A complete version of the entire `jspm.io` CDN is available serving [SystemJS modules](/docs/cdn#systemjs-variant), when selecting the "SystemJS Import Map" option from the JSPM Generator. SystemJS provides a workflow where native module semantics can be replicated in all browsers using the SystemJS module fomat.
