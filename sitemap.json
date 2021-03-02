@@ -14,7 +14,8 @@
   },
   "import-map-cdn": {
     "title": "Import Maps & Module CDN Launch",
-    "description": "Import maps have just landed in Chrome - JSPM.IO is module CDN for them"
+    "description": "Import maps have just landed in Chrome - JSPM.IO is module CDN for them",
+    "nextSection": false
   },
   "jspm-dev-release": {
     "title": "jspm.dev Release",
