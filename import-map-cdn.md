@@ -1,6 +1,6 @@
 # Import Maps &<br/> Module CDNs
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;">March <em>2<sup>nd</sup> 2021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>March 2<sup style="padding-left:0.15em">nd</sup> 2021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
 
 _Today Chrome 89 ships as stable with support for [package import maps](https://github.com/wicg/import-maps) in browsers. Aligning with this support, JSPM.IO is being relaunched today as a native modules import map CDN, along with an [online import map generator](https://generator.jspm.io) for creating import maps against the module CDN._
 
