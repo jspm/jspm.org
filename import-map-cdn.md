@@ -40,7 +40,7 @@ In addition to the `"imports"` field in the import map, there is also the [`"sco
 
 Import maps may seem nice and all, but perhaps they don't actually seem like much of a big deal - do they really solve any production-time technical problems?
 
-The answer is that they do actually do solve quite a deep performance problem with JS modules in browsers!
+The answer is that they do actually solve quite a deep performance problem with JS modules in browsers!
 
 Without import maps, there is a natural caching tradeoff that applies to shipping JS modules in production, something like the following:
 
