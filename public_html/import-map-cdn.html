@@ -79,7 +79,7 @@
 <p>In addition to the <code><span class="string">"imports"</span></code> field in the import map, there is also the <a href="https://github.com/wicg/import-maps#scoping-examples" target="_blank" rel="noopener"><code><span class="string">"scopes"</span></code> field</a> which allows for scoping the import mapping (useful when there are naming / version conflicts). Import maps can even map entire resolved URLs which can be useful in mocking workflows.</p>
 <a name="the-javascript-module-caching-tradeoff" class="anchor main"></a><h2>The JavaScript Module Caching Tradeoff</h2>
 <p>Import maps may seem nice and all, but perhaps they don't actually seem like much of a big deal - do they really solve any production-time technical problems?</p>
-<p>The answer is that they do actually do solve quite a deep performance problem with JS modules in browsers!</p>
+<p>The answer is that they do actually solve quite a deep performance problem with JS modules in browsers!</p>
 <p>Without import maps, there is a natural caching tradeoff that applies to shipping JS modules in production, something like the following:</p>
 <ul>
 <li>On the web you usually want all URLs to be unique and cached with far-future expires (the fastest request being no request).</li>
