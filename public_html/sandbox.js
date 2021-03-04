@@ -297,9 +297,10 @@ class JspmSandbox extends LitElement {
       marginBottom: '-5px', // no idea, but it works
       overflow: 'scroll'
     });
+    const needsShim = source.indexOf('es-module-shims(\.min)?\.js') === -1;
     const blobUrl = URL.createObjectURL(new Blob([`
       ${source.replace(/type=["']?(module|importmap)['"]?/g, 'type=$1-shim')}
-      <script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.7.0/dist/es-module-shims.js"><${''}/script>
+      ${needsShim ? `<script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.7.0/dist/es-module-shims.js"><${''}/script>` : ''}
       <script>window.parent.jspmSandboxStarted()<${''}/script>
       <script type="module">importShim.onerror=e=>{window.parent.jspmSandboxError(e.message || e, '', '', '', e)}<${''}/script>
       <script type="module-shim">window.parent.jspmSandboxFinished()<${''}/script>
