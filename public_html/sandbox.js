@@ -43,7 +43,7 @@ class JspmEditor extends LitElement {
   }
   render () {
     return html`
-      <link rel="stylesheet" @load=${this.attachCodeMirror} href="https://ga.system.jspm.io/npm:codemirror@5.58.1/lib/codemirror.css"/>
+      <link rel="stylesheet" @load=${this.attachCodeMirror} href="https://ga.jspm.io/npm:codemirror@5.58.1/lib/codemirror.css"/>
       <div style="width: 100%; height: 100%;">
         <div class="codemirror"></div>
       </div>
@@ -297,13 +297,13 @@ class JspmSandbox extends LitElement {
       marginBottom: '-5px', // no idea, but it works
       overflow: 'scroll'
     });
-    const needsShim = source.indexOf('es-module-shims(\.min)?\.js') === -1;
+    const needsShim = !source.match(/es-module-shims(\.min)?\.js/);
     const blobUrl = URL.createObjectURL(new Blob([`
-      ${source.replace(/type=["']?(module|importmap)['"]?/g, 'type=$1-shim')}
-      ${needsShim ? `<script type="module" src="https://ga.jspm.io/npm:es-module-shims@0.7.0/dist/es-module-shims.js"><${''}/script>` : ''}
+      <script>self.esmsInitOptions = { onerror: e=>{window.parent.jspmSandboxError(e.message || e, '', '', '', e)} };</script>
+      ${needsShim ? `<script async src="https://ga.jspm.io/npm:es-module-shims@0.10.1/dist/es-module-shims.min.js"><${''}/script>` : ''}
       <script>window.parent.jspmSandboxStarted()<${''}/script>
-      <script type="module">importShim.onerror=e=>{window.parent.jspmSandboxError(e.message || e, '', '', '', e)}<${''}/script>
-      <script type="module-shim">window.parent.jspmSandboxFinished()<${''}/script>
+      ${source}
+      <script type="module">window.parent.jspmSandboxFinished()<${''}/script>
       <script>
       window.onerror = function (msg, source, line, col, err) {
         window.parent.jspmSandboxError(msg, source, line, col, err);
