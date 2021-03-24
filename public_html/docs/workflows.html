@@ -81,7 +81,7 @@
 <pre><code class="language-html"><span class="comment">&lt;!--
   JSPM Generator Import Map
   Edit URL: https://generator.jspm.io/#Y<span class="number">2</span>VgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>A<span class="number">8</span>Cd9GjEA
---&gt;
+--&gt;</span>
 &lt;script type=<span class="string">"importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
@@ -96,7 +96,7 @@
     }
   }
 }
-&lt;/script&gt;</span></code></pre>
+&lt;/script&gt;</code></pre>
 <p>The scopes entry in the import map allows defining import mappings that only apply when resolved by modules contained within the scope. For example in the above map, <code><span class="keyword">import</span> <span class="string">'object-assign'</span></code> wouldn't resolve in the local HTML page, but would resolve for any module contained within <code>https://ga.jspm.io/</code>, as is handled by React and its dependencies.</p>
 <blockquote>
 <p>Currently Chrome 89+ only supports import maps written <em>inline</em> like the above example.<br>  Support for <code>&lt;script type=<span class="string">"importmap"</span> src=<span class="string">"external.json"</span>&gt;&lt;/script&gt;</code> is specified but still a pending browser feature.</p>
@@ -124,7 +124,7 @@ ReactDOM.render(
 <pre><code class="language-html"><span class="comment">&lt;!--
   JSPM Generator Import Map
   Edit URL: https://generator.jspm.io/#Y<span class="number">2</span>NgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>AhFDkUDEA
---&gt;
+--&gt;</span>
 &lt;script type=<span class="string">"importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
@@ -138,7 +138,7 @@ ReactDOM.render(
     }
   }
 }
-&lt;/script&gt;</span></code></pre>
+&lt;/script&gt;</code></pre>
 <blockquote>
 <p>Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.</p>
 </blockquote>
@@ -176,7 +176,7 @@ ReactDOM.render(
 <pre><code class="language-html"><span class="comment">&lt;!--
   JSPM Generator Import Map
   Edit URL: https://generator.jspm.io/#M<span class="number">2</span>VgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>ANkXMaDEA
---&gt;
+--&gt;</span>
 &lt;script type=<span class="string">"systemjs-importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
@@ -193,8 +193,8 @@ ReactDOM.render(
 }
 &lt;/script&gt;
 
-<span class="comment">&lt;!-- Load an app.js file written in the <span class="string">"system"</span> module format output (via RollupJS / Babel / TypeScript) --&gt;
-&lt;script type=<span class="string">"systemjs-module"</span> src=<span class="string">"dist/system/app.js"</span>&gt;&lt;/script&gt;</span></span></code></pre>
+<span class="comment">&lt;!-- Load an app.js file written in the <span class="string">"system"</span> module format output (via RollupJS / Babel / TypeScript) --&gt;</span>
+&lt;script type=<span class="string">"systemjs-module"</span> src=<span class="string">"dist/system/app.js"</span>&gt;&lt;/script&gt;</code></pre>
 <p>The promise of SystemJS is that if it worked with native modules and a native import map, it will work just the same on SystemJS.</p>
 <a name="optimization-with-rollupjs" class="anchor main"></a><h2>Optimization with RollupJS</h2>
 <blockquote>

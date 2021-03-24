@@ -115,7 +115,7 @@ async function generatePage (name, { title, description, nextSection, prevSectio
     code.innerHTML = code.innerHTML
     .replace(/^(\s*\/\/.*)/gm, '<span class=comment>$1</span>')
     .replace(/&lt;!--/g, '<span class=comment>&lt;!--')
-    .replace(/-->/g, '--></span>')
+    .replace(/--&gt;/g, '--></span>')
     .replace(/('[^']*')/gm, '<span class=string>$1</span>')
     .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
     .replace(/([^#\d\-a-z\:])(-?\d+)/gm, '$1<span class=number>$2</span>')
