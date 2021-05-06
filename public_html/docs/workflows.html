@@ -77,7 +77,17 @@
 <p>In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.</p>
 <p>These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.</p>
 <p><em>Import map management becomes a form of package management in the browser.</em></p>
-<p>Here's what a full React import map looks like output from <a href="https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA" target="_blank" rel="noopener">JSPM Generator</a> for a React development environment:</p>
+<a name="running-the-generator" class="anchor"></a><h3>Running the Generator</h3>
+<p>Either use the online version at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a> or use the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">API</a>.</p>
+<p>For the online version, add <code><span class="string">"react"</span></code> and <code><span class="string">"react-dom"</span></code> into the dependencies box to generate the map.</p>
+<p>For the API, run <code>npm install @jspm/generator</code> then use the following code to generate the import map:</p>
+<p>generate.mjs</p>
+<pre><code class="language-js"><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
+<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({ env: [<span class="string">'browser'</span>, <span class="string">'development'</span>] });
+<span class="keyword">await</span> generator.install(<span class="string">'react'</span>);
+<span class="keyword">await</span> generator.install(<span class="string">'react-dom'</span>);
+console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</span>));</code></pre>
+<p>The full import map generated for this React development environment will then look like the following:</p>
 <pre><code class="language-html"><span class="comment">&lt;!--
   JSPM Generator Import Map
   Edit URL: https://generator.jspm.io/#Y<span class="number">2</span>VgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>A<span class="number">8</span>Cd9GjEA

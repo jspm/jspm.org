@@ -34,7 +34,24 @@ These shared mappings are useful because it enables dependencies to be shared be
 
 _Import map management becomes a form of package management in the browser._
 
-Here's what a full React import map looks like output from [JSPM Generator](https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA) for a React development environment:
+### Running the Generator
+
+Either use the online version at [https://generator.jspm.io](https://generator.jspm.io) or use the [API](https://github.com/jspm/generator).
+
+For the online version, add `"react"` and `"react-dom"` into the dependencies box to generate the map.
+
+For the API, run `npm install @jspm/generator` then use the following code to generate the import map:
+
+generate.mjs
+```js
+import { Generator } from '@jspm/generator';
+const generator = new Generator({ env: ['browser', 'development'] });
+await generator.install('react');
+await generator.install('react-dom');
+console.log(JSON.stringify(generator.getMap(), null, 2));
+```
+
+The full import map generated for this React development environment will then look like the following:
 
 ```html
 <!--

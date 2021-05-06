@@ -26,9 +26,9 @@ Then secondly, for compatibility in all older browsers SystemJS is supported in 
 
 ## JSPM Generator
 
-The best way to try out the `jspm.io` CDN is by using the [online import maps generator](https://generator.jspm.io).
+The best way to try out the `jspm.io` CDN is by using the JSPM import map generator, either using the online version at [https://generator.jspm.io](https://generator.jspm.io) or programatically through the [API](https://github.com/jspm/generator).
 
-The generator takes as input a list of package dependencies, versions, subpaths and output options and returns the complete import map against the `jspm.io` CDN.
+The generator takes as input a the package target versions, their subpaths and output options and returns the complete import map against the `jspm.io` CDN.
 
 The resultant import map can be directly included in any HTML page where local modules can then import the mapped dependencies by name.
 
@@ -78,7 +78,7 @@ A SystemJS variant of the `jspm.io` CDN is available at `https://ga.system.jspm.
 
 This enables turning any native ES module import map against `https://ga.jspm.io` into a SystemJS import map against `https://ga.system.jspm.io` and being able to load dependencies with the exact same execution semantics in all older browsers without modules support, the primary feature of the SystemJS project.
 
-Import maps for SystemJS can be constructed via [JSPM Generator](https://generator.jspm.io).
+Import maps for SystemJS can also be constructed via JSPM Generator both [online](https://generator.jspm.io) and via the [API](https://github.com/jspm/generator).
 
 > For more information on SystemJS workflows, [see the SystemJS workflow guide](/docs/workflows#systemjs).
 
