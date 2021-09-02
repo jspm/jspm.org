@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="en"><head><meta property="og:title" content="jspm.org - API"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM.IO API"><meta property="og:description" content="JSPM.IO API"><meta property="og:url" content="https://jspm.org/docs/api"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>API - jspm.org</title></head><body class="page-docs-api">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks"><li><a target="_blank" href="/import-map-cdn" rel="noopener">Latest Release</a></li><li><a target="_blank" href="/docs/cdn" rel="noopener">Docs</a></li><li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Generator</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li class="docs">
+        <a>Docs</a>
+        <ul class="section">
+          <li class="guide"><a href="/docs/cdn">Native ES Module CDN</a></li>
+          <li class="guide"><a href="/docs/workflows">JSPM Workflows</a></li>
+          <li class="guide"><a href="/docs/api">CDN API</a></li>
+        </ul>
+      </li>
+      <li class="about">
+        <a>Latest Posts</a>
+        <ul class="section">
+          <li class="jspm-dev"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+          <li class="jspm-dev"><a href="/jspm-dev-release"><em>JSPM.dev Release<span class="date">19/06/20</span></em></a></li>
+        </ul>
+      </li>
+      <li><a>Resources</a>
+        <ul>
+          <li><a href="https://generator.jspm.io" target="_blank" rel="noopener">Online Import Map Generator</a></li>
+          <li><a href="/sandbox">Online Sandbox</a></li>
+          <li><a target="_blank" href="https://github.com/jspm/project" rel="noopener">Issue Tracker</a></li>
+          <li><a target="_blank" href="https://discord.gg/dNRweUu" rel="noopener">Discord</a></li>
+          <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Open Collective</a></li>
+          <li><a target="_blank" href="https://twitter.com/jspm" rel="noopener">@jspm on Twitter</a></li>
+        </ul>
+        </li>
+    </ul>
+    <div class="footer"><p>
+      Logo design by <a target="_blank" href="https://www.luuk.site/" rel="noopener">Luuk de Vlieger</a>
+    </p></div>
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>JSPM API</h1>
+<p>The JSPM API is hosted at <code>https://api.jspm.io</code> and provides some hosted package management services<br>for JSPM workflows.</p>
+<a name="reliability-guarantees" class="anchor"></a><h3>Reliability Guarantees</h3>
+<p>Like the CDN itself, this API is designed to have reliable uptime and includes autoscaling under higher load.</p>
+<p>The service is supported by project donations and is approaching sustainability. If you plan to heavily rely on this API, and anticipate bringing heavier load, support for the project would always be appreciated.</p>
+<a name="build-queue-request" class="anchor main"></a><h2>Build Queue Request</h2>
+<p>The <code>https://api.jspm.io/build</code> API provides an API for requesting a build of a new package that was recently published and hasn't yet been prioritised in the JSPM build queue.</p>
+<p>This API accepts any <code>GET</code> request of the form:</p>
+<p><code>https://api.jspm.io/build/pkg@x.y.z</code></p>
+<p>It is important to ensure the exact semver version is provided.</p>
+<p>The JSON response will either provide an <code><span class="string">"error"</span></code> field or successfully send the biuld to the JSPM CDN build queue.</p>
+<a name="generator" class="anchor main"></a><h2>Generator</h2>
+<p>The <code>https://api.jspm.io/generate</code> API provides a hosted version of <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> running<br>as a service.</p>
+<p>It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.</p>
+<a name="usage" class="anchor"></a><h3>Usage</h3>
+<p>The <code>https://api.jspm.io/generate</code> API accepts either a <code>GET</code> or a <code>POST</code> request.</p>
+<p><code>POST</code> requests are taken as JSON, and return JSON for all requests.</p>
+<p>Error responses will always have an <code>error</code> field and non-error responses will always omit an <code>error</code> field.</p>
+<p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
+<a name="install" class="anchor"></a><h3>install</h3>
+<p>The main argument to provide is the <code>install</code> list which is an array of targets - this is the list of package targets to install, of the form:</p>
+<pre><code>registry:name@version/subpath</code></pre>
+<p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
+<a name="env" class="anchor"></a><h3>env</h3>
+<p>The <code>env</code> is a list of environment condition strings. The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable<br>to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</p>
+<a name="inputmap" class="anchor"></a><h3>inputMap</h3>
+<p>An optional <code>inputMap</code> import map (with imports and scopes) can be provided for custom manual resolutions that should take precedence in the output map.</p>
+<a name="provider" class="anchor"></a><h3>provider</h3>
+<p>The provider sets the <code>defaultProvider</code> option in JSPM Generator. Supported options are <code><span class="string">'jspm'</span> | <span class="string">'jspm.system'</span> | <span class="string">'skypack'</span> | <span class="string">'jsdelivr'</span> | <span class="string">'unpkg'</span></code>.</p>
+<a name="flattenscope" class="anchor"></a><h3>flattenScope</h3>
+<p>When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/api.md" rel="noopener">Edit</a><div class="next"><a href="/import-map-cdn">Import Maps Release &amp; Module CDN Launch&nbsp;▶</a></div><div class="prev"><a href="/docs/workflows">◀&nbsp;JSPM Workflows - Documentation</a></div></div></div>
+</div>
+
+
+</body></html>

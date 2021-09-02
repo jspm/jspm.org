@@ -36,7 +36,8 @@ _Import map management becomes a form of package management in the browser._
 
 ### Running the Generator
 
-Either use the online version at [https://generator.jspm.io](https://generator.jspm.io) or use the [API](https://github.com/jspm/generator).
+Either use the online version at [https://generator.jspm.io](https://generator.jspm.io), the [API](/docs/api) or
+run the [generator library](https://github.com/jspm/generator) directly.
 
 For the online version, add `"react"` and `"react-dom"` into the dependencies box to generate the map.
 
@@ -339,3 +340,73 @@ This will create `dist/app.js` and `dist/dependency.js`, and now that it is comp
 Using the import map and boilerplate as per the previous examples, and updating the module script to reference `dist/app.js`, the application can now run natively in the browser with no other steps necessary.
 
 > Using the `"module": "system"` option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.
+
+## Deno
+
+> JSPM Deno support is still experimental, and there will be bugs! Bug reports are encouraged via https://github.com/jspm/project/issues.
+
+Since CommonJS -> ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.
+
+_This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node)_.
+
+**To create a Deno import map, use the `env: ["node", "deno", "module", "development"]` option in the generator.**
+
+### Example: Running Babel on Deno
+
+To demonstrate running Babel in Deno, first create an import map installing `@babel/core` and `@babel/preset-typescript`.
+
+Eg [see this example with the online generator using the Deno conditions](https://generator.jspm.io/#W8nDwMDE7JSYlJqjkJ+n4JKal6/I4JAE4usn5xelOpjrGZrqGcCECopSi1NLdEsqC1KLk4syC0qg8gD3eyFFRwA).
+
+We could optionally have also used the `"browser"` resolution but the goal in this example case is to match the Node.js environment execution as closely as possible.
+
+Save this import map into the file `map.json` locally.
+
+With Deno installed we can create a sample TypeScript parser:
+
+app.js
+```js
+import babel from '@babel/core';
+import babelPresetTs from '@babel/preset-typescript';
+
+const { code } = babel.transform(`export var p: number = 5;`, {
+  // Must end in .ts!
+  filename: 'test.ts',
+  sourceType: 'module',
+  presets: [babelPresetTs],
+});
+
+console.log(code);
+```
+
+To run this in Deno, we can use the following Deno command:
+
+```
+deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js
+```
+
+Which should give the correct output:
+
+```
+export var  = 5;
+```
+
+Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an `inputMap` option to override using Chalk 4:
+
+```js
+const generator = new Generator({
+  inputMap: {
+    imports: {
+      chalk: 'https://ga.jspm.io/npm:chalk@4.1.2/source/index.js'
+    }
+  },
+  env: ['node', 'deno', 'module', 'development']
+});
+
+await generator.install(['@babel/core', '@babel/preset-typescript']);
+
+console.log(generator.getMap());
+```
+
+Or if using the online generator, edit the map manually to change the Chalk entry to the above.
+
+That will then ensure Babel error messages render correctly pending https://github.com/babel/babel/issues/13728.

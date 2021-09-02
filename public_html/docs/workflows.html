@@ -29,6 +29,7 @@
         <ul class="section">
           <li class="guide"><a href="/docs/cdn">Native ES Module CDN</a></li>
           <li class="guide"><a href="/docs/workflows">JSPM Workflows</a></li>
+          <li class="guide"><a href="/docs/api">CDN API</a></li>
         </ul>
       </li>
       <li class="about">
@@ -78,7 +79,7 @@
 <p>These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.</p>
 <p><em>Import map management becomes a form of package management in the browser.</em></p>
 <a name="running-the-generator" class="anchor"></a><h3>Running the Generator</h3>
-<p>Either use the online version at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a> or use the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">API</a>.</p>
+<p>Either use the online version at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a>, the <a href="/docs/api">API</a> or<br>run the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">generator library</a> directly.</p>
 <p>For the online version, add <code><span class="string">"react"</span></code> and <code><span class="string">"react-dom"</span></code> into the dependencies box to generate the map.</p>
 <p>For the API, run <code>npm install @jspm/generator</code> then use the following code to generate the import map:</p>
 <p>generate.mjs</p>
@@ -286,7 +287,51 @@ ReactDOM.render(
 <blockquote>
 <p>Using the <code><span class="string">"module"</span>: <span class="string">"system"</span></code> option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.</p>
 </blockquote>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/import-map-cdn">Import Maps Release &amp; Module CDN Launch&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn">◀&nbsp;Native ES Module CDN - Documentation</a></div></div></div>
+<a name="deno" class="anchor main"></a><h2>Deno</h2>
+<blockquote>
+<p>JSPM Deno support is still experimental, and there will be bugs! Bug reports are encouraged via <a href="https://github.com/jspm/project/issues" target="_blank" rel="noopener">https://github.com/jspm/project/issues</a>.</p>
+</blockquote>
+<p>Since CommonJS -&gt; ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.</p>
+<p><em>This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support <a href="https://jspm/jspm-core" target="_blank" rel="noopener">JSPM Core</a> to link against the <a href="https://github.com/denoland/deno_std/tree/main/node" target="_blank" rel="noopener">Deno shims of the Node.js standard libraries</a></em>.</p>
+<p><strong>To create a Deno import map, use the <code>env: [<span class="string">"node"</span>, <span class="string">"deno"</span>, <span class="string">"module"</span>, <span class="string">"development"</span>]</code> option in the generator.</strong></p>
+<a name="example-running-babel-on-deno" class="anchor"></a><h3>Example: Running Babel on Deno</h3>
+<p>To demonstrate running Babel in Deno, first create an import map installing <code>@babel/core</code> and <code>@babel/preset-typescript</code>.</p>
+<p>Eg <a href="https://generator.jspm.io/#W8nDwMDE7JSYlJqjkJ+n4JKal6/I4JAE4usn5xelOpjrGZrqGcCECopSi1NLdEsqC1KLk4syC0qg8gD3eyFFRwA" target="_blank" rel="noopener">see this example with the online generator using the Deno conditions</a>.</p>
+<p>We could optionally have also used the <code><span class="string">"browser"</span></code> resolution but the goal in this example case is to match the Node.js environment execution as closely as possible.</p>
+<p>Save this import map into the file <code>map.json</code> locally.</p>
+<p>With Deno installed we can create a sample TypeScript parser:</p>
+<p>app.js</p>
+<pre><code class="language-js"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">'@babel/core'</span>;
+<span class="keyword">import</span> babelPresetTs <span class="keyword">from</span> <span class="string">'@babel/preset-typescript'</span>;
+
+<span class="keyword">const</span> { code } = babel.transform(`<span class="keyword">export</span> var p: number = <span class="number">5</span>;`, {
+<span class="comment">  // Must end in .ts!</span>
+  filename: <span class="string">'test.ts'</span>,
+  sourceType: <span class="string">'module'</span>,
+  presets: [babelPresetTs],
+});
+
+console.log(code);</code></pre>
+<p>To run this in Deno, we can use the following Deno command:</p>
+<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js</code></pre>
+<p>Which should give the correct output:</p>
+<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;</code></pre>
+<p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
+<pre><code class="language-js"><span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
+  inputMap: {
+    imports: {
+      chalk: <span class="string">'https://ga.jspm.io/npm:chalk@<span class="number">4</span>.<span class="number">1</span>.<span class="number">2</span>/source/index.js'</span>
+    }
+  },
+  env: [<span class="string">'node'</span>, <span class="string">'deno'</span>, <span class="string">'module'</span>, <span class="string">'development'</span>]
+});
+
+<span class="keyword">await</span> generator.install([<span class="string">'@babel/core'</span>, <span class="string">'@babel/preset-typescript'</span>]);
+
+console.log(generator.getMap());</code></pre>
+<p>Or if using the online generator, edit the map manually to change the Chalk entry to the above.</p>
+<p>That will then ensure Babel error messages render correctly pending <a href="https://github.com/babel/babel/issues/13728" target="_blank" rel="noopener">https://github.com/babel/babel/issues/13728</a>.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/api">API&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn">◀&nbsp;Native ES Module CDN - Documentation</a></div></div></div>
 </div>
 
 

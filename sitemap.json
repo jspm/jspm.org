@@ -12,6 +12,10 @@
     "title": "JSPM Workflows - Documentation",
     "description": "JSPM workflows from development to production"
   },
+  "docs/api": {
+    "title": "API",
+    "description": "JSPM.IO API"
+  },
   "import-map-cdn": {
     "title": "Import Maps Release & Module CDN Launch",
     "description": "Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows",
