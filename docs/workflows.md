@@ -412,3 +412,11 @@ console.log(generator.getMap());
 Or if using the online generator, edit the map manually to change the Chalk entry to the above.
 
 That will then ensure Babel error messages render correctly pending https://github.com/babel/babel/issues/13728.
+
+### Running the JSPM Generator in Deno
+
+The JSPM Generator itself can also be executed in Deno by building its own map.
+
+See the [online generator example here](https://generator.jspm.io/#W8nDwMDI6BUc4KvgnpqXWpRYkl+kEJyak6bgm1jA4JBVXJCrnw6TcDDUM9Az0E1KLUnUMzQGAK60ruI7AA).
+
+That import map is then sufficient to support `import { Generator } from '@jspm/generator'` with full JSPM Generator functionality in Deno.

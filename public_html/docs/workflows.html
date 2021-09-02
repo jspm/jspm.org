@@ -333,6 +333,10 @@ console.log(code);</code></pre>
 console.log(generator.getMap());</code></pre>
 <p>Or if using the online generator, edit the map manually to change the Chalk entry to the above.</p>
 <p>That will then ensure Babel error messages render correctly pending <a href="https://github.com/babel/babel/issues/13728" target="_blank" rel="noopener">https://github.com/babel/babel/issues/13728</a>.</p>
+<a name="running-the-jspm-generator-in-deno" class="anchor"></a><h3>Running the JSPM Generator in Deno</h3>
+<p>The JSPM Generator itself can also be executed in Deno by building its own map.</p>
+<p>See the <a href="https://generator.jspm.io/#W8nDwMDI6BUc4KvgnpqXWpRYkl+kEJyak6bgm1jA4JBVXJCrnw6TcDDUM9Az0E1KLUnUMzQGAK60ruI7AA" target="_blank" rel="noopener">online generator example here</a>.</p>
+<p>That import map is then sufficient to support <code><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span></code> with full JSPM Generator functionality in Deno.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/api">API&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn">◀&nbsp;Native ES Module CDN - Documentation</a></div></div></div>
 </div>
 
