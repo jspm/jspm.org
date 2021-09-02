@@ -317,7 +317,9 @@ console.log(code);</code></pre>
 <p>Which should give the correct output:</p>
 <pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;</code></pre>
 <p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
-<pre><code class="language-js"><span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
+<pre><code class="language-js"><span class="keyword">import</span> generator <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
+
+<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
   inputMap: {
     imports: {
       chalk: <span class="string">'https://ga.jspm.io/npm:chalk@<span class="number">4</span>.<span class="number">1</span>.<span class="number">2</span>/source/index.js'</span>

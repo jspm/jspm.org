@@ -393,6 +393,8 @@ export var  = 5;
 Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an `inputMap` option to override using Chalk 4:
 
 ```js
+import generator from '@jspm/generator';
+
 const generator = new Generator({
   inputMap: {
     imports: {
