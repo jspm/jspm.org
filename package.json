@@ -5,7 +5,9 @@
     "marked": "^1.2.0"
   },
   "scripts": {
-    "build": "node generate.js"
+    "build": "node generate.js",
+    "serve-architecture": "npx http-server ./architecture -c-1",
+    "excalidraw-to-svg": "node ./architecture/excalidraw-to-svg.js"
   },
   "type": "module"
 }
