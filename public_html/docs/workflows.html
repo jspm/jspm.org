@@ -175,10 +175,8 @@ ReactDOM.render(
 </blockquote>
 <p>For support in older browsers even without ES modules at all (including IE11), SystemJS can be used and there's an entire variant of the CDN serving System modules which can work in older browsers for this (depending on library support).</p>
 <p>Building modules into SystemJS can be achieved with Babel by first installing Babel CLI and the System transform:</p>
-<pre><code>npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system</code></pre>
-<p>Then to use Babel CLI, run the following command (add the <code>--watch</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs</code></pre>
-<blockquote>
+<pre><code>npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system</code></pre><p>Then to use Babel CLI, run the following command (add the <code>--watch</code> flag for watch mode):</p>
+<pre><code>./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs</code></pre><blockquote>
 <p>Usually we put commands like the above in the <code>package.json</code> <code><span class="string">"scripts"</span></code> field. This avoids having to include the <code>./node_modules/.bin</code> prefix as well. See the starter for how to set this up.</p>
 </blockquote>
 <p>This will compile all the modules in the <code><span class="string">"src"</span></code> folder into <code><span class="string">"dist/system"</span></code> as System modules.</p>
@@ -215,8 +213,7 @@ ReactDOM.render(
 <p>While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.</p>
 <p>RollupJS (and other build tools) can do this module combination for us, including working out which modules can be combined together.</p>
 <p>First, install RollupJS:</p>
-<pre><code>npm install rollup --save-dev</code></pre>
-<p>Next create a <code>rollup.config.js</code>:</p>
+<pre><code>npm install rollup --save-dev</code></pre><p>Next create a <code>rollup.config.js</code>:</p>
 <p>rollup.config.js</p>
 <pre><code class="language-js"><span class="keyword">export</span> default {
 <span class="comment">  // Add extra entry points here <span class="keyword">if</span> there are multiple to build</span>
@@ -244,8 +241,7 @@ ReactDOM.render(
   }
 };</code></pre>
 <p>To start the build, run (add the <code>-w</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/rollup -c</code></pre>
-<p>If <code>app.js</code> were to import 20 separate modules, all of these modules would now be just one single module file.</p>
+<pre><code>./node_modules/.bin/rollup -c</code></pre><p>If <code>app.js</code> were to import 20 separate modules, all of these modules would now be just one single module file.</p>
 <p>RollupJS will output this to <code>dist/esm/app.js</code> for the ES module build and <code>dist/system/app.js</code> for the SystemJS build (output can also just be a single object to just have one output format per the project requirements).</p>
 <p>If we had two separate pages of the application, say <code>src/homepage.js</code> and <code>src/shop.js</code>, then passing both of these to RollupJS it would automatically work out which dependencies are only<br>dependencies of <code>src/homepage.js</code> and which are only dependencies of <code>src/shop.js</code>. Shared dependencies between both would be split out into a separate module dependency chunk. The great thing about<br>RollupJS is that it is a very stable reliable project - a lot of engineering over years of development has gone into making these cases all work out well.</p>
 <p>Update the main application module scripts to reference the build folder, or even configure this in the import map via an <code><span class="string">"app"</span></code> entry in the <code><span class="string">"imports"</span></code> object.</p>
@@ -255,8 +251,7 @@ ReactDOM.render(
 </blockquote>
 <p>Many JS developers use TypeScript for the immense development benefits of comprehensive type checking it provides. For larger applications this benefit can be indispensible.</p>
 <p>First, install TypeScript:</p>
-<pre><code>npm install typescript --save-dev</code></pre>
-<p>Create the following <code>tsconfig.json</code> file:</p>
+<pre><code>npm install typescript --save-dev</code></pre><p>Create the following <code>tsconfig.json</code> file:</p>
 <pre><code class="language-json">{
   <span class="string">"compilerOptions"</span>: {
     <span class="string">"allowSyntheticDefaultImports"</span>: <span class="keyword">true</span>,
@@ -281,8 +276,7 @@ ReactDOM.render(
 <pre><code class="language-js"><span class="comment">// we <span class="keyword">import</span> dependency.js EVEN THOUGH it is dependency.ts</span>
 <span class="keyword">import</span> <span class="string">'./dependency.js'</span>;</code></pre>
 <p>Run the compilation with (add <code>-w</code> for watch mode):</p>
-<pre><code>tsc -p .</code></pre>
-<p>This will create <code>dist/app.js</code> and <code>dist/dependency.js</code>, and now that it is compiled, the <code>./dependency.js</code> import points to the correct file.</p>
+<pre><code>tsc -p .</code></pre><p>This will create <code>dist/app.js</code> and <code>dist/dependency.js</code>, and now that it is compiled, the <code>./dependency.js</code> import points to the correct file.</p>
 <p>Using the import map and boilerplate as per the previous examples, and updating the module script to reference <code>dist/app.js</code>, the application can now run natively in the browser with no other steps necessary.</p>
 <blockquote>
 <p>Using the <code><span class="string">"module"</span>: <span class="string">"system"</span></code> option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.</p>
@@ -313,10 +307,8 @@ ReactDOM.render(
 
 console.log(code);</code></pre>
 <p>To run this in Deno, we can use the following Deno command:</p>
-<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js</code></pre>
-<p>Which should give the correct output:</p>
-<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;</code></pre>
-<p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
+<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js</code></pre><p>Which should give the correct output:</p>
+<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;</code></pre><p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
 <pre><code class="language-js"><span class="keyword">import</span> generator <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
 
 <span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({

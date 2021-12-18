@@ -77,8 +77,7 @@
 <p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
 <a name="install" class="anchor"></a><h3>install</h3>
 <p>The main argument to provide is the <code>install</code> list which is an array of targets - this is the list of package targets to install, of the form:</p>
-<pre><code>registry:name@version/subpath</code></pre>
-<p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
+<pre><code>registry:name@version/subpath</code></pre><p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
 <a name="env" class="anchor"></a><h3>env</h3>
 <p>The <code>env</code> is a list of environment condition strings. The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable<br>to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</p>
 <a name="inputmap" class="anchor"></a><h3>inputMap</h3>
@@ -87,6 +86,8 @@
 <p>The provider sets the <code>defaultProvider</code> option in JSPM Generator. Supported options are <code><span class="string">'jspm'</span> | <span class="string">'jspm.system'</span> | <span class="string">'skypack'</span> | <span class="string">'jsdelivr'</span> | <span class="string">'unpkg'</span></code>.</p>
 <a name="flattenscope" class="anchor"></a><h3>flattenScope</h3>
 <p>When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</p>
+<a name="graph" class="anchor"></a><h3>graph</h3>
+<p>When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/api.md" rel="noopener">Edit</a><div class="next"><a href="/import-map-cdn">Import Maps Release &amp; Module CDN Launch&nbsp;▶</a></div><div class="prev"><a href="/docs/workflows">◀&nbsp;JSPM Workflows - Documentation</a></div></div></div>
 </div>
 
