@@ -65,7 +65,9 @@ The provider sets the `defaultProvider` option in JSPM Generator. Supported opti
 
 When provided, this option will return an import map with just `imports` and no scopes whenever possible.
 
+### graph
 
+When provided, this option will include the traced analysis graph in the output, grouped by package boundary.
 
 
 
