@@ -9,7 +9,7 @@ Both CDNs follow the exact same module semantics as descibed in the [CDN semanti
 `jspm.io` is a CDN built to support import maps with maximum performance featuring:
 
 * Comprehensive [package optimization](#package-optimization) and minification with source maps.
-* Univeral URLs with far-future expires _for all resources_.
+* Universal URLs with far-future expires _for all resources_.
 * The ability to configure all environment conditions for a package (eg development / production / browser / Node.js package variants).
 * SystemJS variant to support older browsers without needing an import maps polyfill.
 * High performance CDN, using Google Cloud CDN and Cloud Storage - no custom code lies between `ga.jspm.io` and Google's Cloud CDN, HTTPS Load Balancer and Storage - the uptime guarantees are the direct Google Cloud uptime SLA guarantees. See for example [any popular CDN comparison](https://www.cdnperf.com/cdn-compare?type=performance&location=world&cdn=aws-cloudfront-cdn,cloudflare-cdn,google-cloud-cdn) to see how Google compares here.
