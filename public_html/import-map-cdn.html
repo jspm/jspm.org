@@ -64,7 +64,8 @@
 <p>Import maps allow defining the locations of modules imported from JavaScript in the browser, effectively like you would expect in any other language (and as is already supported in Node.js):</p>
 <pre><code class="language-html">&lt;script type=<span class="string">"module"</span>&gt;
   <span class="keyword">import</span> pkg <span class="keyword">from</span> <span class="string">'pkg'</span>;
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 <p>Before import maps, if you run the above in any browser you would get the following error:</p>
 <p><code><span class="string">'Uncaught TypeError: Failed to resolve module specifier <span class="string">"pkg"</span>. Relative references must start with either <span class="string">"/"</span>, <span class="string">"./"</span>, or <span class="string">"../"</span>.'</span></code></p>
 <p>This is because unlike other web resources, the JS modules specification for HTML reserved the space of these non-relative references (called "bare specifiers") exactly to allow custom package imports via import maps.</p>
@@ -75,7 +76,8 @@
     <span class="string">"pkg"</span>: <span class="string">"./pkg/main.js"</span>
   }
 }
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 <p>And as of today, the above workflow is supported natively in Chromium for the first time.</p>
 <p>In addition to the <code><span class="string">"imports"</span></code> field in the import map, there is also the <a href="https://github.com/wicg/import-maps#scoping-examples" target="_blank" rel="noopener"><code><span class="string">"scopes"</span></code> field</a> which allows for scoping the import mapping (useful when there are naming / version conflicts). Import maps can even map entire resolved URLs which can be useful in mocking workflows.</p>
 <a name="the-javascript-module-caching-tradeoff" class="anchor main"></a><h2>The JavaScript Module Caching Tradeoff</h2>
@@ -101,9 +103,11 @@
   }
 }
 &lt;/script&gt;
-&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;</code></pre>
+&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
+</code></pre>
 <p>Where <code>app.js</code> would contain:</p>
-<pre><code class="language-js"><span class="keyword">import</span> <span class="string">'dependency'</span>;</code></pre>
+<pre><code class="language-js"><span class="keyword">import</span> <span class="string">'dependency'</span>;
+</code></pre>
 <p>We now have the ability to independently update either <code>app</code> or <code>dependency</code> using the import map, while having both modules cached with far-future expires.</p>
 <p><strong>Import maps bring the possibility of perfect caching for incremental updates of applications on the web.</strong></p>
 <p>It turns out that coupled with using dynamic <code><span class="keyword">import</span>()</code> lazy loading for first-load optimization, JS modules can be a pretty good bet for production workflow performance.</p>

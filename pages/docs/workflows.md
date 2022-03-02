@@ -1,3 +1,10 @@
++++
+title = "JSPM Workflows - Documentation"
+description = "JSPM workflows from development to production"
+next-section = "docs/api"
+prev-section = "docs/cdn"
++++
+
 # JSPM Workflows
 
 This guide covers practical workflows for using JSPM and import maps from development to production.

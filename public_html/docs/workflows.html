@@ -74,7 +74,8 @@
     <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/index.js"</span>
   }
 }
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 <p>In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.</p>
 <p>These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.</p>
 <p><em>Import map management becomes a form of package management in the browser.</em></p>
@@ -87,7 +88,8 @@
 <span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({ env: [<span class="string">'browser'</span>, <span class="string">'development'</span>] });
 <span class="keyword">await</span> generator.install(<span class="string">'react'</span>);
 <span class="keyword">await</span> generator.install(<span class="string">'react-dom'</span>);
-console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</span>));</code></pre>
+console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</span>));
+</code></pre>
 <p>The full import map generated for this React development environment will then look like the following:</p>
 <pre><code class="language-html"><span class="comment">&lt;!--
   JSPM Generator Import Map
@@ -107,7 +109,8 @@ console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</spa
     }
   }
 }
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 <p>The scopes entry in the import map allows defining import mappings that only apply when resolved by modules contained within the scope. For example in the above map, <code><span class="keyword">import</span> <span class="string">'object-assign'</span></code> wouldn't resolve in the local HTML page, but would resolve for any module contained within <code>https://ga.jspm.io/</code>, as is handled by React and its dependencies.</p>
 <blockquote>
 <p>Currently Chrome 89+ only supports import maps written <em>inline</em> like the above example.<br>  Support for <code>&lt;script type=<span class="string">"importmap"</span> src=<span class="string">"external.json"</span>&gt;&lt;/script&gt;</code> is specified but still a pending browser feature.</p>
@@ -121,7 +124,8 @@ console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</spa
 ReactDOM.render(
   React.createElement(<span class="string">'h1'</span>, { children: <span class="string">'Hello world!'</span> }),     
   document.getElementById(<span class="string">'root'</span>)
-);</code></pre>
+);
+</code></pre>
 <a name="setting-up-a-local-server" class="anchor"></a><h3>Setting up a Local Server</h3>
 <p>If you have <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js installed</a>, a local server can be run with <code>npx http-server -c-1</code> (the <code>-c-1</code> flag is useful to disable caching during development). This server is then the only step necessary to get going on a simple web application development workflow with native modules - no other tooling is required apart from the web browser and editor.</p>
 <p>Navigate to <code>http://localhost:8080/index.html</code> to load the application in the browser.</p>
@@ -149,7 +153,8 @@ ReactDOM.render(
     }
   }
 }
-&lt;/script&gt;</code></pre>
+&lt;/script&gt;
+</code></pre>
 <blockquote>
 <p>Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.</p>
 </blockquote>
@@ -160,13 +165,15 @@ ReactDOM.render(
 <p>By default JSPM Generator will include a boilerplate HTML template that contains the <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> import map polyfill.</p>
 <p>The polyfill will just do feature detections in modern Chrome, and if import maps aren't supported it replaces the imports with their actual URLs and executes them again.</p>
 <p>Because of this, in browsers without support for import maps you'll see a console error message like:</p>
-<pre><code class="language-js">Uncaught TypeError: Failed to resolve module specifier <span class="string">"react"</span>. Relative references must start with either <span class="string">"/"</span>, <span class="string">"./"</span>, or <span class="string">"../"</span>.</code></pre>
+<pre><code class="language-js">Uncaught TypeError: Failed to resolve module specifier <span class="string">"react"</span>. Relative references must start with either <span class="string">"/"</span>, <span class="string">"./"</span>, or <span class="string">"../"</span>.
+</code></pre>
 <p>This is correct and means the polyfill is working!</p>
 <p>If you're using a logging service or don't want these errors, add the <code>-shim</code> suffix to your import map and module scripts:</p>
 <pre><code class="language-html">&lt;script type=<span class="string">"importmap-shim"</span>&gt;
 ...
 &lt;/script&gt;
-&lt;script type=<span class="string">"module-shim"</span> src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;</code></pre>
+&lt;script type=<span class="string">"module-shim"</span> src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;
+</code></pre>
 <p>Note that ES Module Shims only works in browsers with basic native modules support (it polyfills import maps on top of basic modules) - which is around <a href="https://caniuse.com/es6-module" target="_blank" rel="noopener">93% of all browsers</a> (and higher on desktop).</p>
 <p>ES Module Shims is very fast and perfectly suitable for production workflows. The cost is that it adds around 7KB to the page load, and for large applications (500-1000 modules) can start to add a slight performance overhead of a few 100 ms.</p>
 <a name="systemjs" class="anchor main"></a><h2>SystemJS</h2>
@@ -175,8 +182,12 @@ ReactDOM.render(
 </blockquote>
 <p>For support in older browsers even without ES modules at all (including IE11), SystemJS can be used and there's an entire variant of the CDN serving System modules which can work in older browsers for this (depending on library support).</p>
 <p>Building modules into SystemJS can be achieved with Babel by first installing Babel CLI and the System transform:</p>
-<pre><code>npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system</code></pre><p>Then to use Babel CLI, run the following command (add the <code>--watch</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs</code></pre><blockquote>
+<pre><code>npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system
+</code></pre>
+<p>Then to use Babel CLI, run the following command (add the <code>--watch</code> flag for watch mode):</p>
+<pre><code>./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs
+</code></pre>
+<blockquote>
 <p>Usually we put commands like the above in the <code>package.json</code> <code><span class="string">"scripts"</span></code> field. This avoids having to include the <code>./node_modules/.bin</code> prefix as well. See the starter for how to set this up.</p>
 </blockquote>
 <p>This will compile all the modules in the <code><span class="string">"src"</span></code> folder into <code><span class="string">"dist/system"</span></code> as System modules.</p>
@@ -203,7 +214,8 @@ ReactDOM.render(
 &lt;/script&gt;
 
 <span class="comment">&lt;!-- Load an app.js file written in the <span class="string">"system"</span> module format output (via RollupJS / Babel / TypeScript) --&gt;</span>
-&lt;script type=<span class="string">"systemjs-module"</span> src=<span class="string">"dist/system/app.js"</span>&gt;&lt;/script&gt;</code></pre>
+&lt;script type=<span class="string">"systemjs-module"</span> src=<span class="string">"dist/system/app.js"</span>&gt;&lt;/script&gt;
+</code></pre>
 <p>The promise of SystemJS is that if it worked with native modules and a native import map, it will work just the same on SystemJS.</p>
 <a name="optimization-with-rollupjs" class="anchor main"></a><h2>Optimization with RollupJS</h2>
 <blockquote>
@@ -213,7 +225,9 @@ ReactDOM.render(
 <p>While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.</p>
 <p>RollupJS (and other build tools) can do this module combination for us, including working out which modules can be combined together.</p>
 <p>First, install RollupJS:</p>
-<pre><code>npm install rollup --save-dev</code></pre><p>Next create a <code>rollup.config.js</code>:</p>
+<pre><code>npm install rollup --save-dev
+</code></pre>
+<p>Next create a <code>rollup.config.js</code>:</p>
 <p>rollup.config.js</p>
 <pre><code class="language-js"><span class="keyword">export</span> default {
 <span class="comment">  // Add extra entry points here <span class="keyword">if</span> there are multiple to build</span>
@@ -239,9 +253,12 @@ ReactDOM.render(
       <span class="keyword">return</span>;
     warn(warning);
   }
-};</code></pre>
+};
+</code></pre>
 <p>To start the build, run (add the <code>-w</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/rollup -c</code></pre><p>If <code>app.js</code> were to import 20 separate modules, all of these modules would now be just one single module file.</p>
+<pre><code>./node_modules/.bin/rollup -c
+</code></pre>
+<p>If <code>app.js</code> were to import 20 separate modules, all of these modules would now be just one single module file.</p>
 <p>RollupJS will output this to <code>dist/esm/app.js</code> for the ES module build and <code>dist/system/app.js</code> for the SystemJS build (output can also just be a single object to just have one output format per the project requirements).</p>
 <p>If we had two separate pages of the application, say <code>src/homepage.js</code> and <code>src/shop.js</code>, then passing both of these to RollupJS it would automatically work out which dependencies are only<br>dependencies of <code>src/homepage.js</code> and which are only dependencies of <code>src/shop.js</code>. Shared dependencies between both would be split out into a separate module dependency chunk. The great thing about<br>RollupJS is that it is a very stable reliable project - a lot of engineering over years of development has gone into making these cases all work out well.</p>
 <p>Update the main application module scripts to reference the build folder, or even configure this in the import map via an <code><span class="string">"app"</span></code> entry in the <code><span class="string">"imports"</span></code> object.</p>
@@ -251,7 +268,9 @@ ReactDOM.render(
 </blockquote>
 <p>Many JS developers use TypeScript for the immense development benefits of comprehensive type checking it provides. For larger applications this benefit can be indispensible.</p>
 <p>First, install TypeScript:</p>
-<pre><code>npm install typescript --save-dev</code></pre><p>Create the following <code>tsconfig.json</code> file:</p>
+<pre><code>npm install typescript --save-dev
+</code></pre>
+<p>Create the following <code>tsconfig.json</code> file:</p>
 <pre><code class="language-json">{
   <span class="string">"compilerOptions"</span>: {
     <span class="string">"allowSyntheticDefaultImports"</span>: <span class="keyword">true</span>,
@@ -261,7 +280,8 @@ ReactDOM.render(
     <span class="string">"outDir"</span>: <span class="string">"dist"</span>
   },
   <span class="string">"include"</span>: [<span class="string">"src/**/*.ts"</span>]
-}</code></pre>
+}
+</code></pre>
 <p>TypeScript files always use the <code>.ts</code> file extension, but the first big decision when it comes to TypeScript is whether to <em>import</em> modules using the <code>.ts</code> file extension or the <code>.js</code> extension, and there are some pros and cons here:</p>
 <ul>
 <li>Deno and some other browser projects use <code><span class="keyword">import</span> <span class="string">'./dependency.ts'</span></code> to import TypeScript, so if writing code that will be shared with these kinds of environments you'll want to do this.</li>
@@ -274,9 +294,12 @@ ReactDOM.render(
 <p>Unlike the starter, let's use the TypeScript-recommended <code>.js</code> file extensions to demonstrate the workflow.</p>
 <p>So if writing an <code>app.ts</code> that imports a local <code>dependency.ts</code> file, this would be written:</p>
 <pre><code class="language-js"><span class="comment">// we <span class="keyword">import</span> dependency.js EVEN THOUGH it is dependency.ts</span>
-<span class="keyword">import</span> <span class="string">'./dependency.js'</span>;</code></pre>
+<span class="keyword">import</span> <span class="string">'./dependency.js'</span>;
+</code></pre>
 <p>Run the compilation with (add <code>-w</code> for watch mode):</p>
-<pre><code>tsc -p .</code></pre><p>This will create <code>dist/app.js</code> and <code>dist/dependency.js</code>, and now that it is compiled, the <code>./dependency.js</code> import points to the correct file.</p>
+<pre><code>tsc -p .
+</code></pre>
+<p>This will create <code>dist/app.js</code> and <code>dist/dependency.js</code>, and now that it is compiled, the <code>./dependency.js</code> import points to the correct file.</p>
 <p>Using the import map and boilerplate as per the previous examples, and updating the module script to reference <code>dist/app.js</code>, the application can now run natively in the browser with no other steps necessary.</p>
 <blockquote>
 <p>Using the <code><span class="string">"module"</span>: <span class="string">"system"</span></code> option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.</p>
@@ -305,10 +328,15 @@ ReactDOM.render(
   presets: [babelPresetTs],
 });
 
-console.log(code);</code></pre>
+console.log(code);
+</code></pre>
 <p>To run this in Deno, we can use the following Deno command:</p>
-<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js</code></pre><p>Which should give the correct output:</p>
-<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;</code></pre><p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
+<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js
+</code></pre>
+<p>Which should give the correct output:</p>
+<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;
+</code></pre>
+<p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
 <pre><code class="language-js"><span class="keyword">import</span> generator <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
 
 <span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
@@ -322,7 +350,8 @@ console.log(code);</code></pre>
 
 <span class="keyword">await</span> generator.install([<span class="string">'@babel/core'</span>, <span class="string">'@babel/preset-typescript'</span>]);
 
-console.log(generator.getMap());</code></pre>
+console.log(generator.getMap());
+</code></pre>
 <p>Or if using the online generator, edit the map manually to change the Chalk entry to the above.</p>
 <p>That will then ensure Babel error messages render correctly pending <a href="https://github.com/babel/babel/issues/13728" target="_blank" rel="noopener">https://github.com/babel/babel/issues/13728</a>.</p>
 <a name="running-the-jspm-generator-in-deno" class="anchor"></a><h3>Running the JSPM Generator in Deno</h3>
