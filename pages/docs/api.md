@@ -1,3 +1,10 @@
++++
+title = "API"
+description = "JSPM.IO API"
+prev-section = "docs/workflows"
+next-section = "import-map-cdn"
++++
+
 # JSPM API
 
 The JSPM API is hosted at `https://api.jspm.io` and provides some hosted package management services

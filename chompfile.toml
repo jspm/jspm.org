@@ -1,0 +1,41 @@
+version = 0.1
+
+extensions = ['chomp@0.1:npm', './static-site-generator.js']
+
+[server]
+root = "public_html"
+
+[[task]]
+name = 'copy:css'
+targets = ['public_html/codemirror.css', 'public_html/lint.css']
+invalidation = 'always'
+run = '''
+  curl "https://ga.jspm.io/npm:codemirror@5" -o codemirror.version
+  curl "https://ga.jspm.io/npm:codemirror@$(cat codemirror.version)/lib/codemirror.css" -o public_html/codemirror.css
+  curl "https://ga.jspm.io/npm:codemirror@$(cat codemirror.version)/addon/lint/lint.css" -o public_html/lint.css
+  rm codemirror.version
+'''
+
+[[task]]
+name = 'generate:static'
+deps = ['pages/#.md']
+target = 'public_html/#.html'
+template = 'static-site-generator'
+[task.template-options]
+template = 'template.html'
+site-name = 'jspm.org'
+site-url = 'https://jspm.org/'
+site-image = 'https://jspm.org/jspm.png'
+edit-url = 'https://github.com/jspm/jspm.org/blob/master'
+
+[[task]]
+name = 'build'
+deps = ['copy:css', 'generate:static']
+
+[[task]]
+name = 'excalidraw-to-svg'
+run = 'node ./architecture/excalidraw-to-svg.js'
+
+[[task]]
+name = 'serve-architecture'
+run = 'npx http-server ./architecture -c-1'

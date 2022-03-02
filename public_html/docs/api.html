@@ -77,7 +77,9 @@
 <p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
 <a name="install" class="anchor"></a><h3>install</h3>
 <p>The main argument to provide is the <code>install</code> list which is an array of targets - this is the list of package targets to install, of the form:</p>
-<pre><code>registry:name@version/subpath</code></pre><p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
+<pre><code>registry:name@version/subpath
+</code></pre>
+<p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
 <a name="env" class="anchor"></a><h3>env</h3>
 <p>The <code>env</code> is a list of environment condition strings. The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable<br>to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</p>
 <a name="inputmap" class="anchor"></a><h3>inputMap</h3>

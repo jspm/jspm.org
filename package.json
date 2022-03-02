@@ -1,13 +1,11 @@
 {
   "name": "app",
   "devDependencies": {
+    "@ltd/j-toml": "^1.29.0",
+    "js-yaml": "^4.1.0",
     "jsdom": "^16.4.0",
-    "marked": "^1.2.0"
-  },
-  "scripts": {
-    "build": "node generate.js",
-    "serve-architecture": "npx http-server ./architecture -c-1",
-    "excalidraw-to-svg": "node ./architecture/excalidraw-to-svg.js"
+    "marked": "^1.2.0",
+    "toml": "^3.0.0"
   },
   "type": "module"
 }
