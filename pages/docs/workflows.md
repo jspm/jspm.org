@@ -9,15 +9,85 @@ prev-section = "docs/cdn"
 
 This guide covers practical workflows for using JSPM and import maps from development to production.
 
-These workflows are based on the JSPM starters repo located at https://github.com/jspm/jspm-starters.
+With the prerequisites installed you should be up and running with a solid web development workflow using import maps in just a few minutes, and it should all make sense and be free of magic.
 
-## Native Modules Development Workflow
+These workflows are based on the JSPM starter repo located at https://github.com/jspm/jspm-starter.
 
-> This workflow follows the [React Starter](https://github.com/jspm/jspm-starters/tree/master/react).
+## Prerequisites
 
-Developing with pure native modules requires just a web server, a browser and an editor.
+For the starter workflow you will need:
 
-Instead of building JavaScript, the modules are all loaded by the browser directly.
+* [Node.js 14.17+][]
+* The Rust toolchain installed via [Rustup][] with Cargo 1.5+
+
+To verify the prerequisites:
+
+```sh
+node --version ; cargo --version
+```
+
+which should output the correct version ranges.
+
+### Chomp
+
+This starter uses Chomp which provides a Make-like task runner and local server.
+
+Chomp can be installed with Cargo:
+
+```sh
+cargo install chompbuild
+```
+
+Once Chomp has been built you should have the Chomp CLI utility:
+
+```sh
+chomp --version
+```
+
+> There are many ways to use JSPM, at its core it is just the JSPM Generator import map generation system with ES Module Shims in browsers.
+> When and by what process the import map is generated depends on the use case.
+
+## The Workflow
+
+Create a new project folder `jspm-app`, then create a `chompfile.toml` in that folder:
+
+_chompfile.toml_
+```toml
+version = 0.1
+
+extensions = ['chomp@0.1:jspm']
+
+[server]
+root = 'public'
+
+[template-options.npm]
+auto-install = true
+
+[[task]]
+target = 'public/app.html'
+dep = 'src/app.html'
+template = 'jspm'
+[task.template-options]
+env = ['browser', 'module', 'development']
+```
+
+With the above Chompfile saved, create the `src/app.html` HTML file:
+
+_src/app.html_
+```html
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+  <h1>My Web App</h1>
+</body>
+
+<script type="module">
+import lit
+</script>
+```
 
 ### Adding an Import Map
 
