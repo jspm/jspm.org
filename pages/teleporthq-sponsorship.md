@@ -1,6 +1,6 @@
 +++
 title = "teleportHQ JSPM Sponsorship"
-description = "teleportHQ becomes the first silver tier sponsor for JSPM"
+description = "teleportHQ sponsors JSPM's ES Module CDN workflows"
 next-section = "docs/workflows"
 prev-section = "import-map-cdn"
 +++
