@@ -1,12 +1,13 @@
 +++
 title = "Import Maps Release & Module CDN Launch"
 description = "Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows"
-prev-section = "docs/api"
+prev-section = "jspm-dev-release"
+next-section = "teleporthq-sponsorship"
 +++
 
 # Import Maps Release &<br/> Module CDN Launch
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>March 2<sup style="padding-left:0.15em">nd</sup> 2021&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, March 2<sup style="padding-left:0.15em">nd</sup> 2021</em></p>
 
 _Today Chrome 89 ships as stable with support for [package import maps](https://github.com/wicg/import-maps) in browsers. Aligning with this support, a new `ga.jspm.io` CDN is being launched today as a native modules [import map CDN](/docs/cdn) along with an [online import map generator](https://generator.jspm.io) for creating import maps against the module CDN._
 

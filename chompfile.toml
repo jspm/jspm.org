@@ -1,5 +1,7 @@
 version = 0.1
 
+default-task = 'build'
+
 extensions = ['chomp@0.1:npm', './static-site-generator.js']
 
 [server]
@@ -18,7 +20,7 @@ run = '''
 
 [[task]]
 name = 'generate:static'
-deps = ['pages/#.md']
+deps = ['pages/#.md', 'template.html']
 target = 'public_html/#.html'
 template = 'static-site-generator'
 [task.template-options]

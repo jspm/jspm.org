@@ -146,11 +146,14 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     for (let i = 0; i < langs.length; i++) {
       const code = langs[i];
       code.innerHTML = code.innerHTML
+      .replace(/'''([\\s\\S]+)'''/g, '<span class=string>\\'\\'\\'$1\\'\\'\\'</span>')
+      .replace(/"""([\\s\\S]+)"""/g, '<span class=string>"""$1"""</span>')
       .replace(/^(\\s*\\/\\/.*)/gm, '<span class=comment>$1</span>')
       .replace(/&lt;!--/g, '<span class=comment>&lt;!--')
       .replace(/--&gt;/g, '--></span>')
       .replace(/('[^']*')/gm, '<span class=string>$1</span>')
       .replace(/("[^"]*")/gm, '<span class=string>$1</span>')
+      .replace(/(\`[^\`]*\`)/gm, '<span class=string>$1</span>')
       .replace(/([^#\\d\\-a-z\\:])(-?\\d+)/gm, '$1<span class=number>$2</span>')
       .replace(/([^\\.\\-\\/"']|^)(for|function|new|await|async|throw|return|var|let|const|if|else|true|as|false|this|import|export class|export|from)([^-a-zA-Z=]|$)/gm, '$1<span class=keyword>$2</span>$3');
     }

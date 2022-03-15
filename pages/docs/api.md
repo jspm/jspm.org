@@ -1,8 +1,8 @@
 +++
 title = "API"
 description = "JSPM.IO API"
-prev-section = "docs/workflows"
-next-section = "import-map-cdn"
+prev-section = "docs/cdn"
+next-section = "teleporthq-sponsorship"
 +++
 
 # JSPM API

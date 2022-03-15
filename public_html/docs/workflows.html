@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta property="og:title" content="jspm.org - JSPM Workflows - Documentation"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM workflows from development to production"><meta property="og:description" content="JSPM workflows from development to production"><meta property="og:url" content="https://jspm.org/docs/workflows"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head><meta property="og:title" content="jspm.org - Workflow Guides - Documentation"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM workflows overview and introduction"><meta property="og:description" content="JSPM workflows overview and introduction"><meta property="og:url" content="https://jspm.org/docs/workflows"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css">
@@ -12,13 +12,13 @@
   gtag('js', new Date());
   gtag('config', 'UA-40327700-2');
 </script>
-<title>JSPM Workflows - Documentation - jspm.org</title></head><body class="page-docs-workflows">
+<title>Workflow Guides - Documentation - jspm.org</title></head><body class="page-docs-workflows">
 <div class="topbar">
   <a style="display: block" href="/">
     <div class="logobox" href="/"></div>
     <h1 class="logo">jspm</h1>
   </a>
-  <ul class="toplinks"><li><a target="_blank" href="/import-map-cdn" rel="noopener">Latest Release</a></li><li><a target="_blank" href="/docs/cdn" rel="noopener">Docs</a></li><li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Generator</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul>
+  <ul class="toplinks"><!--<li><a target="_blank" href="/import-map-cdn">Latest Release</a></li>--><li><a target="_blank" href="/docs/cdn" rel="noopener">Docs</a></li><li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul>
   <div class="mobile-menu"></div>
 </div>
 <div class="sidebar">
@@ -27,16 +27,17 @@
       <li class="docs">
         <a>Docs</a>
         <ul class="section">
-          <li class="guide"><a href="/docs/cdn">Native ES Module CDN</a></li>
-          <li class="guide"><a href="/docs/workflows">JSPM Workflows</a></li>
+          <li class="guide"><a href="/docs/workflows">Workflow Guides</a></li>
+          <li class="guide"><a href="/docs/cdn">CDN Architecture</a></li>
           <li class="guide"><a href="/docs/api">CDN API</a></li>
         </ul>
       </li>
       <li class="about">
-        <a>Latest Posts</a>
+        <a>Posts</a>
         <ul class="section">
-          <li class="jspm-dev"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
-          <li class="jspm-dev"><a href="/jspm-dev-release"><em>JSPM.dev Release<span class="date">19/06/20</span></em></a></li>
+          <li class="blog-link"><a href="/teleporthq-sponsorship"><em>TeleportHQ Sponsorship<span class="date">15/03/22</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-dev-release"><em>JSPM.dev Release<span class="date">19/06/20</span></em></a></li>
         </ul>
       </li>
       <li><a>Resources</a>
@@ -56,309 +57,403 @@
   </div>
 </div>
 <div class="content-container">
-  <div class="content"><h1>JSPM Workflows</h1>
-<p>This guide covers practical workflows for using JSPM and import maps from development to production.</p>
-<p>These workflows are based on the JSPM starters repo located at <a href="https://github.com/jspm/jspm-starters" target="_blank" rel="noopener">https://github.com/jspm/jspm-starters</a>.</p>
-<a name="native-modules-development-workflow" class="anchor main"></a><h2>Native Modules Development Workflow</h2>
-<blockquote>
-<p>This workflow follows the <a href="https://github.com/jspm/jspm-starters/tree/master/react" target="_blank" rel="noopener">React Starter</a>.</p>
-</blockquote>
-<p>Developing with pure native modules requires just a web server, a browser and an editor.</p>
-<p>Instead of building JavaScript, the modules are all loaded by the browser directly.</p>
-<a name="adding-an-import-map" class="anchor"></a><h3>Adding an Import Map</h3>
-<p>When loading third-party code, we use import maps to tell the browser that an import like <code><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span></code> should actually be fetched from <code>https://ga.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/index.js</code>.</p>
-<p>The import map to do this would look like:</p>
-<pre><code class="language-html">&lt;script type=<span class="string">"importmap"</span>&gt;
-{
-  <span class="string">"imports"</span>: {
-    <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/index.js"</span>
-  }
-}
-&lt;/script&gt;
-</code></pre>
-<p>In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.</p>
-<p>These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.</p>
-<p><em>Import map management becomes a form of package management in the browser.</em></p>
-<a name="running-the-generator" class="anchor"></a><h3>Running the Generator</h3>
-<p>Either use the online version at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a>, the <a href="/docs/api">API</a> or<br>run the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">generator library</a> directly.</p>
-<p>For the online version, add <code><span class="string">"react"</span></code> and <code><span class="string">"react-dom"</span></code> into the dependencies box to generate the map.</p>
-<p>For the API, run <code>npm install @jspm/generator</code> then use the following code to generate the import map:</p>
-<p>generate.mjs</p>
-<pre><code class="language-js"><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
-<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({ env: [<span class="string">'browser'</span>, <span class="string">'development'</span>] });
-<span class="keyword">await</span> generator.install(<span class="string">'react'</span>);
-<span class="keyword">await</span> generator.install(<span class="string">'react-dom'</span>);
-console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</span>));
-</code></pre>
-<p>The full import map generated for this React development environment will then look like the following:</p>
-<pre><code class="language-html"><span class="comment">&lt;!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y<span class="number">2</span>VgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>A<span class="number">8</span>Cd9GjEA
---&gt;</span>
-&lt;script type=<span class="string">"importmap"</span>&gt;
-{
-  <span class="string">"imports"</span>: {
-    <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/dev.index.js"</span>,
-    <span class="string">"react-dom"</span>: <span class="string">"https://ga.jspm.io/npm:react-dom@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/dev.index.js"</span>
-  },
-  <span class="string">"scopes"</span>: {
-    <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"object-assign"</span>: <span class="string">"https://ga.jspm.io/npm:object-assign@<span class="number">4</span>.<span class="number">1</span>.<span class="number">1</span>/index.js"</span>,
-      <span class="string">"scheduler"</span>: <span class="string">"https://ga.jspm.io/npm:scheduler@<span class="number">0</span>.<span class="number">20</span>.<span class="number">1</span>/dev.index.js"</span>,
-      <span class="string">"scheduler/tracing"</span>: <span class="string">"https://ga.jspm.io/npm:scheduler@<span class="number">0</span>.<span class="number">20</span>.<span class="number">1</span>/dev.tracing.js"</span>
-    }
-  }
-}
-&lt;/script&gt;
-</code></pre>
-<p>The scopes entry in the import map allows defining import mappings that only apply when resolved by modules contained within the scope. For example in the above map, <code><span class="keyword">import</span> <span class="string">'object-assign'</span></code> wouldn't resolve in the local HTML page, but would resolve for any module contained within <code>https://ga.jspm.io/</code>, as is handled by React and its dependencies.</p>
-<blockquote>
-<p>Currently Chrome 89+ only supports import maps written <em>inline</em> like the above example.<br>  Support for <code>&lt;script type=<span class="string">"importmap"</span> src=<span class="string">"external.json"</span>&gt;&lt;/script&gt;</code> is specified but still a pending browser feature.</p>
-</blockquote>
-<a name="writing-native-modules" class="anchor"></a><h3>Writing Native Modules</h3>
-<p>With the import map in place, the JS module can be included itself with a <code>&lt;script type=<span class="string">"module"</span> src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;</code> tag.</p>
-<p>Writing the <code>app.js</code> file we can include our hello world example:</p>
-<pre><code class="language-js"><span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>;
-<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom'</span>;
-
-ReactDOM.render(
-  React.createElement(<span class="string">'h1'</span>, { children: <span class="string">'Hello world!'</span> }),     
-  document.getElementById(<span class="string">'root'</span>)
-);
-</code></pre>
-<a name="setting-up-a-local-server" class="anchor"></a><h3>Setting up a Local Server</h3>
-<p>If you have <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js installed</a>, a local server can be run with <code>npx http-server -c-1</code> (the <code>-c-1</code> flag is useful to disable caching during development). This server is then the only step necessary to get going on a simple web application development workflow with native modules - no other tooling is required apart from the web browser and editor.</p>
-<p>Navigate to <code>http://localhost:8080/index.html</code> to load the application in the browser.</p>
-<blockquote>
-<p>Of course, use whatever hosting and serving mechanism you prefer - it is the open web after all. It is even possible to use new protocols in browsers like <a href="https://ipfs.io/" target="_blank" rel="noopener">IPFS</a> or <a href="https://beakerbrowser.com/" target="_blank" rel="noopener">Beaker Browser</a> to deploy applications directly to the decentralized web without needing any local command line tooling.</p>
-</blockquote>
-<a name="creating-a-production-import-map" class="anchor"></a><h3>Creating a Production Import Map</h3>
-<p>React ships separate development and production builds, so when shifting to production it is important to configure this.</p>
-<p>Loading up the <a href="https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA" target="_blank" rel="noopener">development version of the React import map</a> in JSPM Generator, there's an "Environment Conditions" box at the bottom of the sidebar. This allows configuring which <a href="/docs/cdn#conditional-exports">conditional exports</a> to use.</p>
-<p>Clicking the "Production" condition will then update the import map to use the production sources:</p>
-<pre><code class="language-html"><span class="comment">&lt;!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y<span class="number">2</span>NgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>AhFDkUDEA
---&gt;</span>
-&lt;script type=<span class="string">"importmap"</span>&gt;
-{
-  <span class="string">"imports"</span>: {
-    <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/index.js"</span>,
-    <span class="string">"react-dom"</span>: <span class="string">"https://ga.jspm.io/npm:react-dom@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/index.js"</span>
-  },
-  <span class="string">"scopes"</span>: {
-    <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"object-assign"</span>: <span class="string">"https://ga.jspm.io/npm:object-assign@<span class="number">4</span>.<span class="number">1</span>.<span class="number">1</span>/index.js"</span>,
-      <span class="string">"scheduler"</span>: <span class="string">"https://ga.jspm.io/npm:scheduler@<span class="number">0</span>.<span class="number">20</span>.<span class="number">1</span>/index.js"</span>
-    }
-  }
-}
-&lt;/script&gt;
-</code></pre>
-<blockquote>
-<p>Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.</p>
-</blockquote>
-<p>The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and are fully minified.</p>
-<p>For small applications it is even possible to get away with leaving the local code as separate modules (and the JSPM sandbox and generator apps even do this).</p>
-<p>For larger applications you will always want to look at applying code optimizations for production, see the <a href="#optimization-with-rollupjs">RollupJS optimization</a> section below for more information. The important point here is that these further optimizations are optional and additive to the workflow later on. By using native standards it is more likely you can apply a wider variation of optimization tools as well.</p>
-<a name="import-maps-polyfill" class="anchor main"></a><h2>Import Maps Polyfill</h2>
-<p>By default JSPM Generator will include a boilerplate HTML template that contains the <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> import map polyfill.</p>
-<p>The polyfill will just do feature detections in modern Chrome, and if import maps aren't supported it replaces the imports with their actual URLs and executes them again.</p>
-<p>Because of this, in browsers without support for import maps you'll see a console error message like:</p>
-<pre><code class="language-js">Uncaught TypeError: Failed to resolve module specifier <span class="string">"react"</span>. Relative references must start with either <span class="string">"/"</span>, <span class="string">"./"</span>, or <span class="string">"../"</span>.
-</code></pre>
-<p>This is correct and means the polyfill is working!</p>
-<p>If you're using a logging service or don't want these errors, add the <code>-shim</code> suffix to your import map and module scripts:</p>
-<pre><code class="language-html">&lt;script type=<span class="string">"importmap-shim"</span>&gt;
-...
-&lt;/script&gt;
-&lt;script type=<span class="string">"module-shim"</span> src=<span class="string">"app.js"</span>&gt;&lt;/script&gt;
-</code></pre>
-<p>Note that ES Module Shims only works in browsers with basic native modules support (it polyfills import maps on top of basic modules) - which is around <a href="https://caniuse.com/es6-module" target="_blank" rel="noopener">93% of all browsers</a> (and higher on desktop).</p>
-<p>ES Module Shims is very fast and perfectly suitable for production workflows. The cost is that it adds around 7KB to the page load, and for large applications (500-1000 modules) can start to add a slight performance overhead of a few 100 ms.</p>
-<a name="systemjs" class="anchor main"></a><h2>SystemJS</h2>
-<blockquote>
-<p>This workflow follows the <a href="https://github.com/jspm/jspm-starters/tree/master/systemjs-babel" target="_blank" rel="noopener">SystemJS Babel Starter</a>.</p>
-</blockquote>
-<p>For support in older browsers even without ES modules at all (including IE11), SystemJS can be used and there's an entire variant of the CDN serving System modules which can work in older browsers for this (depending on library support).</p>
-<p>Building modules into SystemJS can be achieved with Babel by first installing Babel CLI and the System transform:</p>
-<pre><code>npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system
-</code></pre>
-<p>Then to use Babel CLI, run the following command (add the <code>--watch</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs
-</code></pre>
-<blockquote>
-<p>Usually we put commands like the above in the <code>package.json</code> <code><span class="string">"scripts"</span></code> field. This avoids having to include the <code>./node_modules/.bin</code> prefix as well. See the starter for how to set this up.</p>
-</blockquote>
-<p>This will compile all the modules in the <code><span class="string">"src"</span></code> folder into <code><span class="string">"dist/system"</span></code> as System modules.</p>
-<p>Finally load up the <a href="https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA" target="_blank" rel="noopener">example import map in JSPM Generator</a> and select the <strong>SystemJS Import Map</strong> output option at the top.</p>
-<p>Update the import map and reference to the main module to point to the <code>dist/system/app.js</code> file:</p>
-<pre><code class="language-html"><span class="comment">&lt;!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#M<span class="number">2</span>VgYGBiDkpNTC<span class="number">5</span>RCC<span class="number">5</span>JLCpJLWIoAvF<span class="number">0</span>U/JzHQzN<span class="number">9</span>Qz0DCECUA<span class="number">4</span>ANkXMaDEA
---&gt;</span>
-&lt;script type=<span class="string">"systemjs-importmap"</span>&gt;
-{
-  <span class="string">"imports"</span>: {
-    <span class="string">"react"</span>: <span class="string">"https://ga.system.jspm.io/npm:react@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/dev.index.js"</span>,
-    <span class="string">"react-dom"</span>: <span class="string">"https://ga.system.jspm.io/npm:react-dom@<span class="number">17</span>.<span class="number">0</span>.<span class="number">1</span>/dev.index.js"</span>
-  },
-  <span class="string">"scopes"</span>: {
-    <span class="string">"https://ga.system.jspm.io/"</span>: {
-      <span class="string">"object-assign"</span>: <span class="string">"https://ga.system.jspm.io/npm:object-assign@<span class="number">4</span>.<span class="number">1</span>.<span class="number">1</span>/index.js"</span>,
-      <span class="string">"scheduler"</span>: <span class="string">"https://ga.system.jspm.io/npm:scheduler@<span class="number">0</span>.<span class="number">20</span>.<span class="number">1</span>/dev.index.js"</span>,
-      <span class="string">"scheduler/tracing"</span>: <span class="string">"https://ga.system.jspm.io/npm:scheduler@<span class="number">0</span>.<span class="number">20</span>.<span class="number">1</span>/dev.tracing.js"</span>
-    }
-  }
-}
-&lt;/script&gt;
-
-<span class="comment">&lt;!-- Load an app.js file written in the <span class="string">"system"</span> module format output (via RollupJS / Babel / TypeScript) --&gt;</span>
-&lt;script type=<span class="string">"systemjs-module"</span> src=<span class="string">"dist/system/app.js"</span>&gt;&lt;/script&gt;
-</code></pre>
-<p>The promise of SystemJS is that if it worked with native modules and a native import map, it will work just the same on SystemJS.</p>
-<a name="optimization-with-rollupjs" class="anchor main"></a><h2>Optimization with RollupJS</h2>
-<blockquote>
-<p>This workflow follows the <a href="https://github.com/jspm/jspm-starters/tree/master/rollup" target="_blank" rel="noopener">Rollup Starter</a>.</p>
-</blockquote>
-<p>As the number of modules in your application grows, there can start to be performance benefits to combining modules together that always load together into a single module.</p>
-<p>While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.</p>
-<p>RollupJS (and other build tools) can do this module combination for us, including working out which modules can be combined together.</p>
-<p>First, install RollupJS:</p>
-<pre><code>npm install rollup --save-dev
-</code></pre>
-<p>Next create a <code>rollup.config.js</code>:</p>
-<p>rollup.config.js</p>
-<pre><code class="language-js"><span class="keyword">export</span> default {
-<span class="comment">  // Add extra entry points here <span class="keyword">if</span> there are multiple to build</span>
-  input: [<span class="string">'src/app.js'</span>],
-
-  output: [
-<span class="comment">    // ES module build</span>
-    {
-      dir: <span class="string">'dist/esm'</span>,
-      format: <span class="string">'esm'</span>
-    },
-<span class="comment">    // SystemJS build</span>
-    {
-      dir: <span class="string">'dist/system'</span>,
-      format: <span class="string">'system'</span>
-    }
-  ],
-<span class="comment">
-  // disable external module warnings</span>
-<span class="comment">  // (JSPM / the <span class="keyword">import</span> map handles these <span class="keyword">for</span> us instead)      </span>
-  onwarn (warning, warn) {
-    <span class="keyword">if</span> (warning.code === <span class="string">'UNRESOLVED_IMPORT'</span>)
-      <span class="keyword">return</span>;
-    warn(warning);
-  }
-};
-</code></pre>
-<p>To start the build, run (add the <code>-w</code> flag for watch mode):</p>
-<pre><code>./node_modules/.bin/rollup -c
-</code></pre>
-<p>If <code>app.js</code> were to import 20 separate modules, all of these modules would now be just one single module file.</p>
-<p>RollupJS will output this to <code>dist/esm/app.js</code> for the ES module build and <code>dist/system/app.js</code> for the SystemJS build (output can also just be a single object to just have one output format per the project requirements).</p>
-<p>If we had two separate pages of the application, say <code>src/homepage.js</code> and <code>src/shop.js</code>, then passing both of these to RollupJS it would automatically work out which dependencies are only<br>dependencies of <code>src/homepage.js</code> and which are only dependencies of <code>src/shop.js</code>. Shared dependencies between both would be split out into a separate module dependency chunk. The great thing about<br>RollupJS is that it is a very stable reliable project - a lot of engineering over years of development has gone into making these cases all work out well.</p>
-<p>Update the main application module scripts to reference the build folder, or even configure this in the import map via an <code><span class="string">"app"</span></code> entry in the <code><span class="string">"imports"</span></code> object.</p>
-<a name="typescript" class="anchor main"></a><h2>TypeScript</h2>
-<blockquote>
-<p>This workflow roughly follows the <a href="https://github.com/jspm/jspm-starters/tree/master/rollup" target="_blank" rel="noopener">TypeScript Starter</a>, although takes a different direction with file extensions.</p>
-</blockquote>
-<p>Many JS developers use TypeScript for the immense development benefits of comprehensive type checking it provides. For larger applications this benefit can be indispensible.</p>
-<p>First, install TypeScript:</p>
-<pre><code>npm install typescript --save-dev
-</code></pre>
-<p>Create the following <code>tsconfig.json</code> file:</p>
-<pre><code class="language-json">{
-  <span class="string">"compilerOptions"</span>: {
-    <span class="string">"allowSyntheticDefaultImports"</span>: <span class="keyword">true</span>,
-    <span class="string">"moduleResolution"</span>: <span class="string">"node"</span>,
-    <span class="string">"target"</span>: <span class="string">"es2017"</span>,
-    <span class="string">"module"</span>: <span class="string">"esnext"</span>,
-    <span class="string">"outDir"</span>: <span class="string">"dist"</span>
-  },
-  <span class="string">"include"</span>: [<span class="string">"src/**/*.ts"</span>]
-}
-</code></pre>
-<p>TypeScript files always use the <code>.ts</code> file extension, but the first big decision when it comes to TypeScript is whether to <em>import</em> modules using the <code>.ts</code> file extension or the <code>.js</code> extension, and there are some pros and cons here:</p>
+  <div class="content"><h1>Workflow Guides</h1>
+<p>Some simple workflows for getting started with JSPM import map generation.</p>
 <ul>
-<li>Deno and some other browser projects use <code><span class="keyword">import</span> <span class="string">'./dependency.ts'</span></code> to import TypeScript, so if writing code that will be shared with these kinds of environments you'll want to do this.</li>
-<li>The TypeScript compiler will complain when using <code>.ts</code> extensions explicitly though, so needs a custom invocation or setup like Deno provides with its own custom VSCode extension.</li>
-<li>On the other hand, if not using the <code>.ts</code> file extension, then a build workflow will always be needed to run the TypeScript - it can't just be loaded directly into the target environment like Deno or SystemJS in its development-only mode (see the starter repo for a demonstration of this setup).</li>
+<li>For quick examples without getting bogged down in local tooling configuration, try the <a href="#online-generator">Online Generator</a> or <a href="#vscode-extension">VSCode Extension</a> workflows below.</li>
+<li>The most direct recommended approach for JSPM Generation is the <a href="#js-generator-api">JS Generator API</a> workflow.</li>
+<li>For a full example local application with TypeScript and a dev server using the Chomp task runner (or alternatively npm scripts), see the <a href="#jspm-starter">JSPM Starter</a> workflow.</li>
+<li>More advanced experimental <a href="#deno-import-maps">Deno import maps</a> support is demonstrated as the last workflow.</li>
 </ul>
-<blockquote>
-<p>We keep waiting for the day TypeScript just provides a configuration option for handling <code>.ts</code> -&gt; <code>.js</code> extensions in the build...</p>
-</blockquote>
-<p>Unlike the starter, let's use the TypeScript-recommended <code>.js</code> file extensions to demonstrate the workflow.</p>
-<p>So if writing an <code>app.ts</code> that imports a local <code>dependency.ts</code> file, this would be written:</p>
-<pre><code class="language-js"><span class="comment">// we <span class="keyword">import</span> dependency.js EVEN THOUGH it is dependency.ts</span>
-<span class="keyword">import</span> <span class="string">'./dependency.js'</span>;
-</code></pre>
-<p>Run the compilation with (add <code>-w</code> for watch mode):</p>
-<pre><code>tsc -p .
-</code></pre>
-<p>This will create <code>dist/app.js</code> and <code>dist/dependency.js</code>, and now that it is compiled, the <code>./dependency.js</code> import points to the correct file.</p>
-<p>Using the import map and boilerplate as per the previous examples, and updating the module script to reference <code>dist/app.js</code>, the application can now run natively in the browser with no other steps necessary.</p>
-<blockquote>
-<p>Using the <code><span class="string">"module"</span>: <span class="string">"system"</span></code> option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.</p>
-</blockquote>
-<a name="deno" class="anchor main"></a><h2>Deno</h2>
-<blockquote>
-<p>JSPM Deno support is still experimental, and there will be bugs! Bug reports are encouraged via <a href="https://github.com/jspm/project/issues" target="_blank" rel="noopener">https://github.com/jspm/project/issues</a>.</p>
-</blockquote>
-<p>Since CommonJS -&gt; ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.</p>
-<p><em>This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support <a href="https://jspm/jspm-core" target="_blank" rel="noopener">JSPM Core</a> to link against the <a href="https://github.com/denoland/deno_std/tree/main/node" target="_blank" rel="noopener">Deno shims of the Node.js standard libraries</a></em>.</p>
-<p><strong>To create a Deno import map, use the <code>env: [<span class="string">"node"</span>, <span class="string">"deno"</span>, <span class="string">"module"</span>, <span class="string">"development"</span>]</code> option in the generator.</strong></p>
-<a name="example-running-babel-on-deno" class="anchor"></a><h3>Example: Running Babel on Deno</h3>
-<p>To demonstrate running Babel in Deno, first create an import map installing <code>@babel/core</code> and <code>@babel/preset-typescript</code>.</p>
-<p>Eg <a href="https://generator.jspm.io/#W8nDwMDE7JSYlJqjkJ+n4JKal6/I4JAE4usn5xelOpjrGZrqGcCECopSi1NLdEsqC1KLk4syC0qg8gD3eyFFRwA" target="_blank" rel="noopener">see this example with the online generator using the Deno conditions</a>.</p>
-<p>We could optionally have also used the <code><span class="string">"browser"</span></code> resolution but the goal in this example case is to match the Node.js environment execution as closely as possible.</p>
-<p>Save this import map into the file <code>map.json</code> locally.</p>
-<p>With Deno installed we can create a sample TypeScript parser:</p>
-<p>app.js</p>
-<pre><code class="language-js"><span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">'@babel/core'</span>;
-<span class="keyword">import</span> babelPresetTs <span class="keyword">from</span> <span class="string">'@babel/preset-typescript'</span>;
+<a name="online-generator" class="anchor main"></a><h2>Online Generator</h2>
+<p>The easiest way to try out JSPM is to generate an import map using the online generator at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a>.</p>
+<div style="text-align: center;">
+<a href="https://generator.jspm.io" target="_blank" rel="noopener"><img style="width: 100%" src="/steps/online-0.png"></a>
+</div>
 
-<span class="keyword">const</span> { code } = babel.transform(`<span class="keyword">export</span> var p: number = <span class="number">5</span>;`, {
-<span class="comment">  // Must end in .ts!</span>
-  filename: <span class="string">'test.ts'</span>,
-  sourceType: <span class="string">'module'</span>,
-  presets: [babelPresetTs],
-});
+<p>In the top-left corner enter an npm package name to add to the import map (<code>lit</code> in this example):</p>
+<div style="text-align: center;">
+<img src="/steps/online-1.png">
+</div>
 
-console.log(code);
+<p>Press <code>Return</code> to add the package to the map. Then add any other dependency entries. For example to add the <code>./html.js</code> subpath export of lit, add <code>lit/html.js</code>:</p>
+<div style="text-align: center;">
+<img src="/steps/online-2.png">
+</div>
+
+<p>Versions are supported in package names before the subpath and items can be removed or changed from the controls provided.</p>
+<p>The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.</p>
+<p>In <a href="https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA" target="_blank" rel="noopener">this example</a> we get:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=<span class="string">"utf-8"</span>&gt;
+  &lt;title&gt;Untitled&lt;/title&gt;
+  &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=<span class="number">1</span>"</span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  <span class="comment">&lt;!--
+    JSPM Generator Import Map
+    Edit URL: https://generator.jspm.io/#U<span class="number">2</span>NhYGBiDs0rySzJSU<span class="number">1</span>hyMkscTDSM<span class="number">9</span>IzQLD<span class="number">0</span>M<span class="number">0</span>pyc/SyigHzBUtSKgA
+  --&gt;</span>
+  &lt;script type=<span class="string">"importmap"</span>&gt;
+  {
+    <span class="string">"imports"</span>: {
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>,
+      <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/html.js"</span>
+    },
+    <span class="string">"scopes"</span>: {
+      <span class="string">"https://ga.jspm.io/"</span>: {
+        <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">3</span>.<span class="number">0</span>/reactive-element.js"</span>,
+        <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>,
+        <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/lit-html.js"</span>
+      }
+    }
+  }
+  &lt;/script&gt;
+  
+  <span class="comment">&lt;!-- ES Module Shims: Import maps polyfill <span class="keyword">for</span> modules browsers without <span class="keyword">import</span> maps support (all except Chrome <span class="number">89</span>+) --&gt;</span>
+  &lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">0</span>.<span class="number">12</span>.<span class="number">8</span>/dist/es-module-shims.min.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+  
+  &lt;script type=<span class="string">"module"</span>&gt;
+    <span class="keyword">import</span> * <span class="keyword">as</span> lit <span class="keyword">from</span> <span class="string">"lit"</span>;
+    <span class="keyword">import</span> * <span class="keyword">as</span> litHtml <span class="keyword">from</span> <span class="string">"lit/html.js"</span>;
+<span class="comment">  
+    // Write main module code here, or <span class="keyword">as</span> a separate file with a <span class="string">"src"</span> attribute on the module script.</span>
+    console.log(lit, litHtml);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
-<p>To run this in Deno, we can use the following Deno command:</p>
-<pre><code>deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js
+<p>Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.</p>
+<p>The included <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims polyfill</a> ensures the workflow works in all browsers with native modules support.</p>
+<a name="vscode-extension" class="anchor main"></a><h2>VSCode Extension</h2>
+<p>For an easy fully local workflow try the <a href="https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode" target="_blank" rel="noopener">JSPM Generator VSCode Extension</a>, which is supported as a Web Extension.</p>
+<p>This provides a workflow for writing native HTML imports directly, then post-processing the HTML file to insert the generated import map and polyfill.</p>
+<p>With the extension installed, create a new VSCode project, with an <code>app.html</code> file:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;script type=<span class="string">"module"</span> src=<span class="string">"./lib/app.js"</span>&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
 </code></pre>
-<p>Which should give the correct output:</p>
-<pre><code><span class="keyword">export</span> var  = <span class="number">5</span>;
+<p>Then create a new JS file <code>lib/app.js</code>:</p>
+<pre><code class="language-js"><span class="keyword">import</span> lit <span class="keyword">from</span> <span class="string">'lit'</span>;
+console.log(lit);
 </code></pre>
-<p>Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an <code>inputMap</code> option to override using Chalk 4:</p>
-<pre><code class="language-js"><span class="keyword">import</span> generator <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
+<p>With the editor focus on <code>app.html</code> open the VSCode Command Palette (<code>Ctrl + Shift + P</code>) and select the <code>JSPM: Generate Import Map</code> command</p>
+<div style="text-align: center;">
+<img src="/steps/vscode-1.png">
+</div>
+
+<p>The first question will be whether to inject preloads and integrity for the generation process, in this case select <code>No</code>:</p>
+<div style="text-align: center;">
+<img src="/steps/vscode-2.png">
+</div>
+
+<p>This preference can also be saved and changed anytime from the VSCode JSPM Settings.</p>
+<p>The final question is what environments to generate the import map for. The default generation is with the <code>browser</code>, <code>development</code> and <code>module</code> exports conditions, in this case we select a <code>production</code> instead of a <code>development</code> import map:</p>
+<div style="text-align: center;">
+<img src="/steps/vscode-3.png">
+</div>
+
+<p>Press return again and the generator will run the complete generation API from within VSCode, modifying the HTML to include the injected import map on completion.</p>
+<p>The <code>app.html</code> file will then be updated by the extension with the ES Module Shims polyfill and import map tags:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;head&gt;
+<span class="comment">&lt;!-- Generated by @jspm/generator VSCode Extension - https://github.com/jspm/jspm-vscode --&gt;</span>
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">4</span>.<span class="number">7</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+&lt;script type=<span class="string">"importmap"</span>&gt;
+{
+  <span class="string">"scopes"</span>: {
+    <span class="string">"./"</span>: {
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
+    },
+    <span class="string">"https://ga.jspm.io/"</span>: {
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">3</span>.<span class="number">0</span>/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/lit-html.js"</span>
+    }
+  }
+}
+&lt;/script&gt;
+&lt;script type=<span class="string">"module"</span> src=<span class="string">"./lib/app.js"</span>&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Rewriting will carefully respect existing HTML and existing import mappings. The operation is also largely idempotent unless there are resolution differences.</p>
+<p>Version ranges will be consulted from any local <code>package.json</code> file. The full Node.js resolver rules are supported so it's even possible to use <a href="https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">own-name resolution</a> and <a href="https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports" target="_blank" rel="noopener">package imports resolution</a> while respecting custom local import map mappings.</p>
+<p>After processing, <code>app.html</code> should then be a fully executable HTML application. For production it is usually advisable to use the preload option which will inject integrity as well for static guarantees.</p>
+<a name="js-generator-api" class="anchor main"></a><h2>JS Generator API</h2>
+<p>The <a href="https://github.com/jspm/generator" target="_blank" rel="noopener"><code>@jspm/generator</code> project</a> is the driver of all the workflows here. It provides a CDN agnostic protocol for generating import maps for any local or remote URLs, and even supports custom CDN providers and alternative protocols like IPFS.</p>
+<p>To run the generator locally, it can be installed from <code>@jspm/generator</code> on npm:</p>
+<pre><code class="language-sh">npm install @jspm/generator
+</code></pre>
+<p>The documentation and typings are available from the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">project repo</a>.</p>
+<p>Below are two basic usage examples for generating import maps like the online generator and VSCode extension respectively.</p>
+<a name="import-map-generation" class="anchor"></a><h3>Import Map Generation</h3>
+<p>In a new project, install the <code>@jspm/generator</code>:</p>
+<pre><code class="language-sh">npm install @jspm/generator --save-dev
+</code></pre>
+<p>Then edit the <code>package.json</code> file to include <code><span class="string">"type"</span>: <span class="string">"module"</span></code> or use an <code>.mjs</code> file then write the build script:</p>
+<p>jspm-generate.js</p>
+<pre><code class="language-js"><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
 
 <span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
-  inputMap: {
-    imports: {
-      chalk: <span class="string">'https://ga.jspm.io/npm:chalk@<span class="number">4</span>.<span class="number">1</span>.<span class="number">2</span>/source/index.js'</span>
-    }
-  },
-  env: [<span class="string">'node'</span>, <span class="string">'deno'</span>, <span class="string">'module'</span>, <span class="string">'development'</span>]
+  mapUrl: <span class="keyword">import</span>.meta.url,
+  env: [<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]
 });
 
-<span class="keyword">await</span> generator.install([<span class="string">'@babel/core'</span>, <span class="string">'@babel/preset-typescript'</span>]);
+<span class="keyword">await</span> generator.install(<span class="string">'lit'</span>);
+<span class="keyword">await</span> generator.install(<span class="string">'lit/html.js'</span>);
 
+console.log(JSON.stringify(generator.getMap(), null, <span class="number">2</span>));
+</code></pre>
+<p>Running the above, will output the equivalent map that the online sandbox would have provided:</p>
+<pre><code class="language-sh">node jspm-generate.js
+</code></pre>
+<p>with output:</p>
+<pre><code class="language-json">{
+  <span class="string">"imports"</span>: {
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>,
+    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/html.js"</span>
+  },
+  <span class="string">"scopes"</span>: {
+    <span class="string">"https://ga.jspm.io/"</span>: {
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">3</span>.<span class="number">0</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">2</span>.<span class="number">0</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/development/lit-html.js"</span>
+    }
+  }
+}
+</code></pre>
+<a name="html-generation" class="anchor"></a><h3>HTML Generation</h3>
+<p>For a full HTML generation workflow, follow the same steps of the previous example, but use the <code>generate.htmlGenerate</code> method instead in the <code>jspm-generate.js</code> file:</p>
+<p>jspm-generate.js</p>
+<pre><code class="language-js"><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
+
+<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
+  mapUrl: <span class="keyword">import</span>.meta.url,
+  env: [<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]
+});
+
+console.log(<span class="keyword">await</span> generator.htmlGenerate(<span class="string">`
+&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;script type=<span class="string">"module"</span>&gt;
+<span class="keyword">import</span> lit <span class="keyword">from</span> <span class="string">'lit'</span>;
+console.log(lit);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+`</span>, {
+  htmlUrl: <span class="keyword">import</span>.meta.url,
+  preload: <span class="keyword">false</span>
+}));
+</code></pre>
+<pre><code class="language-sh">node jspm-generate.js
+</code></pre>
+<p>with output:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;head&gt;
+<span class="comment">&lt;!-- Generated by @jspm/generator - https://github.com/jspm/generator --&gt;</span>
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">4</span>.<span class="number">7</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+&lt;script type=<span class="string">"importmap"</span>&gt;
+{
+  <span class="string">"imports"</span>: {
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
+  },
+  <span class="string">"scopes"</span>: {
+    <span class="string">"https://ga.jspm.io/"</span>: {
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">3</span>.<span class="number">0</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">2</span>.<span class="number">0</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/development/lit-html.js"</span>
+    }
+  }
+}
+&lt;/script&gt;
+&lt;script type=<span class="string">"module"</span>&gt;
+<span class="keyword">import</span> lit <span class="keyword">from</span> <span class="string">'lit'</span>;
+console.log(lit);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;/body&gt;
+</code></pre>
+<p>Exactly as per the VSCode Extension above, external module imports via <code>&lt;script type=<span class="string">"module"</span> src=<span class="string">"./lib/app.js"</span>&gt;&lt;/script&gt;</code> will also be traced and generated and version ranges will be consulted from any local <code>package.json</code> file.</p>
+<p>The full Node.js resolver rules are supported so it's even possible to use <a href="https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">own-name resolution</a> and <a href="https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports" target="_blank" rel="noopener">package imports resolution</a> while respecting custom local import map mappings.</p>
+<a name="jspm-starter" class="anchor main"></a><h2>JSPM Starter</h2>
+<p>While the previous workflows all show isolated examples of import map generation, the <a href="https://github.com/jspm/jspm-starter" target="_blank" rel="noopener">JSPM Starter repo</a> provides a full featured development example with TypeScript support.</p>
+<p>It is recommended to use <a href="https://chompbuild.com" target="_blank" rel="noopener">Chomp Task Runner</a> instead of npm scripts for the starter, which provides Makefile-like incremental builds with caching as well as a dev server.</p>
+<a name="chomp-setup" class="anchor"></a><h3>Chomp Setup</h3>
+<blockquote>
+<p>This section can be skipped if using traditional npm scripts</p>
+</blockquote>
+<p>First make sure the <a href="https://rustup.rs/" target="_blank" rel="noopener">Rust Toolchain</a> is installed, which can be verified with:</p>
+<pre><code class="language-sh">cargo --version
+</code></pre>
+<p>Then install Chomp:</p>
+<pre><code class="language-sh">cargo install chompbuild
+</code></pre>
+<p>Once installed verify the Chomp installation:</p>
+<pre><code class="language-sh">chomp --version
+</code></pre>
+<a name="setup" class="anchor"></a><h3>Setup</h3>
+<p>Clone the <a href="https://github.com/jspm/jspm-starter" target="_blank" rel="noopener">jspm-starter</a> repo:</p>
+<pre><code class="language-sh">git clone https://github.com/jspm/jspm-starter
+cd jspm-starter
+</code></pre>
+<p>Next, run <code>npm install</code>.</p>
+<a name="npm-scripts-workflow" class="anchor"></a><h3>npm Scripts Workflow</h3>
+<p>For the traditional npm scripts workflow, run:</p>
+<pre><code class="language-sh">npm run build
+</code></pre>
+<p>Then use your preferred local server to navigate to the <code>app.html</code> file to see the working application.</p>
+<p>TypeScript is compiled with <code>tsc</code> and a local generation API command is run per the <a href="#js-generator-api">JS API workflow</a> above.</p>
+<a name="chomp-workflow" class="anchor"></a><h3>Chomp Workflow</h3>
+<p>For the Chomp workflow run:</p>
+<pre><code class="language-sh">chomp build --serve
+</code></pre>
+<p>which will spin up a dev server on <code>http://localhost:5776/</code>.</p>
+<p>The necessary build steps as needed by the task graph will be performed by Chomp as well as serving the project folder.</p>
+<p>Open up a browser window (or even the simple browser window in VSCode from the command pallet) and navigate to <code>http://localhost:5776/app.html</code>.</p>
+<p>You should see a working clickable animated slider. Any changed made will incrementally rebuild - try editing the original TypeScript file in <code>src/motion-slide.ts</code>.</p>
+<p>Chomp works to a task graph defined in a <code>chompfile.toml</code> with Makefile-style invalidation to only incrementally recompile individual files as necessary. Because the JSPM task depends on the <code>lib</code> files transitively (which are compiled by TypeScript from <code>src</code>), the generator will also automatically rerun as files change to pick up any new resolutions for the import map.</p>
+<p>Refreshing the page gives an instant dev workflow (and <a href="https://github.com/guybedford/es-module-shims/pull/269" target="_blank" rel="noopener">hot reloading</a> is on the roadmap).</p>
+<p>Here's the <code>chompfile.toml</code> for the complete build process:</p>
+<p>chompfile.toml</p>
+<pre><code class="language-toml">version = <span class="number">0</span>.<span class="number">1</span>
+default-task = <span class="string">'build'</span>
+
+extensions = [<span class="string">'chomp@<span class="number">0</span>.<span class="number">1</span>:swc'</span>]
+
+[[task]]
+name = <span class="string">'build'</span>
+deps = [<span class="string">'app.html'</span>]
+
+[[task]]
+target = <span class="string">'lib/#.js'</span>
+dep = <span class="string">'src/#.ts'</span>
+template = <span class="string">'swc'</span>
+[task.template-options]
+<span class="string">'jsc.target'</span> = <span class="string">'es2019'</span>
+source-maps = <span class="keyword">false</span>
+
+[[task]]
+target = <span class="string">'app.html'</span>
+deps = [<span class="string">'app.html'</span>, <span class="string">'lib/**/*.js'</span>]
+engine = <span class="string">'node'</span>
+run = <span class="string"><span class="string">''</span><span class="string">'
+<span class="keyword">import</span> { Generator } <span class="keyword">from</span> '</span>@jspm/generator<span class="string">';
+<span class="keyword">import</span> { readFile, writeFile } <span class="keyword">from</span> '</span>fs/promises<span class="string">';
+<span class="keyword">import</span> { pathToFileURL } <span class="keyword">from</span> '</span>url<span class="string">';
+
+<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
+  mapUrl: pathToFileURL('</span>app.html<span class="string">'),
+  env: ['</span>production<span class="string">', '</span>browser<span class="string">', '</span>module<span class="string">']
+});
+
+<span class="keyword">const</span> htmlSource = <span class="keyword">await</span> readFile('</span>app.html<span class="string">', '</span>utf-8<span class="string">');
+
+<span class="keyword">await</span> writeFile('</span>app.html<span class="string">', <span class="keyword">await</span> generator.htmlGenerate(htmlSource, {
+  preload: <span class="keyword">true</span>,
+  integrity: <span class="keyword">true</span>
+}));
+'</span><span class="string">''</span></span>
+</code></pre>
+<p>SWC is used to compile TypeScript using an SWC template provided by the <code>chomp@<span class="number">0</span>.<span class="number">1</span>:swc</code> <a href="https://github.com/guybedford/chomp-extensions" target="_blank" rel="noopener">Chomp extension</a>. The <code>#</code> symbol means the task is interpolated with a glob over all files - SWC is run individually on each file just like a Makefile would do.</p>
+<p>Each task optionally defines its targets and dependencies which informs the caching rules and forms a graph of tasks to run with maximum parallelism. Tasks have a <code>run</code> field which can be shell or JavaScript code that should run to execute the task.</p>
+<p>The JSPM task is expanded for understandability, but there is actually a JSPM Chomp extension we could use instead to give the Chompfile:</p>
+<pre><code class="language-toml">version = <span class="number">0</span>.<span class="number">1</span>
+default-task = <span class="string">'build'</span>
+
+extensions = [<span class="string">'chomp@<span class="number">0</span>.<span class="number">1</span>:jspm'</span>, <span class="string">'chomp@<span class="number">0</span>.<span class="number">1</span>:swc'</span>]
+
+[[task]]
+name = <span class="string">'build'</span>
+deps = [<span class="string">'app.html'</span>]
+
+[[task]]
+target = <span class="string">'lib/#.js'</span>
+dep = <span class="string">'src/#.ts'</span>
+template = <span class="string">'swc'</span>
+[task.template-options]
+<span class="string">'jsc.target'</span> = <span class="string">'es2019'</span>
+source-maps = <span class="keyword">false</span>
+
+[[task]]
+target = <span class="string">'app.html'</span>
+deps = [<span class="string">'app.html'</span>, <span class="string">'lib/**/*.js'</span>]
+template = <span class="string">'jspm'</span>
+[task.template-options]
+env = [<span class="string">'production'</span>, <span class="string">'browser'</span>, <span class="string">'module'</span>]
+preload = <span class="keyword">true</span>
+integrity = <span class="keyword">true</span>
+</code></pre>
+<p>While somewhat magical, template extensions can always be ejected to see their real task definitions. Try updating the Chompfile to the above then running <code>chomp --eject</code> to see this in action.</p>
+<a name="chomp-resources" class="anchor"></a><h3>Chomp Resources</h3>
+<p>For more information about Chomp, resources are provided below:</p>
+<ul>
+<li><a href="https://github.com/guybedford/chomp#getting-started" target="_blank" rel="noopener">Getting Started</a></li>
+<li><a href="https://github.com/guybedford/chomp/blob/main/docs/cli.md" target="_blank" rel="noopener">Chomp CLI</a></li>
+<li><a href="https://github.com/guybedford/chomp/blob/main/docs/chompfile.md" target="_blank" rel="noopener">Chompfile Definition</a></li>
+<li><a href="https://github.com/guybedford/chomp/blob/main/docs/task.md" target="_blank" rel="noopener">Task Definitions</a></li>
+<li><a href="https://github.com/guybedford/chomp/blob/main/docs/extensions.md" target="_blank" rel="noopener">Chomp Extensions</a></li>
+</ul>
+<a name="deno-import-maps" class="anchor main"></a><h2>Deno Import Maps</h2>
+<p>Since CommonJS -&gt; ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.</p>
+<p>This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support <a href="https://jspm/jspm-core" target="_blank" rel="noopener">JSPM Core</a> to link against the <a href="https://github.com/denoland/deno_std/tree/main/node" target="_blank" rel="noopener">Deno shims of the Node.js standard libraries</a>.</p>
+<p>For example, let's run <code>@jspm/generator</code> itself in Deno.</p>
+<p>This example again uses <a href="https://chompbuild.com" target="_blank" rel="noopener">Chomp</a> but the any generation API from these workflows can be used equivalently as long as the environment is set to <code>env: [<span class="string">'deno'</span>, <span class="string">'module'</span>, <span class="string">'browser'</span>, <span class="string">'production'</span>]</code> (or development).</p>
+<p>With <a href="#chomp-setup">Chomp installed</a>, create a new <code>chompfile.toml</code>:</p>
+<p>chompfile.toml</p>
+<pre><code class="language-toml">version = <span class="number">0</span>.<span class="number">1</span>
+
+extensions = [<span class="string">'chomp@<span class="number">0</span>.<span class="number">1</span>:jspm'</span>]
+
+# Chomp itself uses a local npm version of @jspm/generator
+# This will automatically install that <span class="keyword">for</span> us <span class="keyword">as</span> necessary
+# (saving running a manual npm install)
+[template-options.npm]
+auto-install = <span class="keyword">true</span>
+
+[[task]]
+target = <span class="string">'importmap.json'</span>
+deps = [<span class="string">'deno-generate.ts'</span>]
+template = <span class="string">'jspm'</span>
+[task.template-options]
+env = [<span class="string">'deno'</span>, <span class="string">'browser'</span>, <span class="string">'module'</span>, <span class="string">'production'</span>]
+</code></pre>
+<p>For the example generation, create <code>deno-generate.ts</code> that runs a simple Lit generation:</p>
+<p>deno-generate.ts</p>
+<pre><code class="language-ts"><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span>;
+
+<span class="keyword">const</span> generator = <span class="keyword">new</span> Generator({
+  env: [<span class="string">'browser'</span>, <span class="string">'module'</span>, <span class="string">'production'</span>]
+});
+
+<span class="keyword">await</span> generator.install(<span class="string">'lit'</span>);
 console.log(generator.getMap());
 </code></pre>
-<p>Or if using the online generator, edit the map manually to change the Chalk entry to the above.</p>
-<p>That will then ensure Babel error messages render correctly pending <a href="https://github.com/babel/babel/issues/13728" target="_blank" rel="noopener">https://github.com/babel/babel/issues/13728</a>.</p>
-<a name="running-the-jspm-generator-in-deno" class="anchor"></a><h3>Running the JSPM Generator in Deno</h3>
-<p>The JSPM Generator itself can also be executed in Deno by building its own map.</p>
-<p>See the <a href="https://generator.jspm.io/#W8nDwMDI6BUc4KvgnpqXWpRYkl+kEJyak6bgm1jA4JBVXJCrnw6TcDDUM9Az0E1KLUnUMzQGAK60ruI7AA" target="_blank" rel="noopener">online generator example here</a>.</p>
-<p>That import map is then sufficient to support <code><span class="keyword">import</span> { Generator } <span class="keyword">from</span> <span class="string">'@jspm/generator'</span></code> with full JSPM Generator functionality in Deno.</p>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/api">API&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn">◀&nbsp;Native ES Module CDN - Documentation</a></div></div></div>
+<p>To build the import map for the generation operation itself, run Chomp for the <code>importmap.json</code> target (or we could name this task in the Chompfile with <code>name = <span class="string">"build"</span></code>):</p>
+<pre><code class="language-sh">chomp importmap.json
+</code></pre>
+<p>On completion, the full import map for <code>@jspm/generator</code> itself will be populated into <code>importmap.json</code> by the JSPM Chomp template via a Node.js Chomp task.</p>
+<p>With the import map constructed, Deno execution of <code>@jspm/generator</code> over the JSPM CDN is now possible with:</p>
+<pre><code>deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
+</code></pre>
+<p>On completion, the original Lit import map will be displayed, as generated through Deno against JSPM Generator on the JSPM CDN.</p>
+<p>Like npm scripts, we can define this Deno execution as a Chomp task itself adding the task to the Chompfile:</p>
+<pre><code class="language-toml">[[task]]
+name = <span class="string">'deno-generate'</span>
+deps = [<span class="string">'importmap.json'</span>]
+run = <span class="string">'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'</span>
+</code></pre>
+<p>For an easier <code>chomp deno-generate</code> execution that will first ensure the import map is up-to-date in the task graph.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/cdn">Native ES Module CDN - Documentation&nbsp;▶</a></div><div class="prev"><a href="/index">◀&nbsp;JSPM - ES Module Package Manager and CDN</a></div></div></div>
 </div>
 
 

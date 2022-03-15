@@ -1,11 +1,12 @@
 +++
 title = "jspm.dev Release"
 description = "jspm.dev CDN release post"
+next-section = "import-map-cdn"
 +++
 
 # jspm.dev Release
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;">June <em>19<sup>th</sup> 2020&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</em></p>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, June 19<sup>th</sup> 2020</em></p>
 
 The latest version of the jspm CDN, `https://jspm.dev` has been launched today as the new replacement for `https://dev.jspm.io`.
 

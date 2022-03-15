@@ -1,429 +1,531 @@
 +++
-title = "JSPM Workflows - Documentation"
-description = "JSPM workflows from development to production"
-next-section = "docs/api"
-prev-section = "docs/cdn"
+title = "Workflow Guides - Documentation"
+description = "JSPM workflows overview and introduction"
+next-section = "docs/cdn"
+prev-section = "index"
 +++
 
-# JSPM Workflows
+# Workflow Guides
 
-This guide covers practical workflows for using JSPM and import maps from development to production.
+Some simple workflows for getting started with JSPM import map generation.
 
-These workflows are based on the JSPM starters repo located at https://github.com/jspm/jspm-starters.
+* For quick examples without getting bogged down in local tooling configuration, try the [Online Generator](#online-generator) or [VSCode Extension](#vscode-extension) workflows below.
+* The most direct recommended approach for JSPM Generation is the [JS Generator API](#js-generator-api) workflow.
+* For a full example local application with TypeScript and a dev server using the Chomp task runner (or alternatively npm scripts), see the [JSPM Starter](#jspm-starter) workflow.
+* More advanced experimental [Deno import maps](#deno-import-maps) support is demonstrated as the last workflow.
 
-## Native Modules Development Workflow
+## Online Generator
 
-> This workflow follows the [React Starter](https://github.com/jspm/jspm-starters/tree/master/react).
+The easiest way to try out JSPM is to generate an import map using the online generator at [https://generator.jspm.io](https://generator.jspm.io).
 
-Developing with pure native modules requires just a web server, a browser and an editor.
+<div style="text-align: center;">
+<a href="https://generator.jspm.io"><img style="width: 100%" src="/steps/online-0.png" /></a>
+</div>
 
-Instead of building JavaScript, the modules are all loaded by the browser directly.
+In the top-left corner enter an npm package name to add to the import map (`lit` in this example):
 
-### Adding an Import Map
+<div style="text-align: center;">
+<img src="/steps/online-1.png" />
+</div>
 
-When loading third-party code, we use import maps to tell the browser that an import like `import React from 'react'` should actually be fetched from `https://ga.jspm.io/npm:react@17.0.1/index.js`.
+Press `Return` to add the package to the map. Then add any other dependency entries. For example to add the `./html.js` subpath export of lit, add `lit/html.js`:
 
-The import map to do this would look like:
+<div style="text-align: center;">
+<img src="/steps/online-2.png" />
+</div>
+
+Versions are supported in package names before the subpath and items can be removed or changed from the controls provided.
+
+The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.
+
+In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA) we get:
 
 ```html
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Untitled</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <!--
+    JSPM Generator Import Map
+    Edit URL: https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA
+  -->
+  <script type="importmap">
+  {
+    "imports": {
+      "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js",
+      "lit/html.js": "https://ga.jspm.io/npm:lit@2.2.0/html.js"
+    },
+    "scopes": {
+      "https://ga.jspm.io/": {
+        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/reactive-element.js",
+        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/lit-element.js",
+        "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/lit-html.js"
+      }
+    }
+  }
+  </script>
+  
+  <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@0.12.8/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
+  
+  <script type="module">
+    import * as lit from "lit";
+    import * as litHtml from "lit/html.js";
+  
+    // Write main module code here, or as a separate file with a "src" attribute on the module script.
+    console.log(lit, litHtml);
+  </script>
+</body>
+</html>
+```
+
+Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.
+
+The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the workflow works in all browsers with native modules support.
+
+## VSCode Extension
+
+For an easy fully local workflow try the [JSPM Generator VSCode Extension](https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode), which is supported as a Web Extension.
+
+This provides a workflow for writing native HTML imports directly, then post-processing the HTML file to insert the generated import map and polyfill.
+
+With the extension installed, create a new VSCode project, with an `app.html` file:
+
+```html
+<!doctype html>
+<head>
+<script type="module" src="./lib/app.js"></script>
+</head>
+<body>
+</body>
+```
+
+Then create a new JS file `lib/app.js`:
+
+```js
+import lit from 'lit';
+console.log(lit);
+```
+
+With the editor focus on `app.html` open the VSCode Command Palette (`Ctrl + Shift + P`) and select the `JSPM: Generate Import Map` command
+
+<div style="text-align: center;">
+<img src="/steps/vscode-1.png" />
+</div>
+
+The first question will be whether to inject preloads and integrity for the generation process, in this case select `No`:
+
+<div style="text-align: center;">
+<img src="/steps/vscode-2.png" />
+</div>
+
+This preference can also be saved and changed anytime from the VSCode JSPM Settings.
+
+The final question is what environments to generate the import map for. The default generation is with the `browser`, `development` and `module` exports conditions, in this case we select a `production` instead of a `development` import map:
+
+<div style="text-align: center;">
+<img src="/steps/vscode-3.png" />
+</div>
+
+Press return again and the generator will run the complete generation API from within VSCode, modifying the HTML to include the injected import map on completion.
+
+The `app.html` file will then be updated by the extension with the ES Module Shims polyfill and import map tags:
+
+```html
+<!doctype html>
+<head>
+<!-- Generated by @jspm/generator VSCode Extension - https://github.com/jspm/jspm-vscode -->
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.4.7/dist/es-module-shims.js" crossorigin="anonymous"></script>
 <script type="importmap">
 {
-  "imports": {
-    "react": "https://ga.jspm.io/npm:react@17.0.1/index.js"
+  "scopes": {
+    "./": {
+      "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js"
+    },
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/lit-html.js"
+    }
   }
 }
 </script>
+<script type="module" src="./lib/app.js"></script>
+</head>
+<body>
+</body>
 ```
 
-In reality, we need both React and ReactDOM and these packages in turn depend on other third-party packages requiring their own mappings in turn.
+Rewriting will carefully respect existing HTML and existing import mappings. The operation is also largely idempotent unless there are resolution differences.
 
-These shared mappings are useful because it enables dependencies to be shared between both local code and different third-party modules.
+Version ranges will be consulted from any local `package.json` file. The full Node.js resolver rules are supported so it's even possible to use [own-name resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name) and [package imports resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports) while respecting custom local import map mappings.
 
-_Import map management becomes a form of package management in the browser._
+After processing, `app.html` should then be a fully executable HTML application. For production it is usually advisable to use the preload option which will inject integrity as well for static guarantees.
 
-### Running the Generator
+## JS Generator API
 
-Either use the online version at [https://generator.jspm.io](https://generator.jspm.io), the [API](/docs/api) or
-run the [generator library](https://github.com/jspm/generator) directly.
+The [`@jspm/generator` project](https://github.com/jspm/generator) is the driver of all the workflows here. It provides a CDN agnostic protocol for generating import maps for any local or remote URLs, and even supports custom CDN providers and alternative protocols like IPFS.
 
-For the online version, add `"react"` and `"react-dom"` into the dependencies box to generate the map.
+To run the generator locally, it can be installed from `@jspm/generator` on npm:
 
-For the API, run `npm install @jspm/generator` then use the following code to generate the import map:
+```sh
+npm install @jspm/generator
+```
 
-generate.mjs
+The documentation and typings are available from the [project repo](https://github.com/jspm/generator).
+
+Below are two basic usage examples for generating import maps like the online generator and VSCode extension respectively.
+
+### Import Map Generation
+
+In a new project, install the `@jspm/generator`:
+
+```sh
+npm install @jspm/generator --save-dev
+```
+
+Then edit the `package.json` file to include `"type": "module"` or use an `.mjs` file then write the build script:
+
+jspm-generate.js
 ```js
 import { Generator } from '@jspm/generator';
-const generator = new Generator({ env: ['browser', 'development'] });
-await generator.install('react');
-await generator.install('react-dom');
+
+const generator = new Generator({
+  mapUrl: import.meta.url,
+  env: ['browser', 'development', 'module']
+});
+
+await generator.install('lit');
+await generator.install('lit/html.js');
+
 console.log(JSON.stringify(generator.getMap(), null, 2));
 ```
 
-The full import map generated for this React development environment will then look like the following:
+Running the above, will output the equivalent map that the online sandbox would have provided:
 
-```html
-<!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA
--->
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://ga.jspm.io/npm:react@17.0.1/dev.index.js",
-    "react-dom": "https://ga.jspm.io/npm:react-dom@17.0.1/dev.index.js"
-  },
-  "scopes": {
-    "https://ga.jspm.io/": {
-      "object-assign": "https://ga.jspm.io/npm:object-assign@4.1.1/index.js",
-      "scheduler": "https://ga.jspm.io/npm:scheduler@0.20.1/dev.index.js",
-      "scheduler/tracing": "https://ga.jspm.io/npm:scheduler@0.20.1/dev.tracing.js"
-    }
-  }
-}
-</script>
+```sh
+node jspm-generate.js
 ```
 
-The scopes entry in the import map allows defining import mappings that only apply when resolved by modules contained within the scope. For example in the above map, `import 'object-assign'` wouldn't resolve in the local HTML page, but would resolve for any module contained within `https://ga.jspm.io/`, as is handled by React and its dependencies.
-
-> Currently Chrome 89+ only supports import maps written _inline_ like the above example.
-  Support for `<script type="importmap" src="external.json"></script>` is specified but still a pending browser feature.
-
-### Writing Native Modules
-
-With the import map in place, the JS module can be included itself with a `<script type="module" src="app.js"></script>` tag.
-
-Writing the `app.js` file we can include our hello world example:
-
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-ReactDOM.render(
-  React.createElement('h1', { children: 'Hello world!' }),     
-  document.getElementById('root')
-);
-```
-
-### Setting up a Local Server
-
-If you have [Node.js installed](https://nodejs.org), a local server can be run with `npx http-server -c-1` (the `-c-1` flag is useful to disable caching during development). This server is then the only step necessary to get going on a simple web application development workflow with native modules - no other tooling is required apart from the web browser and editor.
-
-Navigate to `http://localhost:8080/index.html` to load the application in the browser.
-
-> Of course, use whatever hosting and serving mechanism you prefer - it is the open web after all. It is even possible to use new protocols in browsers like [IPFS](https://ipfs.io/) or [Beaker Browser](https://beakerbrowser.com/) to deploy applications directly to the decentralized web without needing any local command line tooling.
-
-### Creating a Production Import Map
-
-React ships separate development and production builds, so when shifting to production it is important to configure this.
-
-Loading up the [development version of the React import map](https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA) in JSPM Generator, there's an "Environment Conditions" box at the bottom of the sidebar. This allows configuring which [conditional exports](/docs/cdn#conditional-exports) to use.
-
-Clicking the "Production" condition will then update the import map to use the production sources:
-
-```html
-<!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#Y2NgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4AhFDkUDEA
--->
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://ga.jspm.io/npm:react@17.0.1/index.js",
-    "react-dom": "https://ga.jspm.io/npm:react-dom@17.0.1/index.js"
-  },
-  "scopes": {
-    "https://ga.jspm.io/": {
-      "object-assign": "https://ga.jspm.io/npm:object-assign@4.1.1/index.js",
-      "scheduler": "https://ga.jspm.io/npm:scheduler@0.20.1/index.js"
-    }
-  }
-}
-</script>
-```
-
-> Only some packages have production variants - usually the library or framework will mention this in its documentation or in a console message.
-
-The JSPM CDN is suitable for production workflows because all packages are optimized with code splitting and are fully minified.
-
-For small applications it is even possible to get away with leaving the local code as separate modules (and the JSPM sandbox and generator apps even do this).
-
-For larger applications you will always want to look at applying code optimizations for production, see the [RollupJS optimization](#optimization-with-rollupjs) section below for more information. The important point here is that these further optimizations are optional and additive to the workflow later on. By using native standards it is more likely you can apply a wider variation of optimization tools as well.
-
-## Import Maps Polyfill
-
-By default JSPM Generator will include a boilerplate HTML template that contains the [ES Module Shims](https://github.com/guybedford/es-module-shims) import map polyfill.
-
-The polyfill will just do feature detections in modern Chrome, and if import maps aren't supported it replaces the imports with their actual URLs and executes them again.
-
-Because of this, in browsers without support for import maps you'll see a console error message like:
-
-```js
-Uncaught TypeError: Failed to resolve module specifier "react". Relative references must start with either "/", "./", or "../".
-```
-
-This is correct and means the polyfill is working!
-
-If you're using a logging service or don't want these errors, add the `-shim` suffix to your import map and module scripts:
-
-```html
-<script type="importmap-shim">
-...
-</script>
-<script type="module-shim" src="app.js"></script>
-```
-
-Note that ES Module Shims only works in browsers with basic native modules support (it polyfills import maps on top of basic modules) - which is around [93% of all browsers](https://caniuse.com/es6-module) (and higher on desktop).
-
-ES Module Shims is very fast and perfectly suitable for production workflows. The cost is that it adds around 7KB to the page load, and for large applications (500-1000 modules) can start to add a slight performance overhead of a few 100 ms.
-
-## SystemJS
-
-> This workflow follows the [SystemJS Babel Starter](https://github.com/jspm/jspm-starters/tree/master/systemjs-babel).
-
-For support in older browsers even without ES modules at all (including IE11), SystemJS can be used and there's an entire variant of the CDN serving System modules which can work in older browsers for this (depending on library support).
-
-Building modules into SystemJS can be achieved with Babel by first installing Babel CLI and the System transform:
-
-```
-npm install --save-dev @babel/core @babel/cli @babel/plugin-transform-modules-system
-```
-
-Then to use Babel CLI, run the following command (add the `--watch` flag for watch mode):
-
-```
-./node_modules/.bin/babel src --out-dir dist/system --plugins=@babel/plugin-transform-modules-systemjs
-```
-
-> Usually we put commands like the above in the `package.json` `"scripts"` field. This avoids having to include the `./node_modules/.bin` prefix as well. See the starter for how to set this up.
-
-This will compile all the modules in the `"src"` folder into `"dist/system"` as System modules.
-
-Finally load up the [example import map in JSPM Generator](https://generator.jspm.io/#Y2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4A8Cd9GjEA) and select the **SystemJS Import Map** output option at the top.
-
-Update the import map and reference to the main module to point to the `dist/system/app.js` file:
-
-```html
-<!--
-  JSPM Generator Import Map
-  Edit URL: https://generator.jspm.io/#M2VgYGBiDkpNTC5RCC5JLCpJLWIoAvF0U/JzHQzN9Qz0DCECUA4ANkXMaDEA
--->
-<script type="systemjs-importmap">
-{
-  "imports": {
-    "react": "https://ga.system.jspm.io/npm:react@17.0.1/dev.index.js",
-    "react-dom": "https://ga.system.jspm.io/npm:react-dom@17.0.1/dev.index.js"
-  },
-  "scopes": {
-    "https://ga.system.jspm.io/": {
-      "object-assign": "https://ga.system.jspm.io/npm:object-assign@4.1.1/index.js",
-      "scheduler": "https://ga.system.jspm.io/npm:scheduler@0.20.1/dev.index.js",
-      "scheduler/tracing": "https://ga.system.jspm.io/npm:scheduler@0.20.1/dev.tracing.js"
-    }
-  }
-}
-</script>
-
-<!-- Load an app.js file written in the "system" module format output (via RollupJS / Babel / TypeScript) -->
-<script type="systemjs-module" src="dist/system/app.js"></script>
-```
-
-The promise of SystemJS is that if it worked with native modules and a native import map, it will work just the same on SystemJS.
-
-## Optimization with RollupJS
-
-> This workflow follows the [Rollup Starter](https://github.com/jspm/jspm-starters/tree/master/rollup).
-
-As the number of modules in your application grows, there can start to be performance benefits to combining modules together that always load together into a single module.
-
-While HTTP/2 makes it possible for very large numbers of requests, there are still per-request overheads and code and network optimizations that benefit from combining modules together.
-
-RollupJS (and other build tools) can do this module combination for us, including working out which modules can be combined together.
-
-First, install RollupJS:
-
-```
-npm install rollup --save-dev
-```
-
-Next create a `rollup.config.js`:
-
-rollup.config.js
-```js
-export default {
-  // Add extra entry points here if there are multiple to build
-  input: ['src/app.js'],
-
-  output: [
-    // ES module build
-    {
-      dir: 'dist/esm',
-      format: 'esm'
-    },
-    // SystemJS build
-    {
-      dir: 'dist/system',
-      format: 'system'
-    }
-  ],
-
-  // disable external module warnings
-  // (JSPM / the import map handles these for us instead)      
-  onwarn (warning, warn) {
-    if (warning.code === 'UNRESOLVED_IMPORT')
-      return;
-    warn(warning);
-  }
-};
-```
-
-To start the build, run (add the `-w` flag for watch mode):
-
-```
-./node_modules/.bin/rollup -c
-```
-
-If `app.js` were to import 20 separate modules, all of these modules would now be just one single module file.
-
-RollupJS will output this to `dist/esm/app.js` for the ES module build and `dist/system/app.js` for the SystemJS build (output can also just be a single object to just have one output format per the project requirements).
-
-If we had two separate pages of the application, say `src/homepage.js` and `src/shop.js`, then passing both of these to RollupJS it would automatically work out which dependencies are only
-dependencies of `src/homepage.js` and which are only dependencies of `src/shop.js`. Shared dependencies between both would be split out into a separate module dependency chunk. The great thing about
-RollupJS is that it is a very stable reliable project - a lot of engineering over years of development has gone into making these cases all work out well.
-
-Update the main application module scripts to reference the build folder, or even configure this in the import map via an `"app"` entry in the `"imports"` object.
-
-## TypeScript
-
-> This workflow roughly follows the [TypeScript Starter](https://github.com/jspm/jspm-starters/tree/master/rollup), although takes a different direction with file extensions.
-
-Many JS developers use TypeScript for the immense development benefits of comprehensive type checking it provides. For larger applications this benefit can be indispensible.
-
-First, install TypeScript:
-
-```
-npm install typescript --save-dev
-```
-
-Create the following `tsconfig.json` file:
+with output:
 
 ```json
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
-    "target": "es2017",
-    "module": "esnext",
-    "outDir": "dist"
+  "imports": {
+    "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@2.2.0/html.js"
   },
-  "include": ["src/**/*.ts"]
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/development/lit-html.js"
+    }
+  }
 }
 ```
 
-TypeScript files always use the `.ts` file extension, but the first big decision when it comes to TypeScript is whether to _import_ modules using the `.ts` file extension or the `.js` extension, and there are some pros and cons here:
+### HTML Generation
 
-* Deno and some other browser projects use `import './dependency.ts'` to import TypeScript, so if writing code that will be shared with these kinds of environments you'll want to do this.
-* The TypeScript compiler will complain when using `.ts` extensions explicitly though, so needs a custom invocation or setup like Deno provides with its own custom VSCode extension.
-* On the other hand, if not using the `.ts` file extension, then a build workflow will always be needed to run the TypeScript - it can't just be loaded directly into the target environment like Deno or SystemJS in its development-only mode (see the starter repo for a demonstration of this setup).
+For a full HTML generation workflow, follow the same steps of the previous example, but use the `generate.htmlGenerate` method instead in the `jspm-generate.js` file:
 
-> We keep waiting for the day TypeScript just provides a configuration option for handling `.ts` -> `.js` extensions in the build...
-
-Unlike the starter, let's use the TypeScript-recommended `.js` file extensions to demonstrate the workflow.
-
-So if writing an `app.ts` that imports a local `dependency.ts` file, this would be written:
-
+jspm-generate.js
 ```js
-// we import dependency.js EVEN THOUGH it is dependency.ts
-import './dependency.js';
+import { Generator } from '@jspm/generator';
+
+const generator = new Generator({
+  mapUrl: import.meta.url,
+  env: ['browser', 'development', 'module']
+});
+
+console.log(await generator.htmlGenerate(`
+<!doctype html>
+<head>
+<script type="module">
+import lit from 'lit';
+console.log(lit);
+</script>
+</head>
+<body>
+</body>
+`, {
+  htmlUrl: import.meta.url,
+  preload: false
+}));
 ```
 
-Run the compilation with (add `-w` for watch mode):
-
-```
-tsc -p .
+```sh
+node jspm-generate.js
 ```
 
-This will create `dist/app.js` and `dist/dependency.js`, and now that it is compiled, the `./dependency.js` import points to the correct file.
+with output:
 
-Using the import map and boilerplate as per the previous examples, and updating the module script to reference `dist/app.js`, the application can now run natively in the browser with no other steps necessary.
+```html
+<!doctype html>
+<head>
+<!-- Generated by @jspm/generator - https://github.com/jspm/generator -->
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.4.7/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script type="importmap">
+{
+  "imports": {
+    "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/development/lit-html.js"
+    }
+  }
+}
+</script>
+<script type="module">
+import lit from 'lit';
+console.log(lit);
+</script>
+</head>
+<body>
+</body>
+```
 
-> Using the `"module": "system"` option it is also possible to output SystemJS modules directly from TypeScript. See the starter repo for the full example.
+Exactly as per the VSCode Extension above, external module imports via `<script type="module" src="./lib/app.js"></script>` will also be traced and generated and version ranges will be consulted from any local `package.json` file.
 
-## Deno
+The full Node.js resolver rules are supported so it's even possible to use [own-name resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name) and [package imports resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports) while respecting custom local import map mappings.
 
-> JSPM Deno support is still experimental, and there will be bugs! Bug reports are encouraged via https://github.com/jspm/project/issues.
+## JSPM Starter
+
+While the previous workflows all show isolated examples of import map generation, the [JSPM Starter repo](https://github.com/jspm/jspm-starter) provides a full featured development example with TypeScript support.
+
+It is recommended to use [Chomp Task Runner](https://chompbuild.com) instead of npm scripts for the starter, which provides Makefile-like incremental builds with caching as well as a dev server.
+
+### Chomp Setup
+
+> This section can be skipped if using traditional npm scripts
+
+First make sure the [Rust Toolchain](https://rustup.rs/) is installed, which can be verified with:
+
+```sh
+cargo --version
+```
+
+Then install Chomp:
+
+```sh
+cargo install chompbuild
+```
+
+Once installed verify the Chomp installation:
+
+```sh
+chomp --version
+```
+
+### Setup
+
+Clone the [jspm-starter](https://github.com/jspm/jspm-starter) repo:
+
+```sh
+git clone https://github.com/jspm/jspm-starter
+cd jspm-starter
+```
+
+Next, run `npm install`.
+
+### npm Scripts Workflow
+
+For the traditional npm scripts workflow, run:
+
+```sh
+npm run build
+```
+
+Then use your preferred local server to navigate to the `app.html` file to see the working application.
+
+TypeScript is compiled with `tsc` and a local generation API command is run per the [JS API workflow](#js-generator-api) above.
+
+### Chomp Workflow
+
+For the Chomp workflow run:
+
+```sh
+chomp build --serve
+```
+
+which will spin up a dev server on `http://localhost:5776/`.
+
+The necessary build steps as needed by the task graph will be performed by Chomp as well as serving the project folder.
+
+Open up a browser window (or even the simple browser window in VSCode from the command pallet) and navigate to `http://localhost:5776/app.html`.
+
+You should see a working clickable animated slider. Any changed made will incrementally rebuild - try editing the original TypeScript file in `src/motion-slide.ts`.
+
+Chomp works to a task graph defined in a `chompfile.toml` with Makefile-style invalidation to only incrementally recompile individual files as necessary. Because the JSPM task depends on the `lib` files transitively (which are compiled by TypeScript from `src`), the generator will also automatically rerun as files change to pick up any new resolutions for the import map.
+
+Refreshing the page gives an instant dev workflow (and [hot reloading](https://github.com/guybedford/es-module-shims/pull/269) is on the roadmap).
+
+Here's the `chompfile.toml` for the complete build process:
+
+chompfile.toml
+```toml
+version = 0.1
+default-task = 'build'
+
+extensions = ['chomp@0.1:swc']
+
+[[task]]
+name = 'build'
+deps = ['app.html']
+
+[[task]]
+target = 'lib/#.js'
+dep = 'src/#.ts'
+template = 'swc'
+[task.template-options]
+'jsc.target' = 'es2019'
+source-maps = false
+
+[[task]]
+target = 'app.html'
+deps = ['app.html', 'lib/**/*.js']
+engine = 'node'
+run = '''
+import { Generator } from '@jspm/generator';
+import { readFile, writeFile } from 'fs/promises';
+import { pathToFileURL } from 'url';
+
+const generator = new Generator({
+  mapUrl: pathToFileURL('app.html'),
+  env: ['production', 'browser', 'module']
+});
+
+const htmlSource = await readFile('app.html', 'utf-8');
+
+await writeFile('app.html', await generator.htmlGenerate(htmlSource, {
+  preload: true,
+  integrity: true
+}));
+'''
+```
+
+SWC is used to compile TypeScript using an SWC template provided by the `chomp@0.1:swc` [Chomp extension](https://github.com/guybedford/chomp-extensions). The `#` symbol means the task is interpolated with a glob over all files - SWC is run individually on each file just like a Makefile would do.
+
+Each task optionally defines its targets and dependencies which informs the caching rules and forms a graph of tasks to run with maximum parallelism. Tasks have a `run` field which can be shell or JavaScript code that should run to execute the task.
+
+The JSPM task is expanded for understandability, but there is actually a JSPM Chomp extension we could use instead to give the Chompfile:
+
+```toml
+version = 0.1
+default-task = 'build'
+
+extensions = ['chomp@0.1:jspm', 'chomp@0.1:swc']
+
+[[task]]
+name = 'build'
+deps = ['app.html']
+
+[[task]]
+target = 'lib/#.js'
+dep = 'src/#.ts'
+template = 'swc'
+[task.template-options]
+'jsc.target' = 'es2019'
+source-maps = false
+
+[[task]]
+target = 'app.html'
+deps = ['app.html', 'lib/**/*.js']
+template = 'jspm'
+[task.template-options]
+env = ['production', 'browser', 'module']
+preload = true
+integrity = true
+```
+
+While somewhat magical, template extensions can always be ejected to see their real task definitions. Try updating the Chompfile to the above then running `chomp --eject` to see this in action.
+
+### Chomp Resources
+
+For more information about Chomp, resources are provided below:
+
+* [Getting Started](https://github.com/guybedford/chomp#getting-started)
+* [Chomp CLI](https://github.com/guybedford/chomp/blob/main/docs/cli.md)
+* [Chompfile Definition](https://github.com/guybedford/chomp/blob/main/docs/chompfile.md)
+* [Task Definitions](https://github.com/guybedford/chomp/blob/main/docs/task.md)
+* [Chomp Extensions](https://github.com/guybedford/chomp/blob/main/docs/extensions.md)
+
+## Deno Import Maps
 
 Since CommonJS -> ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.
 
-_This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node)_.
+This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node).
 
-**To create a Deno import map, use the `env: ["node", "deno", "module", "development"]` option in the generator.**
+For example, let's run `@jspm/generator` itself in Deno.
 
-### Example: Running Babel on Deno
+This example again uses [Chomp](https://chompbuild.com) but the any generation API from these workflows can be used equivalently as long as the environment is set to `env: ['deno', 'module', 'browser', 'production']` (or development).
 
-To demonstrate running Babel in Deno, first create an import map installing `@babel/core` and `@babel/preset-typescript`.
+With [Chomp installed](#chomp-setup), create a new `chompfile.toml`:
 
-Eg [see this example with the online generator using the Deno conditions](https://generator.jspm.io/#W8nDwMDE7JSYlJqjkJ+n4JKal6/I4JAE4usn5xelOpjrGZrqGcCECopSi1NLdEsqC1KLk4syC0qg8gD3eyFFRwA).
+chompfile.toml
+```toml
+version = 0.1
 
-We could optionally have also used the `"browser"` resolution but the goal in this example case is to match the Node.js environment execution as closely as possible.
+extensions = ['chomp@0.1:jspm']
 
-Save this import map into the file `map.json` locally.
+# Chomp itself uses a local npm version of @jspm/generator
+# This will automatically install that for us as necessary
+# (saving running a manual npm install)
+[template-options.npm]
+auto-install = true
 
-With Deno installed we can create a sample TypeScript parser:
-
-app.js
-```js
-import babel from '@babel/core';
-import babelPresetTs from '@babel/preset-typescript';
-
-const { code } = babel.transform(`export var p: number = 5;`, {
-  // Must end in .ts!
-  filename: 'test.ts',
-  sourceType: 'module',
-  presets: [babelPresetTs],
-});
-
-console.log(code);
+[[task]]
+target = 'importmap.json'
+deps = ['deno-generate.ts']
+template = 'jspm'
+[task.template-options]
+env = ['deno', 'browser', 'module', 'production']
 ```
 
-To run this in Deno, we can use the following Deno command:
+For the example generation, create `deno-generate.ts` that runs a simple Lit generation:
 
-```
-deno --unstable run --allow-read --allow-env --no-check --import-map map.json app.js
-```
-
-Which should give the correct output:
-
-```
-export var  = 5;
-```
-
-Note there is a Chalk bug affecting Babel error output currently. If using the generator API, use an `inputMap` option to override using Chalk 4:
-
-```js
-import generator from '@jspm/generator';
+deno-generate.ts
+```ts
+import { Generator } from '@jspm/generator';
 
 const generator = new Generator({
-  inputMap: {
-    imports: {
-      chalk: 'https://ga.jspm.io/npm:chalk@4.1.2/source/index.js'
-    }
-  },
-  env: ['node', 'deno', 'module', 'development']
+  env: ['browser', 'module', 'production']
 });
 
-await generator.install(['@babel/core', '@babel/preset-typescript']);
-
+await generator.install('lit');
 console.log(generator.getMap());
 ```
 
-Or if using the online generator, edit the map manually to change the Chalk entry to the above.
+To build the import map for the generation operation itself, run Chomp for the `importmap.json` target (or we could name this task in the Chompfile with `name = "build"`):
 
-That will then ensure Babel error messages render correctly pending https://github.com/babel/babel/issues/13728.
+```sh
+chomp importmap.json
+```
 
-### Running the JSPM Generator in Deno
+On completion, the full import map for `@jspm/generator` itself will be populated into `importmap.json` by the JSPM Chomp template via a Node.js Chomp task.
 
-The JSPM Generator itself can also be executed in Deno by building its own map.
+With the import map constructed, Deno execution of `@jspm/generator` over the JSPM CDN is now possible with:
 
-See the [online generator example here](https://generator.jspm.io/#W8nDwMDI6BUc4KvgnpqXWpRYkl+kEJyak6bgm1jA4JBVXJCrnw6TcDDUM9Az0E1KLUnUMzQGAK60ruI7AA).
+```
+deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
+```
 
-That import map is then sufficient to support `import { Generator } from '@jspm/generator'` with full JSPM Generator functionality in Deno.
+On completion, the original Lit import map will be displayed, as generated through Deno against JSPM Generator on the JSPM CDN.
+
+Like npm scripts, we can define this Deno execution as a Chomp task itself adding the task to the Chompfile:
+
+```toml
+[[task]]
+name = 'deno-generate'
+deps = ['importmap.json']
+run = 'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'
+```
+
+For an easier `chomp deno-generate` execution that will first ensure the import map is up-to-date in the task graph.
