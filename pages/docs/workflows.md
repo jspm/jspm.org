@@ -528,4 +528,4 @@ deps = ['importmap.json']
 run = 'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'
 ```
 
-For an easier `chomp deno-generate` execution that will first ensure the import map is up-to-date in the task graph.
+For an easier `chomp deno-generate` execution that will first ensure the import map is up to date in the task graph.
