@@ -123,7 +123,7 @@ The first question will be whether to inject preloads and integrity for the gene
 <img src="/steps/vscode-2.png" />
 </div>
 
-This preference can also be saved and changed anytime from the VSCode JSPM Settings.
+This preference can also be saved and changed any time from the VSCode JSPM Settings.
 
 The final question is what environments to generate the import map for. The default generation is with the `browser`, `development` and `module` exports conditions, in this case we select a `production` instead of a `development` import map:
 
