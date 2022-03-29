@@ -20,8 +20,8 @@ run = '''
 
 [[task]]
 name = 'generate:static'
-deps = ['pages/#.md', 'template.html']
-target = 'public_html/#.html'
+deps = ['pages/##.md', 'template.html']
+target = 'public_html/##.html'
 template = 'static-site-generator'
 [task.template-options]
 template = 'template.html'

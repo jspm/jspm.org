@@ -289,16 +289,13 @@ console.log(lit);
 <p>While the previous workflows all show isolated examples of import map generation, the <a href="https://github.com/jspm/jspm-starter" target="_blank" rel="noopener">JSPM Starter repo</a> provides a full featured development example with TypeScript support.</p>
 <p>It is recommended to use <a href="https://chompbuild.com" target="_blank" rel="noopener">Chomp Task Runner</a> instead of npm scripts for the starter, which provides Makefile-like incremental builds with caching as well as a dev server.</p>
 <a name="chomp-setup" class="anchor"></a><h3>Chomp Setup</h3>
-<blockquote>
-<p>This section can be skipped if using traditional npm scripts</p>
-</blockquote>
-<p>First make sure the <a href="https://rustup.rs/" target="_blank" rel="noopener">Rust Toolchain</a> is installed, which can be verified with:</p>
-<pre><code class="language-sh">cargo --version
+<p>Chomp can be installed either via npm:</p>
+<pre><code class="language-sh">npm install -g chomp
 </code></pre>
-<p>Then install Chomp:</p>
+<p>or with the <a href="https://rustup.rs/" target="_blank" rel="noopener">Rust Toolchain</a>:</p>
 <pre><code class="language-sh">cargo install chompbuild
 </code></pre>
-<p>Once installed verify the Chomp installation:</p>
+<p>Once installed, verify the Chomp installation with:</p>
 <pre><code class="language-sh">chomp --version
 </code></pre>
 <a name="setup" class="anchor"></a><h3>Setup</h3>

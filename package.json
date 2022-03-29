@@ -1,10 +1,10 @@
 {
   "name": "app",
   "devDependencies": {
-    "@ltd/j-toml": "^1.29.0",
+    "@ltd/j-toml": "^1.30.0",
     "js-yaml": "^4.1.0",
-    "jsdom": "^16.4.0",
-    "marked": "^1.2.0",
+    "jsdom": "^16.7.0",
+    "marked": "^1.2.9",
     "toml": "^3.0.0"
   },
   "type": "module"

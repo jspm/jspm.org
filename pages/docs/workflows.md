@@ -304,21 +304,19 @@ It is recommended to use [Chomp Task Runner](https://chompbuild.com) instead of 
 
 ### Chomp Setup
 
-> This section can be skipped if using traditional npm scripts
-
-First make sure the [Rust Toolchain](https://rustup.rs/) is installed, which can be verified with:
+Chomp can be installed either via npm:
 
 ```sh
-cargo --version
+npm install -g chomp
 ```
 
-Then install Chomp:
+or with the [Rust Toolchain](https://rustup.rs/):
 
 ```sh
 cargo install chompbuild
 ```
 
-Once installed verify the Chomp installation:
+Once installed, verify the Chomp installation with:
 
 ```sh
 chomp --version

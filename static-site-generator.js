@@ -44,9 +44,9 @@ Chomp.registerTemplate('static-site-generator', function (task) {
 
     let nextSectionTitle, prevSectionTitle;
     if (nextSection)
-      nextSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace('#', nextSection))).metadata.title;
+      nextSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace(/##?/, nextSection))).metadata.title;
     if (prevSection)
-      prevSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace('#', prevSection))).metadata.title;
+      prevSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace(/##?/, prevSection))).metadata.title;
   
     const className = name.replace(/\\//g, '-');
 
