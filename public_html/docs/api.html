@@ -68,6 +68,10 @@
 <p><code>https://api.jspm.io/build/pkg@x.y.z</code></p>
 <p>It is important to ensure the exact semver version is provided.</p>
 <p>The JSON response will either provide an <code><span class="string">"error"</span></code> field or successfully send the biuld to the JSPM CDN build queue.</p>
+<p>To perform a full package rebuild and cache clear for an existing previously built package, a rebuild token is needed.</p>
+<p>If you have a rebuild token this can be provided via the <code>token</code> query parameter:</p>
+<p><code>https://api.jspm.io/build/pkg@x.y.z?token=REBUILD_TOKEN</code></p>
+<p>If you are working with a large number of packages and require a rebuild token, you can <a href="mailto:guybedford@jspm.foundation" target="_blank" rel="noopener">get in touch to request one</a>.</p>
 <a name="generator" class="anchor main"></a><h2>Generator</h2>
 <p>The <code>https://api.jspm.io/generate</code> API provides a hosted version of <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> running<br>as a service.</p>
 <p>It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.</p>

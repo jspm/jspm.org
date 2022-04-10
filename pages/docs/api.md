@@ -28,6 +28,14 @@ It is important to ensure the exact semver version is provided.
 
 The JSON response will either provide an `"error"` field or successfully send the biuld to the JSPM CDN build queue.
 
+To perform a full package rebuild and cache clear for an existing previously built package, a rebuild token is needed.
+
+If you have a rebuild token this can be provided via the `token` query parameter:
+
+`https://api.jspm.io/build/pkg@x.y.z?token=REBUILD_TOKEN`
+
+If you are working with a large number of packages and require a rebuild token, you can [get in touch to request one](mailto:guybedford@jspm.foundation).
+
 ## Generator
 
 The `https://api.jspm.io/generate` API provides a hosted version of [JSPM Generator](https://github.com/jspm/generator) running
