@@ -26,7 +26,7 @@ This API accepts any `GET` request of the form:
 
 It is important to ensure the exact semver version is provided.
 
-The JSON response will either provide an `"error"` field or successfully send the biuld to the JSPM CDN build queue.
+The JSON response will either provide an `"error"` field or successfully send the build to the JSPM CDN build queue.
 
 To perform a full package rebuild and cache clear for an existing previously built package, a rebuild token is needed.
 
