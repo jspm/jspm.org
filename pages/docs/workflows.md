@@ -527,3 +527,41 @@ run = 'deno --unstable run -A --no-check --import-map importmap.json deno-genera
 ```
 
 For an easier `chomp deno-generate` execution that will first ensure the import map is up to date in the task graph.
+
+## Vitejs
+
+ES-Modules are supported directly in all major [browsers](https://caniuse.com/es6-module) now. And with [es-modu-shims](https://github.com/guybedford/es-module-shims) you can polyfill the rest of the missing features and ship es-modules with confidence.
+Vitejs is built heavily on the esm modules which makes both jspm and vitejs a perfect combination. 
+
+The dependencies are served from jspm, and the project is bundled using vitejs. We released `vite-plugin-jspm` to enable this workflow. You can download the plugin using.
+
+```sh
+npm install vite-plugin-jspm --save-dev
+```
+
+
+You can add to the config and disable the `polyfilling` and `preload` options from `vitejs` build. As jspm add `es-module-shims` which takes care of polyfilling.
+
+vite.config.mjs
+
+```js
+import { defineConfig } from "vite";
+import jspmPlugin from "vite-plugin-jspm";
+
+export default defineConfig({
+  clearScreen: true,
+  build: {
+    polyfillModulePreload: false,
+    polyfillDynamicImport: false,
+  }
+  plugins: [jspmPlugin()],
+});
+```
+
+And you can use `vite` and `vite build` respectively for dev-server and production builds. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
+
+An additational option that you can use is `downloadDeps`, which helps in downloading all the dependencies at build time.
+But loading dependecies has many advantages
+- Served using globally distributed CDN network.
+- No need to bust cache for the entire build when there is a chagne in project, deps are always cached.
+- Very minimal footprint of the app as the dependencies are handled by the CDN.

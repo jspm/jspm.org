@@ -450,6 +450,32 @@ deps = [<span class="string">'importmap.json'</span>]
 run = <span class="string">'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'</span>
 </code></pre>
 <p>For an easier <code>chomp deno-generate</code> execution that will first ensure the import map is up to date in the task graph.</p>
+<a name="vitejs" class="anchor main"></a><h2>Vitejs</h2>
+<p>ES-Modules are supported directly in all major <a href="https://caniuse.com/es6-module" target="_blank" rel="noopener">browsers</a> now. And with <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">es-modu-shims</a> you can polyfill the rest of the missing features and ship es-modules with confidence.<br>Vitejs is built heavily on the esm modules which makes both jspm and vitejs a perfect combination. </p>
+<p>The dependencies are served from jspm, and the project is bundled using vitejs. We released <code>vite-plugin-jspm</code> to enable this workflow. You can download the plugin using.</p>
+<pre><code class="language-sh">npm install vite-plugin-jspm --save-dev
+</code></pre>
+<p>You can add to the config and disable the <code>polyfilling</code> and <code>preload</code> options from <code>vitejs</code> build. As jspm add <code>es-module-shims</code> which takes care of polyfilling.</p>
+<p>vite.config.mjs</p>
+<pre><code class="language-js"><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">"vite"</span>;
+<span class="keyword">import</span> jspmPlugin <span class="keyword">from</span> <span class="string">"vite-plugin-jspm"</span>;
+
+<span class="keyword">export</span> default defineConfig({
+  clearScreen: <span class="keyword">true</span>,
+  build: {
+    polyfillModulePreload: <span class="keyword">false</span>,
+    polyfillDynamicImport: <span class="keyword">false</span>,
+  }
+  plugins: [jspmPlugin()],
+});
+</code></pre>
+<p>And you can use <code>vite</code> and <code>vite build</code> respectively for dev-server and production builds. The plugin takes all the options that are supported with <a href="https://github.com/jspm/generator#options" target="_blank" rel="noopener">@jspm/generator</a>.</p>
+<p>An additational option that you can use is <code>downloadDeps</code>, which helps in downloading all the dependencies at build time.<br>But loading dependecies has many advantages</p>
+<ul>
+<li>Served using globally distributed CDN network.</li>
+<li>No need to bust cache for the entire build when there is a chagne in project, deps are always cached.</li>
+<li>Very minimal footprint of the app as the dependencies are handled by the CDN.</li>
+</ul>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/cdn">Native ES Module CDN - Documentation&nbsp;▶</a></div><div class="prev"><a href="/index">◀&nbsp;JSPM - ES Module Package Manager and CDN</a></div></div></div>
 </div>
 
