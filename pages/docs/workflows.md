@@ -530,17 +530,17 @@ For an easier `chomp deno-generate` execution that will first ensure the import 
 
 ## Vitejs
 
-ES-Modules are supported directly in all major [browsers](https://caniuse.com/es6-module) now. And with [es-modu-shims](https://github.com/guybedford/es-module-shims) you can polyfill the rest of the missing features and ship es-modules with confidence.
-Vitejs is built heavily on the esm modules which makes both jspm and vitejs a perfect combination. 
+ES modules are supported directly in all major [browsers](https://caniuse.com/es6-module) now and with [es-modu-shims](https://github.com/guybedford/es-module-shims) you can polyfill the rest of the missing features and ship ES modules with confidence.
+[Vite](https://vitejs.dev/) is built heavily on the ES modules which makes using both JSPM and Vite a great combination.
 
-The dependencies are served from jspm, and the project is bundled using vitejs. We released `vite-plugin-jspm` to enable this workflow. You can download the plugin using.
+The dependencies are served from JSPM, and the project is bundled using Vite. We released `vite-plugin-jspm` to enable this workflow. You can download the plugin using:
 
 ```sh
 npm install vite-plugin-jspm --save-dev
 ```
 
-
-You can add to the config and disable the `polyfilling` and `preload` options from `vitejs` build. As jspm add `es-module-shims` which takes care of polyfilling.
+`vite` and `vite build` can be used dev-server and production builds respectively. For the dev build, JSPM will inject ES Module Shims to polyfill import maps, while in the production build all modules will be build from the CDN. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
+For the production build, it can be useful to disable the `polyfilling` and `preload` options:
 
 vite.config.mjs
 
@@ -557,11 +557,10 @@ export default defineConfig({
   plugins: [jspmPlugin()],
 });
 ```
-
-And you can use `vite` and `vite build` respectively for dev-server and production builds. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
-
-An additational option that you can use is `downloadDeps`, which helps in downloading all the dependencies at build time.
-But loading dependecies has many advantages
-- Served using globally distributed CDN network.
-- No need to bust cache for the entire build when there is a chagne in project, deps are always cached.
+An additional option that you can use is `downloadDeps`, which helps in downloading all the dependencies at build time.
+In considering the `downloadDeps` option, there are a number of factors that should be considered:
+- Loading modules from the JSPM CDN will results in a shared edge cache with other JSPM users resulting in lower latencies for code delivery over the globally distributed CDN network.
+- Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.
 - Very minimal footprint of the app as the dependencies are handled by the CDN.
+- Performance may be faster with or without `downloadDeps` depending on the exact loading profile and caching requirements.
+- Having all sources collected together via `downloadDeps` can be useful for a fully self-contained distribution.
