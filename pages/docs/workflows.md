@@ -511,7 +511,7 @@ On completion, the full import map for `@jspm/generator` itself will be populate
 
 With the import map constructed, Deno execution of `@jspm/generator` over the JSPM CDN is now possible with:
 
-```
+```sh
 deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
 ```
 
@@ -528,33 +528,36 @@ run = 'deno --unstable run -A --no-check --import-map importmap.json deno-genera
 
 For an easier `chomp deno-generate` execution that will first ensure the import map is up to date in the task graph.
 
-## Vitejs
+## Vite Plugin
 
-ES modules are supported directly in all major [browsers](https://caniuse.com/es6-module) and with [es-module-shims](https://github.com/guybedford/es-module-shims) import maps and other features can be performantly polyfilled when not supported to allow shipping ES modules with confidence.
-[Vite](https://vitejs.dev/) is built heavily on the ES modules which makes using both JSPM and Vite a great combination.
+[Vite](https://vitejs.dev/) is architected primarily to modern ES modules workflows, making JSPM and Vite a great combination.
 
-The dependencies are served from JSPM, and the project is bundled using Vite. This workflow is enabled with `vite-plugin-jspm`, which can be downloaded from npm via:
+With the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), ddependencies are retrieved from JSPM while the project is bundled using Vite.
 
 ```sh
 npm install vite-plugin-jspm --save-dev
 ```
 
-`vite` and `vite build` can be used for dev server and production builds respectively. For the dev build, JSPM will inject ES Module Shims to polyfill import maps, while in the production build all modules will be built from the CDN. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
+`vite` and `vite build` can be used for dev server and production builds respectively. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
 
 vite.config.mjs
-
 ```js
-import { defineConfig } from "vite";
-import jspmPlugin from "vite-plugin-jspm";
+import { defineConfig } from 'vite';
+import jspmPlugin from 'vite-plugin-jspm';
 
 export default defineConfig({
   plugins: [jspmPlugin()],
 });
 ```
-An additional option that you can use is `downloadDeps`, which helps in downloading all the dependencies at build time.
+
+The plugin will automatically inject ES Module Shims to polyfill import maps.
+
+An additional option that you can use is `downloadDeps`, to download and build all the dependencies from the JSPM CDN at build time.
+
 When using the `downloadDeps` option, there are a number of factors that should be considered:
-- Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.
-- Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.
-- Very minimal footprint of the app as the dependencies are handled by the CDN.
-- Performance may be faster with or without `downloadDeps` depending on the exact loading profile and caching requirements.
-- Having all sources collected together via `downloadDeps` can be useful for a fully self-contained distribution.
+
+* Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.
+* Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.
+* Very minimal footprint of the app as the dependencies are handled by the CDN.
+* Performance may be faster with or without `downloadDeps` depending on the exact loading profile and caching requirements.
+* Having all sources collected together via `downloadDeps` can be useful for a fully self-contained distribution.
