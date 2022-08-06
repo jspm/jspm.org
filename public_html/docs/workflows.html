@@ -451,27 +451,22 @@ run = <span class="string">'deno --unstable run -A --no-check --import-map impor
 </code></pre>
 <p>For an easier <code>chomp deno-generate</code> execution that will first ensure the import map is up to date in the task graph.</p>
 <a name="vitejs" class="anchor main"></a><h2>Vitejs</h2>
-<p>ES modules are supported directly in all major <a href="https://caniuse.com/es6-module" target="_blank" rel="noopener">browsers</a> now and with <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">es-modu-shims</a> you can polyfill the rest of the missing features and ship ES modules with confidence.<br><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> is built heavily on the ES modules which makes using both JSPM and Vite a great combination.</p>
-<p>The dependencies are served from JSPM, and the project is bundled using Vite. We released <code>vite-plugin-jspm</code> to enable this workflow. You can download the plugin using:</p>
+<p>ES modules are supported directly in all major <a href="https://caniuse.com/es6-module" target="_blank" rel="noopener">browsers</a> and with <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">es-module-shims</a> import maps and other features can be performantly polyfilled when not supported to allow shipping ES modules with confidence.<br><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> is built heavily on the ES modules which makes using both JSPM and Vite a great combination.</p>
+<p>The dependencies are served from JSPM, and the project is bundled using Vite. This workflow is enabled with <code>vite-plugin-jspm</code>, which can be downloaded from npm via:</p>
 <pre><code class="language-sh">npm install vite-plugin-jspm --save-dev
 </code></pre>
-<p><code>vite</code> and <code>vite build</code> can be used dev-server and production builds respectively. For the dev build, JSPM will inject ES Module Shims to polyfill import maps, while in the production build all modules will be build from the CDN. The plugin takes all the options that are supported with <a href="https://github.com/jspm/generator#options" target="_blank" rel="noopener">@jspm/generator</a>.<br>For the production build, it can be useful to disable the <code>polyfilling</code> and <code>preload</code> options:</p>
+<p><code>vite</code> and <code>vite build</code> can be used for dev server and production builds respectively. For the dev build, JSPM will inject ES Module Shims to polyfill import maps, while in the production build all modules will be built from the CDN. The plugin takes all the options that are supported with <a href="https://github.com/jspm/generator#options" target="_blank" rel="noopener">@jspm/generator</a>.</p>
 <p>vite.config.mjs</p>
 <pre><code class="language-js"><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">"vite"</span>;
 <span class="keyword">import</span> jspmPlugin <span class="keyword">from</span> <span class="string">"vite-plugin-jspm"</span>;
 
 <span class="keyword">export</span> default defineConfig({
-  clearScreen: <span class="keyword">true</span>,
-  build: {
-    polyfillModulePreload: <span class="keyword">false</span>,
-    polyfillDynamicImport: <span class="keyword">false</span>,
-  }
   plugins: [jspmPlugin()],
 });
 </code></pre>
-<p>An additional option that you can use is <code>downloadDeps</code>, which helps in downloading all the dependencies at build time.<br>In considering the <code>downloadDeps</code> option, there are a number of factors that should be considered:</p>
+<p>An additional option that you can use is <code>downloadDeps</code>, which helps in downloading all the dependencies at build time.<br>When using the <code>downloadDeps</code> option, there are a number of factors that should be considered:</p>
 <ul>
-<li>Loading modules from the JSPM CDN will results in a shared edge cache with other JSPM users resulting in lower latencies for code delivery over the globally distributed CDN network.</li>
+<li>Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.</li>
 <li>Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.</li>
 <li>Very minimal footprint of the app as the dependencies are handled by the CDN.</li>
 <li>Performance may be faster with or without <code>downloadDeps</code> depending on the exact loading profile and caching requirements.</li>
