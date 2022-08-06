@@ -440,7 +440,7 @@ console.log(generator.getMap());
 </code></pre>
 <p>On completion, the full import map for <code>@jspm/generator</code> itself will be populated into <code>importmap.json</code> by the JSPM Chomp template via a Node.js Chomp task.</p>
 <p>With the import map constructed, Deno execution of <code>@jspm/generator</code> over the JSPM CDN is now possible with:</p>
-<pre><code>deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
+<pre><code class="language-sh">deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
 </code></pre>
 <p>On completion, the original Lit import map will be displayed, as generated through Deno against JSPM Generator on the JSPM CDN.</p>
 <p>Like npm scripts, we can define this Deno execution as a Chomp task itself adding the task to the Chompfile:</p>
@@ -450,6 +450,30 @@ deps = [<span class="string">'importmap.json'</span>]
 run = <span class="string">'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'</span>
 </code></pre>
 <p>For an easier <code>chomp deno-generate</code> execution that will first ensure the import map is up to date in the task graph.</p>
+<a name="vite-plugin" class="anchor main"></a><h2>Vite Plugin</h2>
+<p><a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> is architected primarily to modern ES modules workflows, making JSPM and Vite a great combination.</p>
+<p>With the <a href="https://github.com/jspm/vite-plugin-jspm" target="_blank" rel="noopener">JSPM Vite plugin</a>, ddependencies are retrieved from JSPM while the project is bundled using Vite.</p>
+<pre><code class="language-sh">npm install vite-plugin-jspm --save-dev
+</code></pre>
+<p><code>vite</code> and <code>vite build</code> can be used for dev server and production builds respectively. The plugin takes all the options that are supported with <a href="https://github.com/jspm/generator#options" target="_blank" rel="noopener">@jspm/generator</a>.</p>
+<p>vite.config.mjs</p>
+<pre><code class="language-js"><span class="keyword">import</span> { defineConfig } <span class="keyword">from</span> <span class="string">'vite'</span>;
+<span class="keyword">import</span> jspmPlugin <span class="keyword">from</span> <span class="string">'vite-plugin-jspm'</span>;
+
+<span class="keyword">export</span> default defineConfig({
+  plugins: [jspmPlugin()],
+});
+</code></pre>
+<p>The plugin will automatically inject ES Module Shims to polyfill import maps.</p>
+<p>An additional option that you can use is <code>downloadDeps</code>, to download and build all the dependencies from the JSPM CDN at build time.</p>
+<p>When using the <code>downloadDeps</code> option, there are a number of factors that should be considered:</p>
+<ul>
+<li>Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.</li>
+<li>Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.</li>
+<li>Very minimal footprint of the app as the dependencies are handled by the CDN.</li>
+<li>Performance may be faster with or without <code>downloadDeps</code> depending on the exact loading profile and caching requirements.</li>
+<li>Having all sources collected together via <code>downloadDeps</code> can be useful for a fully self-contained distribution.</li>
+</ul>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/workflows.md" rel="noopener">Edit</a><div class="next"><a href="/docs/cdn">Native ES Module CDN - Documentation&nbsp;▶</a></div><div class="prev"><a href="/index">◀&nbsp;JSPM - ES Module Package Manager and CDN</a></div></div></div>
 </div>
 
