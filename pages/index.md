@@ -35,6 +35,7 @@ JSPM provides a module CDN and package management for import maps, allowing<br/>
 <div style="display: flex; justify-content: center; align-items: center; gap: 2em">
   <a href="https://socket.dev/" style="display:block" target="_blank" style="display:block;"><img style="width:135px" src="socket-logo.png" /></a>
   <a href="https://framer.com/" style="display:block" target="_blank" style="display:block;"><img style="width:155px; " src="framer-logo.png" /></a>
+  <a href="https://scrimba.com/" style="display:block" target="_blank" style="display:block;"><img style="margin-left: -20px; width:185px;" src="scrimba.png" /></a>
 </div>
 
 
