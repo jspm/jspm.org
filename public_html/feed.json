@@ -1,0 +1,32 @@
+{
+  "version": "https://jsonfeed.org/version/1",
+  "title": "jspm.org",
+  "home_page_url": "https://jspm.org/",
+  "feed_url": "https://jspm.org//feed.json",
+  "items": [
+    {
+      "id": "3",
+      "url": "https://jspm.org/teleporthq-sponsorship",
+      "title": "teleportHQ JSPM Sponsorship",
+      "content_html": "<p>teleportHQ sponsors JSPM's ES Module CDN workflows</p>",
+      "date_published": "2022-03-15T12:25:19.741Z",
+      "date_modified": "2022-03-15T12:25:19.741Z"
+    },
+    {
+      "id": "2",
+      "url": "https://jspm.org/import-map-cdn",
+      "title": "Import Maps Release & Module CDN Launch",
+      "content_html": "<p>Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows</p>",
+      "date_published": "2021-03-02T12:16:13.775Z",
+      "date_modified": "2022-03-15T12:16:13.775Z"
+    },
+    {
+      "id": "1",
+      "url": "https://jspm.org/jspm-dev-release",
+      "title": "jspm.dev Release",
+      "content_html": "<p>jspm.dev CDN release post</p>",
+      "date_published": "2020-06-19T12:16:12.775Z",
+      "date_modified": "2022-03-15T12:16:13.775Z"
+    }
+  ]
+}

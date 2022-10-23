@@ -1,9 +1,21 @@
 Chomp.addExtension('chomp@0.1:npm');
 
+const READ_MARKDOWN = `async function readMarkdown (path) {
+  let source = await readFile(path, 'utf8');
+  const metadataEndIndex = source.startsWith('+++') && (source.match(/\\r?\\n\\+\\+\\+/)?.index || -1);
+  const metadata = metadataEndIndex !== -1 ? toml.parse(source.slice(3, metadataEndIndex)) : {};
+  if (metadataEndIndex !== -1)
+    source = source.slice(metadataEndIndex + (source[metadataEndIndex] === '\\r' ? 5 : 4));
+  const html = marked(source, { breaks: true, headerIds: false });
+  return { html, metadata };
+}`;
+
+const GET_SLUG = `const getSlug = name => name.replace(/\\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');`
+
 Chomp.registerTemplate('static-site-generator', function (task) {
-  if (task.run || task.engine)
-    throw new Error('Static site generator template does not expect a run or engine field.');
-  const { template, siteUrl, siteName, siteImage, editUrl, autoInstall } = task.templateOptions;
+  if (task.run || task.engine || task.targets.length || task.deps.length)
+    throw new Error('Static site generator template does not expect a run, deps, target or engine field.');
+  const { template, pages, publicHtml, siteUrl, siteName, siteImage, editUrl, feed, feedExclude = [], autoInstall } = task.templateOptions;
   if (!template)
     throw new Error('Static site generator requires the "template" option to be set to an HTML template file.');
   if (!siteUrl)
@@ -12,14 +24,15 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     throw new Error('Static site generator requires the "site-name" option to be set to a title name for the site.');
   if (!siteImage)
     throw new Error('Static site generator requires the "site-image" option to be set to an image URL for the site.');
-  const interpolationDep = task.deps.find(dep => dep.indexOf('#') !== -1);
-  const interpolationTarget = task.targets.find(target => target.indexOf('#') !== -1);
-  if (!interpolationDep || !interpolationTarget)
-    throw new Error('Static site generator requires an interpolation target and dep.');
+  if (!pages)
+    throw new Error('Static site generator requires the "pages" option to be set to for the folder of markdown files for the site.');
+  if (!publicHtml)
+    throw new Error('Static site generator requires the "public_html" option to be set for the static output.');
+  feedExclude.push('node_modules/');
   return [{
     name: task.name,
-    deps: [...task.deps, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/marked', 'node_modules/jsdom', 'node_modules/@ltd/j-toml']],
-    targets: task.targets,
+    deps: [`${pages}/##.md`, template, ...feed ? [`${publicHtml}/${feed}`] : [], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/marked', 'node_modules/jsdom', 'node_modules/@ltd/j-toml']],
+    target: `${publicHtml}/##.html`,
     engine: 'node',
     run: `    import marked from 'marked';
     import jsdom from 'jsdom';
@@ -27,15 +40,8 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     import { readFile, writeFile } from 'fs/promises';
     const { JSDOM } = jsdom;
 
-    async function readMarkdown (path) {
-      let source = await readFile(path, 'utf8');
-      const metadataEndIndex = source.startsWith('+++') && (source.match(/\\r?\\n\\+\\+\\+/)?.index || -1);
-      const metadata = metadataEndIndex !== -1 ? toml.parse(source.slice(3, metadataEndIndex)) : {};
-      if (metadataEndIndex !== -1)
-        source = source.slice(metadataEndIndex + (source[metadataEndIndex] === '\\r' ? 5 : 4));
-      const html = marked(source, { breaks: true, headerIds: false });
-      return { html, metadata };
-    }
+    ${READ_MARKDOWN}
+    ${GET_SLUG}
     
     const name = process.env.MATCH;
 
@@ -44,10 +50,10 @@ Chomp.registerTemplate('static-site-generator', function (task) {
 
     let nextSectionTitle, prevSectionTitle;
     if (nextSection)
-      nextSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace(/##?/, nextSection))).metadata.title;
+      nextSectionTitle = (await readMarkdown(\`${pages}/\${nextSection}.md\`)).metadata.title;
     if (prevSection)
-      prevSectionTitle = (await readMarkdown(${JSON.stringify(interpolationDep)}.replace(/##?/, prevSection))).metadata.title;
-  
+      prevSectionTitle = (await readMarkdown(\`${pages}/\${prevSection}.md\`)).metadata.title;
+
     const className = name.replace(/\\//g, '-');
 
     const template = await readFile(${JSON.stringify(template)}, 'utf8');
@@ -90,7 +96,15 @@ Chomp.registerTemplate('static-site-generator', function (task) {
       meta.setAttribute('property', 'og:title');
       meta.content = '${siteName} - ' + title;
       document.head.insertBefore(meta, document.head.firstChild);
-    }
+    }${feed ? `
+    {
+      const link = document.createElement('link');
+      link.setAttribute('rel', 'alternate');
+      link.setAttribute('title', ${JSON.stringify(siteName)});
+      link.setAttribute('type', 'application/json');
+      link.setAttribute('href', ${JSON.stringify(`${siteUrl}${feed}`)});
+      document.head.insertBefore(link, document.head.firstChild);
+    }` : ''}
 
     const body = document.body;
     body.className = \`page-\${className}\`;
@@ -99,14 +113,14 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     // Get all the primary headings
     const headings = body.querySelectorAll('.content h2');
     for (const heading of headings) {
-      const slug = heading.textContent.replace(/\\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');
+      const slug = getSlug(heading.textContent);
       const a = document.createElement('a');
       a.name = slug;
       a.className = 'anchor main';
       heading.parentNode.insertBefore(a, heading);
     }
     for (const subHeading of body.querySelectorAll('.content h3')) {
-      const slug = subHeading.textContent.replace(/\\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');
+      const slug = getSlug(subHeading.textContent);
       const a = document.createElement('a');
       a.name = slug;
       a.className = 'anchor';
@@ -160,7 +174,70 @@ Chomp.registerTemplate('static-site-generator', function (task) {
 
     await writeFile(process.env.TARGET, dom.serialize());
 `
-  }, ...ENV.CHOMP_EJECT ? [] : [{
+  }, ...feed ? [{
+    target: `${publicHtml}/${feed}`,
+    deps: [`${pages}/**/*.md`, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/marked', 'node_modules/@ltd/j-toml']],
+    engine: 'node',
+    run: `    import marked from 'marked';
+      import toml from '@ltd/j-toml';
+      import { readFile, writeFile, stat } from 'fs/promises';
+      import { basename, extname } from 'path';
+
+      ${READ_MARKDOWN}
+      ${GET_SLUG}
+
+      // existing feed loaded to maintain publish dates and ids
+      let existingFeedItems;
+      try {
+        ({ items: existingFeedItems } = JSON.parse(await readFile(process.env.TARGET, 'utf8')));
+      }
+      catch {}
+
+      const feed = {
+        version: 'https://jsonfeed.org/version/1',
+        title: ${JSON.stringify(siteName)},
+        home_page_url: ${JSON.stringify(siteUrl)},
+        feed_url: ${JSON.stringify(`${siteUrl}/${feed}`)},
+        items: []
+      };
+
+      const feedExclude = ${JSON.stringify(feedExclude)};
+      const deps = process.env.DEPS.split(':').filter(dep =>
+        feedExclude.every(exclude => dep !== exclude && !(exclude.endsWith('/') && dep.startsWith(exclude)))
+      );
+      const items = await Promise.all(deps.map(async dep => {
+        const stats = await stat(dep);
+        const { metadata } = await readMarkdown(dep);
+        const url = \`${siteUrl}\${dep.slice(${pages.length + 1}, -3)}\`;
+        const existingItem = existingFeedItems.find(item => item.url === url);
+        return {
+          id: existingItem?.id ?? null,
+          url,
+          title: metadata.title,
+          content_html: \`<p>\${metadata.description}</p>\`,
+          date_published: existingItem?.date_published ?? stats.mtime,
+          date_modified: stats.mtime
+        };
+      }));
+      items.sort((a, b) =>
+        new Date(a.date_published).getTime() > new Date(b.date_published).getTime() ? -1 : 1
+      );
+      let curId = 0;
+      for (let i = items.length - 1; i >= 0; i--) {
+        const item = items[i];
+        if (item.id) {
+          item.id = String(item.id);
+          curId = Number(item.id);
+        }
+        else {
+          item.id = String(++curId);
+        }
+      }
+      feed.items = items;
+
+      writeFile(process.env.TARGET, JSON.stringify(feed, null, 2));
+    `
+  }] : [], ...ENV.CHOMP_EJECT ? [] : [{
     template: 'npm',
     templateOptions: {
       autoInstall,
