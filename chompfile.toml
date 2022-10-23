@@ -20,11 +20,13 @@ run = '''
 
 [[task]]
 name = 'generate:static'
-deps = ['pages/##.md', 'template.html']
-target = 'public_html/##.html'
 template = 'static-site-generator'
 [task.template-options]
 template = 'template.html'
+pages = 'pages'
+public-html = 'public_html'
+feed = 'feed.json'
+feed-exclude = ['pages/docs/', 'pages/index.md']
 site-name = 'jspm.org'
 site-url = 'https://jspm.org/'
 site-image = 'https://jspm.org/jspm.png'
