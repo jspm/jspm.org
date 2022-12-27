@@ -5,14 +5,10 @@ next-section = "docs/cdn"
 prev-section = "index"
 +++
 
-# Workflow Guides
+# Generating Import Maps
 
-Some simple workflows for getting started with JSPM import map generation.
+The [Online Generator](#online-generator), [VSCode Extension](#vscode-extension), or the [JS Generator API](#js-generator-api) can be used to generate import maps for your project, with the Generator API being the recommended and most direct approach. There is also support for more advanced and experimental [Deno import maps](#deno-import-maps).
 
-* For quick examples without getting bogged down in local tooling configuration, try the [Online Generator](#online-generator) or [VSCode Extension](#vscode-extension) workflows below.
-* The most direct recommended approach for JSPM Generation is the [JS Generator API](#js-generator-api) workflow.
-* For a full example local application with TypeScript and a dev server using the Chomp task runner (or alternatively npm scripts), see the [JSPM Starter](#jspm-starter) workflow.
-* More advanced experimental [Deno import maps](#deno-import-maps) support is demonstrated as the last workflow.
 
 ## Online Generator
 
@@ -83,13 +79,11 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
 </html>
 ```
 
-Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.
-
-The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the workflow works in all browsers with native modules support.
+Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps. The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the workflow provides native modules support in all browsers.
 
 ## VSCode Extension
 
-For an easy fully local workflow try the [JSPM Generator VSCode Extension](https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode), which is supported as a Web Extension.
+For an easy local workflow try the [JSPM Generator VSCode Extension](https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode), which is supported as a Web Extension.
 
 This provides a workflow for writing native HTML imports directly, then post-processing the HTML file to insert the generated import map and polyfill.
 
@@ -296,33 +290,20 @@ Exactly as per the VSCode Extension above, external module imports via `<script 
 
 The full Node.js resolver rules are supported so it's even possible to use [own-name resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name) and [package imports resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports) while respecting custom local import map mappings.
 
-## JSPM Starter
 
-While the previous workflows all show isolated examples of import map generation, the [JSPM Starter repo](https://github.com/jspm/jspm-starter) provides a full featured development example with TypeScript support.
+# Development Workflows
 
-It is recommended to use [Chomp Task Runner](https://chompbuild.com) instead of npm scripts for the starter, which provides Makefile-like incremental builds with caching as well as a dev server.
+Import maps can be used in development workflows for Browser, Node and Deno environments. Browser application workflows are not required to have a bundling step, and all environments may still employ file watching and hot-reloading. Equally, build steps involving transpilation and using task runners are supported when using import maps. Simply incorporate your preferred method for generating import maps with your preferred workflow.
 
-### Chomp Setup
+## Browser Workflows
 
-Chomp can be installed either via npm:
+### Simple example
 
-```sh
-npm install -g chomp
-```
+Todo: example with copy-paste from generator.jspm.io to index.html
 
-or with the [Rust Toolchain](https://rustup.rs/):
+### Full featured example
 
-```sh
-cargo install chompbuild
-```
-
-Once installed, verify the Chomp installation with:
-
-```sh
-chomp --version
-```
-
-### Setup
+A full featured development example using Typescript and the [generator api](#js-generator-api) is illustrated in the [JSPM Starter repo](https://github.com/jspm/jspm-starter). It features a two step build process using `tsc` together with a script to generate the import map. The generator is rerun automatically when files are changed so new resolutions are automatically reflected in the import map. Refresh the page for an instant dev workflow ([hot reloading](https://github.com/guybedford/es-module-shims/pull/269) is on the roadmap).
 
 Clone the [jspm-starter](https://github.com/jspm/jspm-starter) repo:
 
@@ -331,123 +312,11 @@ git clone https://github.com/jspm/jspm-starter
 cd jspm-starter
 ```
 
-Next, run `npm install`.
+Next, run `npm install && chomp build --serve` to spin up a dev server on `http://localhost:5776/`. You should see a clickable, animated slider. 
 
-### npm Scripts Workflow
+Any file changes will incrementally rebuild - try editing the original TypeScript file in `src/motion-slide.ts`. `tsc` files are compiled from `src` into the `lib` folder and the generator automatically reruns to re-generate.
 
-For the traditional npm scripts workflow, run:
-
-```sh
-npm run build
-```
-
-Then use your preferred local server to navigate to the `app.html` file to see the working application.
-
-TypeScript is compiled with `tsc` and a local generation API command is run per the [JS API workflow](#js-generator-api) above.
-
-### Chomp Workflow
-
-For the Chomp workflow run:
-
-```sh
-chomp build --serve
-```
-
-which will spin up a dev server on `http://localhost:5776/`.
-
-The necessary build steps as needed by the task graph will be performed by Chomp as well as serving the project folder.
-
-Open up a browser window (or even the simple browser window in VSCode from the command pallet) and navigate to `http://localhost:5776/app.html`.
-
-You should see a working clickable animated slider. Any changed made will incrementally rebuild - try editing the original TypeScript file in `src/motion-slide.ts`.
-
-Chomp works to a task graph defined in a `chompfile.toml` with Makefile-style invalidation to only incrementally recompile individual files as necessary. Because the JSPM task depends on the `lib` files transitively (which are compiled by TypeScript from `src`), the generator will also automatically rerun as files change to pick up any new resolutions for the import map.
-
-Refreshing the page gives an instant dev workflow (and [hot reloading](https://github.com/guybedford/es-module-shims/pull/269) is on the roadmap).
-
-Here's the `chompfile.toml` for the complete build process:
-
-chompfile.toml
-```toml
-version = 0.1
-default-task = 'build'
-
-extensions = ['chomp@0.1:swc']
-
-[[task]]
-name = 'build'
-deps = ['app.html']
-
-[[task]]
-target = 'lib/#.js'
-dep = 'src/#.ts'
-template = 'swc'
-[task.template-options]
-'jsc.target' = 'es2019'
-source-maps = false
-
-[[task]]
-target = 'app.html'
-deps = ['app.html', 'lib/**/*.js']
-engine = 'node'
-run = '''
-import { Generator } from '@jspm/generator';
-import { readFile, writeFile } from 'fs/promises';
-import { pathToFileURL } from 'url';
-
-const generator = new Generator({
-  mapUrl: pathToFileURL('app.html'),
-  env: ['production', 'browser', 'module']
-});
-
-const htmlSource = await readFile('app.html', 'utf-8');
-
-await writeFile('app.html', await generator.htmlGenerate(htmlSource, {
-  preload: true,
-  integrity: true
-}));
-'''
-```
-
-SWC is used to compile TypeScript using an SWC template provided by the `chomp@0.1:swc` [Chomp extension](https://github.com/guybedford/chomp-extensions). The `#` symbol means the task is interpolated with a glob over all files - SWC is run individually on each file just like a Makefile would do.
-
-Each task optionally defines its targets and dependencies which informs the caching rules and forms a graph of tasks to run with maximum parallelism. Tasks have a `run` field which can be shell or JavaScript code that should run to execute the task.
-
-The JSPM task is expanded for understandability, but there is actually a JSPM Chomp extension we could use instead to give the Chompfile:
-
-```toml
-version = 0.1
-default-task = 'build'
-
-extensions = ['chomp@0.1:jspm', 'chomp@0.1:swc']
-
-[[task]]
-name = 'build'
-deps = ['app.html']
-
-[[task]]
-target = 'lib/#.js'
-dep = 'src/#.ts'
-template = 'swc'
-[task.template-options]
-'jsc.target' = 'es2019'
-source-maps = false
-
-[[task]]
-target = 'app.html'
-deps = ['app.html', 'lib/**/*.js']
-template = 'jspm'
-[task.template-options]
-env = ['production', 'browser', 'module']
-preload = true
-integrity = true
-```
-
-While somewhat magical, template extensions can always be ejected to see their real task definitions. Try updating the Chompfile to the above then running `chomp --eject` to see this in action.
-
-### Chomp Resources
-
-For more information about Chomp, resources are provided below:
+You can use your own task runner workflows for similar results. For more information about Chomp see the resources below:
 
 * [Getting Started](https://github.com/guybedford/chomp#getting-started)
 * [Chomp CLI](https://github.com/guybedford/chomp/blob/main/docs/cli.md)
@@ -455,11 +324,51 @@ For more information about Chomp, resources are provided below:
 * [Task Definitions](https://github.com/guybedford/chomp/blob/main/docs/task.md)
 * [Chomp Extensions](https://github.com/guybedford/chomp/blob/main/docs/extensions.md)
 
-## Deno Import Maps
 
-Since CommonJS -> ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.
+### Vite Plugin
 
-This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node).
+[Vite](https://vitejs.dev/) is architected primarily to modern ES module workflows, making JSPM and Vite a great combination. Using the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), dependencies are retrieved from JSPM while the project is bundled using Vite.
+
+```sh
+npm install vite-plugin-jspm --save-dev
+```
+
+`vite` and `vite build` can be used for dev server and production builds respectively. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
+
+vite.config.mjs
+```js
+import { defineConfig } from 'vite';
+import jspmPlugin from 'vite-plugin-jspm';
+
+export default defineConfig({
+  plugins: [jspmPlugin()],
+});
+```
+
+The plugin will automatically inject ES Module Shims to polyfill import maps. 
+
+An additional option that you can use is `downloadDeps`, to download and build all the dependencies from the JSPM CDN at build time. However, there are a number of factors that should be considered when using this option:
+
+* Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.
+* Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.
+* The app footprint is minimal when dependencies are handled by the CDN.
+* `downloadDeps` may not necessarily improve performance as that depends on the exact loading profile and caching requirements.
+* Having all sources collected together via `downloadDeps` can be useful for a fully self-contained distribution.
+
+
+
+## Node Workflows
+
+TODO: content/examples for illustrative purposes
+
+
+## Deno Workflows
+
+### Deno Import Maps
+
+JSPM import map generation provides a novel mechanism for executing npm packages in Deno. This is because CommonJS -> ESM conversion and conditional environment resolution is integral to JSPM's import map generation. Import maps that support execution of npm packages in Deno or other non-browser environments is possible with JSPM workflows.
+
+This is made possible thanks to the ability of [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node).
 
 For example, let's run `@jspm/generator` itself in Deno.
 
@@ -528,36 +437,3 @@ run = 'deno --unstable run -A --no-check --import-map importmap.json deno-genera
 
 For an easier `chomp deno-generate` execution that will first ensure the import map is up to date in the task graph.
 
-## Vite Plugin
-
-[Vite](https://vitejs.dev/) is architected primarily to modern ES modules workflows, making JSPM and Vite a great combination.
-
-With the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), ddependencies are retrieved from JSPM while the project is bundled using Vite.
-
-```sh
-npm install vite-plugin-jspm --save-dev
-```
-
-`vite` and `vite build` can be used for dev server and production builds respectively. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
-
-vite.config.mjs
-```js
-import { defineConfig } from 'vite';
-import jspmPlugin from 'vite-plugin-jspm';
-
-export default defineConfig({
-  plugins: [jspmPlugin()],
-});
-```
-
-The plugin will automatically inject ES Module Shims to polyfill import maps.
-
-An additional option that you can use is `downloadDeps`, to download and build all the dependencies from the JSPM CDN at build time.
-
-When using the `downloadDeps` option, there are a number of factors that should be considered:
-
-* Using external CDN dependencies will likely provide the best latency by utilizing the shared globally distributed CDN network - since the JSPM CDN cache is shared at the edge with other JSPM users this leads to shared latency optimization on edges.
-* Using import maps in production results in there being no need to cache bust the entire build. When there is a small change in project, unchanged dependencies remain cached.
-* Very minimal footprint of the app as the dependencies are handled by the CDN.
-* Performance may be faster with or without `downloadDeps` depending on the exact loading profile and caching requirements.
-* Having all sources collected together via `downloadDeps` can be useful for a fully self-contained distribution.
