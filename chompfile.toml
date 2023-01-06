@@ -33,8 +33,34 @@ site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/master'
 
 [[task]]
+name = 'fetch:cli'
+run = '''
+  curl https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md > pages/docs/cli.md
+'''
+
+[[task]]
+name = 'docs:cli'
+deps = ['fetch:cli']
+targets = ['./pages/docs/cli.md']
+engine = 'node'
+run = '''
+  // add the following text to the beginning of cli.md file
+  import fs from 'fs';
+  const cli = fs.readFileSync('./pages/docs/cli.md', 'utf8');
+  const content = `+++
+title = "JSPM CLI - Documentation"
+description = "JSPM CLI Documentation"
+next-section = "teleporthq-sponsorship"
+prev-section = "docs/api"
++++
+
+`
+  fs.writeFileSync('./pages/docs/cli.md', content + cli);
+'''
+
+[[task]]
 name = 'build'
-deps = ['copy:css', 'generate:static']
+deps = ['copy:css', 'docs:cli', 'generate:static']
 
 [[task]]
 name = 'excalidraw-to-svg'
