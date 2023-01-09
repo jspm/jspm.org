@@ -33,8 +33,17 @@ site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/master'
 
 [[task]]
+name = 'docs:cli'
+target = './pages/docs/cli.md'
+invalidation = 'always'
+run = '''
+  cp cli-header.txt pages/docs/cli.md
+  curl https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md >> pages/docs/cli.md
+'''
+
+[[task]]
 name = 'build'
-deps = ['copy:css', 'generate:static']
+deps = ['copy:css', 'docs:cli', 'generate:static']
 
 [[task]]
 name = 'excalidraw-to-svg'
