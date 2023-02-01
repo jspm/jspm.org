@@ -46,9 +46,16 @@ name = 'build'
 deps = ['copy:css', 'docs:cli', 'generate:static']
 
 [[task]]
+name = 'trace:architecture'
+dep = './architecture/index.html'
+run = 'jspm inject $DEP'
+
+[[task]]
 name = 'excalidraw-to-svg'
+dep = 'trace:architecture'
 run = 'node ./architecture/excalidraw-to-svg.js'
 
 [[task]]
 name = 'serve-architecture'
+dep = 'trace:architecture'
 run = 'npx http-server ./architecture -c-1'
