@@ -1,0 +1,3 @@
+[submodule "api_repos/generator"]
+	path = api_repos/generator
+	url = git@github.com:jspm/generator.git
