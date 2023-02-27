@@ -5,10 +5,17 @@ import * as fs from "fs";
 import pc from "picocolors";
 
 const log = (msg) => console.log(pc.bold(msg));
+const spawn = (cmd, args, opts) => {
+  const res = spawnSync(cmd, args, { ...opts });
+  if (res.status !== 0) {
+    throw new Error(`Command failed: ${cmd} ${args.join(' ')}`);
+  }
+  return res;
+};
 
 const submodules = [
-  // "generator", // @jspm/generator
-  "import-map", // @jspm/import-map
+  "generator", // @jspm/generator
+  //"import-map", // @jspm/import-map
 ];
 
 for (const submodule of submodules) {
@@ -21,7 +28,7 @@ for (const submodule of submodules) {
   const tsJsonPath = path.resolve(submodulePath, "tsconfig.json");
 
   // Fetch the current git branch:
-  const gitBranch = spawnSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
+  const gitBranch = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
     cwd: submodulePath,
     encoding: "utf8",
   }).stdout.trim();
@@ -33,49 +40,52 @@ for (const submodule of submodules) {
   const tsJson = fs.readFileSync(tsJsonPath, "utf8");
 
   // We generate API docs for every published semver tag in the submodule:
-  const tags = spawnSync("git", ["tag", "--list"], {
+  const tags = spawn("git", ["tag", "--list"], {
     cwd: submodulePath,
     encoding: "utf8",
   }).stdout.split("\n")
     .map((tag) => tag.trim())
     .filter((tag) => tag.match(/^\d+\.\d+\.\d+$/));
-  log("   Found version tags: ", tags);
+  log(`   Found version tags: ${tags.join(", ")}`);
 
   for (const tag of tags) {
     log(`   Generating docs for version: ${tag}`);
-    spawnSync("git", ["checkout", tag], { cwd: submodulePath });
+    spawn("git", ["checkout", tag], { cwd: submodulePath });
+    spawn("npm", ["install"], { cwd: submodulePath });
 
     // We need to inject various configs as older tags don't have the rigging
     // we added for this script to work. We also need to copy over the current
     // build for idempotency:
     fs.writeFileSync(typedocJsonPath, typedocJson);
     fs.writeFileSync(tsJsonPath, tsJson);
-    const initialCopyRes = spawnSync("cp", ["-r", outputDocsPath, submoduleDocsPath]);
-    if (initialCopyRes.status !== 0) {
-      console.error(initialCopyRes.error);
-      process.exit(1);
+
+    try {
+      spawn("npx", [
+        "typedoc",
+        "--tsconfig", tsJsonPath,
+        "--options", typedocJsonPath,
+      ], { cwd: submodulePath, stdio: "inherit" });
+    } catch {
+      log(`   Failed to generate docs for version: ${tag}`);
+      continue;
+    } finally {
+      try {
+        spawn("git", ["checkout", "."], { cwd: submodulePath });
+        spawn("git", ["clean", "-f", "typedoc.json", "tsconfig.json"], { cwd: submodulePath });
+      } catch { /* not fatal */ }
     }
-
-    spawnSync("npx", [
-      "typedoc",
-      "--tsconfig", tsJsonPath,
-      "--options", typedocJsonPath,
-    ], { cwd: submodulePath });
-
-    // Copy results back to current build:
-    //const copyRes = spawnSync("cp", ["-r", submoduleDocsPath, outputDocsPath]);
-    //if (copyRes.status !== 0) {
-    //  console.error(copyRes.error);
-    //  process.exit(1);
-    //}
-
-    // Clean out everything in the submodule for next version generation:
-    //spawnSync("git", ["clean", "-fdx"], { cwd: submodulePath });
-    //spawnSync("git", ["checkout", "."], { cwd: submodulePath });
   }
 
-  // Reset the submodule to the original branch:
-  spawnSync("git", ["checkout", gitBranch], { cwd: submodulePath });
+  // Copy results to the public_html folder:
+  spawn("rm", ["-rf", outputDocsPath], { cwd: currentDir });
+  spawn("cp", ["-r", submoduleDocsPath, outputDocsPath], { cwd: currentDir });
+
+  // Clean up all changes to the submodule:
+  try {
+    spawn("git", ["clean", "-fdx"], { cwd: submodulePath });
+    spawn("git", ["checkout", "."], { cwd: submodulePath });
+    spawn("git", ["checkout", gitBranch], { cwd: submodulePath });
+  } catch { /* not fatal */ }
 }
 
 log("Done!");
