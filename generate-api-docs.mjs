@@ -1,8 +1,10 @@
 import { spawnSync } from 'child_process';
+import { createInterface } from 'readline';
 import * as path from "path";
 
 const submodules = [
   "generator", // @jspm/generator
+  "import-map", // @jspm/import-map
 ];
 
 for (const submodule of submodules) {
@@ -38,12 +40,37 @@ for (const submodule of submodules) {
     process.exit(1);
   }
 
+  // Purge existing documentation:
+  await new Promise((resolve) => {
+    const readline = createInterface({
+      input: process.stdin,
+      output: process.stdout
+    });
+    readline.question(`   Purge existing documentation for ${submodule}? (y/N) `, (answer) => {
+      readline.close();
+      if (answer.toLowerCase() === 'y') {
+        console.log("   Purging existing documentation...");
+        const purgeResult = spawnSync("rm", [
+          "-rf",
+          path.resolve(currentDir, "public_html/api", submodule),
+        ], {
+          stdio: "inherit",
+        });
+        if (purgeResult.status !== 0) {
+          console.error(purgeResult.error);
+          process.exit(1);
+        }
+      }
+      resolve();
+    });
+  });
+
   // Next, we copy the generated documentation to the public_html/api folder:
   console.log("   Copying generated documentation...");
   const copyResult = spawnSync("cp", [
     "-r",
     path.resolve(submodulePath, "docs"),
-    path.resolve(currentDir, "public_html", "api", submodule),
+    path.resolve(currentDir, "public_html/api", submodule),
   ], {
     stdio: "inherit",
   });
