@@ -14,8 +14,8 @@ const spawn = (cmd, args, opts) => {
 };
 
 const submodules = [
-  "generator", // @jspm/generator
-  //"import-map", // @jspm/import-map
+  //"generator", // @jspm/generator
+  "import-map", // @jspm/import-map
 ];
 
 for (const submodule of submodules) {
@@ -59,21 +59,41 @@ for (const submodule of submodules) {
     fs.writeFileSync(typedocJsonPath, typedocJson);
     fs.writeFileSync(tsJsonPath, tsJson);
 
-    try {
-      spawn("npx", [
-        "typedoc",
-        "--tsconfig", tsJsonPath,
-        "--options", typedocJsonPath,
-      ], { cwd: submodulePath, stdio: "inherit" });
-    } catch {
-      log(`   Failed to generate docs for version: ${tag}`);
-      continue;
-    } finally {
+    while(true) {
       try {
-        spawn("git", ["checkout", "."], { cwd: submodulePath });
-        spawn("git", ["clean", "-f", "typedoc.json", "tsconfig.json"], { cwd: submodulePath });
-      } catch { /* not fatal */ }
+        spawn("npx", [
+          "typedoc",
+          "--skipErrorChecking",
+          "--tsconfig", tsJsonPath,
+          "--options", typedocJsonPath,
+        ], { cwd: submodulePath, stdio: "inherit" });
+        break;
+      } catch(err) {
+        log(`   Failed to generate docs for version: ${tag}`);
+        log(`   Error: ${err.message}`);
+
+        // Ask the user to fix the issue and try again, or skip this tag:
+        const rl = createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
+        const answer = await new Promise((resolve) => {
+          rl.question("   Try again? [y/N] ", (answer) => {
+            resolve(answer);
+            rl.close();
+          });
+        });
+        if (answer.toLowerCase() !== "y") {
+          log(`   Skipping docs for version: ${tag}`);
+          break;
+        }
+      }
     }
+
+    try {
+      spawn("git", ["checkout", "."], { cwd: submodulePath });
+      spawn("git", ["clean", "-f", "typedoc.json", "tsconfig.json"], { cwd: submodulePath });
+    } catch { /* not fatal */ }
   }
 
   // Copy results to the public_html folder:
