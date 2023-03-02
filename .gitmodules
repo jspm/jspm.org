@@ -1,0 +1,6 @@
+[submodule "api_repos/generator"]
+	path = api_repos/generator
+	url = git@github.com:jspm/generator.git
+[submodule "api_repos/import-map"]
+	path = api_repos/import-map
+	url = git@github.com:jspm/import-map.git
