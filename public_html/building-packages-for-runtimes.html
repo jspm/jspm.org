@@ -1,0 +1,227 @@
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="jspm.org" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="jspm.org - Building packages for multiple runtimes"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Building javascript packages for respective runtimes, for better compatability and cross-platform usage."><meta property="og:description" content="Building javascript packages for respective runtimes, for better compatability and cross-platform usage."><meta property="og:url" content="https://jspm.org/building-packages-for-runtimes"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css?v1">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js?v1"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>Building packages for multiple runtimes - jspm.org</title></head><body class="page-building-packages-for-runtimes">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks"><!--<li><a target="_blank" href="/import-map-cdn">Latest Release</a></li>--><li><a target="_blank" href="/docs/cdn" rel="noopener">Docs</a></li><li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li><li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li><li class="github"><a target="_blank" href="https://github.com/jspm/project" rel="noopener"></a></li></ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li class="docs">
+        <a>Docs</a>
+        <ul class="section">
+          <li class="guide"><a href="/docs/workflows">Workflow Guides</a></li>
+          <li class="guide"><a href="/docs/cdn">CDN Architecture</a></li>
+          <li class="guide"><a href="/docs/api">CDN API</a></li>
+          <li class="guide"><a href="/docs/cli">CLI</a></li>
+        </ul>
+      </li>
+      <li class="about">
+        <a>Posts</a>
+        <ul class="section">
+          <li class="blog-link"><a href="/teleporthq-sponsorship"><em>TeleportHQ Sponsorship<span class="date">15/03/22</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-dev-release"><em>JSPM.dev Release<span class="date">19/06/20</span></em></a></li>
+        </ul>
+      </li>
+      <li><a>Resources</a>
+        <ul>
+          <li><a href="https://generator.jspm.io" target="_blank" rel="noopener">Online Import Map Generator</a></li>
+          <li><a href="/sandbox">Online Sandbox</a></li>
+          <li><a target="_blank" href="https://github.com/jspm/project" rel="noopener">Issue Tracker</a></li>
+          <li><a target="_blank" href="https://discord.gg/dNRweUu" rel="noopener">Discord</a></li>
+          <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Open Collective</a></li>
+          <li><a target="_blank" href="https://twitter.com/jspm" rel="noopener">@jspm on Twitter</a></li>
+        </ul>
+        </li>
+    </ul>
+    <div class="footer"><p>
+      Logo design by <a target="_blank" href="https://www.luuk.site/" rel="noopener">Luuk de Vlieger</a>
+    </p></div>
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>Building packages for multiple runtimes</h1>
+<p><strong>Author:</strong> Jaya Krishna Namburu (<a href="https://github.com/JayaKrishnaNamburu" target="_blank" rel="noopener">@askjkrishna</a>)</p>
+<p>One of the great things about JavaScript is how easy it is to share modules. With the use of package managers like <code>npm</code>, developers can easily publish their code as packages and share them with the world and distribute them across with global cdn’s like <code>jspm</code>.</p>
+<p>This makes it easy for other developers to reuse the code in their own projects, saving time and effort. Additionally, the open-source nature of many of these packages means that they can be constantly improved and updated by the community. All in all, this makes JavaScript a powerful and collaborative language for building applications.</p>
+<p>However, there was no defined way on how these modules should be written and distributed. With JavaScript now able to run on multiple runtimes - including <code>browsers</code>, <code>node</code>, <code>deno</code>and <code>mobile</code> - and each runtime environment has it’s own built-ins to work with, so there was a need to establish standard practices.</p>
+<p>We have different standardising bodies for various adoptions in javascript eco-system. For example, <a href="https://tc39.es/" target="_blank" rel="noopener">tc39</a> is responsible for standardising and proposing changes to the JavaScript language. Meanwhile, <a href="https://www.w3.org/standards/" target="_blank" rel="noopener">w3c</a> and <a href="https://github.com/nodejs/TSC" target="_blank" rel="noopener">node-tsc</a> take care of standards in browsers and Node.js, respectively.</p>
+<p>Simple words with an example</p>
+<ul>
+<li>file-system(fs) is available in node, but not in browsers.</li>
+<li>document(DOM) is available in browsers but not in node.</li>
+</ul>
+<p>These are runtime specific things which are dependent on the environment. Since its javascript everywhere there is no restriction on using a js module written for browser to be used in node or deno or any other runtime. So, package authors started using <a href="https://developer.mozilla.org/en-US/docs/Glossary/Polyfill" target="_blank" rel="noopener">polyfills</a>. But, adding polyfills into the module itself and publishing them have it’s own down sides.</p>
+<a name="built-ins" class="anchor main"></a><h2>Built-ins</h2>
+<p>Let’s say we are building a package for authentication layer, that needs to be used in browser and node environments. If we follow the polyfills process.</p>
+<ul>
+<li>We use <code>node-fetch</code> for making fetch calls in nodejs, this get bundled into module. But, browsers have it’s own implementation of <code>fetch</code> it don’t need to rely on any third party of polyfills to enable this.</li>
+<li>And if each <code>npm</code> package is bundling it’s own polyfills, the dependencies get’s bloated up. Every module in the <code>node_modules</code> will keep bringing its own duplication of polyfills causing build size to increase.</li>
+<li>If the modules don’t do it, the end users when consuming it need to install the <code>polyfills</code> by themselves.</li>
+</ul>
+<p>With the recent additions to the package specifications. Building packages for different runtimes is easier now. Let’s look at some of the cases on how we can build better packages.</p>
+<a name="imports" class="anchor"></a><h3>imports</h3>
+<p>With the addition of import paths <a href="https://nodejs.org/docs/latest-v16.x/api/packages.html#imports" target="_blank" rel="noopener">mapping</a> in <code>node v16</code>. We can define a dependency to use depending on if the module is running in <code>browser</code> or <code>node</code>.</p>
+<p>So, a fetch can be mapped using</p>
+<pre><code class="language-json">{
+  <span class="string">"name"</span>: <span class="string">"@example/authentication"</span>,
+  <span class="string">"type"</span>: <span class="string">"module"</span>,
+  <span class="string">"imports"</span>: {
+    <span class="string">"#middleware"</span>: {
+      <span class="string">"node"</span>: <span class="string">"./middleware.js"</span>,
+      <span class="string">"default"</span>: <span class="string">"./middleware-browser.js"</span>
+    }
+  }
+}
+</code></pre>
+<p>And the independent implementations cab be independent for both the environments.</p>
+<pre><code class="language-jsx"><span class="comment">// middleware-browser.js</span>
+<span class="keyword">export</span> const authenticate = () =&gt; {
+  <span class="keyword">return</span> fetch(<span class="string">"https://example.com/authenticate"</span>);
+};
+</code></pre>
+<pre><code class="language-jsx"><span class="comment">// middleware.js</span>
+<span class="keyword">import</span> fetch <span class="keyword">from</span> <span class="string">"node-fetch"</span>;
+
+<span class="keyword">export</span> const authenticate = () =&gt; {
+  <span class="keyword">return</span> fetch(<span class="string">"https://example.com/authenticate"</span>);
+};
+</code></pre>
+<p>When we are consuming authenticate inside the module. We need to import using</p>
+<pre><code class="language-jsx"><span class="keyword">import</span> { authenticate } <span class="keyword">from</span> <span class="string">"#middleware"</span>;
+</code></pre>
+<p>this will take care of loading the module that is specific to environment. By following these patterns, we can reduce the reduplication of polyfills and use native modules in their respective environments.</p>
+<p><strong>Example</strong></p>
+<p>Let’s looks at an example how, <code>chalk</code> one of the most used package uses these <code>imports</code> and loads the built-ins efficiently.</p>
+<p>Here is <code>imports</code> from the <code>package.json</code></p>
+<pre><code class="language-json"><span class="string">"imports"</span>: {
+  <span class="string">"#ansi-styles"</span>: <span class="string">"./source/vendor/ansi-styles/index.js"</span>,
+  <span class="string">"#supports-color"</span>: {
+    <span class="string">"node"</span>: <span class="string">"./source/vendor/supports-color/index.js"</span>,
+    <span class="string">"default"</span>: <span class="string">"./source/vendor/supports-color/browser.js"</span>
+  }
+}
+</code></pre>
+<img style="width: auto; height: 400px" src="./chalk.gif" alt="Gif to show generation of import-map for chalk. (package)">
+
+<blockquote>
+<p><code>https://ga.jspm.io/npm:chalk@<span class="number">5</span>.<span class="number">2</span>.<span class="number">0</span>/source/vendor/supports-color/index.js</code> &gt; <code>https://ga.jspm.io/npm:chalk@<span class="number">5</span>.<span class="number">2</span>.<span class="number">0</span>/source/vendor/supports-color/browser.js</code></p>
+</blockquote>
+<a name="exports" class="anchor main"></a><h2>Exports</h2>
+<p>In addition to the <code>imports</code> field, there is also an <code>exports</code> field in the <code>package.json</code> file that allows package authors to specify how their package should be imported in different environments. The <code>exports</code> field allows authors to specify different entry points for different runtimes(browser, node, default), as well as different formats (such as CommonJS or ES modules) for the same entry point. This allows for more efficient loading and usage of packages in different environments.</p>
+<p>Don’t get confused between <code>imports</code> and <code>exports</code>. Imports are for using runtime aware external packages into your module. Whereas <code>exports</code> are used to expose your module in different environments making it work across runtimes and formats.</p>
+<p>A example of exports filed can be found in</p>
+<p><a href="https://github.com/preactjs/preact/blob/master/package.json" target="_blank" rel="noopener">https://github.com/preactjs/preact/blob/master/package.json</a></p>
+<pre><code class="language-json"><span class="string">"type"</span>: <span class="string">"module"</span>,
+<span class="string">"exports"</span>: {
+  <span class="string">"."</span>: {
+    <span class="string">"types"</span>: <span class="string">"./src/index.d.ts"</span>,
+    <span class="string">"browser"</span>: <span class="string">"./dist/preact.module.js"</span>,
+    <span class="string">"umd"</span>: <span class="string">"./dist/preact.umd.js"</span>,
+    <span class="string">"import"</span>: <span class="string">"./dist/preact.mjs"</span>,
+    <span class="string">"require"</span>: <span class="string">"./dist/preact.js"</span>
+  }
+}
+</code></pre>
+<p><strong>Open specifications</strong></p>
+<p><a href="https://wintercg.org/" target="_blank" rel="noopener">WinterCG</a> the collaboration platform for different javascript runtimes is in the process of standardising these runtime keys. Here is the <a href="https://runtime-keys.proposal.wintercg.org/" target="_blank" rel="noopener">specification</a> for more details. The proposed specification tries to bring in more identifiers for the different runtimes. This helps in optimising the packages by taking advantages of the built-ins that are available in the target runtime. And adding polyfills for those which are only needed.</p>
+<a name="env" class="anchor main"></a><h2>ENV</h2>
+<p>While bundling for projects, it’s a common practice that we use <code>process.env.NODE_ENV</code> to have different builds for <code>production</code> and <code>development</code>. Well, this is common practice in building applications, but when packaging for libraries, this becomes a problem. As <code>process</code> is note a browser built-in. It is of the best interest for the authors of these libraries to serve different versions in different build targets to give better error messages. Better build sizes etc. Trying load these in browsers directly from CDN’s crashes the module.</p>
+<p>One example is, by trying load <code>react-router@<span class="number">5</span>.<span class="number">2</span>.<span class="number">0</span></code> into the browser as <code>esm</code> module. Fails to load it, as the <code>entry</code> uses <code>process.env.NODE_ENV</code></p>
+<p><a href="https://unpkg.com/browse/react-router@5.2.0/index.js" target="_blank" rel="noopener">https://unpkg.com/browse/react-router@5.2.0/index.js</a></p>
+<pre><code class="language-jsx"><span class="comment">// react-router/index.js</span>
+<span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">"production"</span>) {
+  module.exports = require(<span class="string">"./cjs/react-router.min.js"</span>);
+} <span class="keyword">else</span> {
+  module.exports = require(<span class="string">"./cjs/react-router.js"</span>);
+}
+</code></pre>
+<p>This is handled, if we are importing the process from <code>node:process</code> . Then bundlers and CDN’s which build these packages will be able to detect these built-ins usage. And polyfill them accordingly.</p>
+<p>So, the above snippet can become</p>
+<pre><code class="language-jsx"><span class="keyword">import</span> process <span class="keyword">from</span> <span class="string">"node:process"</span>;
+
+<span class="keyword">if</span> (process.env.NODE_ENV === <span class="string">"production"</span>) {
+  module.exports = require(<span class="string">"./cjs/react-router.min.js"</span>);
+} <span class="keyword">else</span> {
+  module.exports = require(<span class="string">"./cjs/react-router.js"</span>);
+}
+</code></pre>
+<p>This kinda of context and env aware of usage of built-ins. Will give better control for the bundlers to polyfill only the modules that are actually needed. Instead of polyfilling all the node built-ins every time a build is carried out for browsers.</p>
+<a name="jspm" class="anchor main"></a><h2>JSPM</h2>
+<p>We have seen multiple use cases for improving package compatibility within the ecosystem. Now, let's examine how <code>jspm</code> handles pre-existing packages in npm. It’s a well known issue when esm modules went into stable. The transition was not at all smooth in the eco-system. Because, for a project to work in js eco-system now.</p>
+<p>The build pipelines became so complex, it’s a proper combination of <code>bundlers</code>, <code>transpilers</code>, <code>node</code> and multiple module <code>formats</code>. Loading a <code>cjs</code> module from <code>npm</code> into project that is configuring to build as <code>esm</code> and vice-versa became so complex. At some point left most of the systems out of sync.</p>
+<p><code>JSPM</code> builds all packages from <code>npm</code> ahead of time to spec complaint esm modules. And serves them using a distributed global CDN, regardless of the format in which the packages are published to npm. This makes it seamless for loading any module from <code>npm</code> and use it in any project at anytime.</p>
+<p><strong>Fields inside package.json</strong></p>
+<p><strong>browser</strong></p>
+<p>If a package is specifying <a href="https://docs.npmjs.com/cli/v9/configuring-npm/package-json#browser" target="_blank" rel="noopener">browser</a> field in the package.json. And when these packages are used in generating <code>import-maps</code> for browser as target. Then jspm uses this field instead of <code>main</code>, as the package authors explicitly stating the module that needs to be used when loading the same build inside a browser environments.</p>
+<p><strong>module</strong></p>
+<p>Module build detection in jspm. Let’s say, we are exposing <code>cjs</code> build from <code>main</code> and <code>esm</code> version in <code>module</code> field. And we don’t have <code>type</code> as <code>module</code> set on the package. Nor, the entry point is ending with <code>.mjs</code> extension. Something like below</p>
+<pre><code class="language-json"><span class="string">"main"</span>: <span class="string">"dist/index.js"</span>,
+<span class="string">"module"</span>: <span class="string">"dist/index.es.js"</span>
+</code></pre>
+<p>This is one of the most used pattern in publishing packages. The builder uses <code>main</code> entry and builds the module into <code>esm</code> . This is because the <code>module</code> field is not in official specification but mostly used by <code>bundlers</code>. JSPM always follows the node specification.</p>
+<p><strong>exports</strong></p>
+<p>The package-builder from jspm parses the packages and creates an <code>export-map</code> for those packages which don’t expose them by itself. In the process, the builder is even intelligent enough to detect <a href="https://nodejs.org/api/packages.html#subpath-patterns" target="_blank" rel="noopener">subpaths</a> depending on the usage of the module imports internally. Which in return makes the package exports more efficient.</p>
+<blockquote>
+<p>If the package is exposing an <code>exports</code> map, JSPM uses it instead of re-generating the whole export map.</p>
+</blockquote>
+<pre><code class="language-json"><span class="string">"exports"</span>: {
+    <span class="string">"."</span>: {
+      <span class="string">"import"</span>: <span class="string">"./dist/default/lib.mjs"</span>,
+      <span class="string">"require"</span>: <span class="string">"./dist/default/lib.js"</span>,
+      <span class="string">"umd"</span>: <span class="string">"./dist/default/lib.umd.js"</span>
+    }
+}
+</code></pre>
+<p>Let’s look it with an example with <code>react-router</code>. If we look into the <code>package.json</code> of the package</p>
+<p><a href="https://unpkg.com/browse/react-router@6.8.2/package.json" target="_blank" rel="noopener">https://unpkg.com/browse/react-router@6.8.2/package.json</a></p>
+<pre><code class="language-json"><span class="string">"main"</span>: <span class="string">"./dist/main.js"</span>,
+<span class="string">"unpkg"</span>: <span class="string">"./dist/umd/react-router.production.min.js"</span>,
+<span class="string">"module"</span>: <span class="string">"./dist/index.js"</span>,
+<span class="string">"types"</span>: <span class="string">"./dist/index.d.ts"</span>
+</code></pre>
+<p>Let’s load the same <code>package.json</code> from <code>jspm</code>.<br><a href="https://ga.jspm.io/npm:react-router@6.8.2/package.json" target="_blank" rel="noopener">https://ga.jspm.io/npm:react-router@6.8.2/package.json</a></p>
+<pre><code class="language-json"><span class="string">"exports"</span>: {
+    <span class="string">"."</span>: {
+      <span class="string">"module"</span>: <span class="string">"./dist/index.js"</span>,
+      <span class="string">"default"</span>: {
+        <span class="string">"development"</span>: <span class="string">"./dist/dev.main.js"</span>,
+        <span class="string">"default"</span>: <span class="string">"./dist/main.js"</span>
+      }
+    },
+    <span class="string">"./package.json"</span>: <span class="string">"./package.json.js"</span>,
+    <span class="string">"./package"</span>: <span class="string">"./package.json.js"</span>,
+    <span class="string">"./dist/main.js"</span>: {
+      <span class="string">"development"</span>: <span class="string">"./dist/dev.main.js"</span>,
+      <span class="string">"default"</span>: <span class="string">"./dist/main.js"</span>
+    },
+    <span class="string">"./dist/index.js"</span>: <span class="string">"./dist/index.js"</span>,
+    <span class="string">"./dist/main.js!cjs"</span>: <span class="string">"./dist/main.js"</span>,
+    <span class="string">"./dist/dev.main.js!cjs"</span>: <span class="string">"./dist/dev.main.js"</span>,
+    <span class="string">"./package.json.js!cjs"</span>: <span class="string">"./package.json.js"</span>
+  }
+</code></pre>
+<p>export maps help in loading the modules more efficiently using <code>import-map</code>. Let’s explore more of how these import maps helps in loading modules into any environment in the up-coming series.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/building-packages-for-runtimes.md" rel="noopener">Edit</a><div class="next"><a href="/jspm-dev-release">jspm.dev Release&nbsp;▶</a></div><div class="prev"><a href="/import-map-cdn">◀&nbsp;Import Maps Release &amp; Module CDN Launch</a></div></div></div>
+</div>
+
+
+</body></html>

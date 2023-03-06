@@ -6,7 +6,7 @@ const READ_MARKDOWN = `async function readMarkdown (path) {
   const metadata = metadataEndIndex !== -1 ? toml.parse(source.slice(3, metadataEndIndex)) : {};
   if (metadataEndIndex !== -1)
     source = source.slice(metadataEndIndex + (source[metadataEndIndex] === '\\r' ? 5 : 4));
-  const html = marked(source, { breaks: true, headerIds: false });
+  const html = marked.marked(source, { breaks: true, headerIds: false });
   return { html, metadata };
 }`;
 
@@ -34,7 +34,7 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     deps: [`${pages}/##.md`, template, ...feed ? [`${publicHtml}/${feed}`] : [], ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/marked', 'node_modules/jsdom', 'node_modules/@ltd/j-toml']],
     target: `${publicHtml}/##.html`,
     engine: 'node',
-    run: `    import marked from 'marked';
+    run: `    import * as marked from 'marked';
     import jsdom from 'jsdom';
     import toml from '@ltd/j-toml';
     import { readFile, writeFile } from 'fs/promises';
@@ -178,7 +178,7 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     target: `${publicHtml}/${feed}`,
     deps: [`${pages}/**/*.md`, ...ENV.CHOMP_EJECT ? ['npm:install'] : ['node_modules/marked', 'node_modules/@ltd/j-toml']],
     engine: 'node',
-    run: `    import marked from 'marked';
+    run: `    import * as marked from 'marked';
       import toml from '@ltd/j-toml';
       import { readFile, writeFile, stat } from 'fs/promises';
       import { basename, extname } from 'path';
