@@ -1,11 +1,13 @@
 version = 0.1
-
 default-task = 'build'
-
-extensions = ['chomp@0.1:npm', './static-site-generator.js']
+extensions = ['chomp@0.1:npm', './scripts/static-site-generator.js']
 
 [server]
 root = "public_html"
+
+[[task]]
+name = 'build'
+deps = ['copy:css', 'generate:site', 'generate:api-docs']
 
 [[task]]
 name = 'copy:css'
@@ -19,7 +21,7 @@ run = '''
 '''
 
 [[task]]
-name = 'generate:static'
+name = 'generate:site'
 template = 'static-site-generator'
 [task.template-options]
 template = 'template.html'
@@ -33,22 +35,5 @@ site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/master'
 
 [[task]]
-name = 'docs:cli'
-target = './pages/docs/cli.md'
-invalidation = 'always'
-run = '''
-  cp cli-header.txt pages/docs/cli.md
-  curl https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md >> pages/docs/cli.md
-'''
-
-[[task]]
-name = 'build'
-deps = ['copy:css', 'docs:cli', 'generate:static']
-
-[[task]]
-name = 'excalidraw-to-svg'
-run = 'node ./architecture/excalidraw-to-svg.js'
-
-[[task]]
-name = 'serve-architecture'
-run = 'npx http-server ./architecture -c-1'
+name = 'generate:api-docs'
+run = 'node ./scripts/api-docs-generator/generator.js'
