@@ -5,8 +5,8 @@ import * as fs from "fs";
 import pc from "picocolors";
 import fetch from 'node-fetch';
 
-const currentDir = path.dirname(new URL(import.meta.url).pathname);
-const log = (msg) => console.log(pc.bold(msg));
+const projectDir = new URL("../..", import.meta.url).pathname;
+const log = (msg) => console.log(msg);
 const spawn = (cmd, args, opts) => {
   const res = spawnSync(cmd, args, { ...opts });
   if (res.status !== 0) {
@@ -15,15 +15,14 @@ const spawn = (cmd, args, opts) => {
   return res;
 };
 
-// For the CLI, we pull the README from the latest main on github:
+// The CLI doesn't have typescript so we pull the markdown docs directly:
+log(`Generating API documentation for: ${pc.bold("jspm")}`);
 const cliRes = await fetch('https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md')
 const cliReadme = await cliRes.text();
-fs.writeFileSync(path.join(currentDir, 'pages/docs/cli-readme.md'),
-`+++
+fs.writeFileSync(path.join(projectDir, 'pages/docs/cli-readme.md'),
+  `+++
 title = "JSPM CLI - Documentation"
-description = "JSPM CLI Documentation"
-next-section = "teleporthq-sponsorship"
-prev-section = "docs/api"
+description = "Detailed documentation for the JSPM CLI tool."
 +++
 
 ${cliReadme}
@@ -36,10 +35,12 @@ const submodules = [
 ];
 
 for (const submodule of submodules) {
-  log(`Generating API documentation for: ${submodule}`);
-  const submodulePath = path.resolve(currentDir, `api_repos/${submodule}`);
+  // TODO: some kind of checkpointing so we don't re-run older versions
+
+  log(`Generating API documentation for: ${pc.bold(submodule)}`);
+  const submodulePath = path.resolve(projectDir, `scripts/api-docs-generator/${submodule}`);
   const submoduleDocsPath = path.resolve(submodulePath, "docs");
-  const outputDocsPath = path.resolve(currentDir, "public_html/api", submodule);
+  const outputDocsPath = path.resolve(projectDir, "public_html/api", submodule);
   const typedocJsonPath = path.resolve(submodulePath, "typedoc.json");
   const tsJsonPath = path.resolve(submodulePath, "tsconfig.json");
 
@@ -48,7 +49,7 @@ for (const submodule of submodules) {
     cwd: submodulePath,
     encoding: "utf8",
   }).stdout.trim();
-  log(`Current git branch: ${gitBranch}`);
+  log(`Current git branch: ${pc.bold(gitBranch)}`);
 
   // For retro-generating old tags, we need to inject the typedoc and
   // typescript config files into the submodule after every checkout:
@@ -62,31 +63,34 @@ for (const submodule of submodules) {
   }).stdout.split("\n")
     .map((tag) => tag.trim())
     .filter((tag) => tag.match(/^\d+\.\d+\.\d+$/));
-  log(`   Found version tags: ${tags.join(", ")}`);
+  log(`   Found version tags: ${pc.bold(tags.join(", "))}`);
 
   for (const tag of tags) {
-    log(`   Generating docs for version: ${tag}`);
+    log(`   Generating docs for version: ${pc.bold(tag)}`);
     spawn("git", ["checkout", tag], { cwd: submodulePath });
     spawn("npm", ["install"], { cwd: submodulePath });
 
-    // We need to inject various configs as older tags don't have the rigging
-    // we added for this script to work. We also need to copy over the current
-    // build for idempotency:
+    // We need to uninstall any local typedoc versions:
+    spawn("npm", ["uninstall", "typedoc"], { cwd: submodulePath });
+
+    // We need to inject various configs for older tags without rigging:
     fs.writeFileSync(typedocJsonPath, typedocJson);
     fs.writeFileSync(tsJsonPath, tsJson);
 
-    while(true) {
+    // We also need to uninstall existing typedoc versions, as we want to use
+    // the version pinned by the site, not the submodule:
+    while (true) {
       try {
         spawn("npx", [
           "typedoc",
           "--skipErrorChecking",
           "--tsconfig", tsJsonPath,
           "--options", typedocJsonPath,
-        ], { cwd: submodulePath, stdio: "inherit" });
+        ], { cwd: submodulePath });
         break;
-      } catch(err) {
-        log(`   Failed to generate docs for version: ${tag}`);
-        log(`   Error: ${err.message}`);
+      } catch (err) {
+        log(`   ${pc.red("Failed to generate docs for version:")} ${pc.bold(tag)}`);
+        log(`   ${pc.red("Error:")} ${err.message}`);
 
         // Ask the user to fix the issue and try again, or skip this tag:
         const rl = createInterface({
@@ -100,7 +104,7 @@ for (const submodule of submodules) {
           });
         });
         if (answer.toLowerCase() !== "y") {
-          log(`   Skipping docs for version: ${tag}`);
+          log(`   Skipping docs for version: ${pc.bold(tag)}`);
           break;
         }
       }
@@ -113,8 +117,8 @@ for (const submodule of submodules) {
   }
 
   // Copy results to the public_html folder:
-  spawn("rm", ["-rf", outputDocsPath], { cwd: currentDir });
-  spawn("cp", ["-r", submoduleDocsPath, outputDocsPath], { cwd: currentDir });
+  spawn("rm", ["-rf", outputDocsPath], { cwd: projectDir });
+  spawn("cp", ["-r", submoduleDocsPath, outputDocsPath], { cwd: projectDir });
 
   // Clean up all changes to the submodule:
   try {
@@ -124,4 +128,4 @@ for (const submodule of submodules) {
   } catch { /* not fatal */ }
 }
 
-log("Done!");
+log(pc.green("Done!"));
