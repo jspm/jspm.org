@@ -3,7 +3,9 @@ import { createInterface } from 'readline';
 import * as path from "path";
 import * as fs from "fs";
 import pc from "picocolors";
+import fetch from 'node-fetch';
 
+const currentDir = path.dirname(new URL(import.meta.url).pathname);
 const log = (msg) => console.log(pc.bold(msg));
 const spawn = (cmd, args, opts) => {
   const res = spawnSync(cmd, args, { ...opts });
@@ -13,14 +15,28 @@ const spawn = (cmd, args, opts) => {
   return res;
 };
 
+// For the CLI, we pull the README from the latest main on github:
+const cliRes = await fetch('https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md')
+const cliReadme = await cliRes.text();
+fs.writeFileSync(path.join(currentDir, 'pages/docs/cli-readme.md'),
+`+++
+title = "JSPM CLI - Documentation"
+description = "JSPM CLI Documentation"
+next-section = "teleporthq-sponsorship"
+prev-section = "docs/api"
++++
+
+${cliReadme}
+`);
+
+// For the rest of the projects, we generate API docs using typedoc:
 const submodules = [
-  //"generator", // @jspm/generator
+  "generator", // @jspm/generator
   "import-map", // @jspm/import-map
 ];
 
 for (const submodule of submodules) {
   log(`Generating API documentation for: ${submodule}`);
-  const currentDir = path.dirname(new URL(import.meta.url).pathname);
   const submodulePath = path.resolve(currentDir, `api_repos/${submodule}`);
   const submoduleDocsPath = path.resolve(submodulePath, "docs");
   const outputDocsPath = path.resolve(currentDir, "public_html/api", submodule);
