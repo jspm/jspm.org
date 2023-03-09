@@ -19,7 +19,7 @@ const spawn = (cmd, args, opts) => {
 log(`Generating API documentation for: ${pc.bold("jspm")}`);
 const cliRes = await fetch('https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md')
 const cliReadme = await cliRes.text();
-fs.writeFileSync(path.join(projectDir, 'pages/docs/cli-readme.md'),
+fs.writeFileSync(path.join(projectDir, 'pages/docs/api/cli.md'),
   `+++
 title = "JSPM CLI - Documentation"
 description = "Detailed documentation for the JSPM CLI tool."
@@ -40,7 +40,7 @@ for (const submodule of submodules) {
   log(`Generating API documentation for: ${pc.bold(submodule)}`);
   const submodulePath = path.resolve(projectDir, `scripts/api-docs-generator/${submodule}`);
   const submoduleDocsPath = path.resolve(submodulePath, "docs");
-  const outputDocsPath = path.resolve(projectDir, "public_html/api", submodule);
+  const outputDocsPath = path.resolve(projectDir, "public_html/docs/api", submodule);
   const typedocJsonPath = path.resolve(submodulePath, "typedoc.json");
   const tsJsonPath = path.resolve(submodulePath, "tsconfig.json");
 
