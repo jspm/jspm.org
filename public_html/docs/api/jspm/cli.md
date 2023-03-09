@@ -1,8 +1,3 @@
-+++
-title = "JSPM CLI - Documentation"
-description = "Detailed documentation for the JSPM CLI tool."
-+++
-
 # JSPM CLI
 > A minimal package manager for import-maps compliant environemnts like deno and browser.
 
@@ -123,4 +118,3 @@ jspm install --env node,no-module
 
 The CLI tries to remember the `--env` configuration in the import-map file for future uses, so one time
 specifying this option is enough for the next commands.
-

@@ -1,9 +1,7 @@
 import { spawnSync } from 'child_process';
-import { createInterface } from 'readline';
 import * as path from "path";
 import * as fs from "fs";
 import pc from "picocolors";
-import fetch from 'node-fetch';
 
 const projectDir = new URL("../..", import.meta.url).pathname;
 const log = (msg) => console.log(msg);
@@ -15,23 +13,10 @@ const spawn = (cmd, args, opts) => {
   return res;
 };
 
-// The CLI doesn't have typescript so we pull the markdown docs directly:
-log(`Generating API documentation for: ${pc.bold("jspm")}`);
-const cliRes = await fetch('https://raw.githubusercontent.com/jspm/jspm/main/docs/cli.md')
-const cliReadme = await cliRes.text();
-fs.writeFileSync(path.join(projectDir, 'pages/docs/api/cli.md'),
-  `+++
-title = "JSPM CLI - Documentation"
-description = "Detailed documentation for the JSPM CLI tool."
-+++
-
-${cliReadme}
-`);
-
-// For the rest of the projects, we generate API docs using typedoc:
 const submodules = [
-  "generator", // @jspm/generator
-  "import-map", // @jspm/import-map
+  "jspm",
+  "generator",
+  "import-map",
 ];
 
 for (const submodule of submodules) {
@@ -57,13 +42,18 @@ for (const submodule of submodules) {
   const tsJson = fs.readFileSync(tsJsonPath, "utf8");
 
   // We generate API docs for every published semver tag in the submodule:
-  const tags = spawn("git", ["tag", "--list"], {
+  let tags = spawn("git", ["tag", "--list"], {
     cwd: submodulePath,
     encoding: "utf8",
   }).stdout.split("\n")
     .map((tag) => tag.trim())
     .filter((tag) => tag.match(/^\d+\.\d+\.\d+$/));
-  log(`   Found version tags: ${pc.bold(tags.join(", "))}`);
+  if (tags.length) {
+    log(`   Found version tags: ${pc.bold(tags.join(", "))}`);
+  } else {
+    log(`   Found no version tags, defaulting to ${pc.bold("HEAD")}.`);
+    tags = ["HEAD"];
+  }
 
   for (const tag of tags) {
     log(`   Generating docs for version: ${pc.bold(tag)}`);
@@ -77,37 +67,17 @@ for (const submodule of submodules) {
     fs.writeFileSync(typedocJsonPath, typedocJson);
     fs.writeFileSync(tsJsonPath, tsJson);
 
-    // We also need to uninstall existing typedoc versions, as we want to use
-    // the version pinned by the site, not the submodule:
-    while (true) {
-      try {
-        spawn("npx", [
-          "typedoc",
-          "--skipErrorChecking",
-          "--tsconfig", tsJsonPath,
-          "--options", typedocJsonPath,
-        ], { cwd: submodulePath });
-        break;
-      } catch (err) {
-        log(`   ${pc.red("Failed to generate docs for version:")} ${pc.bold(tag)}`);
-        log(`   ${pc.red("Error:")} ${err.message}`);
-
-        // Ask the user to fix the issue and try again, or skip this tag:
-        const rl = createInterface({
-          input: process.stdin,
-          output: process.stdout,
-        });
-        const answer = await new Promise((resolve) => {
-          rl.question("   Try again? [y/N] ", (answer) => {
-            resolve(answer);
-            rl.close();
-          });
-        });
-        if (answer.toLowerCase() !== "y") {
-          log(`   Skipping docs for version: ${pc.bold(tag)}`);
-          break;
-        }
-      }
+    try {
+      spawn("npx", [
+        "typedoc",
+        "--skipErrorChecking",
+        "--tsconfig", tsJsonPath,
+        "--options", typedocJsonPath,
+      ], { cwd: submodulePath });
+    } catch (err) {
+      log(`   ${pc.red("Failed to generate docs for version:")} ${pc.bold(tag)}`);
+      log(`   ${pc.red("Error:")} ${err.message}`);
+      process.exit(1);
     }
 
     try {
