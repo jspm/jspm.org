@@ -1,6 +1,8 @@
 +++
 title = "Native ES Module CDN - Documentation"
 description = "JSPM Module CDN Documentation"
+next-section = "docs/api"
+prev-section = "docs/workflows"
 +++
 
 # Native ES Module CDN
