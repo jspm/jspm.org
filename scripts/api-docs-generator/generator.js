@@ -3,6 +3,7 @@ import * as path from "path";
 import * as fs from "fs";
 import pc from "picocolors";
 
+const scriptDir = path.dirname(new URL(import.meta.url).pathname);
 const projectDir = new URL("../..", import.meta.url).pathname;
 const log = (msg) => console.log(msg);
 const spawn = (cmd, args, opts) => {
@@ -23,11 +24,13 @@ for (const submodule of submodules) {
   // TODO: some kind of checkpointing so we don't re-run older versions
 
   log(`Generating API documentation for: ${pc.bold(submodule)}`);
-  const submodulePath = path.resolve(projectDir, `scripts/api-docs-generator/${submodule}`);
+  const submodulePath = path.resolve(scriptDir, submodule);
   const submoduleDocsPath = path.resolve(submodulePath, "docs");
   const outputDocsPath = path.resolve(projectDir, "public_html/docs/api", submodule);
   const typedocJsonPath = path.resolve(submodulePath, "typedoc.json");
   const tsJsonPath = path.resolve(submodulePath, "tsconfig.json");
+  const customCssPath = path.resolve(scriptDir, "typedoc-theme.css");
+  const customThemePath = path.resolve(scriptDir, "typedoc-theme.cjs");
 
   // Fetch the current git branch:
   const gitBranch = spawn("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
@@ -73,6 +76,9 @@ for (const submodule of submodules) {
         "--skipErrorChecking",
         "--tsconfig", tsJsonPath,
         "--options", typedocJsonPath,
+        "--customCss", customCssPath,
+        "--plugin", customThemePath,
+        "--plugin", "typedoc-plugin-versions",
       ], { cwd: submodulePath });
     } catch (err) {
       log(`   ${pc.red("Failed to generate docs for version:")} ${pc.bold(tag)}`);

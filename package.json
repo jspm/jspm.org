@@ -1,16 +1,14 @@
 {
   "name": "app",
+  "type": "module",
   "devDependencies": {
     "@ltd/j-toml": "^1.37.0",
     "js-yaml": "^4.1.0",
     "jsdom": "^16.7.0",
     "marked": "^4.2.12",
+    "picocolors": "^1.0.0",
     "toml": "^3.0.0",
     "typedoc": "^0.23.25",
     "typedoc-plugin-versions": "^0.2.3"
-  },
-  "type": "module",
-  "dependencies": {
-    "picocolors": "^1.0.0"
   }
 }
