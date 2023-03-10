@@ -1,8 +1,6 @@
 +++
 title = "Workflow Guides - Documentation"
 description = "JSPM workflows overview and introduction"
-next-section = "docs/cdn"
-prev-section = "index"
 +++
 
 # Workflow Guides
