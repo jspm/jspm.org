@@ -1,13 +1,22 @@
 version = 0.1
 default-task = 'build'
-extensions = ['chomp@0.1:npm', './scripts/static-site-generator.js']
+extensions = [
+  'chomp@0.1:npm',
+  './extensions/static-site-generator.js',
+  './extensions/typedoc.js'
+]
+
+[env]
+IMPORT_MAP_VERSION = '1.0.7'
+GENERATOR_VERSION = '1.1.0'
+JSPM_VERSION = '3.0.0'
 
 [server]
 root = "public_html"
 
 [[task]]
 name = 'build'
-deps = ['copy:css', 'generate:site', 'generate:api-docs']
+deps = ['copy:css', 'generate:site', 'generate:api']
 
 [[task]]
 name = 'copy:css'
@@ -35,5 +44,32 @@ site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/master'
 
 [[task]]
-name = 'generate:api-docs'
-run = 'node ./scripts/api-docs-generator/generator.js'
+name = 'generate:api'
+deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm']
+
+[[task]]
+name = 'generate:api:generator'
+template = 'typedoc-generator'
+[task.template-options]
+lib = 'generator'
+custom-css = 'typedoc/typedoc-theme.css'
+plugin = 'typedoc/typedoc-theme.cjs'
+out = 'public_html/docs/generator'
+
+[[task]]
+name = 'generate:api:import-map'
+template = 'typedoc-generator'
+[task.template-options]
+lib = 'import-map'
+custom-css = 'typedoc/typedoc-theme.css'
+plugin = 'typedoc/typedoc-theme.cjs'
+out = 'public_html/docs/import-map'
+
+[[task]]
+name = 'generate:api:jspm'
+template = 'typedoc-generator'
+[task.template-options]
+lib = 'jspm'
+custom-css = 'typedoc/typedoc-theme.css'
+plugin = 'typedoc/typedoc-theme.cjs'
+out = 'public_html/docs/jspm'
