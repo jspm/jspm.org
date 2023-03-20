@@ -2,7 +2,7 @@
 title = "JSPM - ES Module Package Manager and CDN"
 description = "JSPM - ES Module Package Manager and CDN"
 edit = false
-next-section = "docs/cdn"
+next-section = "overview"
 +++
 
 <div class="logobox"></div>

@@ -1,3 +1,7 @@
+body {
+  --color-scheme: var(--light-color-scheme);
+}
+
 @font-face {
   font-family: 'Source Sans Pro';
   font-style: normal;

@@ -1,8 +1,7 @@
 +++
 title = "Import Maps Release & Module CDN Launch"
 description = "Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows"
-prev-section = "jspm-dev-release"
-next-section = "teleporthq-sponsorship"
+prev-section = "jspm-cli"
 +++
 
 # Import Maps Release &<br/> Module CDN Launch

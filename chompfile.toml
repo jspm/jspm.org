@@ -37,7 +37,7 @@ template = 'template.html'
 pages = 'pages'
 public-html = 'public_html'
 feed = 'feed.json'
-feed-exclude = ['pages/docs/', 'pages/index.md']
+feed-exclude = ['pages/docs/', 'pages/cdn/', 'pages/index.md', 'pages/getting-started.md', 'pages/overview.md', 'pages/workflows.md']
 site-name = 'jspm.org'
 site-url = 'https://jspm.org/'
 site-image = 'https://jspm.org/jspm.png'
@@ -53,7 +53,7 @@ template = 'typedoc-generator'
 [task.template-options]
 lib = 'generator'
 custom-css = 'typedoc/typedoc-theme.css'
-plugin = 'typedoc/typedoc-theme.cjs'
+plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 out = 'public_html/docs/generator'
 
 [[task]]
@@ -62,7 +62,7 @@ template = 'typedoc-generator'
 [task.template-options]
 lib = 'import-map'
 custom-css = 'typedoc/typedoc-theme.css'
-plugin = 'typedoc/typedoc-theme.cjs'
+plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 out = 'public_html/docs/import-map'
 
 [[task]]
@@ -71,5 +71,5 @@ template = 'typedoc-generator'
 [task.template-options]
 lib = 'jspm'
 custom-css = 'typedoc/typedoc-theme.css'
-plugin = 'typedoc/typedoc-theme.cjs'
+plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 out = 'public_html/docs/jspm'

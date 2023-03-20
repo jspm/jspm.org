@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="jspm.org" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="jspm.org - JSPM.DEV"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM.DEV Development CDN"><meta property="og:description" content="JSPM.DEV Development CDN"><meta property="og:url" content="https://jspm.org/cdn/jspm-dev"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css?v1">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js?v1"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>JSPM.DEV - jspm.org</title></head><body class="page-cdn-jspm-dev">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks">
+    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
+  </ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li>
+        <a href="/overview">JSPM</a>
+        <ul class="section">
+          <li><a href="/overview">Overview</a></li>
+          <li><a href="/getting-started">Getting Started</a></li>
+          <li><a href="/docs/">Projects &amp; Docs</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a>CDN</a>
+        <ul class="section">
+          <li><a href="/cdn/jspm-io">JSPM.IO</a></li>
+          <li><a href="/cdn/jspm-dev">JSPM.DEV</a></li>
+          <li><a href="/cdn/api">API</a></li>
+        </ul>
+      </li>
+
+      <li class="blog">
+        <a>Blog</a>
+        <ul class="section">
+          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <div class="footer"></div> -->
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>JSPM.DEV CDN</h1>
+<p><code>jspm.dev</code> provides a modules CDN that does not require import maps, useful for quick prototyping in development, as any module can be loaded directly from the console or in a module script without any other steps being necessary.</p>
+<p>To load any npm library in the browser with module scripts with <code>jspm.dev</code> try for example:</p>
+<pre><code class="language-html">&lt;script type=<span class="string">"module"</span>&gt;
+<span class="comment">  // Statically:</span>
+  <span class="keyword">import</span> babel <span class="keyword">from</span> <span class="string">'https://jspm.dev/@babel/core'</span>;
+  console.log(babel);
+<span class="comment">
+  // Dynamically:</span>
+  console.log(<span class="keyword">await</span> import(<span class="string">'//jspm.dev/lodash@<span class="number">4</span>/clone'</span>));
+&lt;/script&gt;
+</code></pre>
+<a name="version-urls" class="anchor main"></a><h2>Version URLs</h2>
+<p>To specify a specific package version target, the following URL versioning patterns are supported:</p>
+<table cellpadding="5">
+<tbody><tr><th style="width: 12em" align="left">jspm.dev/pkg</th><td>Load the main entry point of a package at the latest version.</td></tr>
+<tr><th align="left">jspm.dev/pkg@1</th><td>Load the latest ^1 release of the package (includes prereleases).</td></tr>
+<tr><th align="left">jspm.dev/pkg@1.2</th><td>Load the latest ~1.2 release of the package (including prereleases).</td></tr>
+<tr><th align="left">jspm.dev/pkg@</th><td>Load the edge version of a package. This is the highest possible semver version including prereleases.</td></tr><tr></tr>
+<tr><th align="left">jspm.dev/pkg@tag</th><td>Load a tagged package version.</td></tr>
+<tr><th align="left">jspm.dev/npm:pkg@1.2.3<br>jspm.dev/pkg@1.2.3</th><td>Load an exact version of a package. The explicit `npm:` registry identifier is optional, to avoid the automatic redirect that is added for forwards compatibility with new registries in future.</td></tr>
+</tbody></table>
+
+<p>Exact version URLs are cached with far-future expires, while non-exact version URLs are cached with a short expiry to allow dependency updates over time.</p>
+<p>Note that only the version of the initial package being requested is being set this way, while the versions of deep dependencies will follow semver resolution.</p>
+<a name="subpaths" class="anchor main"></a><h2>Subpaths</h2>
+<p>Full subpath support is also provided for packages. It is a recommended best practice to use package subpaths where possible to load specific package features, instead of loading all package code when some of it might be unused:</p>
+<table cellpadding="5">
+<tbody><tr><th style="width: 12em" align="left">jspm.dev/pkg/subpath</th><td>Load a subpath of a package - applies to all version patterns above.</td></tr>
+</tbody></table>
+
+<p>Packages that have an <a href="#exports-field">exports field</a> defined will expose the subpaths corresponding to the exports field. For packages without an exports field, a <a href="/jspm-dev-release#subpath-detection">statistical analysis</a> process is used to determine the subpaths of a package in code splitting optimization.</p>
+<a name="environment-conditions" class="anchor main"></a><h2>Environment Conditions</h2>
+<p><code>jspm.dev</code> will always serve modules using the <code><span class="string">"development"</span></code>, and <code><span class="string">"browser"</span></code> <a href="#conditional-exports">exports conditions</a>.</p>
+<p>As a result packges like React or Lit will run in their development modes, which may include a console message about this.</p>
+<p>If needing to customize the environment, use <code>jspm.io</code> instead, which allows setting the conditional environment via the import map.</p>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/cdn/jspm-dev.md" rel="noopener">Edit</a></div></div>
+</div>
+
+
+</body></html>

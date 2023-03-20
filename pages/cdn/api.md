@@ -1,11 +1,10 @@
 +++
-title = "API"
-description = "JSPM.IO API"
-prev-section = "docs/cdn"
-next-section = "teleporthq-sponsorship"
+title = "JSPM.IO API"
+description = "JSPM.IO API Documentation"
+prev-section = "docs/index"
 +++
 
-# JSPM API
+# JSPM.IO API
 
 The JSPM API is hosted at `https://api.jspm.io` and provides some hosted package management services
 for JSPM workflows.
@@ -75,7 +74,7 @@ An optional `inputMap` import map (with imports and scopes) can be provided for 
 
 ### provider
 
-The provider sets the `defaultProvider` option in JSPM Generator. Supported options are `'jspm' | 'jspm.system' | 'skypack' | 'jsdelivr' | 'unpkg'`.
+The provider sets the [`defaultProvider`](https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html#defaultProvider) option in JSPM Generator.
 
 ### flattenScope
 

@@ -1,9 +1,11 @@
 Chomp.registerTemplate('typedoc-generator', function (task) {
-  const {
+  let {
     lib,
     out,
-    plugin
+    plugins = ''
   } = task.templateOptions;
+
+  plugins = plugins.split(',');
 
   const envVersion = `${lib.toUpperCase().replace(/-/g, '_')}_VERSION`;
 
@@ -25,15 +27,14 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
       `${lib}/package.json`,
       `${lib}/typedoc.json`,
       `${lib}/tsconfig.json`,
-      ...plugin ? [plugin] : [],
+      ...plugins.filter(plugin => plugin.startsWith('./')).map(plugin => plugin.slice(2))
     ],
     cwd: lib,
     run: `
       typedoc --skipErrorChecking \
         --tsconfig tsconfig.json \
         --options typedoc.json \
-        ${plugin ? `--plugin ${backtrack}${plugin}` : ''} \
-        --plugin typedoc-plugin-versions \
+        ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
         --out ${backtrack}${out}
     `
   }];

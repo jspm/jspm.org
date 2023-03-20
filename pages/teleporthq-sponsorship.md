@@ -1,8 +1,6 @@
 +++
 title = "teleportHQ JSPM Sponsorship"
 description = "teleportHQ sponsors JSPM's ES Module CDN workflows"
-next-section = "docs/workflows"
-prev-section = "import-map-cdn"
 +++
 
 # teleportHQ<br/>Sponsors JSPM

@@ -22,7 +22,7 @@ module.exports.load = (app) => {
 
   app.renderer.hooks.on("body.begin", (ctx) => JSX.createElement(
     "a",
-    { id: "jspm-logo-link", display: "block", href: "/" },
+    { id: "jspm-logo-link", display: "block", href: "/docs" },
     [
       JSX.createElement("div", { id: "jspm-logo" }),
       JSX.createElement("h1", { id: "jspm-logo-header" }, "jspm"),

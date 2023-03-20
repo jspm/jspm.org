@@ -15,7 +15,7 @@ const GET_SLUG = `const getSlug = name => name.replace(/\\s/g, '-').toLowerCase(
 Chomp.registerTemplate('static-site-generator', function (task) {
   if (task.run || task.engine || task.targets.length || task.deps.length)
     throw new Error('Static site generator template does not expect a run, deps, target or engine field.');
-  const { template, pages, publicHtml, siteUrl, siteName, siteImage, editUrl, feed, feedExclude = [], autoInstall } = task.templateOptions;
+  const { template, pages, publicHtml, siteUrl, siteName, siteImage, editUrl, feed, feedExclude = [] } = task.templateOptions;
   if (!template)
     throw new Error('Static site generator requires the "template" option to be set to an HTML template file.');
   if (!siteUrl)
@@ -240,7 +240,6 @@ Chomp.registerTemplate('static-site-generator', function (task) {
   }] : [], ...ENV.CHOMP_EJECT ? [] : [{
     template: 'npm',
     templateOptions: {
-      autoInstall,
       packages: ['marked', 'jsdom', '@ltd/j-toml'],
       dev: true
     }
