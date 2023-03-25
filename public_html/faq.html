@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - FAQ"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM FAQ"><meta property="og:description" content="JSPM FAQ"><meta property="og:url" content="https://jspm.org/faq"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css?v1">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js?v1"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>JSPM - FAQ</title></head><body class="page-faq">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks">
+    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
+  </ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li>
+        <a>JSPM</a>
+        <ul class="section">
+          <li><a href="/getting-started">Getting Started</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/projects">Projects</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a>Documentation</a>
+        <ul class="section">
+          <li><a href="/docs/jspm">JSPM CLI</a></li>
+          <li><a href="/docs/generator">JSPM Generator API</a></li>
+          <li><a href="/docs/integrations">Integrations</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a>CDN</a>
+        <ul class="section">
+          <li><a href="/cdn/jspm-io">jspm.io</a></li>
+          <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
+          <li><a href="/cdn/api">API</a></li>
+        </ul>
+      </li>
+
+      <li class="blog">
+        <a>Blog</a>
+        <ul class="section">
+          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <div class="footer"></div> -->
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>FAQ</h1>
+<a name="what-is-jspm" class="anchor main"></a><h2>What is JSPM?</h2>
+<p>JSPM is an open source project for working with dependency management via import maps in browsers.</p>
+<p>The <a href="/cdn">jspm.io</a> CDN is the default CDN provider used in the JSPM project for loading optimized dependencies directly from npm without a separate build step.</p>
+<p>Other CDN providers can easily be configured, with support for all major providers included by default in the project.</p>
+<a name="what-are-import-maps" class="anchor main"></a><h2>What are Import Maps?</h2>
+<p>Import maps are a new specification ...</p>
+<a name="what-are-the-benefits-of-import-maps" class="anchor main"></a><h2>What are the Benefits of Import Maps?</h2>
+<p>Import map CDNs provide a huge caching benefit because we can both treat all URLs as immutable with far-future expires, while still giving each package a unique URL that can be shared even as its dependencies are updated.</p>
+<p>This maximises the cache usage of packages - shipping an update of your application doesn't require your users to re-download the entire application build. Their browser caches will maintain the exact dependency versions from the last update, making incremental updates highly performant.</p>
+<p>In addition, because the jspm.io CDN has worldwide edge caching, when a user first requests a dependency there's a good chance it is likely already cached at thier local regional edge due to other websites also using the <a href="/cdn">jspm.io</a> CDN, reducing latency and load time.</p>
+<a name="what-is-import-map-package-management" class="anchor main"></a><h2>What is Import Map Package Management?</h2>
+<p>Treating packages as the unit of optimization means that the import map itself becomes the version lock in the browser providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
+<p>The <a href="/docs/#cli">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
+<a name="how-can-import-maps-be-supported-in-older-browsers" class="anchor main"></a><h2>How can Import Maps be supported in older browsers?</h2>
+<p>Import maps are supported in the latest versions of Firefox, Safari and Chrome. To support import maps in older browsers we use <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, a performant polyfill for import maps that can very quickly check the module scripts on the page and replace bare specifier strings (like <code><span class="keyword">import</span> <span class="string">'pkg'</span></code>) with their resolved URLs.</p>
+<p>By default, when using JSPM Generator, this polyfill is included by default.</p>
+<a name="what-is-the-exports-field" class="anchor main"></a><h2>What is the "exports" field?</h2>
+<a name="how-does-jspm-use-the-exports-field" class="anchor main"></a><h2>How does JSPM use the "exports" field?</h2>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/faq.md" rel="noopener">Edit</a><div class="next"><a href="/projects">Projects&nbsp;▶</a></div></div></div>
+</div>
+
+
+</body></html>

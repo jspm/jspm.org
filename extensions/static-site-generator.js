@@ -59,7 +59,7 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     const template = await readFile(${JSON.stringify(template)}, 'utf8');
     const dom = new JSDOM(template);
     const document = dom.window.document;
-    document.title = \`\${title} - ${siteName}\`;
+    document.title = \`${siteName} - \${title}\`;
 
     {
       const meta = document.createElement('meta');

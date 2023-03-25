@@ -1,12 +1,12 @@
 +++
-title = "JSPM.IO API"
-description = "JSPM.IO API Documentation"
-prev-section = "docs/index"
+title = "jspm.io API"
+description = "jspm.io API Documentation"
+prev-section = "cdn/jspm-dev"
 +++
 
-# JSPM.IO API
+# jspm.io API
 
-The JSPM API is hosted at `https://api.jspm.io` and provides some hosted package management services
+The jspm.io API is hosted at `https://api.jspm.io` and provides some hosted package management services
 for JSPM workflows.
 
 ### Reliability Guarantees

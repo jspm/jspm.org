@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="jspm.org" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="jspm.org - JSPM.IO"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM.IO Native Modules CDN"><meta property="og:description" content="JSPM.IO Native Modules CDN"><meta property="og:url" content="https://jspm.org/cdn/jspm-io"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - jspm.io"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="jspm.io Native Modules CDN"><meta property="og:description" content="jspm.io Native Modules CDN"><meta property="og:url" content="https://jspm.org/cdn/jspm-io"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'UA-40327700-2');
 </script>
-<title>JSPM.IO - jspm.org</title></head><body class="page-cdn-jspm-io">
+<title>JSPM - jspm.io</title></head><body class="page-cdn-jspm-io">
 <div class="topbar">
   <a style="display: block" href="/">
     <div class="logobox" href="/"></div>
@@ -29,19 +29,28 @@
   <div class="toc">
     <ul class="sections">
       <li>
-        <a href="/overview">JSPM</a>
+        <a>JSPM</a>
         <ul class="section">
-          <li><a href="/overview">Overview</a></li>
           <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/docs/">Projects &amp; Docs</a></li>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/projects">Projects</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a>Documentation</a>
+        <ul class="section">
+          <li><a href="/docs/jspm">JSPM CLI</a></li>
+          <li><a href="/docs/generator">JSPM Generator API</a></li>
+          <li><a href="/docs/integrations">Integrations</a></li>
         </ul>
       </li>
 
       <li>
         <a>CDN</a>
         <ul class="section">
-          <li><a href="/cdn/jspm-io">JSPM.IO</a></li>
-          <li><a href="/cdn/jspm-dev">JSPM.DEV</a></li>
+          <li><a href="/cdn/jspm-io">jspm.io</a></li>
+          <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
           <li><a href="/cdn/api">API</a></li>
         </ul>
       </li>
@@ -58,7 +67,7 @@
   </div>
 </div>
 <div class="content-container">
-  <div class="content"><h1>JSPM.IO <br>Import Maps CDN</h1>
+  <div class="content"><h1>jspm.io <br>Import Maps CDN</h1>
 <p><code>jspm.io</code> is a CDN built to support import maps with maximum performance featuring:</p>
 <ul>
 <li>Comprehensive <a href="#package-optimization">package optimization</a> and minification with source maps.</li>
@@ -66,24 +75,18 @@
 <li>The ability to configure all environment conditions for a package, compatible with <a href="https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports" target="_blank" rel="noopener">Node.js exports conditions</a> and <a href="https://runtime-keys.proposal.wintercg.org/" target="_blank" rel="noopener">WinterCG runtime keys</a> (eg <code><span class="string">"development"</span></code> / <code><span class="string">"production"</span></code> / <code><span class="string">"browser"</span></code> / <code><span class="string">"node"</span></code> / <code><span class="string">"deno"</span></code> package entry point variants).</li>
 <li>High performance CDN, with redundant storage and caching layers and 99.99% historical <a href="https://status.jspm.io/" target="_blank" rel="noopener">uptime</a>.</li>
 </ul>
-<a name="package-interpretation" class="anchor"></a><h3>Package Interpretation</h3>
-<p>The way in which JSPM will interpret and optimize packages is based on the common ecosystem semantics that have emerged between Node.js and browsers.</p>
+<a name="package-interpretation" class="anchor main"></a><h2>Package Interpretation</h2>
+<p>Packages on the JSPM CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.</p>
 <p>The <a href="https://nodejs.org/dist/latest/docs/api/esm.html" target="_blank" rel="noopener">Node.js ES Modules</a> conventions in Node.js are fully supported, alongside the Node.js <a href="https://nodejs.org/dist/latest/docs/api/packages.html" target="_blank" rel="noopener">package definitions</a>.</p>
-<p>This includes support for the package exports field, package imports field, own name resolution, conditional exports definitions, as well as the conversion of CommonJS packages into ES modules.</p>
+<p>This includes support for the package exports field, package imports field, own name resolution, conditional exports definitions, as well as the conversion of CommonJS modules into ES modules.</p>
 <a name="urls" class="anchor"></a><h3>URLs</h3>
+<p>Imports on the CDN are based on using exact file extensions when loading relative paths, and using import maps for bare specifier resolutions.</p>
 <p>The <code>jspm.io</code> CDN is fully versioned. The current version is <em>version gamma</em>: <code>https://ga.jspm.io</code>.</p>
 <p>This versioning scheme allows immutable caching with far-future expires while still being able to ship major CDN releases over time.</p>
 <p>Packages are located at their exact registry and version URL known as the canonical package path: <code>https://ga.jspm.io/npm:pkg@x.y.z/</code>.</p>
 <a name="packagejson" class="anchor"></a><h3>package.json</h3>
 <p>All packages contain a <code>package.json</code> file, which is the processed package.json by JSPM including the enumerated exports and file listing. The <code>package.json</code> is all that is needed to enumerate the exports of a package and resolve their URLs in the package.</p>
 <p>This is exactly what the JSPM generator does as a linker supporting the modern module resolver conventions. Files within the package are typically provided by their original file path, although names are sometimes rewritten, for example when constructing development builds for some modules.</p>
-<a name="package-optimization" class="anchor"></a><h3>Package Optimization</h3>
-<p>All packages on JSPM are optimized served with a RollupJS code splitting build.</p>
-<p>Packages with only a main entry point will be built as a single module.</p>
-<p>For packages with multiple entry points or subpaths, each of those package subpaths are optimized, with private non-public internal modules combined into chunks to minimize the number of dependencies loaded.</p>
-<p>Source maps are included to map back to the unoptimized file structure.</p>
-<p>To control which entry points are exposed in this way, the <code><span class="string">"exports"</span></code> field can be used to define what is optimized by JSPM.</p>
-<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dev-release#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the preferred way to define subpaths for published packages.</p>
 <a name="exports-field" class="anchor"></a><h3>Exports Field</h3>
 <p>Libraries published to npm can use the <code><span class="string">"exports"</span></code> field to define what entry points to expose and to which environments, and JSPM will optimize these with a RollupJS code splitting build.</p>
 <p>Exports support in JSPM follows the exact features of the <a href="https://nodejs.org/dist/latest-v15.x/docs/api/esm.html#esm_package_entry_points" target="_blank" rel="noopener">Node.js ECMAScript modules implementation</a>.</p>
@@ -136,7 +139,14 @@
 </code></pre>
 <p>Other conditions that can be used include <code><span class="string">"browser"</span></code>, <code><span class="string">"react-native"</span></code>, <code><span class="string">"development"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"require"</span></code> and <code><span class="string">"import"</span></code>.</p>
 <p>Some build tools like Webpack and RollupJS support the custom <code><span class="string">"module"</span></code> condition in exports. This condition is supported by JSPM as if it were a <code><span class="string">"module"</span></code> entry in the exports field for the main entry point.</p>
-<a name="commonjs-compatibility" class="anchor"></a><h3>CommonJS Compatibility</h3>
+<a name="package-optimization" class="anchor main"></a><h2>Package Optimization</h2>
+<p>All packages on JSPM are optimized served with a RollupJS code splitting build.</p>
+<p>Packages with only a main entry point will be built as a single module.</p>
+<p>For packages with multiple entry points or subpaths, each of those package subpaths are optimized, with private non-public internal modules combined into chunks to minimize the number of dependencies loaded.</p>
+<p>Source maps are included to map back to the unoptimized file structure.</p>
+<p>To control which entry points are exposed in this way, the <code><span class="string">"exports"</span></code> field can be used to define what is optimized by JSPM.</p>
+<p>Packages without an <code><span class="string">"exports"</span></code> field get their exports inferred by a <a href="/jspm-dev-release#subpath-detection">statistical analysis approach</a>. Whenever possible the <code><span class="string">"exports"</span></code> field is the preferred way to define subpaths for published packages.</p>
+<a name="commonjs-compatibility" class="anchor main"></a><h2>CommonJS Compatibility</h2>
 <p>Any module which is not an ECMAScript module is treated as CommonJS. ECMAScript modules are detected as files ending in <code>.mjs</code>, <code>.js</code> files in a <a href="https://nodejs.org/dist/latest-v14.x/docs/api/esm.html#esm_package_json_type_field" target="_blank" rel="noopener"><code><span class="string">"type"</span>: <span class="string">"module"</span></code> package.json boundary</a>, or any <code>.js</code> file with <code><span class="keyword">import</span></code> or <code><span class="keyword">export</span></code> syntax.</p>
 <p>The following CommonJS compatibility features are provided by the conversion process:</p>
 <ul>
@@ -151,21 +161,19 @@
 <li>The <code><span class="string">"browser"</span></code> field is supported as it is in Browserify, but is not supported when the <code><span class="string">"exports"</span></code> field is set.</li>
 </ul>
 <p>CommonJS should work the same as it does in Webpack and other JS bundlers. Any bugs can be reported to the main project <a href="https://github.com/jspm/project" target="_blank" rel="noopener">issue tracker</a>.</p>
-<a name="assets" class="anchor"></a><h3>Assets</h3>
+<a name="assets" class="anchor main"></a><h2>Assets</h2>
 <p>JSPM will serve the readme, license and typing files as assets.</p>
 <p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://jspm.dev/npm:pkg@x.y.z/path/to/asset</code>).</p>
 <p>Wildcard exports (exports entries containing <code>*</code>) also support asset inclusion.</p>
-<a name="systemjs-layer" class="anchor main"></a><h2>SystemJS Layer</h2>
+<a name="systemjspmio" class="anchor main"></a><h2>system.jspm.io</h2>
+<p><a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">SystemJS</a> is a legacy module loader used by older applications without ES modules support by converting ES modules into the System module format.</p>
 <p>A SystemJS layer of the <code>jspm.io</code> CDN is available at <code>https://ga.system.jspm.io</code>. The URL scheme and modules provided is exactly identical to the <code>https://ga.jspm.io</code> variant but with the exception that all ES modules are converted into SystemJS modules.</p>
 <p>This enables turning any native ES module import map against <code>https://ga.jspm.io</code> into a SystemJS import map against <code>https://ga.system.jspm.io</code> and being able to load dependencies with the exact same execution semantics in all older browsers without modules support, the primary feature of the SystemJS project.</p>
-<p>Import maps for SystemJS can also be constructed via JSPM Generator both <a href="https://generator.jspm.io" target="_blank" rel="noopener">online</a> and via the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">API</a>.</p>
-<blockquote>
-<p>For more information on SystemJS workflows, <a href="/docs/workflows#systemjs">see the SystemJS workflow guide</a>.</p>
-</blockquote>
+<p>Import maps for SystemJS can also be constructed with <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> setting <code>defaultProvider: <span class="string">'jspm.io#system'</span></code> both <a href="https://generator.jspm.io" target="_blank" rel="noopener">online</a> and via the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">API</a>.</p>
 <blockquote>
 <p>For questions or further discussion about JSPM, <a href="https://discord.gg/dNRweUu" target="_blank" rel="noopener">join JSPM on Discord</a>.</p>
 </blockquote>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/cdn/jspm-io.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/index">◀&nbsp;Projects</a></div></div></div>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/cdn/jspm-io.md" rel="noopener">Edit</a><div class="prev"><a href="/docs/integrations">◀&nbsp;Integrations</a></div></div></div>
 </div>
 
 

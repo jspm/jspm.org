@@ -1,9 +1,9 @@
 +++
-title = "JSPM.DEV"
-description = "JSPM.DEV Development CDN"
+title = "jspm.dev"
+description = "jspm.dev Development CDN"
 +++
 
-# JSPM.DEV CDN
+# jspm.dev CDN
 
 `jspm.dev` provides a modules CDN that does not require import maps, useful for quick prototyping in development, as any module can be loaded directly from the console or in a module script without any other steps being necessary.
 

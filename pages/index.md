@@ -1,8 +1,8 @@
 +++
-title = "JSPM - ES Module Package Manager and CDN"
+title = "ES Module Package Manager and CDN"
 description = "JSPM - ES Module Package Manager and CDN"
 edit = false
-next-section = "overview"
+next-section = "getting-started"
 +++
 
 <div class="logobox"></div>

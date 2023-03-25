@@ -8,7 +8,7 @@ extensions = [
 
 [env]
 IMPORT_MAP_VERSION = '1.0.7'
-GENERATOR_VERSION = '1.1.0'
+GENERATOR_VERSION = '1.1.3'
 JSPM_VERSION = '3.0.0'
 
 [server]
@@ -38,7 +38,7 @@ pages = 'pages'
 public-html = 'public_html'
 feed = 'feed.json'
 feed-exclude = ['pages/docs/', 'pages/cdn/', 'pages/index.md', 'pages/getting-started.md', 'pages/overview.md', 'pages/workflows.md']
-site-name = 'jspm.org'
+site-name = 'JSPM'
 site-url = 'https://jspm.org/'
 site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/master'
