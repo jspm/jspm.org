@@ -1,11 +1,11 @@
 +++
-title = "Projects"
+title = "Projects Overview"
 description = "JSPM Projects"
 prev-section = "faq"
 next-section = "docs/integrations"
 +++
 
-# Projects
+# Projects Overview
 
 ## JSPM Core
 

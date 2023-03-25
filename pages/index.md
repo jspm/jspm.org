@@ -18,8 +18,8 @@ JSPM provides a module CDN and package management for import maps, allowing<br/>
 <br />
 
 <div style="display: flex; justify-content: center; column-gap: 2em;">
-  <a href="/docs/workflows" class="cta highlighted">Workflow Guides</a>
-  <a href="/docs/cdn" class="cta">CDN Architecture</a>
+  <a href="/getting-started" class="cta highlighted">Getting Started</a>
+  <a href="/projects" class="cta">Projects Overview</a>
 </div>
 
 <br />
