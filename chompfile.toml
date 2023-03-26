@@ -41,7 +41,7 @@ feed-exclude = ['pages/docs/', 'pages/cdn/', 'pages/index.md', 'pages/getting-st
 site-name = 'JSPM'
 site-url = 'https://jspm.org/'
 site-image = 'https://jspm.org/jspm.png'
-edit-url = 'https://github.com/jspm/jspm.org/blob/master'
+edit-url = 'https://github.com/jspm/jspm.org/blob/main/pages'
 
 [[task]]
 name = 'generate:api'
