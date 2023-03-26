@@ -1,14 +1,26 @@
 +++
 title = "Getting Started"
 description = "JSPM Getting Started"
-next-section = "faq"
+next-section = "docs/integrations"
 +++
 
 # Getting Started
 
-There are two main recommended approaches for getting started with JSPM - using the online generator to create an import map, or going straight to the CLI for import map package management.
+This guide runs through the steps of setting up the JSPM CLI and using it in some standard import maps workflows.
 
-## JSPM CLI
+If you just want to get a quick feel for import maps, [skip to the online generator guide](#online-generator).
+
+## Installation
+
+Ensure you have Node.js installed.
+
+From the command-line, the JSPM CLI can be installed using npm:
+
+```
+npm install -g jspm
+```
+
+## Example Application
 
 In this guide we are going to create a simple app, and then use the JSPM CLI to generate an [import map](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) for it, allowing us to run it in the browser. Import maps are a standard that solve the problem of _bare specifier imports_ for ES modules. Prior to their adoption, `import` statements in ES modules were required to specify fully qualified or relative URLs:
 

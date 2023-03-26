@@ -27,7 +27,8 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
       `${lib}/package.json`,
       `${lib}/typedoc.json`,
       `${lib}/tsconfig.json`,
-      ...plugins.filter(plugin => plugin.startsWith('./')).map(plugin => plugin.slice(2))
+      ...plugins.filter(plugin => plugin.startsWith('./')).map(plugin => plugin.slice(2)),
+      ...task.deps || []
     ],
     cwd: lib,
     run: `

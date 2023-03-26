@@ -15,7 +15,7 @@ prev-section = "docs/integrations"
 
 ## Package Interpretation
 
-Packages on the JSPM CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.
+Packages on the `jspm.io` CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.
 
 The [Node.js ES Modules](https://nodejs.org/dist/latest/docs/api/esm.html) conventions in Node.js are fully supported, alongside the Node.js [package definitions](https://nodejs.org/dist/latest/docs/api/packages.html).
 

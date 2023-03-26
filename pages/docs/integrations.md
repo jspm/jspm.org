@@ -1,7 +1,8 @@
 +++
 title = "Integrations"
 description = "JSPM Integrations Documentation"
-prev-section = "projects"
+prev-section = "docs/getting-started"
+next-section = "faq"
 +++
 
 # Integrations
@@ -127,3 +128,7 @@ When using the `downloadDeps` option, there are a number of factors that should 
 A loader for Node.js to HTTPs imports and import maps with JSPM.
 
 See [https://github.com/jspm/node-importmap-http-loader](https://github.com/jspm/node-importmap-http-loader).
+
+## Import Map Rails
+
+[Import Map Rails](https://github.com/rails/importmap-rails) provides Ruby on Rails dependency management with import maps and JSPM.

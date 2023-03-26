@@ -5,20 +5,12 @@
   "feed_url": "https://jspm.org//feed.json",
   "items": [
     {
-      "id": "12",
-      "url": "https://jspm.org/projects",
-      "title": "Projects Overview",
-      "content_html": "<p>JSPM Projects</p>",
-      "date_published": "2023-03-25T21:44:56.546Z",
-      "date_modified": "2023-03-25T22:46:54.423Z"
-    },
-    {
       "id": "11",
       "url": "https://jspm.org/faq",
       "title": "FAQ",
       "content_html": "<p>JSPM FAQ</p>",
       "date_published": "2023-03-25T20:56:43.416Z",
-      "date_modified": "2023-03-25T22:41:34.670Z"
+      "date_modified": "2023-03-26T02:59:21.305Z"
     },
     {
       "id": "9",

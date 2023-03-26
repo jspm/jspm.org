@@ -1,92 +1,81 @@
 /* Designed to look like jspm.io so the switch to API docs looks better: */
-
-body {
-  --color-scheme: var(--light-color-scheme);
+.tsd-navigation {
+  font-size: 0.8em;
+  padding: 0.1em;
 }
-
-header.tsd-page-toolbar #jspm-logo {
-  width: 3rem;
-  height: 2.9rem;
-  background-size: 3rem 2.9rem;
-  position: absolute;
-  top: 0.35em;
-  left: 1.5em;
-  background-image: url("/jspm.png");
-  background-repeat: no-repeat;
+.content p, .content li {
+  line-height: 1.5em;
 }
-
-header.tsd-page-toolbar #jspm-logo-header {
-  color: #595959;
-  font-weight: 300;
-  user-select: none;
-  font-size: 1.2em;
-  margin: 0;
-  position: absolute;
-  z-index: 15;
-  top: 0.9em;
-  left: 3.95em;
-  font-family: 'Raleway', 'Helvetica Neue', Helvetica, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 0.05rem;
+.content ul {
+  padding-left: 1em;
+  margin: 0.5em 0;
 }
-
-.tsd-page-toolbar .tsd-toolbar-contents {
-  height: 3.5rem;
-  align-content: center;
-  flex-wrap: wrap;
-  margin-left: 8em;
-}
-
-/*
-.container.container-main {
-  background-color: #fff;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.col-content {
-  margin-top: 3.5rem;
-  padding-left: 8rem;
-  box-shadow: inset 0px 0px 5px rgb(0 0 0 / 10%);
-}
-
-.col-menu.menu-sticky-wrap.menu-highlight {
-  top: 0;
-  background-color: #fafafa;
-  border-left: 1px solid #e4e4e4;
-  padding: 2rem;
-}
-
 .tsd-page-toolbar {
-  z-index: 12;
-  height: 3.5rem;
-  width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #ededed;
-  box-sizing: border-box;
+  position: absolute;
+  background: none;
+  border: none;
   top: 0;
   left: 0;
+  margin: 1em;
+  width: calc(100% - 2em);
+}
+.tsd-page-toolbar .container {
+  padding: 0;
+}
+.tsd-widget {
+  text-align: center;
+}
+#tsd-search #tsd-search-field {
+  font-size: 1em;
+}
+#tsd-search.has-focus {
+  border-radius: 0.2em;
+  border: 1px solid #eee;
+  background-color: #efefef;
+}
+#tsd-search .results li {
+  padding: 0.5em 0.4em;
 }
 
-.tsd-page-title {
+.tsd-theme-toggle {
   display: none;
 }
 
-#plugin-versions-select {
-  padding: 0.3rem;
-  margin-right: 1rem;
-  border-radius: 5px;
+.tsd-page-toolbar .title {
+  display: none;
 }
 
-#tsd-search {
-  border-radius: 5px;
+body {
+  --color-scheme: var(--light-color-scheme) !important;
 }
 
-#tsd-search.has-focus {
-  background-color: #f4f4f4;
+.container {
+  padding: 0;
 }
 
-.tsd-widget.tsd-toolbar-icon.menu.no-caption {
+.tsd-breadcrumb {
   position: absolute;
+  top: -2.5em;
+  left: -1em;
 }
-*/
+ul.tsd-breadcrumb li {
+  padding: 0;
+}
+
+h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
+h2 {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+.tsd-index-heading {
+  margin: 0;
+}
+html .col-content {
+  padding-top: 0;
+}
+.tsd-page-title {
+  display: none;
+}

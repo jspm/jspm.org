@@ -29,25 +29,18 @@
   <div class="toc">
     <ul class="sections">
       <li>
-        <a>JSPM</a>
+        <a href="/">JSPM</a>
         <ul class="section">
-          <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/faq">FAQ</a></li>
-          <li><a href="/projects">Projects Overview</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a>Documentation</a>
-        <ul class="section">
+          <li><a href="/docs/getting-started">Getting Started</a></li>
           <li><a href="/docs/jspm">JSPM CLI</a></li>
           <li><a href="/docs/generator">JSPM Generator API</a></li>
           <li><a href="/docs/integrations">Integrations</a></li>
+          <li><a href="/faq">FAQ</a></li>
         </ul>
       </li>
 
       <li>
-        <a>CDN</a>
+        <a href="/cdn/jspm-io">CDN</a>
         <ul class="section">
           <li><a href="/cdn/jspm-io">jspm.io</a></li>
           <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
@@ -56,7 +49,7 @@
       </li>
 
       <li class="blog">
-        <a>Blog</a>
+        <a href="/jspm-cli">Blog</a>
         <ul class="section">
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
@@ -76,7 +69,7 @@
 <li>High performance CDN, with redundant storage and caching layers and 99.99% historical <a href="https://status.jspm.io/" target="_blank" rel="noopener">uptime</a>.</li>
 </ul>
 <a name="package-interpretation" class="anchor main"></a><h2>Package Interpretation</h2>
-<p>Packages on the JSPM CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.</p>
+<p>Packages on the <code>jspm.io</code> CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.</p>
 <p>The <a href="https://nodejs.org/dist/latest/docs/api/esm.html" target="_blank" rel="noopener">Node.js ES Modules</a> conventions in Node.js are fully supported, alongside the Node.js <a href="https://nodejs.org/dist/latest/docs/api/packages.html" target="_blank" rel="noopener">package definitions</a>.</p>
 <p>This includes support for the package exports field, package imports field, own name resolution, conditional exports definitions, as well as the conversion of CommonJS modules into ES modules.</p>
 <a name="urls" class="anchor"></a><h3>URLs</h3>

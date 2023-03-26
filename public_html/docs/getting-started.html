@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Getting Started"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM Getting Started"><meta property="og:description" content="JSPM Getting Started"><meta property="og:url" content="https://jspm.org/getting-started"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Getting Started"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM Getting Started"><meta property="og:description" content="JSPM Getting Started"><meta property="og:url" content="https://jspm.org/docs/getting-started"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'UA-40327700-2');
 </script>
-<title>JSPM - Getting Started</title></head><body class="page-getting-started">
+<title>JSPM - Getting Started</title></head><body class="page-docs-getting-started">
 <div class="topbar">
   <a style="display: block" href="/">
     <div class="logobox" href="/"></div>
@@ -29,25 +29,18 @@
   <div class="toc">
     <ul class="sections">
       <li>
-        <a>JSPM</a>
+        <a href="/">JSPM</a>
         <ul class="section">
-          <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/faq">FAQ</a></li>
-          <li><a href="/projects">Projects Overview</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a>Documentation</a>
-        <ul class="section">
+          <li><a href="/docs/getting-started">Getting Started</a></li>
           <li><a href="/docs/jspm">JSPM CLI</a></li>
           <li><a href="/docs/generator">JSPM Generator API</a></li>
           <li><a href="/docs/integrations">Integrations</a></li>
+          <li><a href="/faq">FAQ</a></li>
         </ul>
       </li>
 
       <li>
-        <a>CDN</a>
+        <a href="/cdn/jspm-io">CDN</a>
         <ul class="section">
           <li><a href="/cdn/jspm-io">jspm.io</a></li>
           <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
@@ -56,7 +49,7 @@
       </li>
 
       <li class="blog">
-        <a>Blog</a>
+        <a href="/jspm-cli">Blog</a>
         <ul class="section">
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
@@ -68,8 +61,14 @@
 </div>
 <div class="content-container">
   <div class="content"><h1>Getting Started</h1>
-<p>There are two main recommended approaches for getting started with JSPM - using the online generator to create an import map, or going straight to the CLI for import map package management.</p>
-<a name="jspm-cli" class="anchor main"></a><h2>JSPM CLI</h2>
+<p>This guide runs through the steps of setting up the JSPM CLI and using it in some standard import maps workflows.</p>
+<p>If you just want to get a quick feel for import maps, <a href="#online-generator">skip to the online generator guide</a>.</p>
+<a name="installation" class="anchor main"></a><h2>Installation</h2>
+<p>Ensure you have Node.js installed.</p>
+<p>From the command-line, the JSPM CLI can be installed using npm:</p>
+<pre><code>npm install -g jspm
+</code></pre>
+<a name="example-application" class="anchor main"></a><h2>Example Application</h2>
 <p>In this guide we are going to create a simple app, and then use the JSPM CLI to generate an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap" target="_blank" rel="noopener">import map</a> for it, allowing us to run it in the browser. Import maps are a standard that solve the problem of <em>bare specifier imports</em> for ES modules. Prior to their adoption, <code><span class="keyword">import</span></code> statements in ES modules were required to specify fully qualified or relative URLs:</p>
 <pre><code class="language-js"><span class="keyword">import</span> { foo } <span class="keyword">from</span> <span class="string">'https://www.example.com/foo.js'</span>;
 <span class="keyword">import</span> { bar } <span class="keyword">from</span> <span class="string">'./bar.js'</span>;
@@ -417,7 +416,7 @@ run = <span class="string">'deno --unstable run -A --no-check --import-map impor
 </code></pre>
 <p>Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.</p>
 <p>The included <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims polyfill</a> ensures the workflow works in all browsers with native modules support.</p>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/getting-started.md" rel="noopener">Edit</a><div class="next"><a href="/faq">FAQ&nbsp;▶</a></div></div></div>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/master/docs/getting-started.md" rel="noopener">Edit</a><div class="next"><a href="/docs/integrations">Integrations&nbsp;▶</a></div></div></div>
 </div>
 
 

@@ -1,7 +1,7 @@
 +++
 title = "FAQ"
 description = "JSPM FAQ"
-next-section = "projects"
+prev-section = "docs/integrations"
 +++
 
 # FAQ
@@ -41,3 +41,11 @@ By default, when using JSPM Generator, this polyfill is included by default.
 ## What is the "exports" field?
 
 ## How does JSPM use the "exports" field?
+
+## What is the difference between JSPM and jspm.io?
+
+## Can jspm.io be used for production apps?
+
+## How is jspm.io funded?
+
+## Can I host my own modules CDN?
