@@ -91,13 +91,14 @@
 </code></pre>
 
 <a href="#commands" id="commands" style="color: inherit; text-decoration: none;">
-  <h2>Commands</h2>
+  <h1>Commands</h1>
+</a>
+
+<a href="#link" id="link" style="color: inherit; text-decoration: none;">
+  <h2>Link</h2>
 </a>
 <p>For a full list of commands and supported options, run <code>jspm help</code>. For help with a specific command, use the <code>-h</code> or <code>--help</code> flag.</p>
-
-<a href="#jspm-link-modules" id="jspm-link-modules" style="color: inherit; text-decoration: none;">
-  <h3><code>jspm link [...modules]</code></h3>
-</a>
+<p><code>jspm link [...modules]</code></p>
 <p>Traces and installs all dependencies necessary to execute the given modules into the import map, including both static and dynamic module imports. This is the easiest way to generate an import map for a module:</p>
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">link</span><span class="hl-1"> </span><span class="hl-2">./index.js</span>
 </code></pre>
@@ -105,9 +106,10 @@
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">link</span><span class="hl-1"> </span><span class="hl-2">-m</span><span class="hl-1"> </span><span class="hl-2">index.html</span>
 </code></pre>
 
-<a href="#jspm-install-packages" id="jspm-install-packages" style="color: inherit; text-decoration: none;">
-  <h3><code>jspm install [...packages]</code></h3>
+<a href="#install" id="install" style="color: inherit; text-decoration: none;">
+  <h2>Install</h2>
 </a>
+<p><code>jspm install [...packages]</code></p>
 <p>Installs packages into the import map. By default, <code>jspm</code> will install the latest versions of the specified packages that are compatible with the constraints in the local <code>package.json</code>:</p>
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">react</span><span class="hl-1"> </span><span class="hl-2">react-dom</span>
 </code></pre>
@@ -118,28 +120,35 @@
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">install</span><span class="hl-1"> </span><span class="hl-2">alias=react-dom</span>
 </code></pre>
 
-<a href="#jspm-update-packages" id="jspm-update-packages" style="color: inherit; text-decoration: none;">
-  <h3><code>jspm update [...packages]</code></h3>
+<a href="#update" id="update" style="color: inherit; text-decoration: none;">
+  <h2>Update</h2>
 </a>
+<p><code>jspm update [...packages]</code></p>
 <p>Updates packages in the import map to the latest versions that are compatible with the constraints in the local <code>package.json</code> file:</p>
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">update</span><span class="hl-1"> </span><span class="hl-2">react-dom</span>
 </code></pre>
 <p>To update every dependency in the import map, run <code>jspm update</code> without any arguments.</p>
 
-<a href="#jspm-uninstall-packages" id="jspm-uninstall-packages" style="color: inherit; text-decoration: none;">
-  <h3><code>jspm uninstall [...packages]</code></h3>
+<a href="#uninstall" id="uninstall" style="color: inherit; text-decoration: none;">
+  <h2>Uninstall</h2>
 </a>
+<p><code>jspm uninstall [...packages]</code></p>
 <p>Uninstalls packages from the import map.</p>
 <pre><code class="language-sh"><span class="hl-1">jspm </span><span class="hl-2">uninstall</span><span class="hl-1"> </span><span class="hl-2">lit</span><span class="hl-1"> </span><span class="hl-2">lodash</span>
 </code></pre>
 
-<a href="#jspm-clear-cache" id="jspm-clear-cache" style="color: inherit; text-decoration: none;">
-  <h3><code>jspm clear-cache</code></h3>
+<a href="#clear-cache" id="clear-cache" style="color: inherit; text-decoration: none;">
+  <h2>Clear Cache</h2>
 </a>
+<p><code>jspm clear-cache</code></p>
 <p>Clears the global module fetch cache, for situations where the contents of dependencies have changed.</p>
 
 <a href="#options" id="options" style="color: inherit; text-decoration: none;">
-  <h2>Options</h2>
+  <h1>Options</h1>
+</a>
+
+<a href="#global-options" id="global-options" style="color: inherit; text-decoration: none;">
+  <h2>Global Options</h2>
 </a>
 <ul>
 <li><code>-r, --resolution &lt;resolutions&gt;</code>: custom dependency resolution overrides for all installs</li>
@@ -157,7 +166,7 @@ import-map. For the <code>inject</code> command this is the .html file for the o
 </ul>
 
 <a href="#inputoutput-maps" id="inputoutput-maps" style="color: inherit; text-decoration: none;">
-  <h3>Input/Output Maps</h3>
+  <h2>Input/Output Maps</h2>
 </a>
 <p>The input and output maps can be changed with the following options:</p>
 <ul>
@@ -175,7 +184,7 @@ import-map. For the <code>inject</code> command this is the .html file for the o
 </code></pre>
 
 <a href="#environment" id="environment" style="color: inherit; text-decoration: none;">
-  <h3>Environment</h3>
+  <h2>Environment</h2>
 </a>
 <p>The default environemnt config for the cli is <code>--env development,browser,module</code>
 which is configurable using the <code>--env</code> option. The default config for <code>browser</code>
@@ -188,11 +197,11 @@ case of <code>development</code> mode, <code>production</code> would change mode
 specifying this option is enough for the next commands.</p>
 
 <a href="#providers" id="providers" style="color: inherit; text-decoration: none;">
-  <h3>Providers</h3>
+  <h2>Providers</h2>
 </a>
 
 <a href="#other" id="other" style="color: inherit; text-decoration: none;">
-  <h3>Other</h3>
+  <h2>Other</h2>
 </a>
 <ul>
 <li><code>-r, --resolution &lt;resolutions&gt;</code>: custom dependency resolution overrides for all installs</li>

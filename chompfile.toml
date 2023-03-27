@@ -50,7 +50,7 @@ deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm'
 [[task]]
 name = 'generate:api:generator'
 template = 'typedoc-generator'
-deps = ['template.html']
+deps = ['template.html', 'generator/docs.md']
 [task.template-options]
 lib = 'generator'
 custom-css = 'typedoc/typedoc-theme.css'
@@ -70,7 +70,7 @@ out = 'public_html/docs/import-map'
 [[task]]
 name = 'generate:api:jspm'
 template = 'typedoc-generator'
-deps = ['template.html']
+deps = ['template.html', 'jspm/docs.md']
 [task.template-options]
 lib = 'jspm'
 custom-css = 'typedoc/typedoc-theme.css'
