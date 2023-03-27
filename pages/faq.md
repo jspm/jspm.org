@@ -1,7 +1,7 @@
 +++
 title = "FAQ"
 description = "JSPM FAQ"
-prev-section = "docs/integrations"
+next-section = "getting-started"
 +++
 
 # FAQ
@@ -38,14 +38,16 @@ Import maps are supported in the latest versions of Firefox, Safari and Chrome. 
 
 By default, when using JSPM Generator, this polyfill is included by default.
 
-## What is the "exports" field?
-
 ## How does JSPM use the "exports" field?
 
 ## What is the difference between JSPM and jspm.io?
 
+## What is jspm.dev?
+
 ## Can jspm.io be used for production apps?
 
 ## How is jspm.io funded?
+
+## Can I use other modules CDNs with JSPM?
 
 ## Can I host my own modules CDN?

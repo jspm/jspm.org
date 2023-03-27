@@ -14,17 +14,26 @@
   </ul>
   <div class="mobile-menu"></div>
 </div>
+        <div class="mobile-menu"></div>
         <div class="sidebar">
   <div class="toc">
     <ul class="sections">
       <li>
-        <a href="/">JSPM</a>
+        <a href="/faq">JSPM</a>
         <ul class="section">
-          <li><a href="/docs/getting-started">Getting Started</a></li>
-          <li><a href="/docs/jspm">JSPM CLI</a></li>
-          <li><a href="/docs/generator">JSPM Generator API</a></li>
-          <li><a href="/docs/integrations">Integrations</a></li>
           <li><a href="/faq">FAQ</a></li>
+          <li><a href="/getting-started">Getting Started</a></li>
+          
+        </ul>
+      </li>
+
+      <li>
+        <a href="/docs/jspm">Documentation</a>
+        <ul class="section">
+          <li><a href="/docs/jspm">JSPM CLI</a></li>
+          <li><a href="/docs/generator">JSPM Generator</a></li>
+          <li><a href="/docs/integrations">Integrations</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution Spec</a></li>
         </ul>
       </li>
 
@@ -72,7 +81,7 @@
 <li class="tsd-signature tsd-anchor-link" id="fetch">fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><a href="#fetch" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none" id="icon-anchor-a"></path><path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" id="icon-anchor-b"></path><path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" id="icon-anchor-c"></path></svg></a></li>
 <li class="tsd-description">
 <div class="tsd-comment tsd-typography"><p><em>Use the internal fetch implementation, useful for hooking into the same shared local fetch cache.</em></p>
-<pre><code class="language-js"><span class="hl-4">import</span><span class="hl-1"> { </span><span class="hl-5">fetch</span><span class="hl-1"> } </span><span class="hl-4">from</span><span class="hl-1"> </span><span class="hl-6">&#39;@jspm/generator&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-0">const</span><span class="hl-1"> </span><span class="hl-2">res</span><span class="hl-1"> = </span><span class="hl-4">await</span><span class="hl-1"> </span><span class="hl-3">fetch</span><span class="hl-1">(</span><span class="hl-5">url</span><span class="hl-1">);</span><br/><span class="hl-5">console</span><span class="hl-1">.</span><span class="hl-3">log</span><span class="hl-1">(</span><span class="hl-4">await</span><span class="hl-1"> </span><span class="hl-5">res</span><span class="hl-1">.</span><span class="hl-3">text</span><span class="hl-1">());</span>
+<pre><code class="language-js"><span class="hl-2">import</span><span class="hl-1"> { </span><span class="hl-0">fetch</span><span class="hl-1"> } </span><span class="hl-2">from</span><span class="hl-1"> </span><span class="hl-3">&#39;@jspm/generator&#39;</span><span class="hl-1">;</span><br/><br/><span class="hl-4">const</span><span class="hl-1"> </span><span class="hl-5">res</span><span class="hl-1"> = </span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-6">fetch</span><span class="hl-1">(</span><span class="hl-0">url</span><span class="hl-1">);</span><br/><span class="hl-0">console</span><span class="hl-1">.</span><span class="hl-6">log</span><span class="hl-1">(</span><span class="hl-2">await</span><span class="hl-1"> </span><span class="hl-0">res</span><span class="hl-1">.</span><span class="hl-6">text</span><span class="hl-1">());</span>
 </code></pre>
 <p>Use the <code>{ cache: &#39;no-store&#39; }</code> option to disable the cache, and the <code>{ cache: &#39;force-cache&#39; }</code> option to enforce the offline cache.</p>
 </div>
@@ -85,7 +94,7 @@
 <h5>opts: <span class="tsd-signature-type">any</span><span class="tsd-signature-symbol"> = {}</span></h5></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/generator/blob/97ba536/src/generator.ts#L1294">generator.ts:1294</a></li></ul></aside></li></ul></section></div>
+<li>Defined in <a href="https://github.com/jspm/generator/blob/8f3793e/src/generator.ts#L1310">generator.ts:1310</a></li></ul></aside></li></ul></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
@@ -125,4 +134,4 @@
 <li class="tsd-kind-function"><a href="parseUrlPkg.html" class="tsd-index-link"><svg class="tsd-kind-icon" width="24" height="24" viewBox="0 0 24 24"><use href="#icon-64-path"></use><use href="#icon-64-text"></use></svg>parse<wbr/>Url<wbr/>Pkg</a></li></ul></nav></div></div>
 <div class="container tsd-generator">
 <p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div>
-<div class="overlay"></div><script src="../assets/main.js"></script></div></div><script src="../assets/versionsMenu.js" type="module"></script></body></html>
+<div class="overlay"></div><script src="../assets/main.js"></script></div></div><script src="/script.js"></script><script src="../assets/versionsMenu.js" type="module"></script></body></html>

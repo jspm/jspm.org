@@ -1,19 +1,28 @@
 /* Highlight active page */
 (function () {
+  const path = location.pathname.split('/').slice(0, 3).join('/');
   for (const a of document.querySelectorAll('a[href]')) {
-    if (a.pathname === location.pathname)
-      a.className += ' active';
+    if (a.hostname !== location.hostname) {
+      if (!a.hasAttribute('target')) {
+        a.setAttribute('target', '_blank');
+        a.setAttribute('rel', 'noopener');
+      }
+      continue;
+    }
+    if (a.pathname === path) a.className += ' active';
   }
 })();
 
 /* Dynamic Highlighting of Contents */
 (function () {
-  const section = document.querySelector(`.toc .section a[href="${location.pathname}"]`);
+  const path = location.pathname.split('/').slice(0, 3).join('/');
+  const section = document.querySelector(`.toc .section a[href="${path}"]`);
   if (section) {
-    const anchors = document.querySelectorAll('a[name].main');
+    const anchors = document.querySelectorAll('a[name].main, a[id]:has(h2)');
+    console.log(anchors);
     let sectionTocHtml = '<ul class="subsection">';
     for (const a of anchors) {
-      sectionTocHtml += `<li><a href="#${a.name}">${a.nextSibling.innerText}</a></li>`;
+      sectionTocHtml += `<li><a href="#${a.name || a.id}">${a.name ? a.nextElementSibling.innerText : a.innerText}</a></li>`;
     }
     sectionTocHtml += '</ul>';
 
@@ -30,7 +39,7 @@
       let linkMatch;
       for (let i = 0; i < anchors.length; i++) {
         const anchor = anchors[i];
-        if (scrollTop + offset < anchor.nextSibling.offsetTop - anchor.nextSibling.offsetHeight) {
+        if (scrollTop + offset < anchor.nextElementSibling.offsetTop - anchor.nextElementSibling.offsetHeight) {
           linkMatch = links[i === 0 ? 0 : i - 1];
           break;
         }

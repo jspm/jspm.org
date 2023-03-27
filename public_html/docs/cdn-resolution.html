@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - CDN Resolution Spec"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM CDN Module Resolution Spec"><meta property="og:description" content="JSPM CDN Module Resolution Spec"><meta property="og:url" content="https://jspm.org/docs/cdn-resolution"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css?v1">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js?v1"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>JSPM - CDN Resolution Spec</title></head><body class="page-docs-cdn-resolution">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks">
+    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
+  </ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li>
+        <a href="/faq">JSPM</a>
+        <ul class="section">
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/getting-started">Getting Started</a></li>
+          
+        </ul>
+      </li>
+
+      <li>
+        <a href="/docs/jspm">Documentation</a>
+        <ul class="section">
+          <li><a href="/docs/jspm">JSPM CLI</a></li>
+          <li><a href="/docs/generator">JSPM Generator</a></li>
+          <li><a href="/docs/integrations">Integrations</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution Spec</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/cdn/jspm-io">CDN</a>
+        <ul class="section">
+          <li><a href="/cdn/jspm-io">jspm.io</a></li>
+          <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
+          <li><a href="/cdn/api">API</a></li>
+        </ul>
+      </li>
+
+      <li class="blog">
+        <a href="/jspm-cli">Blog</a>
+        <ul class="section">
+          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <div class="footer"></div> -->
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>JSPM CDN Module Resolution Spec</h1>
+<a name="goals" class="anchor"></a><h3>Goals</h3>
+<ul>
+<li>Enable comprehensive version resolution over arbitrary CDN installs.</li>
+<li>Universal resolution standard for URLs that supports package resolution features expected for modern workflows (conditional resolution, dependency version resolution, basic resolution rules).</li>
+<li>Base this entirely off of the Node.js resolution rules as an extension of Node.js resolution to arbitrary URLs. This ensures backwards compatibility, builds on known patterns, and grows the ecosystem potential.</li>
+</ul>
+<a name="key-concepts" class="anchor"></a><h3>Key Concepts</h3>
+<h4>Package</h4>
+<p>A package is a well-formed URL ending in a "/" that lies on a package boundary.</p>
+<h4>Package Boundary</h4>
+<p>All URLs are contained within a package boundary. For any URL, the package boundary can be found based on the following rule.</p>
+<p>A package boundary is a URL, u, ending in a "/", satisfying one of the following two properties:</p>
+<ol>
+<li>The URL corresponds to a well-known CDN package format which designates the package boundary. For example, <a href="https://deno.land/x/%5Bpkgname%5D@vx.y.z/" target="_blank" rel="noopener">https://deno.land/x/[pkgname]@vx.y.z/</a> is a package boundary due to the rules of the Deno CDN. These rules are hard-coded based on the unique CDN semantics.</li>
+<li><code><span class="keyword">new</span> URL(<span class="string">'./package.json'</span>, u)</code> is an existing package.json file.</li>
+<li>The URL corresponds to a root URL of a host.</li>
+</ol>
+<p>For (2), this involves hierarchically checking parent URLs for the existence of a package.json file, until we reach the root of the host.</p>
+<p>(2) provides compatibility with the Node.js ecosystem and also provides a convention for determining network package boundaries such that packages copied from the local file system to be hosted on static URLs can still support package configuration-based resolution information.</p>
+<p>(1) enables well-known CDNs to have their own custom boundary and configuration rules that avoid unnecessary GET requests to determine network package boundaries.</p>
+<p>(1) is always checked before (2) above.</p>
+<h4>Package Configuration</h4>
+<p>Every package boundary has a package configuration.</p>
+<ol>
+<li>If the URL corresponds to a well-known CDN then that CDN can provide any custom package configuration API which takes as input the package boundary and returns the package configuration.</li>
+<li>Otherwise, if the package has a package.json in its package boundary, then as per the previous section this provides the package configuration.</li>
+</ol>
+<p>Package configuration is a JSON file with the following optional fields that are used by the resolver:</p>
+<ul>
+<li><strong>name</strong>: The package name according to itself. A package may be aliased when imported by other importers, but this name is the name the package aliases itself. This enables <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">package own name resolution</a> (<code><span class="keyword">import</span>(<span class="string">'name/export'</span>)</code>) working from within the modules of the package itself, identical to the Node.js package resolution.</li>
+<li><strong>imports</strong>: The internal <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#subpath-imports" target="_blank" rel="noopener">package imports</a>, as per Node.js package resolution.</li>
+<li><strong>exports</strong>: The internal <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#subpath-exports" target="_blank" rel="noopener">package exports</a>, as per Node.js package resolution.</li>
+<li><strong>dependencies</strong>: The internal package dependencies, as per npm.</li>
+<li><strong>peerDependencies</strong>: The internal package peerDependencies, as per npm.</li>
+<li><strong>optionalDependencies</strong>: The internal package optionalDependencies, as per npm.</li>
+</ul>
+<h4>Conditional Environment</h4>
+<p>A list of condition names under which resolution is being performed.</p>
+<p>In Node.js <code><span class="string">"exports"</span></code> and <code><span class="string">"imports"</span></code> resolution, <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#conditional-exports" target="_blank" rel="noopener">custom condition names</a> can be used to branch resolutions. These define both properties of the environment (eg production versus development) as well as the environment itself, via <a href="https://runtime-keys.proposal.wintercg.org/" target="_blank" rel="noopener">well-known runtime names</a>.</p>
+<p>In order to select a specific branch for resolution, a list of applicable conditions must be provided to the resolution algorithm. For example: <code><span class="string">"browser"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"module"</span></code>.</p>
+<h4>Bare Specifier</h4>
+<p>A bare specifier as defined in the HTML specification is a string that does not start with <code><span class="string">"./"</span></code>, <code><span class="string">"../"</span></code>, <code><span class="string">"/"</span></code> and is not a valid URL.</p>
+<p>Bare specifiers are explicitly handled by a package lookup system or import map, import maps should always take preference in bare specifier resolutions falling back on unmatched specifiers to an optional internal package lookup system.</p>
+<p>The resolution rules for how to get from a bare specifier to an exact URL are explained in the next section as an extension of the Node.js resolution system to arbitrary URLs.</p>
+<h4>Resolution</h4>
+<p>Resolution must be performed to a specific conditional environment.</p>
+<p>The resolution rules for CDNs extend the Node.js resolution rules from file:/// URLs all URLs.</p>
+<p>The rules follow the <a href="https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#resolution-algorithm" target="_blank" rel="noopener">specification algorithm</a>, with a very brief summary being:</p>
+<ol>
+<li>If the specifier starts with <code><span class="string">"./"</span></code>, <code><span class="string">"../"</span></code>, <code><span class="string">"/"</span></code> or is a valid URL, then resolve it to the parent and return the resolved URL.</li>
+<li>The specifier is now a bare specifier and follows the bare specifier resolution rules (which in turn can be supported via an import map or internal package import system):</li>
+<li>If the specifier starts with "#" then use the <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#subpath-imports" target="_blank" rel="noopener"><code><span class="string">"imports"</span></code></a> resolution of the parent package boundary.</li>
+<li>If the specifier corresponds to the package's own <code><span class="string">"name"</span></code> field, perform package <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">own name resolution</a>.</li>
+<li>Finally, perform a package version resolution using the <code><span class="string">"dependencies"</span></code>, <code><span class="string">"peerDependencies"</span></code> and <code><span class="string">"optionalDependencies"</span></code> package configuration constraints, before applying the <code><span class="string">"exports"</span></code> resolution on that resolved package against the resolved package URL boundary configuration.</li>
+<li>For packages with no <code><span class="string">"exports"</span></code> configuration, legacy extension searching and automatic main file rules can apply. Including <code><span class="string">"index.js"</span></code>, <code><span class="string">"mod.ts"</span></code> checks for the main (<code><span class="keyword">import</span> <span class="string">'pkg'</span></code> without a subpath) and <code><span class="string">".js"</span></code>, <code><span class="string">".mjs"</span></code> and <code><span class="string">".ts"</span></code> extensions for subpaths (<code><span class="keyword">import</span> <span class="string">'pkg/subpath'</span></code>).</li>
+</ol>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/docs/cdn-resolution.md" rel="noopener">Edit</a><div class="next"><a href="/cdn/jspm-io">jspm.io&nbsp;▶</a></div><div class="prev"><a href="/docs/integrations">◀&nbsp;Integrations</a></div></div></div>
+</div>
+
+
+</body></html>

@@ -1,7 +1,9 @@
 +++
 title = "Getting Started"
 description = "JSPM Getting Started"
-next-section = "docs/integrations"
+prev-section = "faq"
+next-section = "/docs/jspm"
+next-section-title = "JSPM CLI"
 +++
 
 # Getting Started

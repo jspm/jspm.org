@@ -1,8 +1,7 @@
 +++
 title = "Integrations"
 description = "JSPM Integrations Documentation"
-prev-section = "docs/getting-started"
-next-section = "faq"
+next-section = "docs/cdn-resolution"
 +++
 
 # Integrations

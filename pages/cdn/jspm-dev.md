@@ -1,6 +1,8 @@
 +++
 title = "jspm.dev"
 description = "jspm.dev Development CDN"
+prev-section = "cdn/jspm-io"
+next-section = "cdn/api"
 +++
 
 # jspm.dev CDN

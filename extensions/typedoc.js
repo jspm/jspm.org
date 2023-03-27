@@ -32,7 +32,7 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
     ],
     cwd: lib,
     run: `
-      typedoc --skipErrorChecking \
+      typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
         --tsconfig tsconfig.json \
         --options typedoc.json \
         ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \

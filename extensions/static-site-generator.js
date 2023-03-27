@@ -10,7 +10,7 @@ const READ_MARKDOWN = `async function readMarkdown (path) {
   return { html, metadata };
 }`;
 
-const GET_SLUG = `const getSlug = name => name.replace(/\\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');`
+const GET_SLUG = `const getSlug = name => name.replace(/\\s/g, '-').toLowerCase().replace(/[^a-z0-9-]/g, '').replace(/-{2,}/g, '-');`;
 
 Chomp.registerTemplate('static-site-generator', function (task) {
   if (task.run || task.engine || task.targets.length || task.deps.length)
@@ -46,13 +46,16 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     const name = process.env.MATCH;
 
     const { html, metadata } = await readMarkdown(process.env.DEP);
-    const { title, description, 'next-section': nextSection, 'prev-section': prevSection, edit } = metadata;
+    let { title, description, 'next-section': nextSection, 'prev-section': prevSection, 'next-section-title': nextSectionTitle, 'prev-section-title': prevSectionTitle, edit } = metadata;
 
-    let nextSectionTitle, prevSectionTitle;
-    if (nextSection)
+    if (nextSection && !nextSectionTitle) {
       nextSectionTitle = (await readMarkdown(\`${pages}/\${nextSection}.md\`)).metadata.title;
-    if (prevSection)
+      nextSection = '/' + nextSection;
+    }
+    if (prevSection && !prevSectionTitle) {
       prevSectionTitle = (await readMarkdown(\`${pages}/\${prevSection}.md\`)).metadata.title;
+      prevSection = '/' + prevSection;
+    }
 
     const className = name.replace(/\\//g, '-');
 
@@ -134,11 +137,11 @@ Chomp.registerTemplate('static-site-generator', function (task) {
       body.querySelector('.content').appendChild(nextprev);
 
       if (typeof nextSection === 'string') {
-        nextprev.innerHTML += \`<div class="next"><a href="/\${nextSection}">\${nextSectionTitle}</a></div>\`;
+        nextprev.innerHTML += \`<div class="next"><a href="\${nextSection}">\${nextSectionTitle}</a></div>\`;
         nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
       }
       if (typeof prevSection === 'string') {
-        nextprev.innerHTML += \`<div class="prev"><a href="/\${prevSection}">\${prevSectionTitle}</a></div>\`;
+        nextprev.innerHTML += \`<div class="prev"><a href="\${prevSection}">\${prevSectionTitle}</a></div>\`;
         nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
       }
     }

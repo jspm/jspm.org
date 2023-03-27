@@ -24,6 +24,7 @@ module.exports.load = (app) => {
     {
       html: `
         ${topbarHTML}
+        <div class="mobile-menu"></div>
         ${sidebarHTML}
         <div class="content-container">
           <div class="content">
@@ -34,7 +35,7 @@ module.exports.load = (app) => {
   app.renderer.hooks.on("body.end", (ctx) => JSX.createElement(
     JSX.Raw,
     {
-      html: `</div></div>`,
+      html: `</div></div><script src="/script.js"></script>`,
     },
   ));
 }

@@ -81,27 +81,9 @@ a {
 }
 h1.biglogo {
   font-style: light;
-  font-size: 6em;
-  margin-top: 0.4em;
-  margin-bottom: 0.5em;
-}
-.title {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 30em;
-  margin-left: auto;
-  margin-right: auto;
-  height: 3.5em;
-}
-.title h1 {
-  color: #000;
-}
-.title input {
-  background-color: transparent;
-}
-.title input:hover {
-  border: 1px solid #ededed;
+  font-size: 5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.6em;
 }
 .topbar ul.toplinks {
   display: flex;
@@ -124,6 +106,7 @@ h1.biglogo {
 }
 .topbar ul.toplinks li a:hover, .topbar ul.toplinks li a.active {
   color: #000;
+  text-decoration: underline;
 }
 .topbar ul.toplinks li.github a {
   display: block;
@@ -186,6 +169,9 @@ h1.biglogo {
 .sidebar .toc ul a.active, .sidebar .toc ul li > a[href]:hover {
   color: #000;
 }
+.sidebar .toc ul ul a.active {
+  text-decoration: underline;
+}
 .sidebar .toc ul.sections > li {
   margin: 1.5em;
   margin-bottom: 3em;
@@ -218,6 +204,7 @@ h1.biglogo {
   top: 3.5em;
   left: 17em;
   overflow: auto;
+  overflow-x: hidden !important;
   width: calc(100% - 17em);
   height: calc(100% - 3.5em - 1px);
 }
@@ -231,13 +218,13 @@ span.date {
 .content .logobox {
   background-image: url(jspm.png);
   background-repeat: no-repeat;
-  background-size: 250px;
-  background-position: -41px -27px;
-  width: 170px;
-  height: 198px;
+  background-size: 210px;
+  background-position: -35px -24px;
+  width: 140px;
+  height: 162px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 4em;
+  margin-top: -1.5em;
   margin-bottom: -1em;
 }
 .content {
@@ -503,8 +490,8 @@ table th {
   top: -3em;
 }
 
-@media screen and (max-width: 1200px),
-screen and (max-device-width: 1200px) {
+@media screen and (max-width: 1300px),
+screen and (max-device-width: 1300px) {
   .content {
     width: auto;
     margin: 2em;
@@ -568,6 +555,9 @@ screen and (max-device-width: 800px) {
   .content pre {
     overflow-x: scroll;
   }
+  .cta {
+    font-size: 13px;
+  }
 }
 
 .blog-link {
@@ -575,6 +565,7 @@ screen and (max-device-width: 800px) {
 }
 
 .cta {
+  text-align: center;
   padding: 1em 2em;
   border-radius: 2em;
   text-decoration: none;
@@ -593,4 +584,7 @@ screen and (max-device-width: 800px) {
 .cta.highlighted:hover {
   text-decoration: unerline;
   color: #c9f0ff;
+}
+a {
+  text-underline-offset: 0.1em;
 }

@@ -3,27 +3,84 @@
   font-size: 0.8em;
   padding: 0.1em;
 }
+.content .container-main {
+  display: block;
+  position: inherit;
+}
+.content .container-main .col-content {
+  float: none;
+}
+.content .container-main .col-menu {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20rem;
+}
+.content pre {
+  overflow-x: auto;
+}
+.content button.copy {
+  top: -3.65rem;
+}
 .content p, .content li {
   line-height: 1.5em;
+}
+.col-content {
+  padding-right: 0;
+}
+details {
+  padding: 1em;
+}
+details summary {
+  margin: 0;
 }
 .content ul {
   padding-left: 1em;
   margin: 0.5em 0;
 }
+.content ul li {
+  padding: 0.05em 0 0.05em 0.3em;
+}
+.tsd-navigation.primary a {
+  padding: 0.75em 0.5em;
+}
 .tsd-page-toolbar {
-  position: absolute;
+  position: relative;
   background: none;
   border: none;
   top: 0;
   left: 0;
-  margin: 1em;
-  width: calc(100% - 2em);
-}
-.tsd-page-toolbar .container {
-  padding: 0;
 }
 .tsd-widget {
   text-align: center;
+}
+.content {
+  width: 700px;
+}
+@media (min-width: 800px) {
+  .tsd-page-toolbar {
+    top: -1.5rem;
+  }
+}
+@media screen and (max-width: 1300px),
+screen and (max-device-width: 1300px) {
+  .content {
+    width: auto;
+    margin: 2em;
+    margin-top: 3.5em;
+  }
+}
+@media (min-width: 1024px) {
+  .content {
+    padding-right: 19.2rem;
+  }
+  .menu-sticky-wrap {
+    position: fixed !important;
+    padding-top: 0.5rem;
+    height: calc(100% - 3rem);
+    border: none;
+    box-shadow: inset 0px 0px 5px rgb(0 0 0 / 10%);
+  }
 }
 #tsd-search #tsd-search-field {
   font-size: 1em;
@@ -37,11 +94,14 @@
   padding: 0.5em 0.4em;
 }
 
-.tsd-theme-toggle {
-  display: none;
+a.tsd-anchor {
+  display: block;
+  position: relative;
+  top: -1em;
+  visibility: hidden;
 }
 
-.tsd-page-toolbar .title {
+.tsd-theme-toggle {
   display: none;
 }
 
@@ -70,12 +130,15 @@ h2 {
   font-size: 1.5em;
   margin-bottom: 0.5em;
 }
-.tsd-index-heading {
+h1.tsd-index-heading, h2.tsd-index-heading, h4.tsd-index-heading, h5.tsd-index-heading {
   margin: 0;
 }
 html .col-content {
   padding-top: 0;
 }
-.tsd-page-title {
+.tsd-navigation.settings, .tsd-navigation.primary {
   display: none;
+}
+#tsd-search a.title {
+  padding-left: 1em;
 }
