@@ -9,6 +9,11 @@ const sidebarHTML = dom.window.document.querySelector('.sidebar').outerHTML;
 const topbarHTML = dom.window.document.querySelector('.topbar').outerHTML;
 
 module.exports.load = (app) => {
+  app.renderer.hooks.on("head.begin", () => {
+    return JSX.createElement("script", null,
+      JSX.createElement(JSX.Raw, { html: "localStorage.setItem('tsd-theme', 'light')" }));
+  });
+
   app.renderer.hooks.on("head.end", (ctx) => JSX.createElement(
     JSX.Raw,
     {

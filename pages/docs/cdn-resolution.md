@@ -1,25 +1,25 @@
 +++
-title = "CDN Resolution Spec"
-description = "JSPM CDN Module Resolution Spec"
+title = "CDN Resolution"
+description = "JSPM CDN Module Resolution"
 prev-section = "docs/integrations"
 next-section = "cdn/jspm-io"
 +++
 
-# JSPM CDN Module Resolution Spec
+# JSPM CDN Module Resolution
 
-### Goals
+This document summarizes the resolution conventions used by [@jspm/generator](/docs/generator) and the [JSPM CLI](/docs/jspm).
 
-* Enable comprehensive version resolution over arbitrary CDN installs.
+These resolution rules enable:
+
+* Comprehensive version resolution over arbitrary CDN installs.
 * Universal resolution standard for URLs that supports package resolution features expected for modern workflows (conditional resolution, dependency version resolution, basic resolution rules).
-* Base this entirely off of the Node.js resolution rules as an extension of Node.js resolution to arbitrary URLs. This ensures backwards compatibility, builds on known patterns, and grows the ecosystem potential.
+* Backwards compatibility with current JS ecosystem conventions as an extension of the Node.js resolution rules to arbitrary URLs.
 
-### Key Concepts
-
-#### Package
+## Package
 
 A package is a well-formed URL ending in a "/" that lies on a package boundary.
 
-#### Package Boundary
+## Package Boundary
 
 All URLs are contained within a package boundary. For any URL, the package boundary can be found based on the following rule.
 
@@ -37,7 +37,7 @@ For (2), this involves hierarchically checking parent URLs for the existence of 
 
 (1) is always checked before (2) above.
 
-#### Package Configuration
+## Package Configuration
 
 Every package boundary has a package configuration.
 
@@ -53,7 +53,7 @@ Package configuration is a JSON file with the following optional fields that are
 * **peerDependencies**: The internal package peerDependencies, as per npm.
 * **optionalDependencies**: The internal package optionalDependencies, as per npm.
 
-#### Conditional Environment
+## Conditional Environment
 
 A list of condition names under which resolution is being performed.
 
@@ -61,7 +61,7 @@ In Node.js `"exports"` and `"imports"` resolution, [custom condition names](http
 
 In order to select a specific branch for resolution, a list of applicable conditions must be provided to the resolution algorithm. For example: `"browser"`, `"production"`, `"module"`.
 
-#### Bare Specifier
+## Bare Specifier
 
 A bare specifier as defined in the HTML specification is a string that does not start with `"./"`, `"../"`, `"/"` and is not a valid URL.
 
@@ -69,7 +69,7 @@ Bare specifiers are explicitly handled by a package lookup system or import map,
 
 The resolution rules for how to get from a bare specifier to an exact URL are explained in the next section as an extension of the Node.js resolution system to arbitrary URLs.
 
-#### Resolution
+## Resolution
 
 Resolution must be performed to a specific conditional environment.
 

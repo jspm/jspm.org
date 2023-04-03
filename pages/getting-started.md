@@ -6,420 +6,593 @@ next-section = "faq"
 
 # Getting Started
 
-This guide runs through the steps of setting up the JSPM CLI and using it in some standard import maps workflows.
+This guide runs through the steps of setting up the JSPM CLI and using it in some standard import maps workflows from development to production.
 
 If you just want to get a quick feel for import maps, [skip to the online generator guide](#online-generator).
 
+For Deno import map workflows, see the [Deno workflows](#deno-workflows) section.
+
 ## Installation
 
-Ensure you have Node.js installed.
+Ensure you have [Node.js](https://nodejs.org/en) installed.
 
-From the command-line, the JSPM CLI can be installed using npm:
+From the command-line, the JSPM CLI can then be installed using npm:
 
 ```
 npm install -g jspm
 ```
 
-## Example Application
+## It's Just Linking
 
-In this guide we are going to create a simple app, and then use the JSPM CLI to generate an [import map](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap) for it, allowing us to run it in the browser. Import maps are a standard that solve the problem of _bare specifier imports_ for ES modules. Prior to their adoption, `import` statements in ES modules were required to specify fully qualified or relative URLs:
+With JSPM installed, let's create an import map.
 
-```js
-import { foo } from 'https://www.example.com/foo.js';
-import { bar } from './bar.js';
-```
+All browsers require import maps to be inlined into the HTML file that is being provided to the browser.
 
-This is problematic for a number of reasons we won't go into here, but suffice to say it's not very ergonomic and reduces the cacheability of ES modules. An import map looks like this:
-
-```json
-{
-  "imports": {
-    "react": "https://ga.jspm.io/npm:react@18.2.0/dev.index.js"
-  }
-}
-```
-
-Once you've loaded an import map like this into your runtime (via a `<script type="importmap">` tag in the browser, for instance), you can start to use bare specifier imports in your ES modules, just like you would in other JavaScript module systems like CommonJS:
-
-```js
-import * as react from 'react';
-```
-
-The JSPM CLI is essentially a tool for managing and generating import maps, so you don't have to worry about looking up packages on a CDN, upgrading things, or working out the full transitive dependency tree of your application by hand. It's all done for you!
-
-To begin with, you will need to install the JSPM CLI:
-
-```bash
-npm install -g @jspm/jspm
-```
-
-### Setting up the App
-
-## JS Generator API
-
-The [`@jspm/generator` project](https://github.com/jspm/generator) is the driver of all the workflows here. It provides a CDN agnostic protocol for generating import maps for any local or remote URLs, and even supports custom CDN providers and alternative protocols like IPFS.
-
-To run the generator locally, it can be installed from `@jspm/generator` on npm:
-
-```sh
-npm install @jspm/generator
-```
-
-The documentation and typings are available from the [project repo](https://github.com/jspm/generator).
-
-Below are two basic usage examples for generating import maps like the online generator and VSCode extension respectively.
-
-### Import Map Generation
-
-In a new project, install the `@jspm/generator`:
-
-```sh
-npm install @jspm/generator --save-dev
-```
-
-Then edit the `package.json` file to include `"type": "module"` or use an `.mjs` file then write the build script:
-
-jspm-generate.js
-```js
-import { Generator } from '@jspm/generator';
-
-const generator = new Generator({
-  mapUrl: import.meta.url,
-  env: ['browser', 'development', 'module']
-});
-
-await generator.install('lit');
-await generator.install('lit/html.js');
-
-console.log(JSON.stringify(generator.getMap(), null, 2));
-```
-
-Running the above, will output the equivalent map that the online sandbox would have provided:
-
-```sh
-node jspm-generate.js
-```
-
-with output:
-
-```json
-{
-  "imports": {
-    "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js",
-    "lit/html.js": "https://ga.jspm.io/npm:lit@2.2.0/html.js"
-  },
-  "scopes": {
-    "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/development/lit-html.js"
-    }
-  }
-}
-```
-
-### HTML Generation
-
-For a full HTML generation workflow, follow the same steps of the previous example, but use the `generate.htmlGenerate` method instead in the `jspm-generate.js` file:
-
-jspm-generate.js
-```js
-import { Generator } from '@jspm/generator';
-
-const generator = new Generator({
-  mapUrl: import.meta.url,
-  env: ['browser', 'development', 'module']
-});
-
-console.log(await generator.htmlGenerate(`
-<!doctype html>
-<head>
-<script type="module">
-import lit from 'lit';
-console.log(lit);
-</script>
-</head>
-<body>
-</body>
-`, {
-  htmlUrl: import.meta.url,
-  preload: false
-}));
-```
-
-```sh
-node jspm-generate.js
-```
-
-with output:
+Create a `lit.html` file:
 
 ```html
 <!doctype html>
-<head>
-<!-- Generated by @jspm/generator - https://github.com/jspm/generator -->
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.4.7/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script type="module">
+  import * as lit from 'lit';
+  console.log(lit);
+</script>
+```
+
+Now we can use JSPM to _link_ this HTML file and create the import map necessary for it to work correctly:
+
+```
+jspm link lit.html -o lit.html
+```
+
+The above tells JSPM to trace the modules inside of `lit.html` and generate the import map for them, then injecting the import map output back into `lit.html`.
+
+This will update `lit.html` to contain the following:
+
+```html
+<!doctype html>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
 <script type="importmap">
 {
   "imports": {
-    "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js"
+    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/development/lit-html.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
     }
   }
 }
 </script>
 <script type="module">
-import lit from 'lit';
-console.log(lit);
+  import * as lit from 'lit';
+  console.log(lit);
 </script>
-</head>
-<body>
-</body>
 ```
 
-Exactly as per the VSCode Extension above, external module imports via `<script type="module" src="./lib/app.js"></script>` will also be traced and generated and version ranges will be consulted from any local `package.json` file.
+JSPM has traced out all the dependencies necessary for an import of `import 'lit'` to work correctly, and provided the versioned resolutions of those dependencies against the production-optimized [jspm.io module CDN](/cdn/jspm-io). It has also included [ES Module Shims](https://github.com/guybedford/es-module-shims) to polyfill import maps in browsers without support for import maps.
 
-The full Node.js resolver rules are supported so it's even possible to use [own-name resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#self-referencing-a-package-using-its-name) and [package imports resolution](https://nodejs.org/dist/latest-v17.x/docs/api/packages.html#subpath-imports) while respecting custom local import map mappings.
+Run a local server to view the application (disabling local caching to enable development refreshing):
 
-## JSPM Starter
-
-While the previous workflows all show isolated examples of import map generation, the [JSPM Starter repo](https://github.com/jspm/jspm-starter) provides a full featured development example with TypeScript support.
-
-It is recommended to use [Chomp Task Runner](https://chompbuild.com) instead of npm scripts for the starter, which provides Makefile-like incremental builds with caching as well as a dev server.
-
-### Chomp Setup
-
-Chomp can be installed either via npm:
-
-```sh
-npm install -g chomp
+```
+npx http-server -c-1
 ```
 
-or with the [Rust Toolchain](https://rustup.rs/):
+> For server-side HTML generation, the import map should be created ahead of time as JSON which is inlined by the server. Note that JSPM HTML injection uses a very lenient HTML parser, that should support templating languages just fine. JSON import map output for JSPM is the default when not specifying a different output via the `-o` option.
 
-```sh
-cargo install chompbuild
+## Linking Local Application Code
+
+Instead of using inline modules, we can link local modules directly, changing the inline `lit` import to a local application path instead:
+
+_app.html_
+```html
+<!doctype html>
+<script type="module">import './src/app.js'</script>
 ```
 
-Once installed, verify the Chomp installation with:
+Where `src/app.js` contains local application:
 
-```sh
-chomp --version
+_src/app.js_
+```js
+import * as lit from 'lit';
+
+console.log(lit);
 ```
 
-### Setup
+Now we can link the application code directly instead to inject into `app.html`:
 
-Clone the [jspm-starter](https://github.com/jspm/jspm-starter) repo:
-
-```sh
-git clone https://github.com/jspm/jspm-starter
-cd jspm-starter
+```
+jspm link src/app.js -o app.html
 ```
 
-Next, run `npm install`.
+The generated `app.html` now includes both our local code mapping as well as the lit mapping:
 
-### npm Scripts Workflow
+> When using TypeScript or JSX workflows, it is advisable to have a compilation step that compiles these files from `src/[file].ts` into corresponding direct `lib/[file].js` output file, individually, eg via the normal `tsc` invocation in TypeScript or when using a tool like `swc` for JSX. [Chomp](https://chompbuild.com) is another task runner that is based around this [per-file compilation pattern](https://github.com/guybedford/chomp#example-typescript-with-swc). See the [production workflow](#production-workflow) at the end of this guide for handling local code optimization.
 
-For the traditional npm scripts workflow, run:
+## Package Management with Import Maps
 
-```sh
-npm run build
+So how does package management fit in with this? Well, the import maps that we have been generating all involve versioned solutions for dependency graphs that we are linking in. The import map itself behaves like a lock file.
+
+Instead of just linking and generating the lock file each time, we can instead be a bit more deliberate about import map packagement with JSPM.
+
+### Defining Dependency Ranges
+
+Unless otherwise specified, JSPM uses the `package.json` for dependency ranges for both local and remote packages, just like Node.js (and other runtimes).
+
+_package.json_
+```json
+{
+  "type": "module",
+  "dependencies": {
+    "lit": "^2.7.0"
+  }
+}
 ```
 
-Then use your preferred local server to navigate to the `app.html` file to see the working application.
+Instead of linking from scratch every single time, we can perfom a top-level install operation for lit. In larger projects there are likely multiple pages with different dependencies, while we want the main versioning and package management to dedupe versions between all of those.
 
-TypeScript is compiled with `tsc` and a local generation API command is run per the [JS API workflow](#js-generator-api) above.
+### Installing Packages
 
-### Chomp Workflow
+To install and lock package versions and resolutions ahead of time, use `jspm install`:
 
-For the Chomp workflow run:
-
-```sh
-chomp build --serve
+```
+jspm install lit lit/html.js
 ```
 
-which will spin up a dev server on `http://localhost:5776/`.
+This populates a local `importmap.json` file with the locked import map resolutions for both `lit` and `lit/html.js`:
 
-The necessary build steps as needed by the task graph will be performed by Chomp as well as serving the project folder.
-
-Open up a browser window (or even the simple browser window in VSCode from the command pallet) and navigate to `http://localhost:5776/app.html`.
-
-You should see a working clickable animated slider. Any changed made will incrementally rebuild - try editing the original TypeScript file in `src/motion-slide.ts`.
-
-Chomp works to a task graph defined in a `chompfile.toml` with Makefile-style invalidation to only incrementally recompile individual files as necessary. Because the JSPM task depends on the `lib` files transitively (which are compiled by TypeScript from `src`), the generator will also automatically rerun as files change to pick up any new resolutions for the import map.
-
-Refreshing the page gives an instant dev workflow (and [hot reloading](https://github.com/guybedford/es-module-shims/pull/269) is on the roadmap).
-
-Here's the `chompfile.toml` for the complete build process:
-
-chompfile.toml
-```toml
-version = 0.1
-default-task = 'build'
-
-extensions = ['chomp@0.1:swc']
-
-[[task]]
-name = 'build'
-deps = ['app.html']
-
-[[task]]
-target = 'lib/#.js'
-dep = 'src/#.ts'
-template = 'swc'
-[task.template-options]
-'jsc.target' = 'es2019'
-source-maps = false
-
-[[task]]
-target = 'app.html'
-deps = ['app.html', 'lib/**/*.js']
-engine = 'node'
-run = '''
-import { Generator } from '@jspm/generator';
-import { readFile, writeFile } from 'fs/promises';
-import { pathToFileURL } from 'url';
-
-const generator = new Generator({
-  mapUrl: pathToFileURL('app.html'),
-  env: ['production', 'browser', 'module']
-});
-
-const htmlSource = await readFile('app.html', 'utf-8');
-
-await writeFile('app.html', await generator.htmlGenerate(htmlSource, {
-  preload: true,
-  integrity: true
-}));
-'''
+_importmap.json_
+```json
+{
+  "env": [
+    "browser",
+    "development",
+    "module"
+  ],
+  "imports": {
+    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@2.7.0/html.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    }
+  }
+}
 ```
 
-SWC is used to compile TypeScript using an SWC template provided by the `chomp@0.1:swc` [Chomp extension](https://github.com/guybedford/chomp-extensions). The `#` symbol means the task is interpolated with a glob over all files - SWC is run individually on each file just like a Makefile would do.
+### Defining Custom Mappings
 
-Each task optionally defines its targets and dependencies which informs the caching rules and forms a graph of tasks to run with maximum parallelism. Tasks have a `run` field which can be shell or JavaScript code that should run to execute the task.
+Any edits we make to this local import map file are respected when performing the subsequent `link` operations.
 
-The JSPM task is expanded for understandability, but there is actually a JSPM Chomp extension we could use instead to give the Chompfile:
+Let's add a custom mapping now for our local application code, by adding a new `"app": "./src/app.js"` entry:
 
-```toml
-version = 0.1
-default-task = 'build'
-
-extensions = ['chomp@0.1:jspm', 'chomp@0.1:swc']
-
-[[task]]
-name = 'build'
-deps = ['app.html']
-
-[[task]]
-target = 'lib/#.js'
-dep = 'src/#.ts'
-template = 'swc'
-[task.template-options]
-'jsc.target' = 'es2019'
-source-maps = false
-
-[[task]]
-target = 'app.html'
-deps = ['app.html', 'lib/**/*.js']
-template = 'jspm'
-[task.template-options]
-env = ['production', 'browser', 'module']
-preload = true
-integrity = true
+_importmap.json_
+```json
+{
+  "env": [
+    "browser",
+    "development",
+    "module"
+  ],
+  "imports": {
+    "app": "./src/app.js",
+    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@2.7.0/html.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    }
+  }
+}
 ```
 
-While somewhat magical, template extensions can always be ejected to see their real task definitions. Try updating the Chompfile to the above then running `chomp --eject` to see this in action.
+Now we can update the HTML file to load `app` directly instead of having to hard-code the path:
 
-### Chomp Resources
-
-For more information about Chomp, resources are provided below:
-
-* [Getting Started](https://github.com/guybedford/chomp#getting-started)
-* [Chomp CLI](https://github.com/guybedford/chomp/blob/main/docs/cli.md)
-* [Chompfile Definition](https://github.com/guybedford/chomp/blob/main/docs/chompfile.md)
-* [Task Definitions](https://github.com/guybedford/chomp/blob/main/docs/task.md)
-* [Chomp Extensions](https://github.com/guybedford/chomp/blob/main/docs/extensions.md)
-
-## Deno Import Maps
-
-Since CommonJS -> ESM conversion and conditional environment resolution is an integral part of the JSPM import map generation, constructing import maps to support execution of npm packages in Deno or other non-browser environments is possible using the same techniques.
-
-This provides a novel mechanism for executing npm packages in Deno, thanks to the ability to support [JSPM Core](https://jspm/jspm-core) to link against the [Deno shims of the Node.js standard libraries](https://github.com/denoland/deno_std/tree/main/node).
-
-For example, let's run `@jspm/generator` itself in Deno.
-
-This example again uses [Chomp](https://chompbuild.com) but the any generation API from these workflows can be used equivalently as long as the environment is set to `env: ['deno', 'module', 'browser', 'production']` (or development).
-
-With [Chomp installed](#chomp-setup), create a new `chompfile.toml`:
-
-chompfile.toml
-```toml
-version = 0.1
-
-extensions = ['chomp@0.1:jspm']
-
-# Chomp itself uses a local npm version of @jspm/generator
-# This will automatically install that for us as necessary
-# (saving running a manual npm install)
-[template-options.npm]
-auto-install = true
-
-[[task]]
-target = 'importmap.json'
-deps = ['deno-generate.ts']
-template = 'jspm'
-[task.template-options]
-env = ['deno', 'browser', 'module', 'production']
+_app.html_
+```html
+<!doctype html>
+<script type="module">import 'app'</script>
 ```
 
-For the example generation, create `deno-generate.ts` that runs a simple Lit generation:
+### Linking from importmap.json
 
-deno-generate.ts
+By default `importmap.json` is always consulted as the source of truth for the initial mappings in all operations.
+
+So linking `app` directly into `app.html`, it will now already have the correct resolution from there:
+
+```
+jspm link app -o app.html
+```
+
+The `importmap.json` mappings will be respected, but only those mappings actually needed by the linking operation will be injected.
+
+This results in:
+
+_app.html_
+```html
+<!doctype html>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script type="importmap">
+{
+  "imports": {
+    "app": "./src/app.js"
+  },
+  "scopes": {
+    "./": {
+      "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
+    },
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    }
+  }
+}
+</script>
+<script type="module">import 'app'</script>
+```
+
+> Notice that `lit/html.js` wasn't injected because `jspm link` only traces what is necessary to link the provided module list to the linking command.
+
+## Conditional Environments
+
+The `"env"` field in `importmap.json` includes conditional environment that we have installed against. The default in this case being the `"browser"`, `"module"` `"development"` environment.
+
+To switch to using the production versions of the dependencies, we can perform an argumentless install to update the entire `importmap.json` file:
+
+```
+jspm install --env=production
+```
+
+The import map is converted into production resolutions:
+
+_importmap.json_
+```
+{
+  "env": [
+    "browser",
+    "module",
+    "production"
+  ],
+  "imports": {
+    "app": "./src/app.js",
+    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
+    "react": "https://ga.jspm.io/npm:react@18.2.0/index.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/is-server.js"
+    }
+  }
+}
+```
+
+Notice how the _development_ prefix is no longer present in the module paths. This allows packages to provide different implementations for development and production, and is a feature of [Node.js conditional exports](https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports).
+
+> The `"env"` field is not an import map standard, but is used internally by JSPM for the `importmap.json` file only, when working with JSON import maps in order to be able to consistently resolve them in the correct environment. Future versions may use a separate environment file.
+
+## Changing Providers
+
+The benefits of using an ESM-native CDN like `jspm.io` is that dependencies are fully production optimized, and older packages that only support CommonJS are automatically converted by the CDN into ES modules to support browser usage.
+
+Lit is actually a package that is designed from the start as an ESM package and it is also optimized at publish time, so it's actually possible to create an import map directly against the original sources.
+
+### The nodemodules Provider
+
+To achieve this locally, install the dependencies into node_modules with npm:
+
+```
+npm install lit
+```
+
+Now we can use the `--provider` option to resolve external packages against the `nodemodules` provider with JSPM, just like we changed conditional environment previously:
+
+```
+jspm install --provider nodemodules
+```
+
+If everything resolves correctly, the result is an `importmap.json` referencing the local `node_modules` folder:
+
+```json
+{
+  "env": [
+    "browser",
+    "module",
+    "production"
+  ],
+  "imports": {
+    "app": "./src/app.js",
+    "lit": "./node_modules/lit/index.js"
+  },
+  "scopes": {
+    "./node_modules/": {
+      "@lit/reactive-element": "./node_modules/@lit/reactive-element/reactive-element.js",
+      "lit-element/lit-element.js": "./node_modules/lit-element/lit-element.js",
+      "lit-html": "./node_modules/lit-html/lit-html.js",
+      "lit-html/is-server.js": "./node_modules/lit-html/is-server.js"
+    }
+  }
+}
+```
+
+### Using Other CDN Providers
+
+Alternatively, we can load Lit from another CDN like UNPKG:
+
+```
+jspm install --provider unpkg
+```
+
+Resulting in:
+
+_importmap.json_
+```json
+{
+  "env": [
+    "browser",
+    "module",
+    "production"
+  ],
+  "imports": {
+    "app": "./src/app.js",
+    "lit": "https://unpkg.com/lit@2.7.0/index.js",
+    "react": "https://unpkg.com/react@18.2.0/index.js"
+  },
+  "scopes": {
+    "https://unpkg.com/": {
+      "@lit/reactive-element": "https://unpkg.com/@lit/reactive-element@1.6.1/reactive-element.js",
+      "lit-element/lit-element.js": "https://unpkg.com/lit-element@3.3.0/lit-element.js",
+      "lit-html": "https://unpkg.com/lit-html@2.7.0/lit-html.js",
+      "lit-html/is-server.js": "https://unpkg.com/lit-html@2.7.0/is-server.js"
+    }
+  }
+}
+```
+
+Note all resolution features including version resolution and conditional exports still work against the UNPKG provider.
+
+Switch back to the [jspm.io provider](/cdn/jspm-io) with:
+
+```
+jspm install --provider jspm.io
+```
+
+> By default JSPM supports `jspm.io`, `nodemodules`, `esm.sh`, `denoland`, `unpkg`, `skypack` and `jsdelivr` package providers, and custom providers can be configured programatically in the JSPM Generator core generation library as well.
+
+## Production Workflow
+
+The package management workflows above result in a very low-overhead development process. Local modules can import from other local modules all in the browser, and dependencies are cached for very fast refreshing. It makes for a very simple browser development workflow using just native ES modules.
+
+For small applications it can be fine to just ship unminified / unbundled sources. But for larger applications it is always necessary to implement a build step for production.
+
+We already switched from development to production dependencies changing the [conditional environment](#conditional-environments), so we only need to perform the bundle step.
+
+### Bundling with esbuild
+
+To build `src/app.js` for production with esbuild, first install esbuild:
+
+```
+npm install esbuild
+```
+
+Then run a build of the `src/app.js` module, while treating all bare specifier imports as externals:
+
+```
+./node_modules/.bin/esbuild src/app.js --bundle --format=esm --external:* --outfile=dist/app.js
+```
+
+* `--format=esm` tells esbuild to output an ES module file, so we are still using native browser modules
+* `--external:*` ensures we externalize all bare specifiers
+
+Manually update `importmap.json` to reference `dist/app.js` instead of `src/app.js`:
+
+_importmap.json_
+```json
+{
+  "env": [
+    "browser",
+    "development",
+    "module"
+  ],
+  "imports": {
+    "app": "./dist/app.js",
+    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@2.7.0/html.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    }
+  }
+}
+```
+
+### Preload Injection
+
+Now, when performing the `app.html` import map HTML injection for production add the `--preload` flag to inject `modulepreload` tags for the application:
+
+```
+jspm inject app -o app.html --preload
+```
+
+This results in the HTML:
+
+_app.html_
+```
+<!doctype html>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script type="importmap">
+{
+  "imports": {
+    "app": "./dist/app.js"
+  },
+  "scopes": {
+    "./": {
+      "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
+    },
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    }
+  }
+}
+</script>
+<link rel="modulepreload" href="./dist/app.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/css-tag.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js" />
+<link rel="modulepreload" href="https://ga.jspm.io/npm:lit@2.7.0/index.js" />
+<script type="module">import 'app'</script>
+```
+
+The full set of static preloads being included in the HTML means that there is no dependency waterfall roundtrip latency, and instead all dependencies can be immediately requested upfront by the browser. This completes the production workflow!
+
+## Local Conditions
+
+In the previous workflows it was necessary to manually maintain the `app` mapping, and update this mapping when moving from development to production.
+
+It is actually also possible to automatically manage this mapping in JSPM using standard module resolution features in the `package.json` file, with the following configuration:
+
+_package.json_
+```
+{
+  "name": "app",
+  "exports": {
+    ".": {
+      "development": "./src/app.js",
+      "default": "./dist/app.js"
+    }
+  }
+}
+```
+
+Running:
+
+```
+jspm install --env=development
+```
+
+Will now update the `app` mapping in `importmap.json` from `dist/app.js` to `src/app.js`.
+
+JSPM is able to automatically switch between production and development modes for both the local application and external package code.
+
+> The above `package.json` `"name"` definition may look like a JSPM-specific workflow trick, but this is actually a native modules feature of Node.js module resolution, and is supported by most JS tooling, called [package self-reference resolution](https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#self-referencing-a-package-using-its-name).
+
+## Deno Workflows
+
+JSPM can also be used as a package manager for Deno import maps.
+
+In Deno, the default import map is contained in `deno.json` (instead of JSPM's default `importmap.json`).
+
+When outputting a JSON file, JSPM will respect any existing properties in that JSON file, only overriding the `"imports"`, `"scopes"` and `"env"` fields. In this way JSPM can install directly into `deno.json` files as a Deno package manager.
+
+Therefore that is needed for Deno package management with JSPM is adding `-m deno.json` to all install operations. Setting `--env=deno,no-browser` is also recommended.
+
+### Installing Deno Packages
+
+Packages can be installed directly from Deno's standard library:
+
+```
+jspm install deno:crypto -m deno.json --env=deno
+```
+
+Giving:
+
+_deno.json_
+```json
+{
+  "env": [
+    "deno",
+    "development",
+    "module"
+  ],
+  "imports": {
+    "crypto": "https://deno.land/std@0.182.0/crypto/mod.ts"
+  }
+}
+```
+
+To import in Deno, write:
+
+_app.ts_
 ```ts
-import { Generator } from '@jspm/generator';
+import * as crypto from 'crypto';
 
-const generator = new Generator({
-  env: ['browser', 'module', 'production']
-});
-
-await generator.install('lit');
-console.log(generator.getMap());
+console.log(crypto);
 ```
 
-To build the import map for the generation operation itself, run Chomp for the `importmap.json` target (or we could name this task in the Chompfile with `name = "build"`):
+When running, Deno will automatically use the import map from `deno.json`:
 
-```sh
-chomp importmap.json
+```
+deno run app.ts
 ```
 
-On completion, the full import map for `@jspm/generator` itself will be populated into `importmap.json` by the JSPM Chomp template via a Node.js Chomp task.
+### Installing from Denoland
 
-With the import map constructed, Deno execution of `@jspm/generator` over the JSPM CDN is now possible with:
+Third-party Deno packages can be installed from the `denoland:` registry, also supported by JSPM.
 
-```sh
-deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts
+```
+jspm install denoland:fresh/runtime.ts -m deno.json
 ```
 
-On completion, the original Lit import map will be displayed, as generated through Deno against JSPM Generator on the JSPM CDN.
+Giving:
 
-Like npm scripts, we can define this Deno execution as a Chomp task itself adding the task to the Chompfile:
-
-```toml
-[[task]]
-name = 'deno-generate'
-deps = ['importmap.json']
-run = 'deno --unstable run -A --no-check --import-map importmap.json deno-generate.ts'
+_deno.json_
+```
+{
+  "env": [
+    "deno",
+    "development",
+    "module"
+  ],
+  "imports": {
+    "crypto": "https://deno.land/std@0.182.0/crypto/mod.ts",
+    "fresh/runtime.ts": "https://deno.land/x/fresh@1.1.4/runtime.ts"
+  },
+  "scopes": {
+    "https://deno.land/": {
+      "preact": "https://ga.jspm.io/npm:preact@10.13.2/dist/preact.mjs",
+      "preact/hooks": "https://ga.jspm.io/npm:preact@10.13.2/hooks/dist/hooks.mjs"
+    },
+    "https://ga.jspm.io/": {
+      "preact": "https://ga.jspm.io/npm:preact@10.13.2/dist/preact.mjs"
+    }
+  }
+}
 ```
 
-For an easier `chomp deno-generate` execution that will first ensure the import map is up to date in the task graph.
+Notice that `preact` and `preact/hooks` are automatically installed as well. JSPM supports tracing and generating import maps TypeScript modules, so detects the necessary dependencies for Fresh. This works since all URLs are valid installation URLs in JSPM per the [CDN module resolution](/docs/cdn-resolution) rules.
 
-### Local Workflows with JSPM
+_app.ts_
+```ts
+import * as freshRuntime from 'fresh/runtime.ts';
+console.log(freshRuntime);
+```
 
-### Switching to a CDN
+```
+deno run app.ts
+```
 
 ## Online Generator
 
@@ -460,7 +633,7 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
     JSPM Generator Import Map
     Edit URL: https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA
   -->
-  <script type="importmap">
+   <script type="importmap">
   {
     "imports": {
       "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js",
@@ -468,16 +641,16 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
     },
     "scopes": {
       "https://ga.jspm.io/": {
-        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.3.0/reactive-element.js",
-        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.0/lit-element.js",
-        "lit-html": "https://ga.jspm.io/npm:lit-html@2.2.0/lit-html.js"
+        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/reactive-element.js",
+        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/lit-element.js",
+        "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/lit-html.js"
       }
     }
   }
   </script>
   
-  <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@0.12.8/dist/es-module-shims.min.js" crossorigin="anonymous"></script>
+  <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (Safari 16.3) -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
   
   <script type="module">
     import * as lit from "lit";
@@ -492,4 +665,4 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
 
 Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.
 
-The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the workflow works in all browsers with native modules support.
+The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the import maps still work in browsers without import maps support.

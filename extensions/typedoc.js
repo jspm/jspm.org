@@ -2,7 +2,8 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
   let {
     lib,
     out,
-    plugins = ''
+    plugins = '',
+    flags = ''
   } = task.templateOptions;
 
   plugins = plugins.split(',');
@@ -36,6 +37,7 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
         --tsconfig tsconfig.json \
         --options typedoc.json \
         ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
+        ${flags} \
         --out ${backtrack}${out}
     `
   }];

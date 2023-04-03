@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - CDN Resolution Spec"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM CDN Module Resolution Spec"><meta property="og:description" content="JSPM CDN Module Resolution Spec"><meta property="og:url" content="https://jspm.org/docs/cdn-resolution"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - CDN Resolution"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM CDN Module Resolution"><meta property="og:description" content="JSPM CDN Module Resolution"><meta property="og:url" content="https://jspm.org/docs/cdn-resolution"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -12,7 +12,7 @@
   gtag('js', new Date());
   gtag('config', 'UA-40327700-2');
 </script>
-<title>JSPM - CDN Resolution Spec</title></head><body class="page-docs-cdn-resolution">
+<title>JSPM - CDN Resolution</title></head><body class="page-docs-cdn-resolution">
 <div class="topbar">
   <a style="display: block" href="/">
     <div class="logobox" href="/"></div>
@@ -42,7 +42,7 @@
           <li><a href="/docs/jspm">JSPM CLI</a></li>
           <li><a href="/docs/generator">JSPM Generator</a></li>
           <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution Spec</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
         </ul>
       </li>
 
@@ -58,7 +58,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
-          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-cli"><em>Import Map Package Management<span class="date">04/04/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
       </li>
@@ -67,17 +67,17 @@
   </div>
 </div>
 <div class="content-container">
-  <div class="content"><h1>JSPM CDN Module Resolution Spec</h1>
-<a name="goals" class="anchor"></a><h3>Goals</h3>
+  <div class="content"><h1>JSPM CDN Module Resolution</h1>
+<p>This document summarizes the resolution conventions used by <a href="/docs/generator">@jspm/generator</a> and the <a href="/docs/jspm">JSPM CLI</a>.</p>
+<p>These resolution rules enable:</p>
 <ul>
-<li>Enable comprehensive version resolution over arbitrary CDN installs.</li>
+<li>Comprehensive version resolution over arbitrary CDN installs.</li>
 <li>Universal resolution standard for URLs that supports package resolution features expected for modern workflows (conditional resolution, dependency version resolution, basic resolution rules).</li>
-<li>Base this entirely off of the Node.js resolution rules as an extension of Node.js resolution to arbitrary URLs. This ensures backwards compatibility, builds on known patterns, and grows the ecosystem potential.</li>
+<li>Backwards compatibility with current JS ecosystem conventions as an extension of the Node.js resolution rules to arbitrary URLs.</li>
 </ul>
-<a name="key-concepts" class="anchor"></a><h3>Key Concepts</h3>
-<h4>Package</h4>
+<a name="package" class="anchor main"></a><h2>Package</h2>
 <p>A package is a well-formed URL ending in a "/" that lies on a package boundary.</p>
-<h4>Package Boundary</h4>
+<a name="package-boundary" class="anchor main"></a><h2>Package Boundary</h2>
 <p>All URLs are contained within a package boundary. For any URL, the package boundary can be found based on the following rule.</p>
 <p>A package boundary is a URL, u, ending in a "/", satisfying one of the following two properties:</p>
 <ol>
@@ -89,7 +89,7 @@
 <p>(2) provides compatibility with the Node.js ecosystem and also provides a convention for determining network package boundaries such that packages copied from the local file system to be hosted on static URLs can still support package configuration-based resolution information.</p>
 <p>(1) enables well-known CDNs to have their own custom boundary and configuration rules that avoid unnecessary GET requests to determine network package boundaries.</p>
 <p>(1) is always checked before (2) above.</p>
-<h4>Package Configuration</h4>
+<a name="package-configuration" class="anchor main"></a><h2>Package Configuration</h2>
 <p>Every package boundary has a package configuration.</p>
 <ol>
 <li>If the URL corresponds to a well-known CDN then that CDN can provide any custom package configuration API which takes as input the package boundary and returns the package configuration.</li>
@@ -104,15 +104,15 @@
 <li><strong>peerDependencies</strong>: The internal package peerDependencies, as per npm.</li>
 <li><strong>optionalDependencies</strong>: The internal package optionalDependencies, as per npm.</li>
 </ul>
-<h4>Conditional Environment</h4>
+<a name="conditional-environment" class="anchor main"></a><h2>Conditional Environment</h2>
 <p>A list of condition names under which resolution is being performed.</p>
 <p>In Node.js <code><span class="string">"exports"</span></code> and <code><span class="string">"imports"</span></code> resolution, <a href="https://nodejs.org/dist/latest-v18.x/docs/api/packages.html#conditional-exports" target="_blank" rel="noopener">custom condition names</a> can be used to branch resolutions. These define both properties of the environment (eg production versus development) as well as the environment itself, via <a href="https://runtime-keys.proposal.wintercg.org/" target="_blank" rel="noopener">well-known runtime names</a>.</p>
 <p>In order to select a specific branch for resolution, a list of applicable conditions must be provided to the resolution algorithm. For example: <code><span class="string">"browser"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"module"</span></code>.</p>
-<h4>Bare Specifier</h4>
+<a name="bare-specifier" class="anchor main"></a><h2>Bare Specifier</h2>
 <p>A bare specifier as defined in the HTML specification is a string that does not start with <code><span class="string">"./"</span></code>, <code><span class="string">"../"</span></code>, <code><span class="string">"/"</span></code> and is not a valid URL.</p>
 <p>Bare specifiers are explicitly handled by a package lookup system or import map, import maps should always take preference in bare specifier resolutions falling back on unmatched specifiers to an optional internal package lookup system.</p>
 <p>The resolution rules for how to get from a bare specifier to an exact URL are explained in the next section as an extension of the Node.js resolution system to arbitrary URLs.</p>
-<h4>Resolution</h4>
+<a name="resolution" class="anchor main"></a><h2>Resolution</h2>
 <p>Resolution must be performed to a specific conditional environment.</p>
 <p>The resolution rules for CDNs extend the Node.js resolution rules from file:/// URLs all URLs.</p>
 <p>The rules follow the <a href="https://nodejs.org/dist/latest-v18.x/docs/api/esm.html#resolution-algorithm" target="_blank" rel="noopener">specification algorithm</a>, with a very brief summary being:</p>

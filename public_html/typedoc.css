@@ -122,9 +122,19 @@ ul.tsd-breadcrumb li {
   padding: 0;
 }
 
+a {
+  height: initial;
+  color: #333;
+  text-decoration: underline;
+}
+.content a[id] {
+  height: initial;
+}
+
 h1 {
   font-size: 2em;
   font-weight: bold;
+  margin-bottom: 1em;
 }
 h2 {
   font-size: 1.5em;

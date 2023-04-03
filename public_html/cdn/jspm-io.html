@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - jspm.io"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="jspm.io Native Modules CDN"><meta property="og:description" content="jspm.io Native Modules CDN"><meta property="og:url" content="https://jspm.org/cdn/jspm-io"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - jspm.io"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="jspm.io Native Modules CDN"><meta property="og:description" content="jspm.io Native Modules CDN"><meta property="og:url" content="https://jspm.org/cdn/jspm-io"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -42,7 +42,7 @@
           <li><a href="/docs/jspm">JSPM CLI</a></li>
           <li><a href="/docs/generator">JSPM Generator</a></li>
           <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution Spec</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
         </ul>
       </li>
 
@@ -58,7 +58,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
-          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-cli"><em>Import Map Package Management<span class="date">04/04/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
       </li>
@@ -161,6 +161,13 @@
 <li>The <code><span class="string">"browser"</span></code> field is supported as it is in Browserify, but is not supported when the <code><span class="string">"exports"</span></code> field is set.</li>
 </ul>
 <p>CommonJS should work the same as it does in Webpack and other JS bundlers. Any bugs can be reported to the main project <a href="https://github.com/jspm/project" target="_blank" rel="noopener">issue tracker</a>.</p>
+<a name="overrides" class="anchor main"></a><h2>Overrides</h2>
+<p>Since CommonJS package optimization is based on statistically detecting their subpaths in JSPM, sometimes CommonJS packages won't support expected subpaths. There may also be sublte configuration errors in older packages.</p>
+<p>To recover from errors like this, JSPM provides a <a href="https://github.com/jspm/overrides" target="_blank" rel="noopener">package overrides repo</a>.</p>
+<p>Entries made here override the package.json configuration for packages matching a given package name and version range, and enforce the <code><span class="string">"exports"</span></code> configuration.</p>
+<p>In addition a custom <code><span class="string">"cjsNamedExports"</span></code> field is defined for JSPM specifically allowing specifying the expected CommonJS named exports for packages, bypassing the Node.js <a href="https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#commonjs-namespaces" target="_blank" rel="noopener">cjs-module-lexer analysis</a>.</p>
+<p>Creating a PR to add custom exports overrides allows for fixing any package issues on the CDNs.</p>
+<p>For more information on the package exports field see the <a href="https://nodejs.org/dist/latest-v16.x/docs/api/packages.html#packages_package_entry_points" target="_blank" rel="noopener">Node.js documentation</a>.</p>
 <a name="assets" class="anchor main"></a><h2>Assets</h2>
 <p>JSPM will serve the readme, license and typing files as assets.</p>
 <p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://jspm.dev/npm:pkg@x.y.z/path/to/asset</code>).</p>
@@ -173,7 +180,7 @@
 <blockquote>
 <p>For questions or further discussion about JSPM, <a href="https://discord.gg/dNRweUu" target="_blank" rel="noopener">join JSPM on Discord</a>.</p>
 </blockquote>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/cdn/jspm-io.md" rel="noopener">Edit</a><div class="next"><a href="/cdn/jspm-dev">jspm.dev&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn-resolution">◀&nbsp;CDN Resolution Spec</a></div></div></div>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/cdn/jspm-io.md" rel="noopener">Edit</a><div class="next"><a href="/cdn/jspm-dev">jspm.dev&nbsp;▶</a></div><div class="prev"><a href="/docs/cdn-resolution">◀&nbsp;CDN Resolution</a></div></div></div>
 </div>
 
 

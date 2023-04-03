@@ -143,6 +143,20 @@ The following CommonJS compatibility features are provided by the conversion pro
 
 CommonJS should work the same as it does in Webpack and other JS bundlers. Any bugs can be reported to the main project [issue tracker](https://github.com/jspm/project).
 
+## Overrides
+
+Since CommonJS package optimization is based on statistically detecting their subpaths in JSPM, sometimes CommonJS packages won't support expected subpaths. There may also be sublte configuration errors in older packages.
+
+To recover from errors like this, JSPM provides a [package overrides repo](https://github.com/jspm/overrides).
+
+Entries made here override the package.json configuration for packages matching a given package name and version range, and enforce the `"exports"` configuration.
+
+In addition a custom `"cjsNamedExports"` field is defined for JSPM specifically allowing specifying the expected CommonJS named exports for packages, bypassing the Node.js [cjs-module-lexer analysis](https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#commonjs-namespaces).
+
+Creating a PR to add custom exports overrides allows for fixing any package issues on the CDNs.
+
+For more information on the package exports field see the [Node.js documentation](https://nodejs.org/dist/latest-v16.x/docs/api/packages.html#packages_package_entry_points).
+
 ## Assets
 
 JSPM will serve the readme, license and typing files as assets.

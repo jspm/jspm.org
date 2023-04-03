@@ -18,8 +18,10 @@
   const path = location.pathname.split('/').slice(0, 3).join('/');
   const section = document.querySelector(`.toc .section a[href="${path}"]`);
   if (section) {
-    const anchors = document.querySelectorAll('a[name].main, a[id]:has(h2)');
-    console.log(anchors);
+    let anchors = [...document.querySelectorAll('a[name].main, a[id]')];
+    anchors = anchors.filter(a => {
+      return a.hasAttribute('name') && a.className.includes('main') || [...a.childNodes].some(node => node.tagName === 'H2');
+    });
     let sectionTocHtml = '<ul class="subsection">';
     for (const a of anchors) {
       sectionTocHtml += `<li><a href="#${a.name || a.id}">${a.name ? a.nextElementSibling.innerText : a.innerText}</a></li>`;
@@ -68,7 +70,7 @@
     const copy = document.createElement('button');
     copy.className = 'copy';
     copy.addEventListener('click', function () {
-      copyToClipboard(code.innerHTML.replace(/<span class="(keyword|string|comment|number)">|<\/span>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<'));
+      copyToClipboard(code.innerHTML.replace(/<span class="[a-zA-Z-_0-9]+">|<\/span>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<'));
     });
     code.parentNode.parentNode.insertBefore(copy, code.parentNode.nextSibling);
   }

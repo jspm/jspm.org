@@ -5,20 +5,12 @@
   "feed_url": "https://jspm.org//feed.json",
   "items": [
     {
-      "id": "11",
-      "url": "https://jspm.org/faq",
-      "title": "FAQ",
-      "content_html": "<p>JSPM FAQ</p>",
-      "date_published": "2023-03-25T20:56:43.416Z",
-      "date_modified": "2023-03-27T03:58:57.308Z"
-    },
-    {
-      "id": "9",
+      "id": "4",
       "url": "https://jspm.org/jspm-cli",
-      "title": "JSPM CLI Launch",
-      "content_html": "<p>teleportHQ sponsors JSPM's ES Module CDN workflows</p>",
-      "date_published": "2023-03-19T19:16:15.248Z",
-      "date_modified": "2023-03-26T04:17:06.042Z"
+      "title": "JSPM CLI - Import Map Package Management",
+      "content_html": "<p>Relaunching the JSPM CLI as an Import Map Package Manager</p>",
+      "date_published": "2023-04-04T05:17:54.247Z",
+      "date_modified": "2023-04-03T05:28:24.162Z"
     },
     {
       "id": "3",

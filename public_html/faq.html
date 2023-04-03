@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - FAQ"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM FAQ"><meta property="og:description" content="JSPM FAQ"><meta property="og:url" content="https://jspm.org/faq"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - FAQ"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM FAQ"><meta property="og:description" content="JSPM FAQ"><meta property="og:url" content="https://jspm.org/faq"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -42,7 +42,7 @@
           <li><a href="/docs/jspm">JSPM CLI</a></li>
           <li><a href="/docs/generator">JSPM Generator</a></li>
           <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution Spec</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
         </ul>
       </li>
 
@@ -58,7 +58,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
-          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI v3 Launch<span class="date">19/03/23</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-cli"><em>Import Map Package Management<span class="date">04/04/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
       </li>
@@ -70,27 +70,43 @@
   <div class="content"><h1>FAQ</h1>
 <a name="what-is-jspm" class="anchor main"></a><h2>What is JSPM?</h2>
 <p>JSPM is an open source project for working with dependency management via import maps in browsers.</p>
-<p>The <a href="/cdn">jspm.io</a> CDN is the default CDN provider used in the JSPM project for loading optimized dependencies directly from npm without a separate build step.</p>
+<p>The <a href="/cdn/jspm-io">jspm.io</a> CDN is the default CDN provider used in the JSPM project for loading optimized dependencies directly from npm without a separate build step.</p>
 <p>Other CDN providers can easily be configured, with support for all major providers included by default in the project.</p>
-<a name="what-are-import-maps" class="anchor main"></a><h2>What are Import Maps?</h2>
-<p>Import maps are a new specification ...</p>
 <a name="what-are-the-benefits-of-import-maps" class="anchor main"></a><h2>What are the Benefits of Import Maps?</h2>
 <p>Import map CDNs provide a huge caching benefit because we can both treat all URLs as immutable with far-future expires, while still giving each package a unique URL that can be shared even as its dependencies are updated.</p>
 <p>This maximises the cache usage of packages - shipping an update of your application doesn't require your users to re-download the entire application build. Their browser caches will maintain the exact dependency versions from the last update, making incremental updates highly performant.</p>
 <p>In addition, because the jspm.io CDN has worldwide edge caching, when a user first requests a dependency there's a good chance it is likely already cached at thier local regional edge due to other websites also using the <a href="/cdn">jspm.io</a> CDN, reducing latency and load time.</p>
+<a name="where-are-import-maps-supported" class="anchor main"></a><h2>Where are Import Maps Supported?</h2>
+<p>Import maps are supported in the latest versions of Firefox, Safari and Chrome. They are also supported in Deno.</p>
+<p>To support import maps in older browsers there is the <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> import maps polyfill, a small performant polyfill for import maps that can very quickly check the module scripts on the page and replace bare specifier strings (like <code><span class="keyword">import</span> <span class="string">'pkg'</span></code>) with their resolved URLs, suitable for production workflows.</p>
+<p>When using JSPM Generator, this polyfill is included by default. For background on ES Module Shims, see the blog post <a href="https://guybedford.com/es-module-shims-production-import-maps" target="_blank" rel="noopener">How ES Module Shims became a Production Import Maps Polyfill</a>.</p>
 <a name="what-is-import-map-package-management" class="anchor main"></a><h2>What is Import Map Package Management?</h2>
-<p>Treating packages as the unit of optimization means that the import map itself becomes the version lock in the browser providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
-<p>The <a href="/docs/#cli">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
-<a name="how-can-import-maps-be-supported-in-older-browsers" class="anchor main"></a><h2>How can Import Maps be supported in older browsers?</h2>
-<p>Import maps are supported in the latest versions of Firefox, Safari and Chrome. To support import maps in older browsers we use <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, a performant polyfill for import maps that can very quickly check the module scripts on the page and replace bare specifier strings (like <code><span class="keyword">import</span> <span class="string">'pkg'</span></code>) with their resolved URLs.</p>
-<p>By default, when using JSPM Generator, this polyfill is included by default.</p>
-<a name="how-does-jspm-use-the-exports-field" class="anchor main"></a><h2>How does JSPM use the "exports" field?</h2>
+<p>Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
+<p>The <a href="/docs/jspm">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
+<a name="is-jspm-standards-compatible" class="anchor main"></a><h2>Is JSPM Standards-Compatible?</h2>
+<p>JSPM is built entirely around the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener">standards for modules in browsers</a>, the <a href="https://github.com/WICG/import-maps" target="_blank" rel="noopener">import maps standard</a> and the <a href="https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#resolver-algorithm-specification" target="_blank" rel="noopener">Node.js module resolution specification</a>.</p>
+<p>JSPM then extends the Node.js module resolution algorithm in a backwards-compatible way to <a href="/docs/cdn-resolution">CDN module resolution</a>.</p>
 <a name="what-is-the-difference-between-jspm-and-jspmio" class="anchor main"></a><h2>What is the difference between JSPM and jspm.io?</h2>
+<p>JSPM is the open source project suite of tools for working with import maps and import map package management.</p>
+<p><a href="/cdn/jspm-io">jspm.io</a> is the hosted module CDN serving all of npm with CommonJS to ES module conversion and individual package optimization and minification to be compatible with JSPM import maps.</p>
 <a name="what-is-jspmdev" class="anchor main"></a><h2>What is jspm.dev?</h2>
+<p><a href="/cdn/jspm-dev">jspm.dev</a> is a convenience development-only CDN for quickly using packages in the browser without any other steps being necessary, without even needing an import map. Because there is no version lock, which is what import maps provide, it should never be used for production.</p>
 <a name="can-jspmio-be-used-for-production-apps" class="anchor main"></a><h2>Can jspm.io be used for production apps?</h2>
-<a name="how-is-jspmio-funded" class="anchor main"></a><h2>How is jspm.io funded?</h2>
+<p>jspm.io is designed as a highly available production modules CDN, with 99.99% availability, and has been serving modules for over 10 years. Status can be tracked at <a href="https://status.jspm.io/" target="_blank" rel="noopener">https://status.jspm.io/</a>.</p>
+<p>See the <a href="/getting-started#production-workflow">production workflow</a> in the getting started guide for how to use jspm.io in production.</p>
 <a name="can-i-use-other-modules-cdns-with-jspm" class="anchor main"></a><h2>Can I use other modules CDNs with JSPM?</h2>
-<a name="can-i-host-my-own-modules-cdn" class="anchor main"></a><h2>Can I host my own modules CDN?</h2>
+<p>Yes, JSPM is designed to support any CDN providers, see the <a href="/getting-started#providers">provider switching workflows</a> in the getting started guide.</p>
+<p>PRs for new providers are always welcome to the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator core</a> project.</p>
+<p>Custom providers can also be defined.</p>
+<a name="how-is-jspmio-funded" class="anchor main"></a><h2>How is jspm.io funded?</h2>
+<p>jspm.io is funded through the JSPM Foundation, a member-run Canadian not for profit corporation, which has a long-term financial plan in place for continuing to support the project.</p>
+<p>Donations and sponsorships are used to fund the server costs.</p>
+<ul>
+<li>Open Collective - <a href="https://opencollective.com/jspm" target="_blank" rel="noopener">https://opencollective.com/jspm</a></li>
+<li>GitHub Sponsors - <a href="https://github.com/sponsors/jspm" target="_blank" rel="noopener">https://github.com/sponsors/jspm</a></li>
+</ul>
+<p>New sponsors and donations are always very much welcome to ensure long-term sustainability.</p>
+<p><a href="https://www.cachefly.com/" target="_blank" rel="noopener">CacheFly</a> is the CDN infrastructure sponsor for the project.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/faq.md" rel="noopener">Edit</a><div class="next"><a href="/docs/jspm">JSPM CLI&nbsp;▶</a></div><div class="prev"><a href="/getting-started">◀&nbsp;Getting Started</a></div></div></div>
 </div>
 

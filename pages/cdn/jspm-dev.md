@@ -51,7 +51,7 @@ Packages that have an [exports field](#exports-field) defined will expose the su
 
 ## Environment Conditions
 
-`jspm.dev` will always serve modules using the `"development"`, and `"browser"` [exports conditions](#conditional-exports).
+`jspm.dev` will always serve modules using the `"development"`, and `"browser"` exports conditions.
 
 As a result packges like React or Lit will run in their development modes, which may include a console message about this.
 
