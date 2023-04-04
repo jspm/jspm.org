@@ -299,6 +299,12 @@ To achieve this locally, install the dependencies into node_modules with npm:
 npm install lit
 ```
 
+We will also have to install `es-module-shims` locally, to ensure that the injected shim can be resolved:
+
+```
+npm install es-module-shims
+```
+
 Now we can use the `--provider` option to resolve external packages against the `nodemodules` provider with JSPM, just like we changed conditional environment previously:
 
 ```
@@ -429,7 +435,7 @@ _importmap.json_
 Now, when performing the `app.html` import map HTML injection for production add the `--preload` flag to inject `modulepreload` tags for the application:
 
 ```
-jspm inject app -o app.html --preload
+jspm link app.html -o app.html --preload
 ```
 
 This results in the HTML:
@@ -553,7 +559,7 @@ deno run app.ts
 Third-party Deno packages can be installed from the `denoland:` registry, also supported by JSPM.
 
 ```
-jspm install denoland:fresh/runtime.ts -m deno.json
+jspm install denoland:oak -m deno.json
 ```
 
 Giving:
@@ -568,26 +574,17 @@ _deno.json_
   ],
   "imports": {
     "crypto": "https://deno.land/std@0.182.0/crypto/mod.ts",
-    "fresh/runtime.ts": "https://deno.land/x/fresh@1.1.4/runtime.ts"
-  },
-  "scopes": {
-    "https://deno.land/": {
-      "preact": "https://ga.jspm.io/npm:preact@10.13.2/dist/preact.mjs",
-      "preact/hooks": "https://ga.jspm.io/npm:preact@10.13.2/hooks/dist/hooks.mjs"
-    },
-    "https://ga.jspm.io/": {
-      "preact": "https://ga.jspm.io/npm:preact@10.13.2/dist/preact.mjs"
-    }
+    "oak": "https://deno.land/x/oak@v12.1.0/mod.ts"
   }
 }
 ```
 
-Notice that `preact` and `preact/hooks` are automatically installed as well. JSPM supports tracing and generating import maps TypeScript modules, so detects the necessary dependencies for Fresh. This works since all URLs are valid installation URLs in JSPM per the [CDN module resolution](/docs/cdn-resolution) rules.
+We can test the new package by updating `app.ts`:
 
 _app.ts_
 ```ts
-import * as freshRuntime from 'fresh/runtime.ts';
-console.log(freshRuntime);
+import * as oak from 'oak';
+console.log(oak);
 ```
 
 ```

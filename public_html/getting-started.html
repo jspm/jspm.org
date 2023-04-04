@@ -281,6 +281,9 @@ console.log(lit);
 <p>To achieve this locally, install the dependencies into node_modules with npm:</p>
 <pre><code>npm install lit
 </code></pre>
+<p>We will also have to install <code>es-module-shims</code> locally, to ensure that the injected shim can be resolved:</p>
+<pre><code>npm install es-module-shims
+</code></pre>
 <p>Now we can use the <code>--provider</code> option to resolve external packages against the <code>nodemodules</code> provider with JSPM, just like we changed conditional environment previously:</p>
 <pre><code>jspm install --provider nodemodules
 </code></pre>
@@ -379,7 +382,7 @@ console.log(lit);
 </code></pre>
 <a name="preload-injection" class="anchor"></a><h3>Preload Injection</h3>
 <p>Now, when performing the <code>app.html</code> import map HTML injection for production add the <code>--preload</code> flag to inject <code>modulepreload</code> tags for the application:</p>
-<pre><code>jspm inject app -o app.html --preload
+<pre><code>jspm link app.html -o app.html --preload
 </code></pre>
 <p>This results in the HTML:</p>
 <p><em>app.html</em></p>
@@ -468,7 +471,7 @@ console.log(crypto);
 </code></pre>
 <a name="installing-from-denoland" class="anchor"></a><h3>Installing from Denoland</h3>
 <p>Third-party Deno packages can be installed from the <code>denoland:</code> registry, also supported by JSPM.</p>
-<pre><code>jspm install denoland:fresh/runtime.ts -m deno.json
+<pre><code>jspm install denoland:oak -m deno.json
 </code></pre>
 <p>Giving:</p>
 <p><em>deno.json</em></p>
@@ -480,23 +483,14 @@ console.log(crypto);
   ],
   <span class="string">"imports"</span>: {
     <span class="string">"crypto"</span>: <span class="string">"https://deno.land/std@<span class="number">0</span>.<span class="number">182</span>.<span class="number">0</span>/crypto/mod.ts"</span>,
-    <span class="string">"fresh/runtime.ts"</span>: <span class="string">"https://deno.land/x/fresh@<span class="number">1</span>.<span class="number">1</span>.<span class="number">4</span>/runtime.ts"</span>
-  },
-  <span class="string">"scopes"</span>: {
-    <span class="string">"https://deno.land/"</span>: {
-      <span class="string">"preact"</span>: <span class="string">"https://ga.jspm.io/npm:preact@<span class="number">10</span>.<span class="number">13</span>.<span class="number">2</span>/dist/preact.mjs"</span>,
-      <span class="string">"preact/hooks"</span>: <span class="string">"https://ga.jspm.io/npm:preact@<span class="number">10</span>.<span class="number">13</span>.<span class="number">2</span>/hooks/dist/hooks.mjs"</span>
-    },
-    <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"preact"</span>: <span class="string">"https://ga.jspm.io/npm:preact@<span class="number">10</span>.<span class="number">13</span>.<span class="number">2</span>/dist/preact.mjs"</span>
-    }
+    <span class="string">"oak"</span>: <span class="string">"https://deno.land/x/oak@v12.<span class="number">1</span>.<span class="number">0</span>/mod.ts"</span>
   }
 }
 </code></pre>
-<p>Notice that <code>preact</code> and <code>preact/hooks</code> are automatically installed as well. JSPM supports tracing and generating import maps TypeScript modules, so detects the necessary dependencies for Fresh. This works since all URLs are valid installation URLs in JSPM per the <a href="/docs/cdn-resolution">CDN module resolution</a> rules.</p>
+<p>We can test the new package by updating <code>app.ts</code>:</p>
 <p><em>app.ts</em></p>
-<pre><code class="language-ts"><span class="keyword">import</span> * <span class="keyword">as</span> freshRuntime <span class="keyword">from</span> <span class="string">'fresh/runtime.ts'</span>;
-console.log(freshRuntime);
+<pre><code class="language-ts"><span class="keyword">import</span> * <span class="keyword">as</span> oak <span class="keyword">from</span> <span class="string">'oak'</span>;
+console.log(oak);
 </code></pre>
 <pre><code>deno run app.ts
 </code></pre>

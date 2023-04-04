@@ -10,7 +10,7 @@
       "title": "JSPM CLI - Import Map Package Management",
       "content_html": "<p>Relaunching the JSPM CLI as an Import Map Package Manager</p>",
       "date_published": "2023-04-04T05:17:54.247Z",
-      "date_modified": "2023-04-03T05:28:24.162Z"
+      "date_modified": "2023-04-04T09:21:00.424Z"
     },
     {
       "id": "3",
@@ -18,7 +18,7 @@
       "title": "teleportHQ JSPM Sponsorship",
       "content_html": "<p>teleportHQ sponsors JSPM's ES Module CDN workflows</p>",
       "date_published": "2022-03-15T12:25:19.741Z",
-      "date_modified": "2023-03-25T22:42:16.349Z"
+      "date_modified": "2023-03-30T11:48:46.218Z"
     },
     {
       "id": "2",
@@ -26,7 +26,7 @@
       "title": "Import Maps Release & Module CDN Launch",
       "content_html": "<p>Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows</p>",
       "date_published": "2021-03-02T12:16:13.775Z",
-      "date_modified": "2023-03-25T22:42:16.347Z"
+      "date_modified": "2023-03-30T11:48:46.216Z"
     },
     {
       "id": "1",
@@ -34,7 +34,7 @@
       "title": "jspm.dev Release",
       "content_html": "<p>jspm.dev CDN release post</p>",
       "date_published": "2020-06-19T12:16:12.775Z",
-      "date_modified": "2022-03-15T12:16:13.775Z"
+      "date_modified": "2023-02-24T09:13:04.136Z"
     }
   ]
 }
