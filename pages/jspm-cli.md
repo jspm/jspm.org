@@ -51,7 +51,7 @@ Better apps are written when there are less steps between the developer and thei
 
 ## Package-Aligned Caching
 
-JSPM's default CDN, `jspm.io` serves unique versioned package URLs with packages individually optimized using the standard [code splitting optimization](http://localhost:8080/cdn/jspm-io#package-optimization) technique against their enumerated public entry points (package `"exports"`).
+JSPM's default CDN, `jspm.io` serves unique versioned package URLs with packages individually optimized using the standard [code splitting optimization](/cdn/jspm-io#package-optimization) technique against their enumerated public entry points (package `"exports"`).
 
 Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM a single optimized dependency maintains a singular representation (for a given provider).
 
