@@ -13,7 +13,7 @@ Today, the JSPM CLI is being relaunched as an import map package management tool
 
 ## Import Map Package Management
 
-_The thesis of JSPM has always been that browser import map management is package management._
+> The thesis of JSPM has always been that browser import map management is package management.
 
 Creating and managing an import map should be like using a traditional package manager:
 
@@ -51,9 +51,9 @@ We believe that better apps are written when there are less steps between the de
 
 ## Package-Aligned Caching
 
-JSPM's default CDN, `jspm.io` uses unique versioned package URLs.
+JSPM's default CDN, `jspm.io` serves unique versioned package URLs with packages individually optimized using the standard [code splitting optimization](http://localhost:8080/cdn/jspm-io#package-optimization) technique against their enumerated public entry points (package `"exports"`).
 
-Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM, a single optimized dependency maintains a singular representation (for a given provider).
+Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM a single optimized dependency maintains a singular representation (for a given provider).
 
 As a result, navigating between pages of a large web application dependency, package network caches are always fully shared naturally without complex build tool rules to maintain this. The cache either has a unique versioned package path or not. Upgrades to a web app that only change one package don't need to invalidate every other package that has been downloaded.
 
@@ -63,7 +63,7 @@ Finally, URLs are also easily human readable, maintaining the all-important _vie
 
 ## Updated Documentation
 
-The reworked [getting started guide](/getting-started), [FAQ](/faq) and [documentation](/docs/jspm) now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.
+The reworked [Getting Started](/getting-started) guide, [FAQ](/faq) and [documentation](/docs/jspm) now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.
 
 ## Announcing our Infrastructure Sponsor: CacheFly
 

@@ -8,7 +8,7 @@ extensions = [
 
 [env]
 IMPORT_MAP_VERSION = '1.0.7'
-GENERATOR_VERSION = '1.1.3'
+GENERATOR_VERSION = '1.1.6'
 JSPM_VERSION = '3.0.0'
 TYPEDOC_SYNTAX_THEME = 'rose-pine-dawn'
 

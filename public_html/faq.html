@@ -74,27 +74,27 @@
 <p>The <a href="/cdn/jspm-io">jspm.io</a> CDN is the default CDN provider used in the JSPM project for loading optimized dependencies directly from npm without a separate build step.</p>
 <p>Other CDN providers can easily be configured, with support for all major providers included by default in the project.</p>
 <a name="what-are-the-benefits-of-import-maps" class="anchor main"></a><h2>What are the Benefits of Import Maps?</h2>
-<p>Import maps enable dynamic linking in the browser, something previously only complex bundlers can do in JavaScript, enabling easier dependency remapping in development and production environments.</p>
+<p>Import maps enable dynamic linking in the browser, previously only an internal feature of bundlers in JavaScript.</p>
 <p>Import map CDNs also provide a huge caching benefit because we can both treat all URLs as immutable with far-future expires, while still giving each package a unique URL that can be shared even as its dependencies are updated.</p>
 <p>This maximises the cache usage of packages - shipping an update of your application doesn't require your users to re-download the entire application build. Their browser caches will maintain the exact dependency versions from the last update, making incremental updates highly performant.</p>
-<p>In addition, because the jspm.io CDN has worldwide edge caching, when a user first requests a dependency there's a good chance it is likely already cached at thier local regional edge due to other websites also using the <a href="/cdn">jspm.io</a> CDN, reducing latency and load time.</p>
+<p>In addition, because the jspm.io CDN has worldwide edge caching, when a user first requests a dependency there's a good chance it is likely already cached at their local regional edge due to other websites also using the <a href="/cdn">jspm.io</a> CDN, reducing latency and load time.</p>
 <a name="where-are-import-maps-supported" class="anchor main"></a><h2>Where are Import Maps Supported?</h2>
 <p>Import maps are supported in the latest versions of Firefox, Safari and Chrome. They are also supported in Deno.</p>
 <p>To support import maps in older browsers there is the <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> import maps polyfill, a small performant polyfill for import maps that can very quickly check the module scripts on the page and replace bare specifier strings (like <code><span class="keyword">import</span> <span class="string">'pkg'</span></code>) with their resolved URLs, suitable for production workflows.</p>
 <p>When using JSPM Generator, this polyfill is included by default. For background on ES Module Shims, see the blog post <a href="https://guybedford.com/es-module-shims-production-import-maps" target="_blank" rel="noopener">How ES Module Shims became a Production Import Maps Polyfill</a>.</p>
 <a name="what-is-import-map-package-management" class="anchor main"></a><h2>What is Import Map Package Management?</h2>
-<p>Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
+<p>Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser, providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
 <p>The <a href="/docs/jspm">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
 <a name="is-jspm-standards-compatible" class="anchor main"></a><h2>Is JSPM Standards-Compatible?</h2>
 <p>JSPM is built entirely around the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener">standards for modules in browsers</a>, the <a href="https://github.com/WICG/import-maps" target="_blank" rel="noopener">import maps standard</a> and the <a href="https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#resolver-algorithm-specification" target="_blank" rel="noopener">Node.js module resolution specification</a>.</p>
 <p>JSPM then extends the Node.js module resolution algorithm in a backwards-compatible way to <a href="/docs/cdn-resolution">CDN module resolution</a>.</p>
 <a name="does-jspm-replace-bundling" class="anchor main"></a><h2>Does JSPM Replace Bundling?</h2>
-<p>Overall, no, large applications always require optimization, and bundling (ie merging modules together) is an important tool in the optimization toolbox. All packages on the jspm.io CDN are individually bundled themselves, thus the question with regards to bundling is more about at what granularity are modules being grouped together, and how does that granularity align with workflows.</p>
+<p>Overall, no. Large applications always require optimization, and bundling (ie merging modules together) is an important tool in the optimization toolbox. All packages on the jspm.io CDN are individually bundled themselves, thus the question with regards to bundling is more about at what granularity are modules being grouped together, and how does that granularity align with workflows.</p>
 <p>But for simple applications, it can be possible to skip bundling entirely, with very little performance difference and cutting out a lot of complex tooling where not needed. Having a singular monolithic bundling process without intermediate or shared modules <em>is</em> hopefully something we can move away from in general in the ecosystem.</p>
 <a name="arent-javascript-modules-slow" class="anchor main"></a><h2>Aren't JavaScript Modules Slow?</h2>
-<p>Browsers can load 100s of modules in fractions of a second. The JSPM <a href="https://generator.jspm.io" target="_blank" rel="noopener">online generator</a> is a great example of a mid-sized application using these techniques.</p>
+<p>Browsers can load hundreds of modules in fractions of a second. The JSPM <a href="https://generator.jspm.io" target="_blank" rel="noopener">online generator</a> is a great example of a mid-sized application using these techniques.</p>
 <p>While highly optimized bundles are faster in technical benchmarks, other factors need to be taken into account including cross-page caching, regional edge caching, and caching between application updates. JSPM takes the position that the network and caching benefits are more important than optimal execution timings on a warm cache.</p>
-<p>Furthermore, what usually what causes slow JavaScript applications is shipping <strong>unnnecessary code</strong>. The techniques used in JSPM always ensure only necessary code is loaded, so that JSPM apps tend to be very fast.</p>
+<p>Furthermore, what usually causes slow JavaScript applications is shipping <strong>unnecessary code</strong>. The techniques used in JSPM always ensure only necessary code is loaded, so that JSPM apps tend to be very fast.</p>
 <p>Always ensure that <a href="/getting-started#preload-injection">production preloading</a> injection is set up to avoid module dependency discovery latency waterfalls.</p>
 <a name="what-is-the-difference-between-jspm-and-jspmio" class="anchor main"></a><h2>What is the Difference Between JSPM and jspm.io?</h2>
 <p>JSPM is the open source project suite of tools for working with import maps and import map package management.</p>
@@ -103,13 +103,13 @@
 <p><a href="/cdn/jspm-dev">jspm.dev</a> is a convenience development-only CDN for quickly using packages in the browser without any other steps being necessary, without even needing an import map. Because there is no version lock, which is what import maps provide, it should never be used for production.</p>
 <a name="can-jspmio-be-used-for-production-apps" class="anchor main"></a><h2>Can jspm.io be used for Production Apps?</h2>
 <p>jspm.io is designed as a highly available production modules CDN, with 99.99% availability, and has been serving modules for over 10 years. Status can be tracked at <a href="https://status.jspm.io/" target="_blank" rel="noopener">https://status.jspm.io/</a>.</p>
-<p>See the <a href="/getting-started#production-workflow">production workflow</a> in the getting started guide for how to use jspm.io in production.</p>
+<p>See the <a href="/getting-started#production-workflow">production workflow</a> in the Getting Started guide for how to use jspm.io in production.</p>
 <a name="can-i-use-other-modules-cdns-with-jspm" class="anchor main"></a><h2>Can I use Other Modules CDNs with JSPM?</h2>
 <p>Yes, JSPM is designed to support any CDN providers, see the <a href="/getting-started#changing-providers">provider switching workflows</a> in the getting started guide.</p>
 <p>PRs for new providers are always welcome to the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator core</a> project.</p>
 <p>Custom providers can also be defined.</p>
 <a name="how-is-jspmio-funded" class="anchor main"></a><h2>How is jspm.io Funded?</h2>
-<p>jspm.io is funded through the JSPM Foundation, a member-run Canadian not for profit corporation, which has a long-term financial plan in place for continuing to support the project.</p>
+<p>jspm.io is funded through the JSPM Foundation, a member-run Canadian not-for-profit corporation, which has a long-term financial plan in place for continuing to support the project.</p>
 <p>Donations and sponsorships are used to fund the server costs.</p>
 <ul>
 <li>Open Collective - <a href="https://opencollective.com/jspm" target="_blank" rel="noopener">https://opencollective.com/jspm</a></li>

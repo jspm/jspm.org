@@ -74,7 +74,9 @@
 <p>Last week Apple landed support for import maps in Safari 16.4, resulting in <a href="https://caniuse.com/import-maps" target="_blank" rel="noopener">all major web browsers</a> now supporting the <a href="https://github.com/WICG/import-maps" target="_blank" rel="noopener">import maps standard</a>.</p>
 <p>Today, the JSPM CLI is being relaunched as an import map package management tool.</p>
 <a name="import-map-package-management" class="anchor main"></a><h2>Import Map Package Management</h2>
-<p><em>The thesis of JSPM has always been that browser import map management is package management.</em></p>
+<blockquote>
+<p>The thesis of JSPM has always been that browser import map management is package management.</p>
+</blockquote>
 <p>Creating and managing an import map should be like using a traditional package manager:</p>
 <pre><code>jspm install -m app.html lit --env=production
 </code></pre>
@@ -104,13 +106,13 @@ console.log(lit);
 <p>JSPM respects <code>package.json</code> version ranges and supports all the features of Node.js module resolution in a browser compatible way. It supports arbitrary module URLs and CDN providers e.g. by just adding <code>--provider unpkg</code> to the install command (or even local <code>node_modules</code> mappings via <code>--provider nodemodules</code>).</p>
 <p>We believe that better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.</p>
 <a name="package-aligned-caching" class="anchor main"></a><h2>Package-Aligned Caching</h2>
-<p>JSPM's default CDN, <code>jspm.io</code> uses unique versioned package URLs.</p>
-<p>Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM, a single optimized dependency maintains a singular representation (for a given provider).</p>
+<p>JSPM's default CDN, <code>jspm.io</code> serves unique versioned package URLs with packages individually optimized using the standard <a href="http://localhost:8080/cdn/jspm-io#package-optimization" target="_blank" rel="noopener">code splitting optimization</a> technique against their enumerated public entry points (package <code><span class="string">"exports"</span></code>).</p>
+<p>Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM a single optimized dependency maintains a singular representation (for a given provider).</p>
 <p>As a result, navigating between pages of a large web application dependency, package network caches are always fully shared naturally without complex build tool rules to maintain this. The cache either has a unique versioned package path or not. Upgrades to a web app that only change one package don't need to invalidate every other package that has been downloaded.</p>
 <p>These caching benefits even extend to regional edge caching; edge-cached dependencies can be shared between different web applications using the same CDN edge nodes.</p>
 <p>Finally, URLs are also easily human readable, maintaining the all-important <em>view source</em> property of the web.</p>
 <a name="updated-documentation" class="anchor main"></a><h2>Updated Documentation</h2>
-<p>The reworked <a href="/getting-started">getting started guide</a>, <a href="/faq">FAQ</a> and <a href="/docs/jspm">documentation</a> now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.</p>
+<p>The reworked <a href="/getting-started">Getting Started</a> guide, <a href="/faq">FAQ</a> and <a href="/docs/jspm">documentation</a> now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.</p>
 <a name="announcing-our-infrastructure-sponsor-cachefly" class="anchor main"></a><h2>Announcing our Infrastructure Sponsor: CacheFly</h2>
 <p><a href="https://www.cachefly.com/" target="_blank" rel="noopener"><img src="cachefly.png" style="width: 10em; float: left; margin-right: 1em; margin-bottom: 1em;"></a></p>
 <p>The <code>jspm.io</code> CDN is now running on the CacheFly CDN, thanks to their generous infrastructure sponsorship. With over 900m requests being served per month, the migration to their CDN service was seamless and has reduced our infrastructure costs significantly.</p>

@@ -119,7 +119,7 @@
 <pre><code>npx http-server -c-1
 </code></pre>
 <blockquote>
-<p>For server-side HTML generation, the import map should be created ahead of time as JSON which is inlined by the server. Note that JSPM HTML injection uses a very lenient HTML parser, that should support templating languages just fine. JSON import map output for JSPM is the default when not specifying a different output via the <code>-o</code> option.</p>
+<p>For server-side HTML generation, the import map should be created ahead of time as JSON, which is inlined by the server. Note that JSPM HTML injection uses a very lenient HTML parser that should support templating languages just fine. JSON import map output for JSPM is the default when not specifying a different output via the <code>-o</code> option.</p>
 </blockquote>
 <a name="linking-local-application-code" class="anchor main"></a><h2>Linking Local Application Code</h2>
 <p>Instead of using inline modules, we can link local modules directly, changing the inline <code>lit</code> import to a local application path instead:</p>
@@ -435,7 +435,7 @@ console.log(lit);
 <p>Running:</p>
 <pre><code>jspm install --env=development
 </code></pre>
-<p>Will now update the <code>app</code> mapping in <code>importmap.json</code> from <code>dist/app.js</code> to <code>src/app.js</code>.</p>
+<p>will now update the <code>app</code> mapping in <code>importmap.json</code> from <code>dist/app.js</code> to <code>src/app.js</code>.</p>
 <p>JSPM is able to automatically switch between production and development modes for both the local application and external package code.</p>
 <blockquote>
 <p>The above <code>package.json</code> <code><span class="string">"name"</span></code> definition may look like a JSPM-specific workflow trick, but this is actually a native modules feature of Node.js module resolution, and is supported by most JS tooling, called <a href="https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">package self-reference resolution</a>.</p>

@@ -80,7 +80,7 @@ Run a local server to view the application (disabling local caching to enable de
 npx http-server -c-1
 ```
 
-> For server-side HTML generation, the import map should be created ahead of time as JSON which is inlined by the server. Note that JSPM HTML injection uses a very lenient HTML parser, that should support templating languages just fine. JSON import map output for JSPM is the default when not specifying a different output via the `-o` option.
+> For server-side HTML generation, the import map should be created ahead of time as JSON, which is inlined by the server. Note that JSPM HTML injection uses a very lenient HTML parser that should support templating languages just fine. JSON import map output for JSPM is the default when not specifying a different output via the `-o` option.
 
 ## Linking Local Application Code
 
@@ -501,7 +501,7 @@ Running:
 jspm install --env=development
 ```
 
-Will now update the `app` mapping in `importmap.json` from `dist/app.js` to `src/app.js`.
+will now update the `app` mapping in `importmap.json` from `dist/app.js` to `src/app.js`.
 
 JSPM is able to automatically switch between production and development modes for both the local application and external package code.
 

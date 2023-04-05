@@ -20,7 +20,7 @@ Packages on the `jspm.io` CDN are processed to be import maps and browser-compat
 
 The [Node.js ES Modules](https://nodejs.org/dist/latest/docs/api/esm.html) conventions in Node.js are fully supported, alongside the Node.js [package definitions](https://nodejs.org/dist/latest/docs/api/packages.html).
 
-This includes support for the [package exports](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) field, [package imports](https://nodejs.org/dist/latest/docs/api/packages.html#subpath-imports) field, [self-reference resolution](https://nodejs.org/dist/latest/docs/api/packages.html#self-referencing-a-package-using-its-name), [conditional exports](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) definitions, as well as the conversion of CommonJS modules into ES modules.
+This includes support for the [package exports](https://nodejs.org/dist/latest/docs/api/packages.html#subpath-exports) field, [package imports](https://nodejs.org/dist/latest/docs/api/packages.html#subpath-imports) field, [self-reference resolution](https://nodejs.org/dist/latest/docs/api/packages.html#self-referencing-a-package-using-its-name), [conditional exports](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) definitions, as well as the conversion of CommonJS modules into ES modules.
 
 ### CDN URLs
 
@@ -58,7 +58,7 @@ For packages with multiple entry points or subpaths, each of those package subpa
 
 Source maps are included to map back to the unoptimized file structure.
 
-To control which entry points are exposed in this way, the `"exports"` field can be used to define what is optimized by JSPM.
+To control which entry points are exposed in this way, the [`"exports"`](https://nodejs.org/dist/latest/docs/api/packages.html#subpath-exports) field can be used to define what is optimized by JSPM.
 
 Packages without an `"exports"` field get their exports inferred by a [statistical analysis approach](/jspm-dev-release#subpath-detection). Whenever possible the `"exports"` field is the preferred way to define subpaths for published packages.
 
