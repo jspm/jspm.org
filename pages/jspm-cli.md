@@ -47,7 +47,7 @@ console.log(lit);
 
 JSPM respects `package.json` version ranges and supports all the features of Node.js module resolution in a browser compatible way. It supports arbitrary module URLs and CDN providers e.g. by just adding `--provider unpkg` to the install command (or even local `node_modules` mappings via `--provider nodemodules`).
 
-We believe that better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.
+Better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.
 
 ## Package-Aligned Caching
 

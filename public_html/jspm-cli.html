@@ -104,7 +104,7 @@ console.log(lit);
 <p style="text-align: center"><em>The JSPM-generated import map for <code>lit</code></em></p>
 
 <p>JSPM respects <code>package.json</code> version ranges and supports all the features of Node.js module resolution in a browser compatible way. It supports arbitrary module URLs and CDN providers e.g. by just adding <code>--provider unpkg</code> to the install command (or even local <code>node_modules</code> mappings via <code>--provider nodemodules</code>).</p>
-<p>We believe that better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.</p>
+<p>Better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.</p>
 <a name="package-aligned-caching" class="anchor main"></a><h2>Package-Aligned Caching</h2>
 <p>JSPM's default CDN, <code>jspm.io</code> serves unique versioned package URLs with packages individually optimized using the standard <a href="http://localhost:8080/cdn/jspm-io#package-optimization" target="_blank" rel="noopener">code splitting optimization</a> technique against their enumerated public entry points (package <code><span class="string">"exports"</span></code>).</p>
 <p>Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM a single optimized dependency maintains a singular representation (for a given provider).</p>
