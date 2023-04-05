@@ -13,7 +13,7 @@ Today, the JSPM CLI is being relaunched as an import map package management tool
 
 ## Import Map Package Management
 
-> The thesis of JSPM has always been that browser import map management is package management.
+**The thesis of JSPM has always been that browser import map management is package management.**
 
 Creating and managing an import map should be like using a traditional package manager:
 
