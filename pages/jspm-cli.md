@@ -5,19 +5,21 @@ description = "Relaunching the JSPM CLI as an Import Map Package Manager"
 
 # JSPM CLI Relaunch
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, April 4<sup style="padding-left:0.15em">th</sup> 2023</em></p>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, April 5<sup style="padding-left:0.15em">th</sup> 2023</em></p>
 
 Last week Apple landed support for import maps in Safari 16.4, resulting in [all major web browsers](https://caniuse.com/import-maps) now supporting the [import maps standard](https://github.com/WICG/import-maps).
 
-_Today, the JSPM CLI is being relaunched as an import map package management tool._
+Today, the JSPM CLI is being relaunched as an import map package management tool.
 
 ## Import Map Package Management
 
-```
-npm install -g jspm
-```
+_The thesis of JSPM has always been that browser import map management is package management._
 
-The thesis of JSPM has always been that browser map management is package management. It's a great milestone to finally be able to re-release the CLI for exactly this on top of entirely native standards.
+Creating and managing an import map should be like using a traditional package manager:
+
+```
+jspm install -m app.html lit --env=production
+```
 
 ```html
 <!doctype html>
@@ -41,26 +43,34 @@ import * as lit from 'lit';
 console.log(lit);
 </script>
 ```
-<p style="text-align: center"><em>The import map for <code>lit</code></em></p>
+<p style="text-align: center"><em>The JSPM-generated import map for <code>lit</code></em></p>
 
-Creating an import map for `lit` can be achieved with JSPM with just the following CLI command:
+JSPM respects `package.json` version ranges and supports all the features of Node.js module resolution in a browser compatible way. It supports arbitrary module URLs and CDN providers e.g. by just adding `--provider unpkg` to the install command (or even local `node_modules` mappings via `--provider nodemodules`).
 
-```
-jspm install -m app.html lit --env=production
-```
+We believe that better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.
 
-JSPM respects `package.json` version ranges and supports all the features of Node.js module resolution in a browser compatible way. It works with most module CDN providers e.g. by just adding `--provider unpkg` to the install command.
+## Package-Aligned Caching
 
-The new [getting started guide](/getting-started) and documentation covers all the details and workflows around the use cases here, including generating maps [against node_modules](http://localhost:8080/getting-started#the-nodemodules-provider) directly (just without the CJS -> ESM conversion and optimization of the [jspm.io CDN](/cdn/jspm-io)), handling [production workflows with preload injection](http://localhost:8080/getting-started#production-workflow) and using JSPM for [import map package management in Deno](http://localhost:8080/getting-started#deno-workflows).
+JSPM's default CDN, `jspm.io` uses unique versioned package URLs.
 
-I must admit it's pretty relieving that only for the first time ever, JSPM is largely feature complete!
+Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM, a single optimized dependency maintains a singular representation (for a given provider).
 
-## CacheFly Sponsorship
+As a result, navigating between pages of a large web application dependency, package network caches are always fully shared naturally without complex build tool rules to maintain this. The cache either has a unique versioned package path or not. Upgrades to a web app that only change one package don't need to invalidate every other package that has been downloaded.
+
+These caching benefits even extend to regional edge caching; edge-cached dependencies can be shared between different web applications using the same CDN edge nodes.
+
+Finally, URLs are also easily human readable, maintaining the all-important _view source_ property of the web.
+
+## Updated Documentation
+
+The reworked [getting started guide](/getting-started), [FAQ](/faq) and [documentation](/docs/jspm) now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.
+
+## Announcing our Infrastructure Sponsor: CacheFly
 
 <a href="https://www.cachefly.com/"><img src="cachefly.png" style="width: 10em; float: left; margin-right: 1em; margin-bottom: 1em;" /></a>
 
 The `jspm.io` CDN is now running on the CacheFly CDN, thanks to their generous infrastructure sponsorship. With over 900m requests being served per month, the migration to their CDN service was seamless and has reduced our infrastructure costs significantly.
 
-And thanks to our amazing project sponsors [37 Signals](https://37signals.com), [Socket](https://socket.dev), [Framer](https://framer.com) and [Scrimba](https://scrimba.com) for sustaining the project financially.
+Finally a huge thanks to the project sponsors [37 Signals](https://37signals.com), [Socket](https://socket.dev), [Framer](https://framer.com) and [Scrimba](https://scrimba.com) for sustaining the project.
 
 <br />

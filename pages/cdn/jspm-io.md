@@ -11,103 +11,40 @@ next-section = "cdn/jspm-dev"
 
 * Comprehensive [package optimization](#package-optimization) and minification with source maps.
 * Universal URLs with far-future expires _for all resources_.
-* The ability to configure all environment conditions for a package, compatible with [Node.js exports conditions](https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports) and [WinterCG runtime keys](https://runtime-keys.proposal.wintercg.org/) (eg `"development"` / `"production"` / `"browser"` / `"node"` / `"deno"` package entry point variants).
+* The ability to configure all environment conditions for a package, compatible with [Node.js exports conditions](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) and [WinterCG runtime keys](https://runtime-keys.proposal.wintercg.org/) (eg `"development"` / `"production"` / `"browser"` / `"node"` / `"deno"` package entry point variants).
 * High performance CDN, with redundant storage and caching layers and 99.99% historical [uptime](https://status.jspm.io/).
 
 ## Package Interpretation
 
-Packages on the `jspm.io` CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers.
+Packages on the `jspm.io` CDN are processed to be import maps and browser-compatible based on standard module semantics that have emerged between Node.js and browsers. Imports on the CDN are based on using exact file extensions when loading relative paths, and using import maps for bare specifier resolutions.
 
 The [Node.js ES Modules](https://nodejs.org/dist/latest/docs/api/esm.html) conventions in Node.js are fully supported, alongside the Node.js [package definitions](https://nodejs.org/dist/latest/docs/api/packages.html).
 
-This includes support for the package exports field, package imports field, own name resolution, conditional exports definitions, as well as the conversion of CommonJS modules into ES modules.
+This includes support for the [package exports](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) field, [package imports](https://nodejs.org/dist/latest/docs/api/packages.html#subpath-imports) field, [self-reference resolution](https://nodejs.org/dist/latest/docs/api/packages.html#self-referencing-a-package-using-its-name), [conditional exports](https://nodejs.org/dist/latest/docs/api/packages.html#conditional-exports) definitions, as well as the conversion of CommonJS modules into ES modules.
 
-### URLs
+### CDN URLs
 
-Imports on the CDN are based on using exact file extensions when loading relative paths, and using import maps for bare specifier resolutions.
-
-The `jspm.io` CDN is fully versioned. The current version is _version gamma_: `https://ga.jspm.io`.
+The `jspm.io` CDN is fully versioned. The current version is _version gamma_: `https://ga.jspm.io/`.
 
 This versioning scheme allows immutable caching with far-future expires while still being able to ship major CDN releases over time.
 
+### Modules
+
 Packages are located at their exact registry and version URL known as the canonical package path: `https://ga.jspm.io/npm:pkg@x.y.z/`.
+
+Within the package, all files are served at their original file name locations as per the package published on npm - _but instead of the original module files, optimized module files are served instead_.
 
 ### package.json
 
-All packages contain a `package.json` file, which is the processed package.json by JSPM including the enumerated exports and file listing. The `package.json` is all that is needed to enumerate the exports of a package and resolve their URLs in the package.
+All packages contain a `package.json` file, which is the processed package.json by JSPM including the enumerated exports and file listing. The `package.json` is all that is needed to enumerate the exports of a package and resolve their URLs in the package, and is also a processed version of the `package.json` created by the CDN.
 
-This is exactly what the JSPM generator does as a linker supporting the modern module resolver conventions. Files within the package are typically provided by their original file path, although names are sometimes rewritten, for example when constructing development builds for some modules.
-
-### Exports Field
-
-Libraries published to npm can use the `"exports"` field to define what entry points to expose and to which environments, and JSPM will optimize these with a RollupJS code splitting build.
-
-Exports support in JSPM follows the exact features of the [Node.js ECMAScript modules implementation](https://nodejs.org/dist/latest-v15.x/docs/api/esm.html#esm_package_entry_points).
-
-### Main Entry Point
-
-The base case is to define the main entry point in exports in the package.json file via:
-
-```json
-{
-  "exports": "./main.js"
-}
-```
-
-If not using `"exports"`, JSPM will fall back to the `"main"`, like in Node.js and other build tools.
-
-> Both the leading `./` and the explicit file extension are important to include when using the exports field.
-
-### Multiple Entry Points
-
-If there are multiple entry points, these can be defined as a map, with the `"."` export for the main:
-
-```json
-{
-  "exports": {
-    ".": "./main.js",
-    "./feature": "./feature.js"
-  }
-}
-```
-
-The above will support `import 'pkg'` and `import 'pkg/feature'` for consumers in Node.js and the browser, and these separate entry points will then be optimized in a RollupJS code splitting build on JSPM.
-
-> Any entry points not explicitly defined in `"exports"` will throw when attempting to be imported in Node.js. That is, the `"exports"` field fully encapsulates the package. It is exactly this encapsulation of the private modules of the package that makes it possible to safely optimize the package by merging these internal modules with a RollupJS code splitting build.
+When the [JSPM CLI](/docs/cli) or [Generator](/docs/generator) links a package, it uses this `package.json` file for resolution rules.
 
 ### Conditional Exports
 
-To use a different main entry point between Node.js and other environments this can be written:
+Because all modules are optimized into their existing file locations, conditional resolutions are fully supported and optimized.
 
-```json
-{
-  "exports": {
-    "node": "./main-node.js",
-    "default": "./main-not-node.js"
-  }
-}
-```
-
-There is also a `"browser"` condition, but the benefit of using a `"default"` fallback above is that it can also work in e.g. Deno, or other JS environments.
-
-Conditional exports also apply to multiple entry points:
-
-```json
-{
-  "exports": {
-    ".": {
-      "node": "./main-node.js",
-      "default": "./main-not-node.js"
-    }
-    "./feature": {
-      "node": "./feature.js",
-      "default": "./feature-not-node.js"
-    }
-  }
-}
-```
-
-Other conditions that can be used include `"browser"`, `"react-native"`, `"development"`, `"production"`, `"require"` and `"import"`.
+All custom condition names are supported, beyond the standard `"browser"`, `"react-native"`, `"development"`, `"production"`, `"require"` and `"import"` conditions.
 
 Some build tools like Webpack and RollupJS support the custom `"module"` condition in exports. This condition is supported by JSPM as if it were a `"module"` entry in the exports field for the main entry point.
 
@@ -139,7 +76,7 @@ The following CommonJS compatibility features are provided by the conversion pro
 * Any reference to `global` is rewritten to the actual environment global.
 * `__filename` and `__dirname` references are rewritten using a `new URL('.', import.meta.url)` style expression.
 * Dynamic `require()` and `require.resolve` rewriting is not currently supported.
-* The `"browser"` field is supported as it is in Browserify, but is not supported when the `"exports"` field is set.
+* The `"browser"` field is supported for defining entry points, but only when the `"exports"` field is not set. `"exports"` field targets still run through `"browser"` field remappings for Webpack compatibility.
 
 CommonJS should work the same as it does in Webpack and other JS bundlers. Any bugs can be reported to the main project [issue tracker](https://github.com/jspm/project).
 
@@ -151,7 +88,7 @@ To recover from errors like this, JSPM provides a [package overrides repo](https
 
 Entries made here override the package.json configuration for packages matching a given package name and version range, and enforce the `"exports"` configuration.
 
-In addition a custom `"cjsNamedExports"` field is defined for JSPM specifically allowing specifying the expected CommonJS named exports for packages, bypassing the Node.js [cjs-module-lexer analysis](https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#commonjs-namespaces).
+In addition a custom `"cjsNamedExports"` field is defined for JSPM specifically allowing specifying the expected CommonJS named exports for packages, bypassing the Node.js [cjs-module-lexer analysis](https://nodejs.org/dist/latest/docs/api/esm.html#commonjs-namespaces).
 
 Creating a PR to add custom exports overrides allows for fixing any package issues on the CDNs.
 

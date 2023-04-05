@@ -21,6 +21,7 @@
   <ul class="toplinks">
     <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
     <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+    <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
     <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
   </ul>
   <div class="mobile-menu"></div>
@@ -181,7 +182,10 @@ console.log(lit);
 </code></pre>
 <a name="defining-custom-mappings" class="anchor"></a><h3>Defining Custom Mappings</h3>
 <p>Any edits we make to this local import map file are respected when performing the subsequent <code>link</code> operations.</p>
-<p>Let's add a custom mapping now for our local application code, by adding a new <code><span class="string">"app"</span>: <span class="string">"./src/app.js"</span></code> entry:</p>
+<p>In addition any URLs can be installed into the import map as well.</p>
+<p>For example, say we want to load the local application as <code><span class="keyword">import</span> <span class="string">'app'</span></code>, we can set add this map entry using an aliased install:</p>
+<pre><code>jspm install app=./src/app.js
+</code></pre>
 <p><em>importmap.json</em></p>
 <pre><code class="language-json">{
   <span class="string">"env"</span>: [
@@ -204,6 +208,7 @@ console.log(lit);
   }
 }
 </code></pre>
+<p>Just like npm can install local folders, local module URLs can be installed directly in JSPM, and they can also point to fully remote module URLs with transitive dependency installs applying in all cases.</p>
 <p>Now we can update the HTML file to load <code>app</code> directly instead of having to hard-code the path:</p>
 <p><em>app.html</em></p>
 <pre><code class="language-html">&lt;!doctype html&gt;
@@ -278,13 +283,10 @@ console.log(lit);
 <p>The benefits of using an ESM-native CDN like <code>jspm.io</code> is that dependencies are fully production optimized, and older packages that only support CommonJS are automatically converted by the CDN into ES modules to support browser usage.</p>
 <p>Lit is actually a package that is designed from the start as an ESM package and it is also optimized at publish time, so it's actually possible to create an import map directly against the original sources.</p>
 <a name="the-nodemodules-provider" class="anchor"></a><h3>The nodemodules Provider</h3>
-<p>To achieve this locally, install the dependencies into node_modules with npm:</p>
-<pre><code>npm install lit
+<p>To achieve this locally, install the dependencies into node_modules with npm, as well as the <code>es-module-shims</code> polyfill itself:</p>
+<pre><code>npm install lit es-module-shims
 </code></pre>
-<p>We will also have to install <code>es-module-shims</code> locally, to ensure that the injected shim can be resolved:</p>
-<pre><code>npm install es-module-shims
-</code></pre>
-<p>Now we can use the <code>--provider</code> option to resolve external packages against the <code>nodemodules</code> provider with JSPM, just like we changed conditional environment previously:</p>
+<p>Now the <code>--provider</code> option will resolve all packages against the <code>nodemodules</code> provider with JSPM, just like the conditional environment change was handled previously:</p>
 <pre><code>jspm install --provider nodemodules
 </code></pre>
 <p>If everything resolves correctly, the result is an <code>importmap.json</code> referencing the local <code>node_modules</code> folder:</p>
@@ -309,8 +311,8 @@ console.log(lit);
 }
 </code></pre>
 <a name="using-other-cdn-providers" class="anchor"></a><h3>Using Other CDN Providers</h3>
-<p>Alternatively, we can load Lit from another CDN like UNPKG:</p>
-<pre><code>jspm install --provider unpkg
+<p>Alternatively, Lit can be loaded from another CDN like jsdelivr:</p>
+<pre><code>jspm install --provider jsdelivr
 </code></pre>
 <p>Resulting in:</p>
 <p><em>importmap.json</em></p>

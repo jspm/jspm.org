@@ -170,7 +170,13 @@ _importmap.json_
 
 Any edits we make to this local import map file are respected when performing the subsequent `link` operations.
 
-Let's add a custom mapping now for our local application code, by adding a new `"app": "./src/app.js"` entry:
+In addition any URLs can be installed into the import map as well.
+
+For example, say we want to load the local application as `import 'app'`, we can set add this map entry using an aliased install:
+
+```
+jspm install app=./src/app.js
+```
 
 _importmap.json_
 ```json
@@ -195,6 +201,8 @@ _importmap.json_
   }
 }
 ```
+
+Just like npm can install local folders, local module URLs can be installed directly in JSPM, and they can also point to fully remote module URLs with transitive dependency installs applying in all cases.
 
 Now we can update the HTML file to load `app` directly instead of having to hard-code the path:
 
@@ -293,19 +301,13 @@ Lit is actually a package that is designed from the start as an ESM package and 
 
 ### The nodemodules Provider
 
-To achieve this locally, install the dependencies into node_modules with npm:
+To achieve this locally, install the dependencies into node_modules with npm, as well as the `es-module-shims` polyfill itself:
 
 ```
-npm install lit
+npm install lit es-module-shims
 ```
 
-We will also have to install `es-module-shims` locally, to ensure that the injected shim can be resolved:
-
-```
-npm install es-module-shims
-```
-
-Now we can use the `--provider` option to resolve external packages against the `nodemodules` provider with JSPM, just like we changed conditional environment previously:
+Now the `--provider` option will resolve all packages against the `nodemodules` provider with JSPM, just like the conditional environment change was handled previously:
 
 ```
 jspm install --provider nodemodules
@@ -337,10 +339,10 @@ If everything resolves correctly, the result is an `importmap.json` referencing 
 
 ### Using Other CDN Providers
 
-Alternatively, we can load Lit from another CDN like UNPKG:
+Alternatively, Lit can be loaded from another CDN like jsdelivr:
 
 ```
-jspm install --provider unpkg
+jspm install --provider jsdelivr
 ```
 
 Resulting in:
