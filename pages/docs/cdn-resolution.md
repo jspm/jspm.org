@@ -7,7 +7,7 @@ next-section = "cdn/jspm-io"
 
 # JSPM CDN Module Resolution
 
-This document summarizes the resolution conventions used by [@jspm/generator](/docs/generator) and the [JSPM CLI](/docs/jspm).
+This document summarizes the resolution conventions used by [@jspm/generator](/docs/generator) and the [JSPM CLI](/docs/jspm-cli).
 
 These resolution rules enable:
 

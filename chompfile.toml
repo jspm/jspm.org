@@ -9,7 +9,7 @@ extensions = [
 [env]
 IMPORT_MAP_VERSION = '1.0.7'
 GENERATOR_VERSION = '1.1.6'
-JSPM_VERSION = '3.0.0'
+JSPM_CLI_VERSION = '3.0.0'
 TYPEDOC_SYNTAX_THEME = 'rose-pine-dawn'
 
 [server]
@@ -46,7 +46,7 @@ edit-url = 'https://github.com/jspm/jspm.org/blob/main/pages'
 
 [[task]]
 name = 'generate:api'
-deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm']
+deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm-cli']
 
 [[task]]
 name = 'generate:api:generator'
@@ -71,12 +71,12 @@ flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPED
 out = 'public_html/docs/import-map'
 
 [[task]]
-name = 'generate:api:jspm'
+name = 'generate:api:jspm-cli'
 template = 'typedoc-generator'
-deps = ['template.html', 'jspm/docs.md']
+deps = ['template.html', 'jspm-cli/docs.md']
 [task.template-options]
-lib = 'jspm'
+lib = 'jspm-cli'
 custom-css = 'typedoc/typedoc-theme.css'
 plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
-out = 'public_html/docs/jspm'
+out = 'public_html/docs/jspm-cli'

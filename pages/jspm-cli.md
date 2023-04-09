@@ -63,7 +63,7 @@ Finally, URLs are also easily human readable, maintaining the all-important _vie
 
 ## Updated Documentation
 
-The reworked [Getting Started](/getting-started) guide, [FAQ](/faq) and [documentation](/docs/jspm) now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.
+The reworked [Getting Started](/getting-started) guide, [FAQ](/faq) and [documentation](/docs/jspm-cli) now reflect the latest updates with the techniques and workflows simplified for the current progress in native modules standards.
 
 ## Announcing our Infrastructure Sponsor: CacheFly
 
