@@ -90,7 +90,7 @@ After processing, `app.html` should then be a fully executable HTML application.
 
 [Vite](https://vitejs.dev/) is architected primarily to modern ES modules workflows, making JSPM and Vite a great combination.
 
-With the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), ddependencies are retrieved from JSPM while the project is bundled using Vite.
+With the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), dependencies are retrieved from JSPM while the project is bundled using Vite.
 
 ```sh
 npm install vite-plugin-jspm --save-dev
