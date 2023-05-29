@@ -122,8 +122,8 @@
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;       Default module provider </li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                  Cache mode for fetches (online, offline, no-cache) (default: online)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                    URL to treat as server root, i.e. rebase import maps against </li>
+<li><code>--preload</code> <em>[mode]</em>                Add module preloads to HTML output (default: static, dynamic) </li>
 <li><code>--integrity</code>                     Add module preloads with integrity attributes to HTML output (default: false)</li>
-<li><code>--preload</code>                       Add module preloads to HTML output (default: false)</li>
 <li><code>--compact</code>                       Output a compact import map (default: false)</li>
 <li><code>--freeze</code>                        Freeze input map dependencies, i.e. do not modify them (default: false)</li>
 <li><code>--stdout</code>                        Output the import map to stdout (default: false)</li>
@@ -141,7 +141,7 @@
 <pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">./</span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">cli</span><span class="hl-1">.</span><span class="hl-0">js</span>
 </code></pre>
 <p>Link an HTML file and update its import map including preload and integrity tags</p>
-<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">map</span><span class="hl-0"> </span><span class="hl-0">index</span><span class="hl-1">.</span><span class="hl-0">html</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">integrity</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">preload</span>
+<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">map</span><span class="hl-0"> </span><span class="hl-0">index</span><span class="hl-1">.</span><span class="hl-0">html</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">integrity</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">preload</span><span class="hl-0"> </span><span class="hl-0">dynamic</span>
 </code></pre>
 
 <a href="#install" id="install" style="color: inherit; text-decoration: none;">
@@ -151,7 +151,7 @@
 <a href="#usage-1" id="usage-1" style="color: inherit; text-decoration: none;">
   <h3>Usage</h3>
 </a>
-<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> [</span><span class="hl-0">flags</span><span class="hl-0">] [</span><span class="hl-1">...</span><span class="hl-0">packages</span><span class="hl-0">]</span>
+<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">install</span><span class="hl-0"> [</span><span class="hl-0">flags</span><span class="hl-0">] [</span><span class="hl-1">...</span><span class="hl-0">packages</span><span class="hl-0">]</span>
 </code></pre>
 <p>Installs packages into an import map, along with all of the dependencies that are necessary to import them.By default, the latest versions of the packages that are compatible with the local &quot;package.json&quot; are installed, unless an explicit version is specified. The given packages must be valid package specifiers, such as <code>npm:react@18.0.0</code> or <code>denoland:oak</code>. If a package specifier with no registry is given, such as <code>lit</code>, the registry is assumed to be NPM. Packages can be installed under an alias by using specifiers such as <code>myname=npm:lit@2.1.0</code>. An optional subpath can be provided, such as <code>npm:lit@2.2.0/decorators.js</code>, in which case only the dependencies for that subpath are installed.</p>
 <p>If no packages are provided, all &quot;imports&quot; in the initial map are reinstalled.</p>
@@ -167,8 +167,8 @@
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;       Default module provider </li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                  Cache mode for fetches (online, offline, no-cache) (default: online)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                    URL to treat as server root, i.e. rebase import maps against </li>
+<li><code>--preload</code> <em>[mode]</em>                Add module preloads to HTML output (default: static, dynamic) </li>
 <li><code>--integrity</code>                     Add module preloads with integrity attributes to HTML output (default: false)</li>
-<li><code>--preload</code>                       Add module preloads to HTML output (default: false)</li>
 <li><code>--compact</code>                       Output a compact import map (default: false)</li>
 <li><code>--freeze</code>                        Freeze input map dependencies, i.e. do not modify them (default: false)</li>
 <li><code>--stdout</code>                        Output the import map to stdout (default: false)</li>
@@ -217,8 +217,8 @@
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;       Default module provider </li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                  Cache mode for fetches (online, offline, no-cache) (default: online)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                    URL to treat as server root, i.e. rebase import maps against </li>
+<li><code>--preload</code> <em>[mode]</em>                Add module preloads to HTML output (default: static, dynamic) </li>
 <li><code>--integrity</code>                     Add module preloads with integrity attributes to HTML output (default: false)</li>
-<li><code>--preload</code>                       Add module preloads to HTML output (default: false)</li>
 <li><code>--compact</code>                       Output a compact import map (default: false)</li>
 <li><code>--freeze</code>                        Freeze input map dependencies, i.e. do not modify them (default: false)</li>
 <li><code>--stdout</code>                        Output the import map to stdout (default: false)</li>
@@ -255,8 +255,8 @@
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;       Default module provider </li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                  Cache mode for fetches (online, offline, no-cache) (default: online)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                    URL to treat as server root, i.e. rebase import maps against </li>
+<li><code>--preload</code> <em>[mode]</em>                Add module preloads to HTML output (default: static, dynamic) </li>
 <li><code>--integrity</code>                     Add module preloads with integrity attributes to HTML output (default: false)</li>
-<li><code>--preload</code>                       Add module preloads to HTML output (default: false)</li>
 <li><code>--compact</code>                       Output a compact import map (default: false)</li>
 <li><code>--freeze</code>                        Freeze input map dependencies, i.e. do not modify them (default: false)</li>
 <li><code>--stdout</code>                        Output the import map to stdout (default: false)</li>
