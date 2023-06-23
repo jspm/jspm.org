@@ -339,10 +339,10 @@ If everything resolves correctly, the result is an `importmap.json` referencing 
 
 ### Using Other CDN Providers
 
-Alternatively, Lit can be loaded from another CDN like jsdelivr:
+Alternatively, Lit can be loaded from another CDN like UNPKG:
 
 ```
-jspm install --provider jsdelivr
+jspm install --provider unpkg
 ```
 
 Resulting in:
