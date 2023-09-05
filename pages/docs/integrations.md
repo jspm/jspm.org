@@ -131,3 +131,7 @@ See [https://github.com/jspm/node-importmap-http-loader](https://github.com/jspm
 ## Import Map Rails
 
 [Import Map Rails](https://github.com/rails/importmap-rails) provides Ruby on Rails dependency management with import maps and JSPM.
+
+## Symfony AssetMapper
+
+[Symfony AssetMapper](https://github.com/symfony/asset-mapper) provides dependency management with import maps and JSPM for the Symfony framework in PHP.
