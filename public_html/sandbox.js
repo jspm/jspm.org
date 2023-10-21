@@ -129,6 +129,12 @@ class JspmConsole extends LitElement {
       },
       warn: msg => {
         this.log(msg, { backgroundColor: 'goldenrod' });
+      },
+      debug: (...args) => {
+        this.log(...args);
+      },
+      info: (...args) => {
+        this.log(...args);
       }
     });
   }
