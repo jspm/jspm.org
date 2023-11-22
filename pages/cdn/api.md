@@ -1,7 +1,7 @@
 +++
 title = "jspm.io API"
 description = "jspm.io API Documentation"
-prev-section = "cdn/jspm-dev"
+prev-section = "cdn/jspm-io"
 +++
 
 # jspm.io API

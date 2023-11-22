@@ -1,6 +1,7 @@
 +++
 title = "JSPM CLI Relaunch - Import Map Package Management"
 description = "Relaunching the JSPM CLI as an Import Map Package Manager"
+prev-section = "shutting-down-jspm-dev"
 +++
 
 # JSPM CLI Relaunch

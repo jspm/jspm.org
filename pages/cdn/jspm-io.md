@@ -2,7 +2,7 @@
 title = "jspm.io"
 description = "jspm.io Native Modules CDN"
 prev-section = "docs/cdn-resolution"
-next-section = "cdn/jspm-dev"
+next-section = "cdn/api"
 +++
 
 # jspm.io <br />Import Maps CDN

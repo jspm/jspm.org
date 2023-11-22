@@ -5,12 +5,20 @@
   "feed_url": "https://jspm.org//feed.json",
   "items": [
     {
+      "id": "5",
+      "url": "https://jspm.org/shutting-down-jspm-dev",
+      "title": "Shutting down dev.jspm.io after 10 years",
+      "content_html": "<p>With import maps successfully being supported natively, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev & dev.jspm.io are being deprecated after 10 years of operation.</p>",
+      "date_published": "2023-11-20T06:03:20.886Z",
+      "date_modified": "2023-11-20T06:19:40.810Z"
+    },
+    {
       "id": "4",
       "url": "https://jspm.org/jspm-cli",
       "title": "JSPM CLI Relaunch - Import Map Package Management",
       "content_html": "<p>Relaunching the JSPM CLI as an Import Map Package Manager</p>",
       "date_published": "2023-04-05T15:43:08.745Z",
-      "date_modified": "2023-04-09T05:21:09.481Z"
+      "date_modified": "2023-11-20T06:06:14.813Z"
     },
     {
       "id": "3",
