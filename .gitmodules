@@ -1,15 +1,15 @@
 [submodule "api_repos/generator"]
 	path = api_repos/generator
-	url = git@github.com:jspm/generator.git
+	url = https://github.com/jspm/generator.git
 [submodule "api_repos/import-map"]
 	path = api_repos/import-map
-	url = git@github.com:jspm/import-map.git
+	url = https://github.com/jspm/import-map.git
 [submodule "scripts/api-docs-generator/generator"]
 	path = generator
-	url = git@github.com:jspm/generator.git
+	url = https://github.com/jspm/generator.git
 [submodule "scripts/api-docs-generator/import-map"]
 	path = import-map
-	url = git@github.com:jspm/import-map.git
+	url = https://github.com/jspm/import-map.git
 [submodule "jspm-cli"]
 	path = jspm-cli
-	url = git@github.com:jspm/jspm-cli
+	url = https://github.com/jspm/jspm-cli
