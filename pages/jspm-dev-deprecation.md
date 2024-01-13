@@ -36,7 +36,7 @@ In this same time, `dev.jspm.io` / `jspm.dev` has not been growing, remaining fa
 
 ## Static Module CDN Benefits
 
-The benefit of maintaining only `ga.jspm.io` from an infrastructure point of view is that architecturally nothing more than a static file server. Builds are queued so there is no complex infrastructure that needs to boot up when a request is sent to serve a package. There is no edge application doing dynamic package creation or import rewriting or user customizations. It's **simply static files** and that is all.
+The benefit of maintaining only `ga.jspm.io` from an infrastructure point of view is that it is architecturally nothing more than a static file server. Builds are queued so there is no complex infrastructure that needs to boot up when a request is sent to serve a package. There is no edge application doing dynamic package creation or import rewriting or user customizations. It's **simply static files** and that is all.
 
 This significantly reduces the cost overhead in comparison to `jspm.dev`. By ensuring costs are a very low multiple of growth, we enable sustainability without having to restrict growth.
 

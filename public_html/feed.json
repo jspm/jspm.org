@@ -10,7 +10,7 @@
       "title": "Deprecating jspm.dev",
       "content_html": "<p>With import maps fully supported in browsers, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev is being deprecated over a two year timeframe.</p>",
       "date_published": "2024-01-13T20:21:45.600Z",
-      "date_modified": "2024-01-13T20:48:58.442Z"
+      "date_modified": "2024-01-13T21:25:44.446Z"
     },
     {
       "id": "4",
