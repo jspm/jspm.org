@@ -9,9 +9,7 @@
     "picocolors": "^1.0.0",
     "toml": "^3.0.0",
     "typedoc": "0.23.25",
-    "typedoc-plugin-versions": "0.2.3"
-  },
-  "dependencies": {
+    "typedoc-plugin-versions": "0.2.3",
     "typedoc-plugin-external-resolver": "1.0.1"
   }
 }

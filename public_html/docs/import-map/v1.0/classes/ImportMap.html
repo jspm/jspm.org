@@ -41,7 +41,6 @@
         <a href="/cdn/jspm-io">CDN</a>
         <ul class="section">
           <li><a href="/cdn/jspm-io">jspm.io</a></li>
-          <li><a href="/cdn/jspm-dev">jspm.dev</a></li>
           <li><a href="/cdn/api">API</a></li>
         </ul>
       </li>
@@ -49,6 +48,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
+          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev<span class="date">13/01/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI Relaunch<span class="date">04/04/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
@@ -85,7 +85,7 @@
 <ul class="tsd-hierarchy">
 <li><a href="../interfaces/IImportMap.html" class="tsd-signature-type" data-tsd-kind="Interface">IImportMap</a></li></ul></section><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L19">map.ts:19</a></li></ul></aside>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L19">map.ts:19</a></li></ul></aside>
 <section class="tsd-panel-group tsd-index-group">
 <section class="tsd-panel tsd-index-panel">
 <details class="tsd-index-content tsd-index-accordion" open><summary class="tsd-accordion-summary tsd-index-summary">
@@ -133,7 +133,7 @@
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L42">map.ts:42</a></li></ul></aside></li></ul></section></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L42">map.ts:42</a></li></ul></aside></li></ul></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Properties</h2>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="imports" class="tsd-anchor"></a>
@@ -141,7 +141,7 @@
 <div class="tsd-signature">imports<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IImportMap.html">IImportMap</a>.<a href="../interfaces/IImportMap.html#imports">imports</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L20">map.ts:20</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L20">map.ts:20</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="mapUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>map<wbr/>Url</span><a href="#mapUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">map<wbr/>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">URL</span></div>
@@ -149,7 +149,7 @@
 When using file:/// URLs this allows relative modules to be co-located</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L27">map.ts:27</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L27">map.ts:27</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="rootUrl" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>root<wbr/>Url</span><a href="#rootUrl" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">root<wbr/>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">URL</span></div>
@@ -159,13 +159,13 @@ If null, root resolutions are not resolved and instead left as-is</p>
 in which case it is taken to be the root of the mapUrl.</p>
 </div><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L35">map.ts:35</a></li></ul></aside></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L35">map.ts:35</a></li></ul></aside></section>
 <section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class"><a id="scopes" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>scopes</span><a href="#scopes" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <div class="tsd-signature">scopes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
 <p>Implementation of <a href="../interfaces/IImportMap.html">IImportMap</a>.<a href="../interfaces/IImportMap.html#scopes">scopes</a></p>
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L21">map.ts:21</a></li></ul></aside></section></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L21">map.ts:21</a></li></ul></aside></section></section>
 <section class="tsd-panel-group tsd-member-group">
 <h2>Methods</h2>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="clone" class="tsd-anchor"></a>
@@ -179,7 +179,7 @@ in which case it is taken to be the root of the mapUrl.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L77">map.ts:77</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L77">map.ts:77</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="combineSubpaths" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>combine<wbr/>Subpaths</span><a href="#combineSubpaths" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -195,7 +195,7 @@ Groupings are done throughout all import scopes individually.</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L178">map.ts:178</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L178">map.ts:178</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="extend" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>extend</span><a href="#extend" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -218,7 +218,7 @@ Groupings are done throughout all import scopes individually.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L89">map.ts:89</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L89">map.ts:89</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="flatten" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>flatten</span><a href="#flatten" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -235,7 +235,7 @@ scope is determined based on determining the common baseline over all local scop
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L291">map.ts:291</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L291">map.ts:291</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="rebase" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>rebase</span><a href="#rebase" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -264,7 +264,7 @@ in-tact.</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L380">map.ts:380</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L380">map.ts:380</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="replace" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>replace</span><a href="#replace" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -288,7 +288,7 @@ Provide a URL ending in &quot;/&quot; to perform path replacements</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L142">map.ts:142</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L142">map.ts:142</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="resolve" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>resolve</span><a href="#resolve" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -311,7 +311,7 @@ Provide a URL ending in &quot;/&quot; to perform path replacements</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L463">map.ts:463</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L463">map.ts:463</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="set" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>set</span><a href="#set" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -338,7 +338,7 @@ Provide a URL ending in &quot;/&quot; to perform path replacements</p>
 </div></li></ul></div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L124">map.ts:124</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L124">map.ts:124</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="sort" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>sort</span><a href="#sort" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -350,7 +350,7 @@ Provide a URL ending in &quot;/&quot; to perform path replacements</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="ImportMap.html" class="tsd-signature-type" data-tsd-kind="Class">ImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L108">map.ts:108</a></li></ul></aside></li></ul></section>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L108">map.ts:108</a></li></ul></aside></li></ul></section>
 <section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class"><a id="toJSON" class="tsd-anchor"></a>
 <h3 class="tsd-anchor-link"><span>toJSON</span><a href="#toJSON" aria-label="Permalink" class="tsd-anchor-icon"><svg class="icon icon-tabler icon-tabler-link" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><use href="#icon-anchor-a"></use><use href="#icon-anchor-b"></use><use href="#icon-anchor-c"></use></svg></a></h3>
 <ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -362,7 +362,7 @@ Provide a URL ending in &quot;/&quot; to perform path replacements</p>
 </div>
 <h4 class="tsd-returns-title">Returns <a href="../interfaces/IImportMap.html" class="tsd-signature-type" data-tsd-kind="Interface">IImportMap</a></h4><aside class="tsd-sources">
 <ul>
-<li>Defined in <a href="https://github.com/jspm/import-map/blob/997ab3e/src/map.ts#L532">map.ts:532</a></li></ul></aside></li></ul></section></section></div>
+<li>Defined in <a href="https://github.com/jspm/import-map/blob/627d3a6/src/map.ts#L532">map.ts:532</a></li></ul></aside></li></ul></section></section></div>
 <div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 <div class="tsd-navigation settings">
 <details class="tsd-index-accordion"><summary class="tsd-accordion-summary">
