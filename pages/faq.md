@@ -56,11 +56,11 @@ But for simple applications, it can be possible to skip bundling entirely, with 
 
 Browsers can load hundreds of modules in fractions of a second. The JSPM [online generator](https://generator.jspm.io) is a great example of a mid-sized application using these techniques.
 
-While highly optimized bundles are faster in technical benchmarks, other factors need to be taken into account including cross-page caching, regional edge caching, and caching between application updates. JSPM takes the position that the network and caching benefits are more important than optimal execution timings on a warm cache.
+Highly optimized bundles will always be fastest in direct benchmarks, but other factors also need to be taken into account including cross-page caching, regional edge caching, caching between application updates, and development experience. JSPM takes the position that the combination of development experience and shared network caching opens the door to new development and shipping paradigms.
 
-Furthermore, what usually causes slow JavaScript applications is shipping **unnecessary code**. The techniques used in JSPM always ensure only necessary code is loaded, so that JSPM apps tend to be very fast.
+Furthermore, what usually causes slow JavaScript applications is shipping **unnecessary code**. The techniques used in JSPM are highly compatible with dynamic import (even non-statically analyzable cases), since the runtime resolution environment and build-time resolution environment are equated, thus it is straightforward to ensure only necessary code is loaded, where that can be harder to configure in bundling workflows.
 
-Always ensure that [production preloading](/getting-started#preload-injection) injection is set up to avoid module dependency discovery latency waterfalls.
+For best performance, ensure that [production preloading](/getting-started#preload-injection) injection is set up to avoid module dependency discovery latency waterfalls.
 
 ## What is the Difference Between JSPM and jspm.io?
 
@@ -68,13 +68,9 @@ JSPM is the open source project suite of tools for working with import maps and 
 
 [jspm.io](/cdn/jspm-io) is the hosted module CDN serving all of npm with CommonJS to ES module conversion and individual package optimization and minification to be compatible with JSPM import maps.
 
-## What is jspm.dev?
-
-[jspm.dev](/cdn/jspm-dev) is a convenience development-only CDN for quickly using packages in the browser without any other steps being necessary, without even needing an import map. Because there is no version lock, which is what import maps provide, it should never be used for production.
-
 ## Can jspm.io be used for Production Apps?
 
-jspm.io is designed as a highly available production modules CDN, with 99.99% availability, and has been serving modules for over 10 years. Status can be tracked at https://status.jspm.io/.
+jspm.io is designed as a highly available production modules CDN, with [99.999% availability](https://status.jspm.io/). Status can be tracked at https://status.jspm.io/.
 
 See the [production workflow](/getting-started#production-workflow) in the Getting Started guide for how to use jspm.io in production.
 
@@ -82,17 +78,15 @@ See the [production workflow](/getting-started#production-workflow) in the Getti
 
 Yes, JSPM is designed to support any CDN providers, see the [provider switching workflows](/getting-started#changing-providers) in the getting started guide.
 
-PRs for new providers are always welcome to the [JSPM Generator core](https://github.com/jspm/generator) project.
-
-Custom providers can also be defined.
+PRs for new providers are always welcome to the [JSPM Generator core](https://github.com/jspm/generator) project. Custom providers can also be defined via configuration.
 
 ## How is jspm.io Funded?
 
-jspm.io is funded through the JSPM Foundation, a member-run Canadian not-for-profit corporation, which has a long-term financial plan in place for continuing to support the project.
+jspm.io is funded through the JSPM Foundation, a member-run Canadian not-for-profit corporation, which has a long-term financial plan in place for continuing to support the project infrastructure costs.
 
 Donations and sponsorships are used to fund the server costs.
 
-* Open Collective - https://opencollective.com/jspm
+* Open Collective (preferred) - https://opencollective.com/jspm
 * GitHub Sponsors - https://github.com/sponsors/jspm
 
 New sponsors and donations are always very much welcome to ensure long-term sustainability.

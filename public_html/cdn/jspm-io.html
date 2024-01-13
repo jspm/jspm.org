@@ -58,7 +58,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
-          <li class="blog-link"><a href="/shutting-down-jspm-dev"><em>Shutting down jspm.dev<span class="date">28/11/23</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev<span class="date">01/01/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI Relaunch<span class="date">04/04/23</span></em></a></li>
           <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
@@ -124,7 +124,7 @@
 <p>For more information on the package exports field see the <a href="https://nodejs.org/dist/latest-v16.x/docs/api/packages.html#packages_package_entry_points" target="_blank" rel="noopener">Node.js documentation</a>.</p>
 <a name="assets" class="anchor main"></a><h2>Assets</h2>
 <p>JSPM will serve the readme, license and typing files as assets.</p>
-<p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://jspm.dev/npm:pkg@x.y.z/path/to/asset</code>).</p>
+<p>All other non-JavaScript assets will only be included if they are explicitly referenced using the <code><span class="string">"exports"</span></code> field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (<code>https://ga.jspm.io/npm:pkg@x.y.z/path/to/asset</code>).</p>
 <p>Wildcard exports (exports entries containing <code>*</code>) also support asset inclusion.</p>
 <a name="systemjspmio" class="anchor main"></a><h2>system.jspm.io</h2>
 <p><a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">SystemJS</a> is a legacy module loader used by older applications without ES modules support by converting ES modules into the System module format.</p>

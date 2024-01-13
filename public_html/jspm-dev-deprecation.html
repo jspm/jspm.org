@@ -1,0 +1,115 @@
+<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Deprecating jspm.dev"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="With import maps fully supported in browsers, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev is being deprecated over a two year timeframe."><meta property="og:description" content="With import maps fully supported in browsers, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev is being deprecated over a two year timeframe."><meta property="og:url" content="https://jspm.org/jspm-dev-deprecation"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="stylesheet" href="/style.css?v1">
+<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
+<script defer="" src="/script.js?v1"></script>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-40327700-2');
+</script>
+<title>JSPM - Deprecating jspm.dev</title></head><body class="page-jspm-dev-deprecation">
+<div class="topbar">
+  <a style="display: block" href="/">
+    <div class="logobox" href="/"></div>
+    <h1 class="logo">jspm</h1>
+  </a>
+  <ul class="toplinks">
+    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+    <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
+    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
+  </ul>
+  <div class="mobile-menu"></div>
+</div>
+<div class="sidebar">
+  <div class="toc">
+    <ul class="sections">
+      <li>
+        <a href="/getting-started">JSPM</a>
+        <ul class="section">
+          <li><a href="/getting-started">Getting Started</a></li>
+          <li><a href="/faq">FAQ</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/docs/jspm-cli">Documentation</a>
+        <ul class="section">
+          <li><a href="/docs/jspm-cli">JSPM CLI</a></li>
+          <li><a href="/docs/generator">JSPM Generator</a></li>
+          <li><a href="/docs/integrations">Integrations</a></li>
+          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
+        </ul>
+      </li>
+
+      <li>
+        <a href="/cdn/jspm-io">CDN</a>
+        <ul class="section">
+          <li><a href="/cdn/jspm-io">jspm.io</a></li>
+          <li><a href="/cdn/api">API</a></li>
+        </ul>
+      </li>
+
+      <li class="blog">
+        <a href="/jspm-cli">Blog</a>
+        <ul class="section">
+          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev<span class="date">01/01/24</span></em></a></li>
+          <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI Relaunch<span class="date">04/04/23</span></em></a></li>
+          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
+        </ul>
+      </li>
+    </ul>
+    <!-- <div class="footer"></div> -->
+  </div>
+</div>
+<div class="content-container">
+  <div class="content"><h1>Deprecating <code>jspm.dev</code></h1>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, January 13<sup style="padding-left:0.15em">th</sup> 2024</em></p>
+
+<p>The first release of <code>dev.jspm.io</code> was made in 2013 - I was exploring the sorts of workflows native browser modules could enable, driven by my experience building component-based SSR apps. I found that late dynamic module loading was beneficial in these workflows where the full component list being rendered can only truly be known at edge render time, too late to have this information performantly affect bundling.</p>
+<p>The initial version of JSPM demonstrated loading from npm directly inside the browser console. Any import would just work - first implemented for RequireJS, later on SystemJS, and then finally for native ES modules via <code>jspm.dev</code>, which was <a href="/jspm-dev-release">launched in 2017</a>.</p>
+<p>The <code>jspm.dev</code> CDN version was really needed only for the brief timeframe in 2017 where native modules were fully supported but it was not yet clear if import maps would be supported across browsers. By not relying on import maps, this CDN would dynamically insert the correct versions for all specifiers.</p>
+<p>Fast-forward to today, and import maps are supported natively in all browsers. The future those 2013 demos spoke to is now truly here. Because of this, JSPM no longer needs to maintain two CDNs - we only need the import maps one, <code>ga.jspm.io</code>. With <code>ga.jspm.io</code>, production-ready import maps can be generated for any npm package with the superior version locking and caching benefits of import maps in supporting far-future expires for all resources.</p>
+<a name="deprecation-timeline" class="anchor main"></a><h2>Deprecation Timeline</h2>
+<p>We've always provided long deprecation timelines, upgrade paths, and uptime guarantees for our projects &amp; CDN services and this is no exception.</p>
+<p><strong>Starting from today, no new package builds will be supported on <code>jspm.dev</code> or the <code>dev.jspm.io</code> mirror. All existing package builds and URLs that have worked through the CDN will continue to work.</strong></p>
+<p>The CDN will then continue to remain live for another two years until 1 January 2026, at which point it will be put offline.</p>
+<p><em>For help migrating to <code>ga.jspm.io</code> and the JSPM Generator, see the <a href="/getting-started">Getting Started</a> guide.</em></p>
+<a name="gajspmio-cdn-growth" class="anchor main"></a><h2><code>ga.jspm.io</code> CDN Growth</h2>
+<p>Since the latest release of the native import maps CDN <code>ga.jspm.io</code> in March 2021, the native import maps CDN has grown to 1.5 billion requests per month at an average rate of 10% usage per month.</p>
+<div style="text-align: center;">
+<img style="dispay:block" src="requests-2023.png">
+</div>
+
+<p>In this same time, <code>dev.jspm.io</code> / <code>jspm.dev</code> has not been growing, remaining fairly consistently at 100 million requests per month. The numbers justify the deprecation at this point in time as the majority of users are already switching over to full import map workflows.</p>
+<a name="static-module-cdn-benefits" class="anchor main"></a><h2>Static Module CDN Benefits</h2>
+<p>The benefit of maintaining only <code>ga.jspm.io</code> from an infrastructure point of view is that architecturally nothing more than a static file server. Builds are queued so there is no complex infrastructure that needs to boot up when a request is sent to serve a package. There is no edge application doing dynamic package creation or import rewriting or user customizations. It's <strong>simply static files</strong> and that is all.</p>
+<p>This significantly reduces the cost overhead in comparison to <code>jspm.dev</code>. By ensuring costs are a very low multiple of growth, we enable sustainability without having to restrict growth.</p>
+<a name="reliable-sustainable-infrastructure" class="anchor main"></a><h2>Reliable, Sustainable Infrastructure</h2>
+<p>CDN performance, scalability and reliability are the primary priority for the project for <code>ga.jspm.io</code> to be a fast and reliable production CDN, and a lot of work has been going on behind the scenes towards these goals.</p>
+<p>The last couple of months <code>ga.jspm.io</code> migrated seamlessly to the new self-hosted build infrastructure - the entire CDN build queue is now running on our own servers, building all packages on npm. Many called this approach overkill, but it's important to reliability - if the build queue could be DDOSed as easily as iterating on its build URLs, the entire project could turn unsustainable in an instant, based on the whims of a single malicious user. By restricting the builds to only known URLs, and further building all those upfront statically, we sustainably bound our compute at its upper bound creating resiliance.</p>
+<p>It costs $2000 USD per month for all of this infrastructure, mainly thanks to our CDN sponsors CacheFly for fronting the main CDN edge for us.</p>
+<p>We receive approximately $1100 USD in CDN sponsorships per month from our primary sponsors Basecamp, Socket.io &amp; Framer. That still leaves us with a $900 USD monthly shortfall, but that we are more than halfway towards full financial sustainability for the CDN through the JSPM Foundation is a pretty great achievement.</p>
+<p>Thanks to our JSPM core team and contributors for keeping the project going, it would not have been possible without you!</p>
+<ul>
+<li>Jaya Krishna Namburu</li>
+<li>Jarred de Beer</li>
+<li>Jeff Wainwright</li>
+</ul>
+<p>And of course to our sponsors!</p>
+<a name="latest-releases" class="anchor main"></a><h2>Latest Releases</h2>
+<p>Latest release updates from the last week:</p>
+<ul>
+<li><a href="https://github.com/jspm/jspm-cli/releases/tag/3.2.0" target="_blank" rel="noopener">JSPM CLI 3.2.0</a></li>
+<li><a href="https://github.com/jspm/node-importmap-loader/releases/tag/0.2.1" target="_blank" rel="noopener">node-importmap-loader 0.2.1</a></li>
+</ul>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/jspm-dev-deprecation.md" rel="noopener">Edit</a></div></div>
+</div>
+
+
+</body></html>

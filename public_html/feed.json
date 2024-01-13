@@ -6,11 +6,11 @@
   "items": [
     {
       "id": "5",
-      "url": "https://jspm.org/shutting-down-jspm-dev",
-      "title": "Shutting down dev.jspm.io after 10 years",
-      "content_html": "<p>With import maps successfully being supported natively, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev & dev.jspm.io are being deprecated after 10 years of operation.</p>",
-      "date_published": "2023-11-20T06:03:20.886Z",
-      "date_modified": "2023-11-20T06:19:40.810Z"
+      "url": "https://jspm.org/jspm-dev-deprecation",
+      "title": "Deprecating jspm.dev",
+      "content_html": "<p>With import maps fully supported in browsers, the JSPM project is moving to only support import map CDN workflows via the ga.jspm.io CDN, while jspm.dev is being deprecated over a two year timeframe.</p>",
+      "date_published": "2024-01-13T20:21:45.600Z",
+      "date_modified": "2024-01-13T20:26:50.078Z"
     },
     {
       "id": "4",
@@ -18,7 +18,7 @@
       "title": "JSPM CLI Relaunch - Import Map Package Management",
       "content_html": "<p>Relaunching the JSPM CLI as an Import Map Package Manager</p>",
       "date_published": "2023-04-05T15:43:08.745Z",
-      "date_modified": "2023-11-20T06:06:14.813Z"
+      "date_modified": "2024-01-01T19:50:13.028Z"
     },
     {
       "id": "3",
@@ -26,7 +26,7 @@
       "title": "teleportHQ JSPM Sponsorship",
       "content_html": "<p>teleportHQ sponsors JSPM's ES Module CDN workflows</p>",
       "date_published": "2022-03-15T12:25:19.741Z",
-      "date_modified": "2023-03-25T22:42:16.349Z"
+      "date_modified": "2024-01-01T19:13:22.721Z"
     },
     {
       "id": "2",
@@ -34,7 +34,7 @@
       "title": "Import Maps Release & Module CDN Launch",
       "content_html": "<p>Import maps have just landed in Chrome 89 and a new ga.jspm.io module CDN has been launched to support these new workflows</p>",
       "date_published": "2021-03-02T12:16:13.775Z",
-      "date_modified": "2023-03-25T22:42:16.347Z"
+      "date_modified": "2024-01-01T19:13:22.721Z"
     },
     {
       "id": "1",
@@ -42,7 +42,7 @@
       "title": "jspm.dev Release",
       "content_html": "<p>jspm.dev CDN release post</p>",
       "date_published": "2020-06-19T12:16:12.775Z",
-      "date_modified": "2022-03-15T12:16:13.775Z"
+      "date_modified": "2024-01-01T19:13:22.721Z"
     }
   ]
 }

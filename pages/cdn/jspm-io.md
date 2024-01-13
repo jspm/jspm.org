@@ -98,7 +98,7 @@ For more information on the package exports field see the [Node.js documentation
 
 JSPM will serve the readme, license and typing files as assets.
 
-All other non-JavaScript assets will only be included if they are explicitly referenced using the `"exports"` field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (`https://jspm.dev/npm:pkg@x.y.z/path/to/asset`).
+All other non-JavaScript assets will only be included if they are explicitly referenced using the `"exports"` field which will then make them availabile on the CDN, although assets do not support versioned redirects like JS modules so the exact version reference needs to be used (`https://ga.jspm.io/npm:pkg@x.y.z/path/to/asset`).
 
 Wildcard exports (exports entries containing `*`) also support asset inclusion.
 
