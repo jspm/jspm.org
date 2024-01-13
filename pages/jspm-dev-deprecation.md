@@ -6,7 +6,7 @@ description = "With import maps fully supported in browsers, the JSPM project is
 # Deprecating `jspm.dev`
 <p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, January 13<sup style="padding-left:0.15em">th</sup> 2024</em></p>
 
-The first release of `dev.jspm.io` was made in 2013 - I was exploring the sorts of workflows native browser modules could enable, driven by my experience building component-based SSR apps. I found that late dynamic module loading was beneficial in these workflows where the full component list being rendered can only truly be known at edge render time, too late to have this information performantly affect bundling.
+The first release of `dev.jspm.io` was made in 2013 - I was exploring the sorts of workflows native browser modules could enable, driven by my experience building component-based SSR apps. I found that late dynamic module loading was beneficial in workflows where the full component list being rendered could only be known at edge render time, too late to have this information affect bundling.
 
 The initial version of JSPM demonstrated loading from npm directly inside the browser console. Any import would just work - first implemented for RequireJS, later on SystemJS, and then finally for native ES modules via `jspm.dev`, which was [launched in 2017](/jspm-dev-release).
 
