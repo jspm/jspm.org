@@ -6,9 +6,9 @@ description = "With import maps fully supported in browsers, the JSPM project is
 # Deprecating `jspm.dev`
 <p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, January 13<sup style="padding-left:0.15em">th</sup> 2024</em></p>
 
-The first release of `dev.jspm.io` was made in 2013 - I was exploring the sorts of workflows native browser modules could enable, driven by my experience building component-based SSR apps. I found that late dynamic module linking was beneficial in workflows where the full component list being rendered could only be known at edge render time, too late to have this information affect bundling.
+The first release of `jspm.io` was in 2013 - I was exploring the sorts of workflows native browser modules could enable, driven by my experience building component-based SSR apps. I found that late dynamic module linking was beneficial in workflows where the full component list being rendered could only be known at edge render time, too late to have this information affect bundling.
 
-The initial version of JSPM demonstrated loading from npm directly inside the browser console. Any import would just work - first implemented for RequireJS, later on SystemJS, and then finally for native ES modules via `jspm.dev`, which was [launched in 2017](/jspm-dev-release).
+The initial prototype of JSPM demonstrated loading from npm directly inside the browser console. Any import would just work - first implemented for RequireJS, later on SystemJS, and then finally for native ES modules via `jspm.dev`, which was [launched in 2017](/jspm-dev-release).
 
 The `jspm.dev` CDN version was really needed only for the brief timeframe in 2017 where native modules were fully supported but it was not yet clear if import maps would be supported across browsers. By not relying on import maps, this CDN would dynamically insert the correct versions for all specifiers.
 
@@ -26,7 +26,7 @@ _For help migrating to `ga.jspm.io` and the JSPM Generator, see the [Getting Sta
 
 ## `ga.jspm.io` CDN Growth
 
-Since the latest release of the native import maps CDN `ga.jspm.io` in March 2021, the native import maps CDN has grown to 1.5 billion requests per month at an average rate of 10% usage per month.
+Since the latest release of the native import maps CDN `ga.jspm.io` in March 2021, the native import maps CDN has grown to 1.5 billion requests per month at an ongoing average rate of 10% per month.
 
 <div style="text-align: center;">
 <img style="dispay:block" src="requests-2023.png" />
@@ -36,7 +36,7 @@ In this same time, `dev.jspm.io` / `jspm.dev` has not been growing, remaining fa
 
 ## Static Module CDN Benefits
 
-The benefit of maintaining only `ga.jspm.io` from an infrastructure point of view is that it is architecturally nothing more than a static file server. Builds are queued so there is no complex infrastructure that needs to boot up when a request is sent to serve a package. There is no edge application doing dynamic package creation or import rewriting or user customizations. It's **simply static files** and that is all.
+The benefit of maintaining only `ga.jspm.io` from an infrastructure point of view is that it is architecturally nothing more than a static file server. Builds are queued so there is no complex infrastructure that needs to boot up when a request is sent to serve a package, it is **simply static files**.
 
 This significantly reduces the cost overhead in comparison to `jspm.dev`. By ensuring costs are a very low multiple of growth, we enable sustainability without having to restrict growth.
 
@@ -44,7 +44,7 @@ This significantly reduces the cost overhead in comparison to `jspm.dev`. By ens
 
 CDN performance, scalability and reliability are the primary priority for the project for `ga.jspm.io` to be a fast and reliable production CDN, and a lot of work has been going on behind the scenes towards these goals.
 
-The last couple of months `ga.jspm.io` migrated seamlessly to the new self-hosted build infrastructure - the entire CDN build queue is now running on our own servers, building all packages on npm. Many called this approach overkill, but it's important to reliability - if the build queue could be DDOSed as easily as iterating on its build URLs, the entire project could turn unsustainable in an instant, based on the whims of a single malicious user. By restricting the builds to only known URLs, and further building all those upfront statically, we sustainably bound our compute at its upper bound creating resiliance.
+During the last couple of months, `ga.jspm.io` was migrated seamlessly to the new self-hosted build infrastructure - the entire CDN build queue is now running entirely on our own servers, building all packages on npm. Many called this approach overkill, but it's important to reliability - if the build queue could be DDOSed as easily as iterating on its build URLs, the entire project could turn unsustainable in an instant, based on the whims of a single malicious user. By restricting the builds to only known URLs, and further building all those upfront statically, we sustainably bound our compute at its upper bound creating resiliance.
 
 It costs $2000 USD per month for all of this infrastructure, mainly thanks to our CDN sponsors CacheFly for fronting the main CDN edge for us.
 
