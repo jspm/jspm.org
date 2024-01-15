@@ -110,6 +110,10 @@ Output:
 }
 ```
 
+### Options
+
+* `provider`: CDN provider to download from: `jspm.io` | `jsdelivr` | `unpkg` (defaults to `jspm.io`).
+
 ## Build Queue Request
 
 The `https://api.jspm.io/build` API provides an API for requesting a build of a new package that was recently published and hasn't yet been prioritised in the JSPM build queue.
