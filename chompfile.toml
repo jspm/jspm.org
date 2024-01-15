@@ -48,10 +48,6 @@ edit-url = 'https://github.com/jspm/jspm.org/blob/main/pages'
 name = 'generate:api'
 deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm-cli']
 engine = 'node'
-run = '''
-  
-  const files = 
-'''
 
 [[task]]
 name = 'generate:api:generator'

@@ -70,7 +70,7 @@
     const copy = document.createElement('button');
     copy.className = 'copy';
     copy.addEventListener('click', function () {
-      copyToClipboard(code.innerHTML.replace(/<span class="[a-zA-Z-_0-9]+">|<\/span>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<'));
+      copyToClipboard(code.innerHTML.replace(/<span class="[a-zA-Z-_0-9]+">|<\/span>/g, '').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/, '&'));
     });
     code.parentNode.parentNode.insertBefore(copy, code.parentNode.nextSibling);
   }

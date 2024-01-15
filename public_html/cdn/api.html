@@ -69,43 +69,82 @@
 </div>
 <div class="content-container">
   <div class="content"><h1>jspm.io API</h1>
-<p>The jspm.io API is hosted at <code>https://api.jspm.io</code> and provides some hosted package management services<br>for JSPM workflows.</p>
+<p>The jspm.io API is hosted at <code>https://api.jspm.io</code> and provides some hosted package management services for JSPM workflows.</p>
 <a name="reliability-guarantees" class="anchor"></a><h3>Reliability Guarantees</h3>
 <p>Like the CDN itself, this API is designed to have reliable uptime and includes autoscaling under higher load.</p>
 <p>The service is supported by project donations and is approaching sustainability. If you plan to heavily rely on this API, and anticipate bringing heavier load, support for the project would always be appreciated.</p>
+<a name="generator" class="anchor main"></a><h2>Generator</h2>
+<p>The generator API provides a hosted version of <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> running as a service.</p>
+<p>It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.</p>
+<a name="usage" class="anchor"></a><h3>Usage</h3>
+<p>GET:</p>
+<pre><code>https://api.jspm.io/generate?[queryParams]
+</code></pre>
+<p>Or POST:</p>
+<pre><code>https://api.jspm.io/generate
+</code></pre>
+<p>with a JSON payload for options.</p>
+<p>The JSON response contains <code>{ staticDeps, dynamicDeps, map }</code>, where <code>staticDeps</code> and <code>dynamicDeps</code> represent the static dependency graph and dynamic import dependency graph respectfully,<br>which can be used to generate preload tags.</p>
+<p>Error responses will always have an <code>error</code> field and non-error responses will always omit an <code>error</code> field.</p>
+<p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
+<p>All of the serializable <a href="https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html" target="_blank" rel="noopener">JSPM Generator Options</a> are supported.</p>
+<a name="example" class="anchor"></a><h3>Example</h3>
+<pre><code class="language-sh">curl https://api.jspm.io/generate?install=react&amp;env=development
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-json">{
+  <span class="string">"staticDeps"</span>: [<span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>],
+  <span class="string">"dynamicDeps"</span>: [],
+  <span class="string">"map"</span>: {
+    <span class="string">"imports"</span>: {
+      <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
+    }
+  }
+}
+</code></pre>
+<a name="options" class="anchor"></a><h3>Options</h3>
+<ul>
+<li><code>install</code>: The registry, version and subpath are optional. Versions can also be short ranges - for example <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version.</li>
+<li><code>env</code>: The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</li>
+<li><code>inputMap</code>: An optional <code>inputMap</code> import map (with imports and scopes) can be provided for custom manual resolutions that should take precedence in the output map.</li>
+<li><code>flattenScope</code>: When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</li>
+<li><code>graph</code>: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</li>
+</ul>
+<a name="download" class="anchor main"></a><h2>Download</h2>
+<p>For local workflows it can be beneficial to have a package download system where import maps are rewritten to the local hosted packages as necessary,<br>using simple replacement of the package URL with a local or self-hosted version.</p>
+<p>To download CDN packages the JSPM download API can be used to obtain a file listing of packages across some of the core providers that support this.</p>
+<blockquote>
+<p><code>esm.sh</code> and <code>skypack</code> do not currently support the package file listing API for downloads.</p>
+</blockquote>
+<a name="usage" class="anchor"></a><h3>Usage</h3>
+<p>GET:</p>
+<pre><code>https://api.jspm.io/download/[pkgName]@[version]
+</code></pre>
+<p>Multiple packages can be provided with comma-separation - <code>[pkgName]@[version],[pkgName]@[version]</code>.</p>
+<p>The full exact version is required.</p>
+<p>The response is a JSON file containing a <code>pkgUrl</code> and <code>files</code> list providing the URLs to all files in the package.</p>
+<a name="example" class="anchor"></a><h3>Example</h3>
+<pre><code class="language-sh">curl http://api.jspm.io/download/jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>?provider=jspm.io
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-json">{
+  <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>"</span>: {
+    <span class="string">"pkgUrl"</span>: <span class="string">"https://ga.jspm.io/npm:jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>/"</span>,
+    <span class="string">"files"</span>: [<span class="string">"LICENSE.txt"</span>, <span class="string">"README.md"</span>, <span class="string">"dist/jquery.js"</span>, <span class="string">"dist/jquery.js.map"</span>, <span class="string">"dist/jquery.min.js"</span>, <span class="string">"dist/jquery.min.js.map"</span>, <span class="string">"dist/jquery.min.map"</span>, <span class="string">"dist/jquery.slim.js"</span>, <span class="string">"dist/jquery.slim.js.map"</span>, <span class="string">"dist/jquery.slim.min.js"</span>, <span class="string">"dist/jquery.slim.min.js.map"</span>, <span class="string">"package.json"</span>, <span class="string">"package.json.js"</span>, <span class="string">"package.json.js.map"</span>, <span class="string">"src/jquery.js"</span>, <span class="string">"src/jquery.js.map"</span>]
+  }
+}
+</code></pre>
 <a name="build-queue-request" class="anchor main"></a><h2>Build Queue Request</h2>
 <p>The <code>https://api.jspm.io/build</code> API provides an API for requesting a build of a new package that was recently published and hasn't yet been prioritised in the JSPM build queue.</p>
-<p>This API accepts any <code>GET</code> request of the form:</p>
-<p><code>https://api.jspm.io/build/pkg@x.y.z</code></p>
-<p>It is important to ensure the exact semver version is provided.</p>
+<a name="usage" class="anchor"></a><h3>Usage</h3>
+<p>GET:</p>
+<pre><code>https://api.jspm.io/build/[pkgName]@[version]
+</code></pre>
 <p>The JSON response will either provide an <code><span class="string">"error"</span></code> field or successfully send the build to the JSPM CDN build queue.</p>
 <p>To perform a full package rebuild and cache clear for an existing previously built package, a rebuild token is needed.</p>
 <p>If you have a rebuild token this can be provided via the <code>token</code> query parameter:</p>
 <p><code>https://api.jspm.io/build/pkg@x.y.z?token=REBUILD_TOKEN</code></p>
 <p>If you are working with a large number of packages and require a rebuild token, you can <a href="mailto:guybedford@jspm.foundation" target="_blank" rel="noopener">get in touch to request one</a>.</p>
-<a name="generator" class="anchor main"></a><h2>Generator</h2>
-<p>The <code>https://api.jspm.io/generate</code> API provides a hosted version of <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> running<br>as a service.</p>
-<p>It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.</p>
-<a name="usage" class="anchor"></a><h3>Usage</h3>
-<p>The <code>https://api.jspm.io/generate</code> API accepts either a <code>GET</code> or a <code>POST</code> request.</p>
-<p><code>POST</code> requests are taken as JSON, and return JSON for all requests.</p>
-<p>Error responses will always have an <code>error</code> field and non-error responses will always omit an <code>error</code> field.</p>
-<p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
-<a name="install" class="anchor"></a><h3>install</h3>
-<p>The main argument to provide is the <code>install</code> list which is an array of targets - this is the list of package targets to install, of the form:</p>
-<pre><code>registry:name@version/subpath
-</code></pre>
-<p>The registry is optional, the version can be a partial version like <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version, and the subpath is optional as well.</p>
-<a name="env" class="anchor"></a><h3>env</h3>
-<p>The <code>env</code> is a list of environment condition strings. The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable<br>to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</p>
-<a name="inputmap" class="anchor"></a><h3>inputMap</h3>
-<p>An optional <code>inputMap</code> import map (with imports and scopes) can be provided for custom manual resolutions that should take precedence in the output map.</p>
-<a name="provider" class="anchor"></a><h3>provider</h3>
-<p>The provider sets the <a href="https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html#defaultProvider" target="_blank" rel="noopener"><code>defaultProvider</code></a> option in JSPM Generator.</p>
-<a name="flattenscope" class="anchor"></a><h3>flattenScope</h3>
-<p>When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</p>
-<a name="graph" class="anchor"></a><h3>graph</h3>
-<p>When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/cdn/api.md" rel="noopener">Edit</a><div class="prev"><a href="/cdn/jspm-io">◀&nbsp;jspm.io</a></div></div></div>
 </div>
 
