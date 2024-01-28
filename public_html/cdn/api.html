@@ -88,17 +88,26 @@
 <p>Error responses will always have an <code>error</code> field and non-error responses will always omit an <code>error</code> field.</p>
 <p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
 <p>All of the serializable <a href="https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html" target="_blank" rel="noopener">JSPM Generator Options</a> are supported.</p>
-<a name="example" class="anchor"></a><h3>Example</h3>
-<pre><code class="language-sh">curl https://api.jspm.io/generate?install=react&amp;env=development
+<a name="examples" class="anchor"></a><h3>Examples</h3>
+<pre><code class="language-sh">curl <span class="string">'https://api.jspm.io/generate?install=react&amp;env=development'</span>
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-json">{
+  <span class="string">"staticDeps"</span>: [<span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/dev.index.js"</span>],
+  <span class="string">"dynamicDeps"</span>: [],
+  <span class="string">"map"</span>: {
+    <span class="string">"imports"</span>: { <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/dev.index.js"</span> }
+  }
+}
+</code></pre>
+<pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"install"</span>: [<span class="string">"react"</span>], <span class="string">"env"</span>: [<span class="string">"browser"</span>, <span class="string">"production"</span>, <span class="string">"module"</span>] }'</span> https://api.jspm.io/generate
 </code></pre>
 <p>Output:</p>
 <pre><code class="language-json">{
   <span class="string">"staticDeps"</span>: [<span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>],
   <span class="string">"dynamicDeps"</span>: [],
   <span class="string">"map"</span>: {
-    <span class="string">"imports"</span>: {
-      <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
-    }
+    <span class="string">"imports"</span>: { <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span> }
   }
 }
 </code></pre>
@@ -106,7 +115,7 @@
 <ul>
 <li><code>install</code>: The registry, version and subpath are optional. Versions can also be short ranges - for example <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version.</li>
 <li><code>env</code>: The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</li>
-<li><code>inputMap</code>: An optional <code>inputMap</code> import map (with imports and scopes) can be provided for custom manual resolutions that should take precedence in the output map.</li>
+<li><code>inputMap</code>: An optional <code>inputMap</code> import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).</li>
 <li><code>flattenScope</code>: When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</li>
 <li><code>graph</code>: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</li>
 </ul>
@@ -122,21 +131,60 @@
 </code></pre>
 <p>Multiple packages can be provided with comma-separation - <code>[pkgName]@[version],[pkgName]@[version]</code>.</p>
 <p>The full exact version is required.</p>
-<p>The response is a JSON file containing a <code>pkgUrl</code> and <code>files</code> list providing the URLs to all files in the package.</p>
-<a name="example" class="anchor"></a><h3>Example</h3>
+<p>The response is a JSON file containing a <code>pkgUrl</code> and <code>files</code> list providing the URLs to the files in the package.</p>
+<a name="examples" class="anchor"></a><h3>Examples</h3>
 <pre><code class="language-sh">curl http://api.jspm.io/download/jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>?provider=jspm.io
 </code></pre>
 <p>Output:</p>
 <pre><code class="language-json">{
   <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>"</span>: {
     <span class="string">"pkgUrl"</span>: <span class="string">"https://ga.jspm.io/npm:jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>/"</span>,
-    <span class="string">"files"</span>: [<span class="string">"LICENSE.txt"</span>, <span class="string">"README.md"</span>, <span class="string">"dist/jquery.js"</span>, <span class="string">"dist/jquery.js.map"</span>, <span class="string">"dist/jquery.min.js"</span>, <span class="string">"dist/jquery.min.js.map"</span>, <span class="string">"dist/jquery.min.map"</span>, <span class="string">"dist/jquery.slim.js"</span>, <span class="string">"dist/jquery.slim.js.map"</span>, <span class="string">"dist/jquery.slim.min.js"</span>, <span class="string">"dist/jquery.slim.min.js.map"</span>, <span class="string">"package.json"</span>, <span class="string">"package.json.js"</span>, <span class="string">"package.json.js.map"</span>, <span class="string">"src/jquery.js"</span>, <span class="string">"src/jquery.js.map"</span>]
+    <span class="string">"files"</span>: [
+      <span class="string">"LICENSE.txt"</span>,
+      <span class="string">"README.md"</span>,
+      <span class="string">"dist/jquery.js"</span>,
+      <span class="string">"dist/jquery.js.map"</span>,
+      <span class="string">"dist/jquery.min.js"</span>,
+      <span class="string">"dist/jquery.min.js.map"</span>,
+      <span class="string">"dist/jquery.min.map"</span>,
+      <span class="string">"dist/jquery.slim.js"</span>,
+      <span class="string">"dist/jquery.slim.js.map"</span>,
+      <span class="string">"dist/jquery.slim.min.js"</span>,
+      <span class="string">"dist/jquery.slim.min.js.map"</span>,
+      <span class="string">"package.json"</span>,
+      <span class="string">"package.json.js"</span>,
+      <span class="string">"package.json.js.map"</span>,
+      <span class="string">"src/jquery.js"</span>,
+      <span class="string">"src/jquery.js.map"</span>
+    ]
+  }
+}
+</code></pre>
+<pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"provider"</span>: <span class="string">"jsdelivr"</span>, <span class="string">"exclude"</span>: [<span class="string">"sourcemaps"</span>, <span class="string">"types"</span>, <span class="string">"unused"</span>] }'</span> http://api.jspm.io/download/jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>,jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">0</span>
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-json">{
+  <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>"</span>: {
+    <span class="string">"pkgUrl"</span>: <span class="string">"https://cdn.jsdelivr.net/npm/jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>/"</span>,
+    <span class="string">"files"</span>: [<span class="string">"LICENSE.txt"</span>, <span class="string">"README.md"</span>, <span class="string">"dist/jquery.js"</span>, <span class="string">"package.json"</span>]
+  },
+  <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">0</span>"</span>: {
+    <span class="string">"pkgUrl"</span>: <span class="string">"https://cdn.jsdelivr.net/npm/jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">0</span>/"</span>,
+    <span class="string">"files"</span>: [<span class="string">"LICENSE.txt"</span>, <span class="string">"README.md"</span>, <span class="string">"dist/jquery.js"</span>, <span class="string">"package.json"</span>]
   }
 }
 </code></pre>
 <a name="options" class="anchor"></a><h3>Options</h3>
 <ul>
 <li><code>provider</code>: CDN provider to download from: <code>jspm.io</code> | <code>jsdelivr</code> | <code>unpkg</code> (defaults to <code>jspm.io</code>).</li>
+<li><code>exclude</code>: Packages can have a large number of files, and often include files which aren't even used for module loading. The <code>exclude</code> option allows for filtering the file list down to only those files needed. It's a list of the following options:<ul>
+<li><code>unused</code>: Exclude unused modules which aren't reachable from the public package module graph through its package exports or imports or entry points. Will automatically filter types and sourcemap files to this public graph where possible as well (unless they are also excluded).</li>
+<li><code>types</code>: Exclude TypeScript and type definition files.</li>
+<li><code>sourcemaps</code>: Exclude sourcemap files.</li>
+<li><code>readme</code>: Exclude readme files.</li>
+<li><code>license</code>: Exclude license files.</li>
+</ul>
+</li>
 </ul>
 <a name="build-queue-request" class="anchor main"></a><h2>Build Queue Request</h2>
 <p>The <code>https://api.jspm.io/build</code> API provides an API for requesting a build of a new package that was recently published and hasn't yet been prioritised in the JSPM build queue.</p>

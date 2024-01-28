@@ -23,11 +23,13 @@ It is recommended that whenever possible you host and run the JSPM Generator lib
 ### Usage
 
 GET:
+
 ```
 https://api.jspm.io/generate?[queryParams]
 ```
 
 Or POST:
+
 ```
 https://api.jspm.io/generate
 ```
@@ -43,10 +45,26 @@ When making a `GET` request, each of the arguments is encoded as a string, comma
 
 All of the serializable [JSPM Generator Options](https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html) are supported.
 
-### Example
+### Examples
 
 ```sh
-curl https://api.jspm.io/generate?install=react&env=development
+curl 'https://api.jspm.io/generate?install=react&env=development'
+```
+
+Output:
+
+```json
+{
+  "staticDeps": ["https://ga.jspm.io/npm:react@18.2.0/dev.index.js"],
+  "dynamicDeps": [],
+  "map": {
+    "imports": { "react": "https://ga.jspm.io/npm:react@18.2.0/dev.index.js" }
+  }
+}
+```
+
+```sh
+curl -X POST -d '{ "install": ["react"], "env": ["browser", "production", "module"] }' https://api.jspm.io/generate
 ```
 
 Output:
@@ -56,20 +74,18 @@ Output:
   "staticDeps": ["https://ga.jspm.io/npm:react@18.2.0/index.js"],
   "dynamicDeps": [],
   "map": {
-    "imports": {
-      "react": "https://ga.jspm.io/npm:react@18.2.0/index.js"
-    }
+    "imports": { "react": "https://ga.jspm.io/npm:react@18.2.0/index.js" }
   }
 }
 ```
 
 ### Options
 
-* `install`: The registry, version and subpath are optional. Versions can also be short ranges - for example `@5` or even just `@` for the latest non-stable version.
-* `env`: The default is `['browser', 'development', 'module']`. It is usually advisable to provide the `module` condition to ensure ESM modules are used wherever possible.
-* `inputMap`: An optional `inputMap` import map (with imports and scopes) can be provided for custom manual resolutions that should take precedence in the output map.
-* `flattenScope`: When provided, this option will return an import map with just `imports` and no scopes whenever possible.
-* `graph`: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.
+- `install`: The registry, version and subpath are optional. Versions can also be short ranges - for example `@5` or even just `@` for the latest non-stable version.
+- `env`: The default is `['browser', 'development', 'module']`. It is usually advisable to provide the `module` condition to ensure ESM modules are used wherever possible.
+- `inputMap`: An optional `inputMap` import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).
+- `flattenScope`: When provided, this option will return an import map with just `imports` and no scopes whenever possible.
+- `graph`: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.
 
 ## Download
 
@@ -83,6 +99,7 @@ To download CDN packages the JSPM download API can be used to obtain a file list
 ### Usage
 
 GET:
+
 ```
 https://api.jspm.io/download/[pkgName]@[version]
 ```
@@ -91,9 +108,9 @@ Multiple packages can be provided with comma-separation - `[pkgName]@[version],[
 
 The full exact version is required.
 
-The response is a JSON file containing a `pkgUrl` and `files` list providing the URLs to all files in the package.
+The response is a JSON file containing a `pkgUrl` and `files` list providing the URLs to the files in the package.
 
-### Example
+### Examples
 
 ```sh
 curl http://api.jspm.io/download/jquery@3.7.1?provider=jspm.io
@@ -105,14 +122,56 @@ Output:
 {
   "jquery@3.7.1": {
     "pkgUrl": "https://ga.jspm.io/npm:jquery@3.7.1/",
-    "files": ["LICENSE.txt", "README.md", "dist/jquery.js", "dist/jquery.js.map", "dist/jquery.min.js", "dist/jquery.min.js.map", "dist/jquery.min.map", "dist/jquery.slim.js", "dist/jquery.slim.js.map", "dist/jquery.slim.min.js", "dist/jquery.slim.min.js.map", "package.json", "package.json.js", "package.json.js.map", "src/jquery.js", "src/jquery.js.map"]
+    "files": [
+      "LICENSE.txt",
+      "README.md",
+      "dist/jquery.js",
+      "dist/jquery.js.map",
+      "dist/jquery.min.js",
+      "dist/jquery.min.js.map",
+      "dist/jquery.min.map",
+      "dist/jquery.slim.js",
+      "dist/jquery.slim.js.map",
+      "dist/jquery.slim.min.js",
+      "dist/jquery.slim.min.js.map",
+      "package.json",
+      "package.json.js",
+      "package.json.js.map",
+      "src/jquery.js",
+      "src/jquery.js.map"
+    ]
+  }
+}
+```
+
+```sh
+curl -X POST -d '{ "provider": "jsdelivr", "exclude": ["sourcemaps", "types", "unused"] }' http://api.jspm.io/download/jquery@3.7.1,jquery@3.7.0
+```
+
+Output:
+
+```json
+{
+  "jquery@3.7.1": {
+    "pkgUrl": "https://cdn.jsdelivr.net/npm/jquery@3.7.1/",
+    "files": ["LICENSE.txt", "README.md", "dist/jquery.js", "package.json"]
+  },
+  "jquery@3.7.0": {
+    "pkgUrl": "https://cdn.jsdelivr.net/npm/jquery@3.7.0/",
+    "files": ["LICENSE.txt", "README.md", "dist/jquery.js", "package.json"]
   }
 }
 ```
 
 ### Options
 
-* `provider`: CDN provider to download from: `jspm.io` | `jsdelivr` | `unpkg` (defaults to `jspm.io`).
+- `provider`: CDN provider to download from: `jspm.io` | `jsdelivr` | `unpkg` (defaults to `jspm.io`).
+- `exclude`: Packages can have a large number of files, and often include files which aren't even used for module loading. The `exclude` option allows for filtering the file list down to only those files needed. It's a list of the following options:
+  - `unused`: Exclude unused modules which aren't reachable from the public package module graph through its package exports or imports or entry points. Will automatically filter types and sourcemap files to this public graph where possible as well (unless they are also excluded).
+  - `types`: Exclude TypeScript and type definition files.
+  - `sourcemaps`: Exclude sourcemap files.
+  - `readme`: Exclude readme files.
+  - `license`: Exclude license files.
 
 ## Build Queue Request
 
@@ -121,6 +180,7 @@ The `https://api.jspm.io/build` API provides an API for requesting a build of a 
 ### Usage
 
 GET:
+
 ```
 https://api.jspm.io/build/[pkgName]@[version]
 ```
