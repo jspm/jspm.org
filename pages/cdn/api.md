@@ -113,7 +113,7 @@ The response is a JSON file containing a `pkgUrl` and `files` list providing the
 ### Examples
 
 ```sh
-curl http://api.jspm.io/download/jquery@3.7.1?provider=jspm.io
+curl https://api.jspm.io/download?packages=jquery@3.7.1&provider=jspm.io
 ```
 
 Output:
@@ -145,7 +145,7 @@ Output:
 ```
 
 ```sh
-curl -X POST -d '{ "provider": "jsdelivr", "exclude": ["sourcemaps", "types", "unused"] }' http://api.jspm.io/download/jquery@3.7.1,jquery@3.7.0
+curl -X POST -d '{ "packages": ["jquery@3.7.1", "jquery@3.7.0"], "provider": "jsdelivr", "exclude": ["sourcemaps", "types", "unused"] }' https://api.jspm.io/download
 ```
 
 Output:
