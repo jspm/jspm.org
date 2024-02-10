@@ -88,7 +88,7 @@
 <p>Within the package, all files are served at their original file name locations as per the package published on npm - <em>but instead of the original module files, optimized module files are served instead</em>.</p>
 <a name="packagejson" class="anchor"></a><h3>package.json</h3>
 <p>All packages contain a <code>package.json</code> file, which is the processed package.json by JSPM including the enumerated exports and file listing. The <code>package.json</code> is all that is needed to enumerate the exports of a package and resolve their URLs in the package, and is also a processed version of the <code>package.json</code> created by the CDN.</p>
-<p>When the <a href="/docs/cli">JSPM CLI</a> or <a href="/docs/generator">Generator</a> links a package, it uses this <code>package.json</code> file for resolution rules.</p>
+<p>When the <a href="/docs/jspm-cli">JSPM CLI</a> or <a href="/docs/generator">Generator</a> links a package, it uses this <code>package.json</code> file for resolution rules.</p>
 <a name="conditional-exports" class="anchor"></a><h3>Conditional Exports</h3>
 <p>Because all modules are optimized into their existing file locations, conditional resolutions are fully supported and optimized.</p>
 <p>All custom condition names are supported, beyond the standard <code><span class="string">"browser"</span></code>, <code><span class="string">"react-native"</span></code>, <code><span class="string">"development"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"require"</span></code> and <code><span class="string">"import"</span></code> conditions.</p>

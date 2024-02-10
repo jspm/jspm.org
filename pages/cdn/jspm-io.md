@@ -38,7 +38,7 @@ Within the package, all files are served at their original file name locations a
 
 All packages contain a `package.json` file, which is the processed package.json by JSPM including the enumerated exports and file listing. The `package.json` is all that is needed to enumerate the exports of a package and resolve their URLs in the package, and is also a processed version of the `package.json` created by the CDN.
 
-When the [JSPM CLI](/docs/cli) or [Generator](/docs/generator) links a package, it uses this `package.json` file for resolution rules.
+When the [JSPM CLI](/docs/jspm-cli) or [Generator](/docs/generator) links a package, it uses this `package.json` file for resolution rules.
 
 ### Conditional Exports
 
