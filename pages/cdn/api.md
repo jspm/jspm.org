@@ -81,7 +81,13 @@ Output:
 
 ### Options
 
-- `install`: The registry, version and subpath are optional. Versions can also be short ranges - for example `@5` or even just `@` for the latest non-stable version.
+One of the following _install operations_ must be provided (it is an error to provide none or multiple at the same time):
+
+- `install`: The registry, version and subpath are optional. Versions can also be short ranges - for example `@5` or even just `@` for the latest non-stable version (optionally used with `inputMap` to install into an existing map).
+- `update`: Used with `inputMap`, a list of specifiers in the import map (left hand side) to update can be provided in an existing map.
+- `uninstall`: Used with `inputMap`, a list of specifiers in the import map (left hand side) to remove from the map.
+- `link`: Used with `inputMap`, a list of specifiers in the import map to generate a "sub map" for. This allows, for example, to generate smaller maps from a larger one that respect the same version resolutions.
+
 - `env`: The default is `['browser', 'development', 'module']`. It is usually advisable to provide the `module` condition to ensure ESM modules are used wherever possible.
 - `inputMap`: An optional `inputMap` import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).
 - `flattenScope`: When provided, this option will return an import map with just `imports` and no scopes whenever possible.
