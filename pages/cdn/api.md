@@ -47,6 +47,8 @@ All of the serializable [JSPM Generator Options](https://jspm.org/docs/generator
 
 ### Examples
 
+Install a module for a development environment:
+
 ```sh
 curl 'https://api.jspm.io/generate?install=react&env=development'
 ```
@@ -62,6 +64,8 @@ Output:
   }
 }
 ```
+
+Install a module for a browser production environment:
 
 ```sh
 curl -X POST -d '{ "install": ["react"], "env": ["browser", "production", "module"] }' https://api.jspm.io/generate
@@ -79,14 +83,34 @@ Output:
 }
 ```
 
-### Options
+Update a module in an existing map:
 
-One of the following _install operations_ must be provided (it is an error to provide none or multiple at the same time):
+```sh
+curl -X POST -d '{ "inputMap": { "imports": { "react": "https://ga.jspm.io/npm:react@18.0.0/index.js" } }, "update": ["react"], "env": ["browser", "production", "module"] }' https://api.jspm.io/generate
+```
+
+Output:
+
+```json
+{
+  "staticDeps": ["https://ga.jspm.io/npm:react@18.2.0/index.js"],
+  "dynamicDeps": [],
+  "map": {
+    "imports": { "react": "https://ga.jspm.io/npm:react@18.2.0/index.js" }
+  }
+}
+```
+
+### Generate Operation
+
+One of the following generate operation options must be provided (it is an error to provide none or multiple at the same time):
 
 - `install`: The registry, version and subpath are optional. Versions can also be short ranges - for example `@5` or even just `@` for the latest non-stable version (optionally used with `inputMap` to install into an existing map).
 - `update`: Used with `inputMap`, a list of specifiers in the import map (left hand side) to update can be provided in an existing map.
 - `uninstall`: Used with `inputMap`, a list of specifiers in the import map (left hand side) to remove from the map.
 - `link`: Used with `inputMap`, a list of specifiers in the import map to generate a "sub map" for. This allows, for example, to generate smaller maps from a larger one that respect the same version resolutions.
+
+### Options
 
 - `env`: The default is `['browser', 'development', 'module']`. It is usually advisable to provide the `module` condition to ensure ESM modules are used wherever possible.
 - `inputMap`: An optional `inputMap` import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).

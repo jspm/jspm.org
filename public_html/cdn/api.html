@@ -89,6 +89,7 @@
 <p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
 <p>All of the serializable <a href="https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html" target="_blank" rel="noopener">JSPM Generator Options</a> are supported.</p>
 <a name="examples" class="anchor"></a><h3>Examples</h3>
+<p>Install a module for a development environment:</p>
 <pre><code class="language-sh">curl <span class="string">'https://api.jspm.io/generate?install=react&amp;env=development'</span>
 </code></pre>
 <p>Output:</p>
@@ -100,6 +101,7 @@
   }
 }
 </code></pre>
+<p>Install a module for a browser production environment:</p>
 <pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"install"</span>: [<span class="string">"react"</span>], <span class="string">"env"</span>: [<span class="string">"browser"</span>, <span class="string">"production"</span>, <span class="string">"module"</span>] }'</span> https://api.jspm.io/generate
 </code></pre>
 <p>Output:</p>
@@ -111,25 +113,32 @@
   }
 }
 </code></pre>
-<a name="options" class="anchor"></a><h3>Options</h3>
-<p>One of the following <em>install operations</em> must be provided (it is an error to provide none or multiple at the same time):</p>
+<p>Update a module in an existing map:</p>
+<pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"inputMap"</span>: { <span class="string">"imports"</span>: { <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">0</span>.<span class="number">0</span>/index.js"</span> } }, <span class="string">"update"</span>: [<span class="string">"react"</span>], <span class="string">"env"</span>: [<span class="string">"browser"</span>, <span class="string">"production"</span>, <span class="string">"module"</span>] }'</span> https://api.jspm.io/generate
+</code></pre>
+<p>Output:</p>
+<pre><code class="language-json">{
+  <span class="string">"staticDeps"</span>: [<span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>],
+  <span class="string">"dynamicDeps"</span>: [],
+  <span class="string">"map"</span>: {
+    <span class="string">"imports"</span>: { <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span> }
+  }
+}
+</code></pre>
+<a name="generate-operation" class="anchor"></a><h3>Generate Operation</h3>
+<p>One of the following generate operation options must be provided (it is an error to provide none or multiple at the same time):</p>
 <ul>
-<li><p><code>install</code>: The registry, version and subpath are optional. Versions can also be short ranges - for example <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version (optionally used with <code>inputMap</code> to install into an existing map).</p>
-</li>
-<li><p><code>update</code>: Used with <code>inputMap</code>, a list of specifiers in the import map (left hand side) to update can be provided in an existing map.</p>
-</li>
-<li><p><code>uninstall</code>: Used with <code>inputMap</code>, a list of specifiers in the import map (left hand side) to remove from the map.</p>
-</li>
-<li><p><code>link</code>: Used with <code>inputMap</code>, a list of specifiers in the import map to generate a "sub map" for. This allows, for example, to generate smaller maps from a larger one that respect the same version resolutions.</p>
-</li>
-<li><p><code>env</code>: The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</p>
-</li>
-<li><p><code>inputMap</code>: An optional <code>inputMap</code> import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).</p>
-</li>
-<li><p><code>flattenScope</code>: When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</p>
-</li>
-<li><p><code>graph</code>: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</p>
-</li>
+<li><code>install</code>: The registry, version and subpath are optional. Versions can also be short ranges - for example <code>@<span class="number">5</span></code> or even just <code>@</code> for the latest non-stable version (optionally used with <code>inputMap</code> to install into an existing map).</li>
+<li><code>update</code>: Used with <code>inputMap</code>, a list of specifiers in the import map (left hand side) to update can be provided in an existing map.</li>
+<li><code>uninstall</code>: Used with <code>inputMap</code>, a list of specifiers in the import map (left hand side) to remove from the map.</li>
+<li><code>link</code>: Used with <code>inputMap</code>, a list of specifiers in the import map to generate a "sub map" for. This allows, for example, to generate smaller maps from a larger one that respect the same version resolutions.</li>
+</ul>
+<a name="options" class="anchor"></a><h3>Options</h3>
+<ul>
+<li><code>env</code>: The default is <code>[<span class="string">'browser'</span>, <span class="string">'development'</span>, <span class="string">'module'</span>]</code>. It is usually advisable to provide the <code>module</code> condition to ensure ESM modules are used wherever possible.</li>
+<li><code>inputMap</code>: An optional <code>inputMap</code> import map (with imports and scopes) can be provided to generate over an existing import map (installing a package into an existing project, while keeping existing resolutions).</li>
+<li><code>flattenScope</code>: When provided, this option will return an import map with just <code>imports</code> and no scopes whenever possible.</li>
+<li><code>graph</code>: When provided, this option will include the traced analysis graph in the output, grouped by package boundary.</li>
 </ul>
 <a name="download" class="anchor main"></a><h2>Download</h2>
 <p>For local workflows it can be beneficial to have a package download system where import maps are rewritten to the local hosted packages as necessary,<br>using simple replacement of the package URL with a local or self-hosted version.</p>
