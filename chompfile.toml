@@ -3,12 +3,12 @@ default-task = 'build'
 extensions = [
   'chomp@0.1:npm',
   './extensions/static-site-generator.js',
-  './extensions/typedoc.js'
+  './extensions/typedoc.js',
 ]
 
 [env]
-IMPORT_MAP_VERSION = '1.0.7'
-GENERATOR_VERSION = '2.0.0'
+IMPORT_MAP_VERSION = '1.0.8'
+GENERATOR_VERSION = '2.0.1'
 JSPM_CLI_VERSION = '3.2.0'
 TYPEDOC_SYNTAX_THEME = 'rose-pine-dawn'
 
@@ -38,7 +38,15 @@ template = 'template.html'
 pages = 'pages'
 public-html = 'public_html'
 feed = 'feed.json'
-feed-exclude = ['pages/docs/', 'pages/cdn/', 'pages/index.md', 'pages/getting-started.md', 'pages/overview.md', 'pages/workflows.md', 'pages/faq.md']
+feed-exclude = [
+  'pages/docs/',
+  'pages/cdn/',
+  'pages/index.md',
+  'pages/getting-started.md',
+  'pages/overview.md',
+  'pages/workflows.md',
+  'pages/faq.md',
+]
 site-name = 'JSPM'
 site-url = 'https://jspm.org/'
 site-image = 'https://jspm.org/jspm.png'
@@ -46,7 +54,11 @@ edit-url = 'https://github.com/jspm/jspm.org/blob/main/pages'
 
 [[task]]
 name = 'generate:api'
-deps = ['generate:api:generator', 'generate:api:import-map', 'generate:api:jspm-cli']
+deps = [
+  'generate:api:generator',
+  'generate:api:import-map',
+  'generate:api:jspm-cli',
+]
 engine = 'node'
 
 [[task]]
