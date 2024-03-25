@@ -38,7 +38,8 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
         --options typedoc.json \
         ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
         ${flags} \
-        --out ${backtrack}${out}
+        --out ${backtrack}${out} \
+        && ln -s ${backtrack}${out}/v${ENV[envVersion]} ${backtrack}${out}/stable
     `
   }];
 });
