@@ -33,12 +33,15 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
     ],
     cwd: lib,
     run: `
-      typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
-        --tsconfig tsconfig.json \
-        --options typedoc.json \
-        ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
-        ${flags} \
-        --out ${backtrack}${out}
+      rm -rf ${backtrack}${out} \
+        && mkdir -p ${backtrack}${out} \
+        && typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
+          --tsconfig tsconfig.json \
+          --options typedoc.json \
+          ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
+          ${flags} \
+          --out ${backtrack}${out}/v${ENV[envVersion]} \
+        && ln -sfn v${ENV[envVersion]} ${backtrack}${out}/stable
     `
   }];
 });
