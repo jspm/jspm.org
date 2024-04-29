@@ -58,6 +58,7 @@ deps = [
   'generate:api:generator',
   'generate:api:import-map',
   'generate:api:jspm-cli',
+  'generate:api:css',
 ]
 engine = 'node'
 
@@ -93,3 +94,8 @@ custom-css = 'typedoc/typedoc-theme.css'
 plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
 out = 'public_html/docs/jspm-cli'
+
+[[task]]
+name = 'generate:api:css'
+run = 'tailwindcss -i ./public_html/styles/input.css -o ./public_html/style.main.css'
+invalidation = 'always'
