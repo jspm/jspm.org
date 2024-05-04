@@ -26,27 +26,43 @@
 		gtag('js', new Date())
 		gtag('config', 'UA-40327700-2')
 	</script>
-	<body class="bg-themeBackground">
-		<nav class="topbar flex items-center justify-between flex-wrap">
-			<a href="/">
-				<figure class="flex items-center flex-shrink-0 mr-6">
+	<body class="p-0 m-0 font-sans bg-themeBackground overflow-hidden">
+		<nav
+			class="topbar flex items-center justify-between flex-wrap bg-themeBackground h-4 leflt-0 w-full border-b box-border"
+		>
+			<a class="flex items-center" href="/">
+				<div class="relative">
+					<div class="logobox h-6 w-6 bg-no-repeat"></div>
 					<figcaption>
 						<h1 class="logo font-sans text-grey-800 font-bold">jspm</h1>
 					</figcaption>
-				</figure>
+				</div>
 			</a>
-			<ul class="toplinks topbar flex items-center justify-between flex-wrap">
+			<ul class="flex items-center justify-between flex-wrap">
 				<li>
-					<a target="_blank" href="https://generator.jspm.io"
+					<a
+						class="color:inherit"
+						target="_blank"
+						href="https://generator.jspm.io"
 						>Online Generator</a
 					>
 				</li>
-				<li><a target="_blank" href="https://status.jspm.io">CDN Status</a></li>
 				<li>
-					<a target="_blank" href="https://opencollective.com/jspm">Sponsor</a>
+					<a class="color:inherit" target="_blank" href="https://status.jspm.io"
+						>CDN Status</a
+					>
+				</li>
+				<li>
+					<a
+						class="color:inherit"
+						target="_blank"
+						href="https://opencollective.com/jspm"
+						>Sponsor</a
+					>
 				</li>
 				<li class="github">
 					<a
+						class="color:inherit"
 						target="_blank"
 						href="https://github.com/jspm/jspm"
 						rel="noopener"
