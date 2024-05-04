@@ -26,13 +26,16 @@
 		gtag('js', new Date())
 		gtag('config', 'UA-40327700-2')
 	</script>
-	<body>
-		<div class="topbar">
-			<a style="display: block" href="/">
-				<div class="logobox" href="/"></div>
-				<h1 class="logo">jspm</h1>
+	<body class="bg-themeBackground">
+		<nav class="topbar flex items-center justify-between flex-wrap">
+			<a href="/">
+				<figure class="flex items-center flex-shrink-0 mr-6">
+					<figcaption>
+						<h1 class="logo font-sans text-grey-800 font-bold">jspm</h1>
+					</figcaption>
+				</figure>
 			</a>
-			<ul class="toplinks">
+			<ul class="toplinks topbar flex items-center justify-between flex-wrap">
 				<li>
 					<a target="_blank" href="https://generator.jspm.io"
 						>Online Generator</a
@@ -51,7 +54,7 @@
 				</li>
 			</ul>
 			<div class="mobile-menu"></div>
-		</div>
+		</nav>
 		<div class="sidebar">
 			<div class="toc">
 				<ul class="sections">
