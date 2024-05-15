@@ -97,5 +97,9 @@ out = 'public_html/docs/jspm-cli'
 
 [[task]]
 name = 'generate:api:css'
-run = 'tailwindcss -i ./public_html/styles/input.css -o ./public_html/style.main.css'
-invalidation = 'always'
+deps = ['public_html/style.main.css']
+run = 'tailwindcss -i ./styles/input.css -o ./public_html/style.main.css'
+
+[[task]]
+name = 'generate:api:assets'
+run = 'cp -r ./assets ./public_html'
