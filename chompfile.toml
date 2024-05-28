@@ -103,3 +103,10 @@ run = 'tailwindcss -i ./styles/input.css -o ./public_html/style.main.css'
 [[task]]
 name = 'generate:api:assets'
 run = 'cp -r ./assets ./public_html'
+
+[[task]]
+name = 'dev'
+deps = ['*.html']
+run = 'concurrently "chomp build --serve --port 4003 --watch" "browser-sync start --server public_html --files public_html"'
+
+[[task]]
