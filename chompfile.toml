@@ -97,7 +97,7 @@ out = 'public_html/docs/jspm-cli'
 
 [[task]]
 name = 'generate:api:css'
-deps = ['public_html/style.main.css']
+deps = ['./styles/input.css']
 run = 'tailwindcss -i ./styles/input.css -o ./public_html/style.main.css'
 
 [[task]]
@@ -108,5 +108,3 @@ run = 'cp -r ./assets ./public_html'
 name = 'dev'
 deps = ['*.html']
 run = 'concurrently "chomp build --serve --port 4003 --watch" "browser-sync start --server public_html --files public_html"'
-
-[[task]]
