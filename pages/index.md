@@ -20,6 +20,7 @@ JSPM provides package management for import maps, allowing any package from npm 
 </div>
 
 <br />
+<br />
 
 <p style="margin-top: 1em; margin-bottom: -1em; line-height: 2em; text-align: center;">Silver Sponsor</p>
 <p style="text-align: center">
