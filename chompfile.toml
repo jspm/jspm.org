@@ -102,9 +102,17 @@ run = 'tailwindcss -i ./styles/input.css -o ./public_html/style.main.css'
 
 [[task]]
 name = 'generate:api:assets'
+deps = ['./assets/**/*']
 run = 'cp -r ./assets ./public_html'
 
 [[task]]
+name = 'generate:api:docs'
+deps = ['template.html', 'pages/**/*.md']
+# a minimal watch for html/md updates for development
+run = 'chomp generate:site'
+
+[[task]]
 name = 'dev'
-deps = ['#.html']
-run = 'concurrently "chomp build --serve --port 4003 --watch" "browser-sync start --server public_html --files public_html"'
+deps = ['generate:api:css', 'generate:api:assets']
+# TODO browser-sync is temporary, should be replaced with this https://github.com/guybedford/chomp/issues/61
+run = 'concurrently "chomp generate:api:docs --serve --port 4003 --watch" "browser-sync start --server public_html --files public_html"'
