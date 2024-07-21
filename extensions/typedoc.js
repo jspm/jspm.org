@@ -34,7 +34,7 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
     cwd: lib,
     engine: 'node',
     run: `
-      import { rmdirSync, mkdirSync } from 'node:fs';
+      import { rmdirSync, mkdirSync, readdirSync } from 'node:fs';
       import { $, usePowerShell } from 'zx';
       import { platform } from 'node:process';
 
@@ -44,12 +44,12 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
 
       const version = 'v${ENV[envVersion]}';
 
-      /*const variations = ['stable', 'dev', version, version.split('.').slice(0, -1).join('.')];
-      for (const variation of variations) {
+      const removeDirs = readdirSync('${backtrack}${out}').filter(dir => dir === 'stable' || dir === 'dev' || dir.split('.').length < 3);
+      for (const dir of removeDirs) {
         try {
-          rmdirSync(\`${backtrack}${out}/\${variation}\`, { recursive: true });
+          rmdirSync(\`${backtrack}${out}/\${removeDir}\`, { recursive: true });
         } catch {}
-      }*/
+      }
 
       await $({ verbose: true })\`typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
         --tsconfig tsconfig.json \
@@ -57,11 +57,6 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
         ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
         ${flags.replace(/\$TYPEDOC_SYNTAX_THEME/g, ENV.TYPEDOC_SYNTAX_THEME)} \
         --out ${backtrack}${out}\`;
-
-      /*for (const variation of variations) {
-        if (variation === version) continue;
-        await $\`cp -r ${backtrack}${out}/\${version}/* ${backtrack}${out}/\${variation}\`;
-      }*/
     `
   }];
 });
