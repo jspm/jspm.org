@@ -32,16 +32,36 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
       ...task.deps || []
     ],
     cwd: lib,
+    engine: 'node',
     run: `
-      rm -rf ${backtrack}${out} \
-        && mkdir -p ${backtrack}${out} \
-        && typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
-          --tsconfig tsconfig.json \
-          --options typedoc.json \
-          ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
-          ${flags} \
-          --out ${backtrack}${out}/v${ENV[envVersion]} \
-        && ln -sfn v${ENV[envVersion]} ${backtrack}${out}/stable
+      import { rmdirSync, mkdirSync } from 'node:fs';
+      import { $, usePowerShell } from 'zx';
+      import { platform } from 'node:process';
+
+      const isWindows = platform === 'win32';
+      if (isWindows)
+        usePowerShell();
+
+      const version = 'v${ENV[envVersion]}';
+
+      /*const variations = ['stable', 'dev', version, version.split('.').slice(0, -1).join('.')];
+      for (const variation of variations) {
+        try {
+          rmdirSync(\`${backtrack}${out}/\${variation}\`, { recursive: true });
+        } catch {}
+      }*/
+
+      await $({ verbose: true })\`typedoc --searchInComments --categorizeByGroup false --skipErrorChecking \
+        --tsconfig tsconfig.json \
+        --options typedoc.json \
+        ${plugins.map(plugin => plugin.startsWith('./') ? `--plugin ${backtrack}${plugin.slice(2)}` : `--plugin ${plugin}`).join(' ')} \
+        ${flags.replace(/\$TYPEDOC_SYNTAX_THEME/g, ENV.TYPEDOC_SYNTAX_THEME)} \
+        --out ${backtrack}${out}\`;
+
+      /*for (const variation of variations) {
+        if (variation === version) continue;
+        await $\`cp -r ${backtrack}${out}/\${version}/* ${backtrack}${out}/\${variation}\`;
+      }*/
     `
   }];
 });
