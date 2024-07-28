@@ -50,18 +50,18 @@ This will update `lit.html` to contain the following:
 
 ```html
 <!doctype html>
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous" integrity="sha384-ie1x72Xck445i0j4SlNJ5W5iGeL3Dpa0zD48MZopgWsjNB/lt60SuG1iduZGNnJn"></script>
 <script type="importmap">
 {
   "imports": {
-    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
+    "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
     }
   }
 }
@@ -126,7 +126,7 @@ _package.json_
 {
   "type": "module",
   "dependencies": {
-    "lit": "^2.7.0"
+    "lit": "^3"
   }
 }
 ```
@@ -152,15 +152,15 @@ _importmap.json_
     "module"
   ],
   "imports": {
-    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
-    "lit/html.js": "https://ga.jspm.io/npm:lit@2.7.0/html.js"
+    "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@3.1.4/html.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
     }
   }
 }
@@ -188,21 +188,23 @@ _importmap.json_
   ],
   "imports": {
     "app": "./src/app.js",
-    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
-    "lit/html.js": "https://ga.jspm.io/npm:lit@2.7.0/html.js"
+    "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@3.1.4/html.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
     }
   }
 }
 ```
 
 Just like npm can install local folders, local module URLs can be installed directly in JSPM, and they can also point to fully remote module URLs with transitive dependency installs applying in all cases.
+
+Top-level `"imports"` entries are always maintained in the import map as the primary dependencies, while scopes are pruned depending on what is being used.
 
 Now we can update the HTML file to load `app` directly instead of having to hard-code the path:
 
@@ -229,7 +231,7 @@ This results in:
 _app.html_
 ```html
 <!doctype html>
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 <script type="importmap">
 {
   "imports": {
@@ -237,13 +239,13 @@ _app.html_
   },
   "scopes": {
     "./": {
-      "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
+      "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js"
     },
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
     }
   }
 }
@@ -275,15 +277,15 @@ _importmap.json_
   ],
   "imports": {
     "app": "./src/app.js",
-    "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js",
-    "react": "https://ga.jspm.io/npm:react@18.2.0/index.js"
+    "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js",
+    "lit/html.js": "https://ga.jspm.io/npm:lit@3.1.4/html.js"
   },
   "scopes": {
     "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/is-server.js"
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/is-server.js"
     }
   }
 }
@@ -292,6 +294,56 @@ _importmap.json_
 Notice how the _development_ prefix is no longer present in the module paths. This allows packages to provide different implementations for development and production, and is a feature of [Node.js conditional exports](https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports).
 
 > The `"env"` field is not an import map standard, but is used internally by JSPM for the `importmap.json` file only, when working with JSON import maps in order to be able to consistently resolve them in the correct environment. Future versions may use a separate environment file.
+
+## Import Map Integrity
+
+For security, it is recommended to generate import maps with the [`"integrity"`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap#integrity_metadata_map) field populated.
+
+This field allows populating the Subresource Integrity for all modules both as part of the static module graph and also part of the dynamic module graph of the application (that may or may not be loaded at runtime).
+
+We can achieve this by adding the `--integrity` flag to any install or link operation.
+
+For example at link time injection into the HTML:
+
+```
+jspm link app -o app.html --integrity
+```
+
+Giving:
+
+_app.html_
+```html
+<!doctype html>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous" integrity="sha384-ie1x72Xck445i0j4SlNJ5W5iGeL3Dpa0zD48MZopgWsjNB/lt60SuG1iduZGNnJn"></script>
+<script type="importmap">
+{
+  "imports": {
+    "app": "./src/app.js"
+  },
+  "scopes": {
+    "./": {
+      "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js"
+    },
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/reactive-element.js",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/lit-html.js",
+      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/is-server.js"
+    }
+  },
+  "integrity": {
+    "./src/app.js": "sha384-HVnIfD4r9M9RDNWQ97t76wrsWabmX4dXGLTYd9zKuuhcMIwEdXtZH8xXbie6YrtJ",
+    "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/css-tag.js": "sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ9CgSSJ2Auq37QyaMpqAqBy+HCOtHf6QSWKl",
+    "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/reactive-element.js": "sha384-hrSJOlBhLHm9bNnuvt+DKINVyUGKXumnclZjoynsvhjcBH69MUnc5vwNr7u6L1UM",
+    "https://ga.jspm.io/npm:lit-element@4.0.6/lit-element.js": "sha384-Ch491m5L+ErRD9ie6LoKZflmDdk/x65NSh7Me3mbPxzZkb1YlTOL8Z7TFpZZseDY",
+    "https://ga.jspm.io/npm:lit-html@3.1.4/is-server.js": "sha384-c2UPp3lPxy1SKxJFIPcaK7PaWWWohEEwAaeBsoYeIF7ULocdSenWqg/7Iln4Dkw5",
+    "https://ga.jspm.io/npm:lit-html@3.1.4/lit-html.js": "sha384-jM1anKsXoI4092s8FRYctiy0ivkYAlyAkalNV+KenxDKp5wObhV79xo94Ge5rZAQ",
+    "https://ga.jspm.io/npm:lit@3.1.4/index.js": "sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB0ROrRyipc+QWqXXpJhcbmT2+7tx9CCN"
+  }
+}
+</script>
+<script type="module">import 'app'</script>
+```
 
 ## Changing Providers
 
@@ -357,15 +409,15 @@ _importmap.json_
   ],
   "imports": {
     "app": "./src/app.js",
-    "lit": "https://unpkg.com/lit@2.7.0/index.js",
-    "react": "https://unpkg.com/react@18.2.0/index.js"
+    "lit": "https://unpkg.com/lit@3.1.4/index.js",
+    "lit/html.js": "https://unpkg.com/lit@3.1.4/html.js"
   },
   "scopes": {
     "https://unpkg.com/": {
-      "@lit/reactive-element": "https://unpkg.com/@lit/reactive-element@1.6.1/reactive-element.js",
-      "lit-element/lit-element.js": "https://unpkg.com/lit-element@3.3.0/lit-element.js",
-      "lit-html": "https://unpkg.com/lit-html@2.7.0/lit-html.js",
-      "lit-html/is-server.js": "https://unpkg.com/lit-html@2.7.0/is-server.js"
+      "@lit/reactive-element": "https://unpkg.com/@lit/reactive-element@2.0.4/reactive-element.js",
+      "lit-element/lit-element.js": "https://unpkg.com/lit-element@4.0.6/lit-element.js",
+      "lit-html": "https://unpkg.com/lit-html@3.1.4/lit-html.js",
+      "lit-html/is-server.js": "https://unpkg.com/lit-html@3.1.4/is-server.js"
     }
   }
 }
@@ -406,7 +458,7 @@ Then run a build of the `src/app.js` module, while treating all bare specifier i
 * `--format=esm` tells esbuild to output an ES module file, so we are still using native browser modules
 * `--external:*` ensures we externalize all bare specifiers
 
-Manually update `importmap.json` to reference `dist/app.js` instead of `src/app.js`:
+Update `importmap.json` to reference `dist/app.js` instead of `src/app.js` (either manually or via `jspm install app=./dist/app.js`):
 
 _importmap.json_
 ```json
@@ -437,15 +489,17 @@ _importmap.json_
 Now, when performing the `app.html` import map HTML injection for production add the `--preload` flag to inject `modulepreload` tags for the application:
 
 ```
-jspm link app.html -o app.html --preload
+jspm link app -o app.html --integrity --preload
 ```
+
+> Using `--integrity` is always recommended in production workflows.
 
 This results in the HTML:
 
 _app.html_
 ```
 <!doctype html>
-<script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+<script async src="https://unpkg.com/es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous" integrity="sha384-BTO8nLHukFlPxTSib9wgQyLgd2oYLxp24Goxje82QeHp7cwyUtgx4Z32PCEb3Q09"></script>
 <script type="importmap">
 {
   "imports": {
@@ -453,28 +507,37 @@ _app.html_
   },
   "scopes": {
     "./": {
-      "lit": "https://ga.jspm.io/npm:lit@2.7.0/index.js"
+      "lit": "https://unpkg.com/lit@3.1.4/index.js"
     },
-    "https://ga.jspm.io/": {
-      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
-      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js",
-      "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js",
-      "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js"
+    "https://unpkg.com/": {
+      "@lit/reactive-element": "https://unpkg.com/@lit/reactive-element@2.0.4/reactive-element.js",
+      "lit-element/lit-element.js": "https://unpkg.com/lit-element@4.0.6/lit-element.js",
+      "lit-html": "https://unpkg.com/lit-html@3.1.4/lit-html.js",
+      "lit-html/is-server.js": "https://unpkg.com/lit-html@3.1.4/is-server.js"
     }
+  },
+  "integrity": {
+    "./dist/app.js": "sha384-HVnIfD4r9M9RDNWQ97t76wrsWabmX4dXGLTYd9zKuuhcMIwEdXtZH8xXbie6YrtJ",
+    "https://unpkg.com/@lit/reactive-element@2.0.4/css-tag.js": "sha384-1JuWTNKIc0DkMosyCcN1AJitipoYtChQRQFPAy86mjgaY/WKLowYVIBvrtz/u5at",
+    "https://unpkg.com/@lit/reactive-element@2.0.4/reactive-element.js": "sha384-pDU4ar+KtqcWu373vjAYQAIN0HF3S20cEBNBOijuiP/S8+u8zFW7uHbRfpfKk4sw",
+    "https://unpkg.com/lit-element@4.0.6/lit-element.js": "sha384-fIBuTVjazP9bO4oLnv0v20Yz48dgX72dyoGOHvX+HRCpmspbeZiZmejeWEE7mteF",
+    "https://unpkg.com/lit-html@3.1.4/is-server.js": "sha384-crhQkQLPOb3el2vcKz47A0M8Cd2FRDBqphYHICt24evksUD+0jHCMTmzA9APtE8l",
+    "https://unpkg.com/lit-html@3.1.4/lit-html.js": "sha384-VJakUbb6MBy04vxifh8YNUi5CtV5/8eysq8XYkl0suBDdp8jiKERcEZUQNnKupsM",
+    "https://unpkg.com/lit@3.1.4/index.js": "sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB0ROrRyipc+QWqXXpJhcbmT2+7tx9CCN"
   }
 }
 </script>
 <link rel="modulepreload" href="./dist/app.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/css-tag.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-element@3.3.0/development/lit-element.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-html@2.7.0/development/is-server.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:lit-html@2.7.0/development/lit-html.js" />
-<link rel="modulepreload" href="https://ga.jspm.io/npm:lit@2.7.0/index.js" />
-<script type="module">import 'app'</script>
+<link rel="modulepreload" href="https://unpkg.com/@lit/reactive-element@2.0.4/css-tag.js" />
+<link rel="modulepreload" href="https://unpkg.com/@lit/reactive-element@2.0.4/reactive-element.js" />
+<link rel="modulepreload" href="https://unpkg.com/lit-element@4.0.6/lit-element.js" />
+<link rel="modulepreload" href="https://unpkg.com/lit-html@3.1.4/is-server.js" />
+<link rel="modulepreload" href="https://unpkg.com/lit-html@3.1.4/lit-html.js" />
+<link rel="modulepreload" href="https://unpkg.com/lit@3.1.4/index.js" />
+<script>import 'app'</script>
 ```
 
-The full set of static preloads being included in the HTML means that there is no dependency waterfall roundtrip latency, and instead all dependencies can be immediately requested upfront by the browser. This completes the production workflow!
+The full set of static preloads being included in the HTML means that there is no dependency waterfall roundtrip latency, and instead all static dependencies are immediately requested upfront by the browser. This completes the production workflow.
 
 ## Local Conditions
 
@@ -507,92 +570,6 @@ JSPM is able to automatically switch between production and development modes fo
 
 > The above `package.json` `"name"` definition may look like a JSPM-specific workflow trick, but this is actually a native modules feature of Node.js module resolution, and is supported by most JS tooling, called [package self-reference resolution](https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#self-referencing-a-package-using-its-name).
 
-## Deno Workflows
-
-JSPM can also be used as a package manager for Deno import maps.
-
-In Deno, the default import map is contained in `deno.json` (instead of JSPM's default `importmap.json`).
-
-When outputting a JSON file, JSPM will respect any existing properties in that JSON file, only overriding the `"imports"`, `"scopes"` and `"env"` fields. In this way JSPM can install directly into `deno.json` files as a Deno package manager.
-
-Therefore that is needed for Deno package management with JSPM is adding `-m deno.json` to all install operations. Setting `--env=deno,no-browser` is also recommended.
-
-### Installing Deno Packages
-
-Packages can be installed directly from Deno's standard library:
-
-```
-jspm install deno:crypto -m deno.json --env=deno
-```
-
-Giving:
-
-_deno.json_
-```json
-{
-  "env": [
-    "deno",
-    "development",
-    "module"
-  ],
-  "imports": {
-    "crypto": "https://deno.land/std@0.182.0/crypto/mod.ts"
-  }
-}
-```
-
-To import in Deno, write:
-
-_app.ts_
-```ts
-import * as crypto from 'crypto';
-
-console.log(crypto);
-```
-
-When running, Deno will automatically use the import map from `deno.json`:
-
-```
-deno run app.ts
-```
-
-### Installing from Denoland
-
-Third-party Deno packages can be installed from the `denoland:` registry, also supported by JSPM.
-
-```
-jspm install denoland:oak -m deno.json
-```
-
-Giving:
-
-_deno.json_
-```
-{
-  "env": [
-    "deno",
-    "development",
-    "module"
-  ],
-  "imports": {
-    "crypto": "https://deno.land/std@0.182.0/crypto/mod.ts",
-    "oak": "https://deno.land/x/oak@v12.1.0/mod.ts"
-  }
-}
-```
-
-We can test the new package by updating `app.ts`:
-
-_app.ts_
-```ts
-import * as oak from 'oak';
-console.log(oak);
-```
-
-```
-deno run app.ts
-```
-
 ## Online Generator
 
 The easiest way to try out JSPM is to generate an import map using the online generator at [https://generator.jspm.io](https://generator.jspm.io).
@@ -617,7 +594,7 @@ Versions are supported in package names before the subpath and items can be remo
 
 The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.
 
-In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA) we get:
+In [this example](https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA) we get:
 
 ```html
 <!doctype html>
@@ -630,26 +607,27 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
 <body>
   <!--
     JSPM Generator Import Map
-    Edit URL: https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA
+    Edit URL: https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA
   -->
    <script type="importmap">
   {
     "imports": {
-      "lit": "https://ga.jspm.io/npm:lit@2.2.0/index.js",
-      "lit/html.js": "https://ga.jspm.io/npm:lit@2.2.0/html.js"
+      "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js",
+      "lit/html.js": "https://ga.jspm.io/npm:lit@3.1.4/html.js"
     },
     "scopes": {
       "https://ga.jspm.io/": {
-        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/reactive-element.js",
-        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.3.0/lit-element.js",
-        "lit-html": "https://ga.jspm.io/npm:lit-html@2.7.0/lit-html.js"
+        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+        "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+        "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
       }
     }
   }
   </script>
   
-  <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (Safari 16.3) -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  <!-- ES Module Shims import maps polyfills -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
   
   <script type="module">
     import * as lit from "lit";
@@ -665,3 +643,5 @@ In [this example](https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD
 Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.
 
 The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the import maps still work in browsers without import maps support.
+
+The online generator also provides full support for integrity, preloading and custom providers.

@@ -64,10 +64,10 @@ Now you should be able to build the site:
 chomp build
 ```
 
-And with watch
+And to serve and watch for changes to `pages`:
 
 ```bash
-chomp build --watch
+chomp build --serve
 ```
 
 ### Troubleshooting

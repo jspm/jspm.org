@@ -1,4 +1,4 @@
-<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - JSPM CLI Relaunch - Import Map Package Management"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Relaunching the JSPM CLI as an Import Map Package Manager"><meta property="og:description" content="Relaunching the JSPM CLI as an Import Map Package Manager"><meta property="og:url" content="https://jspm.org/jspm-cli"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
+<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Using the neww Import Map Integrity"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Using the new 'integrity' feature for import maps can allow mitigating JS supply chain security"><meta property="og:description" content="Using the new 'integrity' feature for import maps can allow mitigating JS supply chain security"><meta property="og:url" content="https://jspm.org/import-map-integrity"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="/favicon.ico">
 <link rel="stylesheet" href="/style.css?v1">
@@ -13,7 +13,7 @@
 
   gtag('config', 'G-M0FZNQ9ZPV');
 </script>
-<title>JSPM - JSPM CLI Relaunch - Import Map Package Management</title></head><body class="page-jspm-cli">
+<title>JSPM - Using the neww Import Map Integrity</title></head><body class="page-import-map-integrity">
 <div class="topbar">
   <a style="display: block" href="/">
     <div class="logobox" href="/"></div>
@@ -59,7 +59,7 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
-          <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity with Import Maps<span class="date">28/07/24</span></em></a></li>
+          <li class="blog-link"><a href="/js-security-import-map-integrity"><em>JS Security with Import Map Integrity<span class="date">21/07/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev<span class="date">13/01/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI Relaunch<span class="date">04/04/23</span></em></a></li>
         </ul>
@@ -69,12 +69,12 @@
   </div>
 </div>
 <div class="content-container">
-  <div class="content"><h1>JSPM CLI Relaunch</h1>
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, April 5<sup style="padding-left:0.15em">th</sup> 2023</em></p>
+  <div class="content"><h1>JavaScript Supply Chain Security with Import Map Integrity</h1>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, July 21<sup style="padding-left:0.15em">st</sup> 2024</em></p>
 
 <p>Last week Apple landed support for import maps in Safari 16.4, resulting in <a href="https://caniuse.com/import-maps" target="_blank" rel="noopener">all major web browsers</a> now supporting the <a href="https://github.com/WICG/import-maps" target="_blank" rel="noopener">import maps standard</a>.</p>
 <p>Today, the JSPM CLI is being relaunched as an import map package management tool.</p>
-<a name="import-map-package-management" class="anchor main"></a><h2>Import Map Package Management</h2>
+<a name="the-import-map-integrity-field" class="anchor main"></a><h2>The Import Map "integrity" Field</h2>
 <p><strong>The thesis of JSPM has always been that browser import map management is package management.</strong></p>
 <p>Creating and managing an import map should be like using a traditional package manager:</p>
 <pre><code>jspm install -m app.html lit --env=production
@@ -104,7 +104,7 @@ console.log(lit);
 
 <p>JSPM respects <code>package.json</code> version ranges and supports all the features of Node.js module resolution in a browser compatible way. It supports arbitrary module URLs and CDN providers e.g. by just adding <code>--provider unpkg</code> to the install command (or even local <code>node_modules</code> mappings via <code>--provider nodemodules</code>).</p>
 <p>Better apps are written when there are less steps between the developer and their tools, less steps between development and production, and less steps between applications and end-users.</p>
-<a name="package-aligned-caching" class="anchor main"></a><h2>Package-Aligned Caching</h2>
+<a name="generating-integrity" class="anchor main"></a><h2>Generating Integrity</h2>
 <p>JSPM's default CDN, <code>jspm.io</code> serves unique versioned package URLs with packages individually optimized using the standard <a href="/cdn/jspm-io#package-optimization">code splitting optimization</a> technique against their enumerated public entry points (package <code><span class="string">"exports"</span></code>).</p>
 <p>Aligning caching with package URLs in this way provides a number of major benefits - primarily that regardless of the exact code being loaded, the cache storage is the same. Usually bundlers produce bundles that are very unique to the build system, while with JSPM a single optimized dependency maintains a singular representation (for a given provider).</p>
 <p>As a result, navigating between pages of a large web application dependency, package network caches are always fully shared naturally without complex build tool rules to maintain this. The cache either has a unique versioned package path or not. Upgrades to a web app that only change one package don't need to invalidate every other package that has been downloaded.</p>
@@ -117,7 +117,7 @@ console.log(lit);
 <p>The <code>jspm.io</code> CDN is now running on the CacheFly CDN, thanks to their generous infrastructure sponsorship. With over 900m requests being served per month, the migration to their CDN service was seamless and has reduced our infrastructure costs significantly.</p>
 <p>Finally a huge thanks to the project sponsors <a href="https://37signals.com" target="_blank" rel="noopener">37 Signals</a>, <a href="https://socket.dev" target="_blank" rel="noopener">Socket</a>, <a href="https://framer.com" target="_blank" rel="noopener">Framer</a> and <a href="https://scrimba.com" target="_blank" rel="noopener">Scrimba</a> for sustaining the project.</p>
 <br>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/jspm-cli.md" rel="noopener">Edit</a><div class="prev"><a href="/jspm-dev-deprecation">◀&nbsp;Deprecating jspm.dev</a></div></div></div>
+<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/import-map-integrity.md" rel="noopener">Edit</a><div class="prev"><a href="/jspm-dev-deprecation">◀&nbsp;Deprecating jspm.dev</a></div></div></div>
 </div>
 
 

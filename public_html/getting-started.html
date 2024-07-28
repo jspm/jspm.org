@@ -5,12 +5,13 @@
 <link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
 <script defer="" src="/script.js?v1"></script>
 <!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-40327700-2"></script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'UA-40327700-2');
+
+  gtag('config', 'G-M0FZNQ9ZPV');
 </script>
 <title>JSPM - Getting Started</title></head><body class="page-getting-started">
 <div class="topbar">
@@ -58,9 +59,9 @@
       <li class="blog">
         <a href="/jspm-cli">Blog</a>
         <ul class="section">
+          <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity with Import Maps<span class="date">28/07/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev<span class="date">13/01/24</span></em></a></li>
           <li class="blog-link"><a href="/jspm-cli"><em>JSPM CLI Relaunch<span class="date">04/04/23</span></em></a></li>
-          <li class="blog-link"><a href="/import-map-cdn"><em>Import Map CDN Launch<span class="date">02/03/21</span></em></a></li>
         </ul>
       </li>
     </ul>
@@ -93,18 +94,18 @@
 <p>The above tells JSPM to trace the modules inside of <code>lit.html</code> and generate the import map for them, then injecting the import map output back into <code>lit.html</code>.</p>
 <p>This will update <code>lit.html</code> to contain the following:</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
-&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">7</span>.<span class="number">1</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span> integrity=<span class="string">"sha384-ie1x72Xck445i0j4SlNJ<span class="number">5</span>W<span class="number">5</span>iGeL<span class="number">3</span>Dpa0zD<span class="number">48</span>MZopgWsjNB/lt60SuG<span class="number">1</span>iduZGNnJn"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
-    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
     }
   }
 }
@@ -149,7 +150,7 @@ console.log(lit);
 <pre><code class="language-json">{
   <span class="string">"type"</span>: <span class="string">"module"</span>,
   <span class="string">"dependencies"</span>: {
-    <span class="string">"lit"</span>: <span class="string">"^<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>"</span>
+    <span class="string">"lit"</span>: <span class="string">"^<span class="number">3</span>"</span>
   }
 }
 </code></pre>
@@ -167,15 +168,15 @@ console.log(lit);
     <span class="string">"module"</span>
   ],
   <span class="string">"imports"</span>: {
-    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>,
-    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/html.js"</span>
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
     }
   }
 }
@@ -195,20 +196,21 @@ console.log(lit);
   ],
   <span class="string">"imports"</span>: {
     <span class="string">"app"</span>: <span class="string">"./src/app.js"</span>,
-    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>,
-    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/html.js"</span>
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
     }
   }
 }
 </code></pre>
 <p>Just like npm can install local folders, local module URLs can be installed directly in JSPM, and they can also point to fully remote module URLs with transitive dependency installs applying in all cases.</p>
+<p>Top-level <code><span class="string">"imports"</span></code> entries are always maintained in the import map as the primary dependencies, while scopes are pruned depending on what is being used.</p>
 <p>Now we can update the HTML file to load <code>app</code> directly instead of having to hard-code the path:</p>
 <p><em>app.html</em></p>
 <pre><code class="language-html">&lt;!doctype html&gt;
@@ -223,7 +225,7 @@ console.log(lit);
 <p>This results in:</p>
 <p><em>app.html</em></p>
 <pre><code class="language-html">&lt;!doctype html&gt;
-&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">7</span>.<span class="number">1</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
@@ -231,13 +233,13 @@ console.log(lit);
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"./"</span>: {
-      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>
     },
     <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
     }
   }
 }
@@ -262,15 +264,15 @@ console.log(lit);
   ],
   <span class="string">"imports"</span>: {
     <span class="string">"app"</span>: <span class="string">"./src/app.js"</span>,
-    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>,
-    <span class="string">"react"</span>: <span class="string">"https://ga.jspm.io/npm:react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
+    <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+    <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>
     }
   }
 }
@@ -279,6 +281,46 @@ console.log(lit);
 <blockquote>
 <p>The <code><span class="string">"env"</span></code> field is not an import map standard, but is used internally by JSPM for the <code>importmap.json</code> file only, when working with JSON import maps in order to be able to consistently resolve them in the correct environment. Future versions may use a separate environment file.</p>
 </blockquote>
+<a name="import-map-integrity" class="anchor main"></a><h2>Import Map Integrity</h2>
+<p>For security, it is recommended to generate import maps with the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap#integrity_metadata_map" target="_blank" rel="noopener"><code><span class="string">"integrity"</span></code></a> field populated.</p>
+<p>This field allows populating the Subresource Integrity for all modules both as part of the static module graph and also part of the dynamic module graph of the application (that may or may not be loaded at runtime).</p>
+<p>We can achieve this by adding the <code>--integrity</code> flag to any install or link operation.</p>
+<p>For example at link time injection into the HTML:</p>
+<pre><code>jspm link app -o app.html --integrity
+</code></pre>
+<p>Giving:</p>
+<p><em>app.html</em></p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span> integrity=<span class="string">"sha384-ie1x72Xck445i0j4SlNJ<span class="number">5</span>W<span class="number">5</span>iGeL<span class="number">3</span>Dpa0zD<span class="number">48</span>MZopgWsjNB/lt60SuG<span class="number">1</span>iduZGNnJn"</span>&gt;&lt;/script&gt;
+&lt;script type=<span class="string">"importmap"</span>&gt;
+{
+  <span class="string">"imports"</span>: {
+    <span class="string">"app"</span>: <span class="string">"./src/app.js"</span>
+  },
+  <span class="string">"scopes"</span>: {
+    <span class="string">"./"</span>: {
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>
+    },
+    <span class="string">"https://ga.jspm.io/"</span>: {
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>
+    }
+  },
+  <span class="string">"integrity"</span>: {
+    <span class="string">"./src/app.js"</span>: <span class="string">"sha384-HVnIfD<span class="number">4</span>r9M<span class="number">9</span>RDNWQ<span class="number">97</span>t76wrsWabmX<span class="number">4</span>dXGLTYd9zKuuhcMIwEdXtZH<span class="number">8</span>xXbie6YrtJ"</span>,
+    <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/css-tag.js"</span>: <span class="string">"sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ<span class="number">9</span>CgSSJ<span class="number">2</span>Auq37QyaMpqAqBy+HCOtHf6QSWKl"</span>,
+    <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>: <span class="string">"sha384-hrSJOlBhLHm9bNnuvt+DKINVyUGKXumnclZjoynsvhjcBH<span class="number">69</span>MUnc5vwNr7u6L<span class="number">1</span>UM"</span>,
+    <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>: <span class="string">"sha384-Ch491m5L+ErRD<span class="number">9</span>ie6LoKZflmDdk/x65NSh7Me3mbPxzZkb1YlTOL<span class="number">8</span>Z<span class="number">7</span>TFpZZseDY"</span>,
+    <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>: <span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span>,
+    <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>: <span class="string">"sha384-jM<span class="number">1</span>anKsXoI<span class="number">4092</span>s8FRYctiy0ivkYAlyAkalNV+KenxDKp5wObhV<span class="number">79</span>xo94Ge5rZAQ"</span>,
+    <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>
+  }
+}
+&lt;/script&gt;
+&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
+</code></pre>
 <a name="changing-providers" class="anchor main"></a><h2>Changing Providers</h2>
 <p>The benefits of using an ESM-native CDN like <code>jspm.io</code> is that dependencies are fully production optimized, and older packages that only support CommonJS are automatically converted by the CDN into ES modules to support browser usage.</p>
 <p>Lit is actually a package that is designed from the start as an ESM package and it is also optimized at publish time, so it's actually possible to create an import map directly against the original sources.</p>
@@ -324,15 +366,15 @@ console.log(lit);
   ],
   <span class="string">"imports"</span>: {
     <span class="string">"app"</span>: <span class="string">"./src/app.js"</span>,
-    <span class="string">"lit"</span>: <span class="string">"https://unpkg.com/lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>,
-    <span class="string">"react"</span>: <span class="string">"https://unpkg.com/react@<span class="number">18</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>
+    <span class="string">"lit"</span>: <span class="string">"https://unpkg.com/lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+    <span class="string">"lit/html.js"</span>: <span class="string">"https://unpkg.com/lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"https://unpkg.com/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://unpkg.com/lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/is-server.js"</span>
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://unpkg.com/lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>
     }
   }
 }
@@ -359,7 +401,7 @@ console.log(lit);
 <li><code>--format=esm</code> tells esbuild to output an ES module file, so we are still using native browser modules</li>
 <li><code>--external:*</code> ensures we externalize all bare specifiers</li>
 </ul>
-<p>Manually update <code>importmap.json</code> to reference <code>dist/app.js</code> instead of <code>src/app.js</code>:</p>
+<p>Update <code>importmap.json</code> to reference <code>dist/app.js</code> instead of <code>src/app.js</code> (either manually or via <code>jspm install app=./dist/app.js</code>):</p>
 <p><em>importmap.json</em></p>
 <pre><code class="language-json">{
   <span class="string">"env"</span>: [
@@ -384,12 +426,15 @@ console.log(lit);
 </code></pre>
 <a name="preload-injection" class="anchor"></a><h3>Preload Injection</h3>
 <p>Now, when performing the <code>app.html</code> import map HTML injection for production add the <code>--preload</code> flag to inject <code>modulepreload</code> tags for the application:</p>
-<pre><code>jspm link app.html -o app.html --preload
+<pre><code>jspm link app -o app.html --integrity --preload
 </code></pre>
+<blockquote>
+<p>Using <code>--integrity</code> is always recommended in production workflows.</p>
+</blockquote>
 <p>This results in the HTML:</p>
 <p><em>app.html</em></p>
 <pre><code>&lt;!doctype html&gt;
-&lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">7</span>.<span class="number">1</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+&lt;script <span class="keyword">async</span> src=<span class="string">"https://unpkg.com/es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span> integrity=<span class="string">"sha384-BTO<span class="number">8</span>nLHukFlPxTSib9wgQyLgd2oYLxp24Goxje82QeHp7cwyUtgx4Z<span class="number">32</span>PCEb3Q<span class="number">09</span>"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"importmap"</span>&gt;
 {
   <span class="string">"imports"</span>: {
@@ -397,27 +442,36 @@ console.log(lit);
   },
   <span class="string">"scopes"</span>: {
     <span class="string">"./"</span>: {
-      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span>
+      <span class="string">"lit"</span>: <span class="string">"https://unpkg.com/lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>
     },
-    <span class="string">"https://ga.jspm.io/"</span>: {
-      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span>,
-      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span>,
-      <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span>,
-      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span>
+    <span class="string">"https://unpkg.com/"</span>: {
+      <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>,
+      <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://unpkg.com/lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>,
+      <span class="string">"lit-html"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>,
+      <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>
     }
+  },
+  <span class="string">"integrity"</span>: {
+    <span class="string">"./dist/app.js"</span>: <span class="string">"sha384-HVnIfD<span class="number">4</span>r9M<span class="number">9</span>RDNWQ<span class="number">97</span>t76wrsWabmX<span class="number">4</span>dXGLTYd9zKuuhcMIwEdXtZH<span class="number">8</span>xXbie6YrtJ"</span>,
+    <span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/css-tag.js"</span>: <span class="string">"sha384-1JuWTNKIc0DkMosyCcN<span class="number">1</span>AJitipoYtChQRQFPAy86mjgaY/WKLowYVIBvrtz/u5at"</span>,
+    <span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span>: <span class="string">"sha384-pDU<span class="number">4</span>ar+KtqcWu373vjAYQAIN<span class="number">0</span>HF<span class="number">3</span>S<span class="number">20</span>cEBNBOijuiP/S<span class="number">8</span>+u8zFW<span class="number">7</span>uHbRfpfKk4sw"</span>,
+    <span class="string">"https://unpkg.com/lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span>: <span class="string">"sha384-fIBuTVjazP<span class="number">9</span>bO<span class="number">4</span>oLnv0v20Yz48dgX<span class="number">72</span>dyoGOHvX+HRCpmspbeZiZmejeWEE<span class="number">7</span>mteF"</span>,
+    <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span>: <span class="string">"sha384-crhQkQLPOb3el2vcKz47A<span class="number">0</span>M<span class="number">8</span>Cd2FRDBqphYHICt24evksUD+<span class="number">0</span>jHCMTmzA<span class="number">9</span>APtE<span class="number">8</span>l"</span>,
+    <span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span>: <span class="string">"sha384-VJakUbb6MBy04vxifh8YNUi5CtV<span class="number">5</span>/<span class="number">8</span>eysq8XYkl0suBDdp8jiKERcEZUQNnKupsM"</span>,
+    <span class="string">"https://unpkg.com/lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>
   }
 }
 &lt;/script&gt;
 &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"./dist/app.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/css-tag.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/development/reactive-element.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/development/lit-element.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/is-server.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/development/lit-html.js"</span> /&gt;
-&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/index.js"</span> /&gt;
-&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/css-tag.js"</span> /&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/reactive-element.js"</span> /&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/lit-element.js"</span> /&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/is-server.js"</span> /&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/lit-html.js"</span> /&gt;
+&lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://unpkg.com/lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span> /&gt;
+&lt;script&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
 </code></pre>
-<p>The full set of static preloads being included in the HTML means that there is no dependency waterfall roundtrip latency, and instead all dependencies can be immediately requested upfront by the browser. This completes the production workflow!</p>
+<p>The full set of static preloads being included in the HTML means that there is no dependency waterfall roundtrip latency, and instead all static dependencies are immediately requested upfront by the browser. This completes the production workflow.</p>
 <a name="local-conditions" class="anchor main"></a><h2>Local Conditions</h2>
 <p>In the previous workflows it was necessary to manually maintain the <code>app</code> mapping, and update this mapping when moving from development to production.</p>
 <p>It is actually also possible to automatically manage this mapping in JSPM using standard module resolution features in the <code>package.json</code> file, with the following configuration:</p>
@@ -440,62 +494,6 @@ console.log(lit);
 <blockquote>
 <p>The above <code>package.json</code> <code><span class="string">"name"</span></code> definition may look like a JSPM-specific workflow trick, but this is actually a native modules feature of Node.js module resolution, and is supported by most JS tooling, called <a href="https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#self-referencing-a-package-using-its-name" target="_blank" rel="noopener">package self-reference resolution</a>.</p>
 </blockquote>
-<a name="deno-workflows" class="anchor main"></a><h2>Deno Workflows</h2>
-<p>JSPM can also be used as a package manager for Deno import maps.</p>
-<p>In Deno, the default import map is contained in <code>deno.json</code> (instead of JSPM's default <code>importmap.json</code>).</p>
-<p>When outputting a JSON file, JSPM will respect any existing properties in that JSON file, only overriding the <code><span class="string">"imports"</span></code>, <code><span class="string">"scopes"</span></code> and <code><span class="string">"env"</span></code> fields. In this way JSPM can install directly into <code>deno.json</code> files as a Deno package manager.</p>
-<p>Therefore that is needed for Deno package management with JSPM is adding <code>-m deno.json</code> to all install operations. Setting <code>--env=deno,no-browser</code> is also recommended.</p>
-<a name="installing-deno-packages" class="anchor"></a><h3>Installing Deno Packages</h3>
-<p>Packages can be installed directly from Deno's standard library:</p>
-<pre><code>jspm install deno:crypto -m deno.json --env=deno
-</code></pre>
-<p>Giving:</p>
-<p><em>deno.json</em></p>
-<pre><code class="language-json">{
-  <span class="string">"env"</span>: [
-    <span class="string">"deno"</span>,
-    <span class="string">"development"</span>,
-    <span class="string">"module"</span>
-  ],
-  <span class="string">"imports"</span>: {
-    <span class="string">"crypto"</span>: <span class="string">"https://deno.land/std@<span class="number">0</span>.<span class="number">182</span>.<span class="number">0</span>/crypto/mod.ts"</span>
-  }
-}
-</code></pre>
-<p>To import in Deno, write:</p>
-<p><em>app.ts</em></p>
-<pre><code class="language-ts"><span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">'crypto'</span>;
-
-console.log(crypto);
-</code></pre>
-<p>When running, Deno will automatically use the import map from <code>deno.json</code>:</p>
-<pre><code>deno run app.ts
-</code></pre>
-<a name="installing-from-denoland" class="anchor"></a><h3>Installing from Denoland</h3>
-<p>Third-party Deno packages can be installed from the <code>denoland:</code> registry, also supported by JSPM.</p>
-<pre><code>jspm install denoland:oak -m deno.json
-</code></pre>
-<p>Giving:</p>
-<p><em>deno.json</em></p>
-<pre><code>{
-  <span class="string">"env"</span>: [
-    <span class="string">"deno"</span>,
-    <span class="string">"development"</span>,
-    <span class="string">"module"</span>
-  ],
-  <span class="string">"imports"</span>: {
-    <span class="string">"crypto"</span>: <span class="string">"https://deno.land/std@<span class="number">0</span>.<span class="number">182</span>.<span class="number">0</span>/crypto/mod.ts"</span>,
-    <span class="string">"oak"</span>: <span class="string">"https://deno.land/x/oak@v12.<span class="number">1</span>.<span class="number">0</span>/mod.ts"</span>
-  }
-}
-</code></pre>
-<p>We can test the new package by updating <code>app.ts</code>:</p>
-<p><em>app.ts</em></p>
-<pre><code class="language-ts"><span class="keyword">import</span> * <span class="keyword">as</span> oak <span class="keyword">from</span> <span class="string">'oak'</span>;
-console.log(oak);
-</code></pre>
-<pre><code>deno run app.ts
-</code></pre>
 <a name="online-generator" class="anchor main"></a><h2>Online Generator</h2>
 <p>The easiest way to try out JSPM is to generate an import map using the online generator at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a>.</p>
 <div style="text-align: center;">
@@ -514,7 +512,7 @@ console.log(oak);
 
 <p>Versions are supported in package names before the subpath and items can be removed or changed from the controls provided.</p>
 <p>The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.</p>
-<p>In <a href="https://generator.jspm.io/#U2NhYGBiDs0rySzJSU1hyMkscTDSM9IzQLD0M0pyc/SyigHzBUtSKgA" target="_blank" rel="noopener">this example</a> we get:</p>
+<p>In <a href="https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA" target="_blank" rel="noopener">this example</a> we get:</p>
 <pre><code class="language-html">&lt;!doctype html&gt;
 &lt;html&gt;
 &lt;head&gt;
@@ -525,26 +523,27 @@ console.log(oak);
 &lt;body&gt;
   <span class="comment">&lt;!--
     JSPM Generator Import Map
-    Edit URL: https://generator.jspm.io/#U<span class="number">2</span>NhYGBiDs0rySzJSU<span class="number">1</span>hyMkscTDSM<span class="number">9</span>IzQLD<span class="number">0</span>M<span class="number">0</span>pyc/SyigHzBUtSKgA
+    Edit URL: https://generator.jspm.io/#U<span class="number">2</span>VhYGBiDs0rySzJSU<span class="number">1</span>hyMkscTDWM<span class="number">9</span>QzQbD<span class="number">0</span>M<span class="number">0</span>pyc/SyigHdBe16KgA
   --&gt;</span>
    &lt;script type=<span class="string">"importmap"</span>&gt;
   {
     <span class="string">"imports"</span>: {
-      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/index.js"</span>,
-      <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">2</span>.<span class="number">2</span>.<span class="number">0</span>/html.js"</span>
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+      <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
     },
     <span class="string">"scopes"</span>: {
       <span class="string">"https://ga.jspm.io/"</span>: {
-        <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">1</span>.<span class="number">6</span>.<span class="number">1</span>/reactive-element.js"</span>,
-        <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-element.js"</span>,
-        <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">2</span>.<span class="number">7</span>.<span class="number">0</span>/lit-html.js"</span>
+        <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+        <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+        <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+        <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
       }
     }
   }
   &lt;/script&gt;
   
-  <span class="comment">&lt;!-- ES Module Shims: Import maps polyfill <span class="keyword">for</span> modules browsers without <span class="keyword">import</span> maps support (Safari <span class="number">16</span>.<span class="number">3</span>) --&gt;</span>
-  &lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">5</span>.<span class="number">1</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+  <span class="comment">&lt;!-- ES Module Shims <span class="keyword">import</span> maps polyfills --&gt;</span>
+  &lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
   
   &lt;script type=<span class="string">"module"</span>&gt;
     <span class="keyword">import</span> * <span class="keyword">as</span> lit <span class="keyword">from</span> <span class="string">"lit"</span>;
@@ -558,6 +557,7 @@ console.log(oak);
 </code></pre>
 <p>Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.</p>
 <p>The included <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims polyfill</a> ensures the import maps still work in browsers without import maps support.</p>
+<p>The online generator also provides full support for integrity, preloading and custom providers.</p>
 <div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/getting-started.md" rel="noopener">Edit</a><div class="next"><a href="/faq">FAQ&nbsp;▶</a></div></div></div>
 </div>
 

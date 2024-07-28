@@ -5,6 +5,14 @@
   "feed_url": "https://jspm.org//feed.json",
   "items": [
     {
+      "id": "6",
+      "url": "https://jspm.org/js-integrity-with-import-maps",
+      "title": "Integrity Manifests with Import Maps",
+      "content_html": "<p>Using the new 'integrity' feature for import maps provides a new integrity manifest security model for JS modules on the web</p>",
+      "date_published": "2024-07-28T19:44:47.273Z",
+      "date_modified": "2024-07-28T19:51:03.790Z"
+    },
+    {
       "id": "5",
       "url": "https://jspm.org/jspm-dev-deprecation",
       "title": "Deprecating jspm.dev",
