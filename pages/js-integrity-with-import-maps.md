@@ -79,6 +79,7 @@ This will update `app.html` to now contain:
 
 ```html
 <!doctype html>
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous" integrity="sha384-ie1x72Xck445i0j4SlNJ5W5iGeL3Dpa0zD48MZopgWsjNB/lt60SuG1iduZGNnJn"></script>
 <script type="importmap">
 {
   "imports": {
