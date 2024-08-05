@@ -41,7 +41,7 @@ Insure you're using the correct version of node:
 
 ```bash
 n i auto
-# or nvm i
+# or nvm i auto
 ```
 
 Recursively install node modules:

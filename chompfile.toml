@@ -58,6 +58,7 @@ deps = [
   'generate:api:generator',
   'generate:api:import-map',
   'generate:api:jspm-cli',
+  'generate:api:css',
 ]
 engine = 'node'
 
@@ -93,3 +94,25 @@ custom-css = 'typedoc/typedoc-theme.css'
 plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
 flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
 out = 'public_html/docs/jspm-cli'
+
+[[task]]
+name = 'generate:api:css'
+deps = ['./styles/input.css', 'template.html', 'pages/**/*.md']
+run = 'tailwindcss -i ./styles/input.css -o ./public_html/style.main.css'
+
+[[task]]
+name = 'generate:api:assets'
+deps = ['./assets/**/*']
+run = 'cp -r ./assets ./public_html'
+
+[[task]]
+name = 'generate:api:docs'
+deps = ['template.html', 'pages/**/*.md']
+# a minimal watch for html/md updates for development
+run = 'chomp generate:site'
+
+[[task]]
+name = 'dev'
+deps = ['generate:api:css', 'generate:api:assets']
+# TODO browser-sync is temporary, should be replaced with this https://github.com/guybedford/chomp/issues/61
+run = 'concurrently "chomp generate:api:docs --serve --port 4003 --watch" "browser-sync start --server public_html --files public_html"'
