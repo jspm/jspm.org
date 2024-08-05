@@ -6,22 +6,22 @@ prev-section = "jspm-dev-deprecation"
 
 # JavaScript Integrity with Import Maps
 
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, July 28<sup style="padding-left:0.15em">th</sup> 2024</em></p>
+<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, August 5<sup style="padding-left:0.15em">th</sup> 2024</em></p>
 
-Until recently, there were only two ways to define [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) for JavaScript code on the web:
+_With the new `"integrity"` field for import maps, [recently released in Chrome 127](https://developer.chrome.com/release-notes/127#importmap_integrity) thanks to [work from Shopify engineering](https://shopify.engineering/shipping-support-for-module-script-integrity-in-chrome-safari), we now have a new security primitive for JS modules on the web with the ability to define a module integrity manifest._
+
+Before this, there have only two ways to define [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) for JavaScript code on the web:
 
 1. With the integrity directly on the script tag: `<script type="module" integrity="sha386-..." src="...">`.
 2. With the integrity directly on a preload tag: `<link rel="modulepreload" integrity="sha386-..." href="...">`.
 
-These requirements for integrity come with some limitations:
+These requirements for integrity have limitations in that:
 
-* Integrity does not apply for ES mdoule imports, since there is [no `"integrity"` attribute planned](https://github.com/tc39/proposal-import-attributes?tab=readme-ov-file#why-not-out-of-band) for something like `import 'dep' with { "integrity": "..." }`.
-* There is no standard way to apply dynamic integrity injection for lazily loaded dynamic `import()`s. All JS source with integrity must be eagerly fetched and loaded by the network with a direct script or preload tag.
-* Since a given JS module may be imported in multiple places, every single call site is responsible for ensuring the integrity check, making it hard to treat this as a security guarantee.
+* Integrity does not apply for dependency imports, since there is [no `"integrity"` attribute planned](https://github.com/tc39/proposal-import-attributes?tab=readme-ov-file#why-not-out-of-band) for something like `import 'dep' with { "integrity": "..." }`, due to the cascading effect of inline integrity.
+* Further, there is also no way to apply integrity for lazy dependency imports using dynamic `import()`s. All JS source with integrity must therefore be eagerly fetched and loaded by the network with a direct script or preload tag that can provide the integrity.
+* Since a given JS module may be imported in multiple places, every single call site is responsible for ensuring the integrity check, making it hard to treat this as a universal security guarantee.
 
 The above often make it inhibitatively difficult to ship ES modules on the web with full integrity for JS resources, or to even consider a `Content-Security-Policy: require-sri-for script;` integrity policy when shipping ES modules.
-
-With the new `"integrity"` field for import maps, [recently released in Chrome 127](https://developer.chrome.com/release-notes/127#importmap_integrity), we now have a new security primitive for JS modules on the web with the ability to define a full integrity manifest without the above concerns.
 
 ### The Import Map `"integrity"` field
 
@@ -69,7 +69,7 @@ class SimpleGreeting extends LitElement {
 customElements.define('simple-greeting', SimpleGreeting);
 ```
 
-We can use the JSPM CLI to update this HTML page to relink the modules, outputting the new import map back into the same HTML page:
+We can use the JSPM CLI to update this HTML page to relink the modules outputting the new import map with integrity back into the same HTML page:
 
 ```bash
 jspm link app.html --integrity -o app.html
@@ -105,7 +105,7 @@ If the network returns a different source for a given JS file, then a network er
 
 ### ES Module Shims Support
 
-The es-module-shims polyfill project now fully includes a [polyfill for import map `"integrity"`](https://github.com/guybedford/es-module-shims?tab=readme-ov-file#import-map-integrity).
+The ES Module Shims modules polyfills project now fully includes a [polyfill for import map `"integrity"`](https://github.com/guybedford/es-module-shims?tab=readme-ov-file#import-map-integrity).
 
 Whenever the polyfill is engaging (either in shim mode, or when statically unsupported modules features are used), `"integrity"` metadata will be passed to the underlying `fetch` request used by the polyfill, to ensure that even when the polyfill is engaging integrity is still supported.
 
@@ -113,10 +113,10 @@ While not a comprehensive security model (unless using shim mode), the ability t
 
 ### A Future with Integrity
 
-Integrity should be the default for all JS applications, especially those relying on third-party CDNs.
+Integrity should really be the default for all JS applications, especially those relying on third-party CDNs!
 
-This can then prevent the fallout of attacks like the recent [polyfill.io supply chain attack](https://cside.dev/blog/more-than-100k-websites-targeted-in-web-supply-chain-attack), where users relying on the `polyfill.io` CDN to serve JS code found that code being tampered with to create targeted redirects across all sites embedding these JS polyfills.
+This can prevent the fallout of attacks like the recent [polyfill.io supply chain attack](https://cside.dev/blog/more-than-100k-websites-targeted-in-web-supply-chain-attack), where users relying on the `polyfill.io` CDN to serve JS code found that code being tampered with to create targeted redirects across all sites embedding these JS polyfills.
 
-To get there, providing integrity must become a first-class part of our JS deployment workflows, which the new `"integrity"` field can help enable.
+To get there, integrity should become a first-class part of our JS deployment workflows, which this new `"integrity"` field can help enable.
 
 <br />

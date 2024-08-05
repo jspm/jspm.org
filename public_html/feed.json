@@ -7,10 +7,10 @@
     {
       "id": "6",
       "url": "https://jspm.org/js-integrity-with-import-maps",
-      "title": "Integrity Manifests with Import Maps",
+      "title": "JavaScript Integrity with Import Maps",
       "content_html": "<p>Using the new 'integrity' feature for import maps provides a new integrity manifest security model for JS modules on the web</p>",
-      "date_published": "2024-07-28T19:44:47.273Z",
-      "date_modified": "2024-08-05T20:32:29.511Z"
+      "date_published": "2024-08-05T20:43:24.198Z",
+      "date_modified": "2024-08-05T20:43:24.198Z"
     },
     {
       "id": "5",
