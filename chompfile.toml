@@ -9,7 +9,7 @@ extensions = [
 [env]
 IMPORT_MAP_VERSION = '1.1.0'
 GENERATOR_VERSION = '2.1.2'
-JSPM_CLI_VERSION = '3.3.0'
+JSPM_CLI_VERSION = '3.3.2'
 TYPEDOC_SYNTAX_THEME = 'rose-pine-dawn'
 
 [server]
