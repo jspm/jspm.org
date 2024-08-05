@@ -1,16 +1,16 @@
 +++
-title = "Integrity Manifests with Import Maps"
+title = "JavaScript Integrity Manifests with Import Maps"
 description = "Using the new 'integrity' feature for import maps provides a new integrity manifest security model for JS modules on the web"
 prev-section = "jspm-dev-deprecation"
 +++
 
-# JavaScript Integrity with Import Maps
+# JavaScript Integrity Manifests with Import Maps
 
 <p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, August 5<sup style="padding-left:0.15em">th</sup> 2024</em></p>
 
 _With the new `"integrity"` field for import maps, [recently released in Chrome 127](https://developer.chrome.com/release-notes/127#importmap_integrity) thanks to [work from Shopify engineering](https://shopify.engineering/shipping-support-for-module-script-integrity-in-chrome-safari), we now have a new security primitive for JS modules on the web with the ability to define a module integrity manifest._
 
-Before this, there have only two ways to define [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) for JavaScript code on the web:
+Before this, there were only two ways to define [Subresource Integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) for JavaScript code on the web:
 
 1. With the integrity directly on the script tag: `<script type="module" integrity="sha386-..." src="...">`.
 2. With the integrity directly on a preload tag: `<link rel="modulepreload" integrity="sha386-..." href="...">`.
