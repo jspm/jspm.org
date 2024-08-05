@@ -115,7 +115,7 @@
   <h3>Options</h3>
 </a>
 <ul>
-<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (default: importmap.json)</li>
+<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (defaults to importmap.json, or the input HTML if linking) </li>
 <li><code>-o, --output</code> <em>&lt;file&gt;</em>             File to inject the final import map into (default: --map / importmap.json) </li>
 <li><code>-e, --env</code> &lt;<a href="#environments">environments</a>&gt;        Comma-separated environment condition overrides </li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;  Comma-separated dependency resolution overrides </li>
@@ -140,7 +140,7 @@
 <pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">./</span><span class="hl-0">src</span><span class="hl-1">/</span><span class="hl-0">cli</span><span class="hl-1">.</span><span class="hl-0">js</span>
 </code></pre>
 <p>Link an HTML file and update its import map including preload and integrity tags</p>
-<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">map</span><span class="hl-0"> </span><span class="hl-0">index</span><span class="hl-1">.</span><span class="hl-0">html</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">integrity</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">preload</span><span class="hl-0"> </span><span class="hl-0">dynamic</span>
+<pre><code><span class="hl-0">jspm</span><span class="hl-0"> </span><span class="hl-0">link</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">map</span><span class="hl-0"> </span><span class="hl-0">index</span><span class="hl-1">.</span><span class="hl-0">html</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">integrity</span><span class="hl-0"> </span><span class="hl-1">--</span><span class="hl-0">preload</span>
 </code></pre>
 
 <a href="#install" id="install" style="color: inherit; text-decoration: none;">
@@ -159,7 +159,7 @@
   <h3>Options</h3>
 </a>
 <ul>
-<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (default: importmap.json)</li>
+<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (defaults to importmap.json, or the input HTML if linking) </li>
 <li><code>-o, --output</code> <em>&lt;file&gt;</em>             File to inject the final import map into (default: --map / importmap.json) </li>
 <li><code>-e, --env</code> &lt;<a href="#environments">environments</a>&gt;        Comma-separated environment condition overrides </li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;  Comma-separated dependency resolution overrides </li>
@@ -208,7 +208,7 @@
   <h3>Options</h3>
 </a>
 <ul>
-<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (default: importmap.json)</li>
+<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (defaults to importmap.json, or the input HTML if linking) </li>
 <li><code>-o, --output</code> <em>&lt;file&gt;</em>             File to inject the final import map into (default: --map / importmap.json) </li>
 <li><code>-e, --env</code> &lt;<a href="#environments">environments</a>&gt;        Comma-separated environment condition overrides </li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;  Comma-separated dependency resolution overrides </li>
@@ -245,7 +245,7 @@
   <h3>Options</h3>
 </a>
 <ul>
-<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (default: importmap.json)</li>
+<li><code>-m, --map</code> <em>&lt;file&gt;</em>                File containing initial import map (defaults to importmap.json, or the input HTML if linking) </li>
 <li><code>-o, --output</code> <em>&lt;file&gt;</em>             File to inject the final import map into (default: --map / importmap.json) </li>
 <li><code>-e, --env</code> &lt;<a href="#environments">environments</a>&gt;        Comma-separated environment condition overrides </li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;  Comma-separated dependency resolution overrides </li>
