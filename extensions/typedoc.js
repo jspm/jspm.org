@@ -44,10 +44,10 @@ Chomp.registerTemplate('typedoc-generator', function (task) {
 
       const version = 'v${ENV[envVersion]}';
 
-      const removeDirs = readdirSync('${backtrack}${out}').filter(dir => dir === 'stable' || dir === 'dev' || dir.split('.').length < 3);
+      const removeDirs = readdirSync('${backtrack}${out}').filter(dir => dir === 'stable' || dir === 'dev' || (dir[0] === 'v' && dir.split('.').length === 2));
       for (const dir of removeDirs) {
         try {
-          rmdirSync(\`${backtrack}${out}/\${removeDir}\`, { recursive: true });
+          rmdirSync(\`${backtrack}${out}/\${dir}\`, { recursive: true });
         } catch {}
       }
 
