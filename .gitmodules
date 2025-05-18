@@ -4,12 +4,6 @@
 [submodule "api_repos/import-map"]
 	path = api_repos/import-map
 	url = git@github.com:jspm/import-map.git
-[submodule "scripts/api-docs-generator/generator"]
-	path = generator
-	url = git@github.com:jspm/generator.git
-[submodule "scripts/api-docs-generator/import-map"]
-	path = import-map
-	url = git@github.com:jspm/import-map.git
-[submodule "jspm-cli"]
-	path = jspm-cli
-	url = git@github.com:jspm/jspm-cli
+[submodule "jspm"]
+	path = jspm
+	url = git@github.com:jspm/jspm

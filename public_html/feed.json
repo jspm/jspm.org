@@ -5,6 +5,14 @@
   "feed_url": "https://jspm.org//feed.json",
   "items": [
     {
+      "id": "7",
+      "url": "https://jspm.org/jspm-4.0-release",
+      "title": "JSPM 4.0 Release",
+      "content_html": "<p>JSPM 4.0 is now out with a comprehensively streamlined CLI experience for using importmaps from development to production.</p>",
+      "date_published": "2025-05-18T23:50:00.000Z",
+      "date_modified": "2025-05-18T23:50:00.000Z"
+    },
+    {
       "id": "6",
       "url": "https://jspm.org/js-integrity-with-import-maps",
       "title": "JavaScript Integrity Manifests with Import Maps",

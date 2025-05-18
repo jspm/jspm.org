@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "typeRoots": ["node_modules/@types"],
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "target": "es2022",
+    "sourceMap": true,
+    "declaration": true,
+    "removeComments": false,
+    "strictBindCallApply": true
+  },
+  "include": [
+    "jspm/generator/src/**/*.js",
+    "jspm/generator/src/**/*.ts",
+    "jspm/cli/src/**/*.ts",
+    "jspm/import-map/src/**/*.ts"
+  ],
+  "exclude": [
+    "jspm/generator/lib/**/*",
+    "jspm/generator/src/**/*.test.ts"
+  ]
+}

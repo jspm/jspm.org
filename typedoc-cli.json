@@ -1,0 +1,54 @@
+{
+  "customCss": "typedoc.css",
+  "searchInComments": true,
+  "searchInDocuments": true,
+  "hideGenerator": true,
+  "navigationLinks": {
+    "JSPM CLI Documentation": "/docs/cli",
+    "@jspm/generator": "/docs/generator",
+    "@jspm/import-map": "/docs/import-map",
+    "Online Generator": "https://generator.jspm.io"
+  },
+  "sidebarLinks": {
+    "JSPM Homepage" :"/",
+    "Install": "/docs/cli/#install",
+    "Serve": "/docs/cli/#serve",
+    "Build": "/docs/cli/#build",
+    "Ls": "/docs/cli/#ls",
+    "Deploy": "/docs/cli/#deploy",
+    "Configuration": "/docs/cli/#configuration",
+    "Providers": "/docs/cli/#providers",
+    "Resolutions": "/docs/cli/#resolution"
+  },
+  "visibilityFilters": {
+    "inherited": false
+  },
+  "sort": ["visibility", "kind", "source-order"],
+  "groupOrder": ["Class", "Constructor", "Method", "Property", "Accessor", "Function", "*"],
+  "kindSortOrder": [
+    "Project",
+    "Module",
+    "Namespace",
+    "Enum",
+    "EnumMember",
+    "Class",
+    "Constructor",
+    "Method",
+    "Property",
+    "Accessor",
+    "Function",
+    "Variable",
+    "Interface",
+    "TypeAlias",
+    "Parameter",
+    "TypeParameter",
+    "TypeLiteral",
+    "CallSignature",
+    "ConstructorSignature",
+    "IndexSignature",
+    "GetSignature",
+    "SetSignature",
+    "Reference"
+  ],
+  "includeHierarchySummary": false
+}

@@ -8,9 +8,8 @@
     "marked": "^4.3.0",
     "picocolors": "^1.0.0",
     "toml": "^3.0.0",
-    "typedoc": "0.23.25",
-    "typedoc-plugin-external-resolver": "1.0.1",
-    "typedoc-plugin-versions": "0.2.3",
+    "typedoc": "0.28.4",
+    "typedoc-material-theme": "^1.4.0",
     "zx": "^8.1.4"
   }
 }

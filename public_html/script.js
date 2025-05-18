@@ -98,3 +98,37 @@
       sidebar.className = 'sidebar';
   });
 })();
+
+/* Light/Dark mode */
+document.addEventListener('DOMContentLoaded', () => {
+  const themeToggle = document.querySelector('.theme-toggle');
+  
+  // Check for saved theme preference, otherwise use system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const savedTheme = localStorage.getItem('theme');
+  
+  // Function to set theme
+  function setTheme(isDark) {
+    document.body.classList.toggle('dark-mode', isDark);
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+  }
+  
+  // Initialize theme
+  if (savedTheme) {
+    setTheme(savedTheme === 'dark');
+  } else {
+    setTheme(prefersDark.matches);
+  }
+  
+  // Toggle theme on button click
+  themeToggle.addEventListener('click', () => {
+    setTheme(!document.body.classList.contains('dark-mode'));
+  });
+  
+  // Listen for system theme changes
+  prefersDark.addEventListener('change', (e) => {
+    if (!localStorage.getItem('theme')) {
+      setTheme(e.matches);
+    }
+  });
+});

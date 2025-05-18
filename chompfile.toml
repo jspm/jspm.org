@@ -2,22 +2,17 @@ version = 0.1
 default-task = 'build'
 extensions = [
   'chomp@0.1:npm',
-  './extensions/static-site-generator.js',
-  './extensions/typedoc.js',
+  './extensions/static-site-generator.js'
 ]
 
 [env]
-IMPORT_MAP_VERSION = '1.1.0'
-GENERATOR_VERSION = '2.3.0'
-JSPM_CLI_VERSION = '3.3.3'
-TYPEDOC_SYNTAX_THEME = 'rose-pine-dawn'
-
-[server]
-root = "public_html"
+TYPEDOC_ARGS = """\
+  --plugin typedoc-material-theme --themeColor '#cb9820'\
+"""
 
 [[task]]
 name = 'build'
-deps = ['copy:css', 'generate:site', 'generate:api']
+deps = ['copy:css', 'generate:site', 'docs']
 
 [[task]]
 name = 'copy:css'
@@ -53,43 +48,32 @@ site-image = 'https://jspm.org/jspm.png'
 edit-url = 'https://github.com/jspm/jspm.org/blob/main/pages'
 
 [[task]]
-name = 'generate:api'
-deps = [
-  'generate:api:generator',
-  'generate:api:import-map',
-  'generate:api:jspm-cli',
-]
-engine = 'node'
+name = 'docs'
+deps = ['public_html/docs/import-map', 'public_html/docs/generator', 'public_html/docs/cli']
 
 [[task]]
-name = 'generate:api:generator'
-template = 'typedoc-generator'
-deps = ['template.html', 'generator/docs.md']
-[task.template-options]
-lib = 'generator'
-custom-css = 'typedoc/typedoc-theme.css'
-plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
-flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
-out = 'public_html/docs/generator'
+name = 'jspm:build'
+target = 'jspm/package-lock.json'
+dep = 'jspm/package.json'
+run = 'chomp -c jspm'
 
 [[task]]
-name = 'generate:api:import-map'
-template = 'typedoc-generator'
-deps = ['template.html']
-[task.template-options]
-lib = 'import-map'
-custom-css = 'typedoc/typedoc-theme.css'
-plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
-flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
-out = 'public_html/docs/import-map'
+target = "public_html/docs/import-map"
+deps = ['jspm:build', 'jspm/import-map/package.json', 'typedoc.json']
+run = """
+typedoc jspm/import-map/src/map.ts ${{TYPEDOC_ARGS}} --out $TARGET
+"""
 
 [[task]]
-name = 'generate:api:jspm-cli'
-template = 'typedoc-generator'
-deps = ['template.html', 'jspm-cli/docs.md']
-[task.template-options]
-lib = 'jspm-cli'
-custom-css = 'typedoc/typedoc-theme.css'
-plugins = './typedoc/typedoc-theme.cjs,typedoc-plugin-versions,typedoc-plugin-external-resolver'
-flags = '--lightHighlightTheme $TYPEDOC_SYNTAX_THEME --darkHighlightTheme $TYPEDOC_SYNTAX_THEME'
-out = 'public_html/docs/jspm-cli'
+target = "public_html/docs/generator"
+deps = ['jspm:build', 'jspm/generator/package.json', 'typedoc.json']
+run = """
+typedoc jspm/generator/src/generator.ts ${{TYPEDOC_ARGS}} --readme jspm/generator/docs.md --out $TARGET
+"""
+
+[[task]]
+target = "public_html/docs/cli"
+deps = ['jspm:build', 'jspm/cli/package.json', 'typedoc-cli.json']
+run = """
+typedoc jspm/cli/src/cli.ts --options typedoc-cli.json ${{TYPEDOC_ARGS}} --name "JSPM CLI" --readme jspm/cli/docs.md --out $TARGET
+"""
