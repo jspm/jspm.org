@@ -109,7 +109,7 @@ This will launch the local server on `http://localhost:5776` demonstrating the i
 
 The development server watches for changes to files and automatically refreshes when they change. Modules will be reloaded automatically and can also respond to reloads by implementing the `import.meta.hot` API supported by ES Module Shims to avoid cascading reloads to their parents.
 
-## Understanding Your Project Structure
+## Understanding the Project Structure
 
 Before modifying files, let's understand the structure of the project:
 
