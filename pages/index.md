@@ -18,7 +18,7 @@ next-section = "faq"
     <a href="/jspm-4.0-release" class="cta">4.0 Release</a>
   </div>
 </div>
-
+<!-- 
 <div class="features-container">
   <div class="feature-card">
     <h3>Native ES Modules</h3>
@@ -34,7 +34,7 @@ next-section = "faq"
     <h3>Production Ready</h3>
     <p>Run package builds, generate optimized import maps with version lock, integrity and preloading for production. All on standards-based semantics.</p>
   </div>
-</div>
+</div> -->
 
 <div class="sponsor-section">
   <div class="sponsor-tier">

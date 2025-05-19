@@ -92,7 +92,7 @@
 
   <div class="content-container">
     <div class="content"><h1>JSPM 4.0 Release</h1>
-<p>JSPM 4.0 is now out, featuring a new opinionated standards-based workflow that puts convention over configuration. It provides an alternative modern workflow for working with native ESM workflows in the browser using import maps:</p>
+<p>JSPM 4.0 is now out, featuring a refreshed and opinionated standards-based workflow based on convention over configuration. It provides a modern workflow for working with native ESM workflows in the browser using import maps:</p>
 <ul>
 <li><code>jspm install</code> without any arguments creates the <code>importmap.js</code> file.</li>
 <li><code>jspm serve</code> behaves as a static server except for supporting TypeScript type stripping and hot reloading.</li>
@@ -109,15 +109,15 @@
 </ol>
 <p>This standards-first approach has several major benefits:</p>
 <ul>
-<li><strong>Simplified Debugging</strong>: Browser DevTools work naturally with standard modules, no source maps needed</li>
+<li><strong>Simplified Debugging</strong>: Browsers, tools and development tooling all work naturally with standard modules, no source maps needed</li>
 <li><strong>Portable Code</strong>: Fewer framework-specific conventions means easier migration</li>
 <li><strong>Future-Proof</strong>: As standards evolve, your code remains compliant</li>
 <li><strong>Reduced Tooling</strong>: Less configuration, fewer build steps, and smaller bundles</li>
-<li><strong>Instant Development</strong>: JSPM import maps can even be generated in the browser for instant sandbox workflows, a technique used by Framer, one of the major project sponsors.</li>
+<li><strong>Instant Development</strong>: JSPM import maps can even be generated in the browser for instant sandbox workflows, a technique used by Framer, one of the project sponsors.</li>
 </ul>
 <a name="import-map-package-management" class="anchor main"></a><h2>Import Map Package Management</h2>
 <p>One of the major changes in JSPM 4.0 is import maps are now treated as package management artifacts more like lock files than manifests for hand-editing.</p>
-<p>All package management operations output by default to the new <code>importmap.js</code> import map injection script file. This is effectively a workaround for the lack of external import map support for an <code>importmap.json</code> file in browsers. The injection script has been recently widely support thanks to the new support for multiple import maps:</p>
+<p>All package management operations output by default to the new <code>importmap.js</code> import map injection script file. This is effectively a workaround for the lack of external import map support for an <code>importmap.json</code> file in browsers. This injection script approach only recently gained wide browser support thanks to the new multiple import maps feature:</p>
 <pre><code class="language-html">&lt;script type=<span class="string">"importmap"</span> src=<span class="string">"https://site.com/importmap.json"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
 </code></pre>
@@ -157,8 +157,8 @@
 <p>JSPM will know when the user runs <code>jspm install</code> that there should be a <code><span class="string">"my-app"</span></code> import in the import map pointing to <code><span class="string">"./src/index.js"</span></code>.</p>
 <p>It will then link (<em>trace</em>) that entry point and its dependencies in turn, populating dependencies into scopes while respecting the package.json <code><span class="string">"dependencies"</span></code> resolution ranges.</p>
 <p>As a result, the only imports at the top-level <code><span class="string">"imports"</span></code> of the import map will be the enumerated <code><span class="string">"exports"</span></code> entry points (which also support subpath patterns).</p>
-<p><strong>It was surprisingly hard to figure out good import map ergonomics for the project but this is a huge simplication that forms the new convention for the project going forward.</strong></p>
-<p>Of course we still support <code>--out</code>, <code>--map</code> and <code>--resolution</code> flags (amongs <a href="/docs/cli/interfaces/GenerateFlags">others</a>) for custom map inputs and outputs including JSON and HTML outputs as previously. <code>jspm link</code> is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.</p>
+<p><strong>It was surprisingly hard to figure out good import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.</strong></p>
+<p>Of course we still support <code>--out</code>, <code>--map</code> and <code>--resolution</code> flags (amongst <a href="/docs/cli/interfaces/GenerateFlags">others</a>) for custom map inputs and outputs including JSON and HTML outputs as previously. <code>jspm link</code> is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.</p>
 <a name="hot-reloading-server" class="anchor main"></a><h2>Hot Reloading Server</h2>
 <p>The JSPM 4.0 server (<code>jspm serve</code>) provides a development environment with instant hot module reloading built off the same conventions as install:</p>
 <ul>
@@ -169,25 +169,27 @@
 </ul>
 <p>The hot reloading system works by injecting a Server Side Events connection into the import map injection script itself. When files change, the server notifies the client and ES Module Shims handles the reloading of only the affected modules, preserving application state supporting the <code><span class="keyword">import</span>.meta.hot</code> API.</p>
 <blockquote>
-<p>The hot reloading server is made possible by <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, which is used in JSPM to polyfill import map features in older browsers like multiple import maps support, recently adding support for hot reloading.</p>
+<p>The hot reloading server is made possible by <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, which is used in JSPM to polyfill import map features in older browsers like multiple import maps support, <a href="https://guybedford.com/hot-reloading-es-module-shims-2.5" target="_blank" rel="noopener">recently adding support for hot reloading</a>.</p>
 </blockquote>
 <a name="building-for-production" class="anchor main"></a><h2>Building for Production</h2>
 <p>The semantics of <code>jspm build</code> follow from the same standards-based runtime semantics.</p>
-<p><em>Then, instead of building the <code>dist</code> folder inside the package, we build the whole package, and output the new optimized package into the <code>dist</code> folder.</em></p>
-<p>This is very much the same thing as what the JSPM.IO CDN already does today for npm packages, but available locally.</p>
 <p>What makes this possible is clearly defining the application entry points, which we enforce from the start with <code>jspm install</code>, so that the package optimization is fully well defined without having to set the build entry points.</p>
-<a name="cdn-trust-models-and-future-direction" class="anchor main"></a><h2>CDN Trust Models and Future Direction</h2>
-<p>The core ergonomics of JSPM 4.0 still rely heavily on CDNs providing optimized packages for seamless import map generation. In-browser workflows are supported just as well as local CLI workflows, and the AI sandbox use cases with module CDNs are important to support.</p>
-<p>To give some background - the first versions of JSPM focused primarily on local packagae semantics but ultimately fell short on standards-based workflows, when custom loaders were required that created friction in the developer experience.</p>
-<p>Solving the CDN provider ecosystem ergonomics first Since JSPM 4.0, we've dramatically shifted our approach to solving the CDN provider ecosystem first. The JSPM generator now supports multiple CDN providers (jspm.io, unpkg, jsdelivr, skypack, and others), giving developers the freedom to choose their provider or even mix providers within a single import map. This provider-agnostic approach directly addresses the lock-in problem that has historically been a concern with CDN-based workflows.</p>
-<p><code>jspm.io</code> itself, as a module CDN provider, has been adopted by frameworks such as Rails and is used internally in Framer Sites for instant in-browser code loading. However, we recognize that trust and security remain critical considerations. Our roadmap for the future centers around three key principles to build a trustless module ecosystem:</p>
-<ol>
-<li><strong>Permanent URLs</strong>: Ensuring content-addressable, immutable package URLs that can be reliably cached and verified</li>
-<li><strong>Integrity Support</strong>: Working with browser vendors on full import map integrity support (see <a href="/js-integrity-with-import-maps">JavaScript Integrity Manifests with Import Maps</a>)</li>
-<li><strong>Provider Interchangeability</strong>: Continuing to improve standards and conventions that make switching CDN providers seamless. Clear conventions and standards here is the key to avoiding lock-in.</li>
-</ol>
-<p>The JSPM Foundation aims to contribute to this trustless infrastructure for module delivery based on the sponsorships we receive, while developing the open source tooling that treats module CDNs as interchangeable providers. While we've made significant progress with JSPM 4.0, tackling the trust problem comprehensively remains a major future goal for the project.</p>
-<p>As we continue to build out these standards and tools for native modules, our hope is that the broader ecosystem will embrace clear conventions around verifiability and integrity as essential foundations for the future of code execution on the web.</p>
+<p>This is very much the same thing as what the JSPM.IO CDN already does today for npm packages, but now available locally.</p>
+<a name="future-directions" class="anchor main"></a><h2>Future Directions</h2>
+<p>The ability to seamlessly run an online sandbox without a build step or proprietary infrastructure remains a primary goal of the project, and we are seeing this use case continue to grow as more sandboxes choose to build on top of JSPM, especially with the rapid growth of AI sandboxes.</p>
+<p>Equally important are local-first workflows with minimal tooling.</p>
+<p>These two approaches - online sandboxes and local-first workflows - have always been the two main aspects of JSPM. The first version of JSPM prioritized local workflows before demonstrating remote code loading capabilities, while in recent years the JSPM.IO CDN-first models have taken the front seat here.</p>
+<p>Getting back to enabling completely CDN-free local workflows remains a major goal for the project and on the roadmap.</p>
+<p>While provenance is crucial, equally important is avoiding vendor lock-in through standards. This standards-first philosophy is what we consider most critical to get right, and it's what this 4.0 release primarily represents.</p>
+<p>JSPM 4.0 lays the groundwork for addressing these challenging security concerns. The project security focus will remain on these three problems: provider interchangeability via standards, CDN verification with integrity, and local provenance - all while maintaining the simplicity and developer experience that makes JSPM valuable.</p>
+<a name="next-steps" class="anchor main"></a><h2>Next Steps</h2>
+<p>JSPM 4.0 represents a significant step toward a web development model that prioritizes standards, simplicity, and security. Unifying package management with import maps creates a natural workflow for web development both in online sandboxes and local workflows.</p>
+<p>Please try out the new release and let us know your feedback!</p>
+<ul>
+<li><a href="/getting-started">Getting Started</a></li>
+<li><a href="/docs/cli">CLI Docs</a></li>
+<li><a href="https://generator.jspm.io" target="_blank" rel="noopener">Online Import Map Generator</a></li>
+</ul>
 <div class="nextprev"><div class="edit-container"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/jspm-4.0-release.md" rel="noopener">Edit</a></div></div></div>
   </div>
 

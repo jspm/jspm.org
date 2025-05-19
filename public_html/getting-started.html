@@ -92,8 +92,27 @@
 
   <div class="content-container">
     <div class="content"><h1>Getting Started</h1>
-<p>This guide runs through the steps of setting up the JSPM CLI and using it in some standard import maps workflows from development to production.</p>
-<p>If you just want to get a quick feel for import maps without using the CLI, <a href="/integrations#online-generator">see the online generator guide</a>.</p>
+<p>This guide runs through the steps of setting up the JSPM CLI and using it in standard import maps workflows from development to production.</p>
+<p>If you just want to get a quick feel for import maps without using the CLI, <a href="/docs/integrations#online-generator">see the online generator guide</a>.</p>
+<a name="table-of-contents" class="anchor main"></a><h2>Table of Contents</h2>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#initialize-a-new-project">Initialize a new Project</a></li>
+<li><a href="#starting-the-development-server">Starting the Development Server</a></li>
+<li><a href="#understanding-the-project-structure">Understanding the Project Structure</a></li>
+<li><a href="#what-are-import-maps">What are Import Maps?</a></li>
+<li><a href="#how-import-maps-work-in-the-project">How Import Maps Work in the Project</a></li>
+<li><a href="#managing-entry-points">Managing Entry Points</a></li>
+<li><a href="#adding-dependencies">Adding Dependencies</a></li>
+<li><a href="#using-specific-subpaths">Using Specific Subpaths</a></li>
+<li><a href="#using-conditional-environments">Using Conditional Environments</a></li>
+<li><a href="#import-map-integrity-for-security">Import Map Integrity for Security</a></li>
+<li><a href="#working-with-different-package-providers">Working with Different Package Providers</a></li>
+<li><a href="#building-for-production">Building for Production</a></li>
+<li><a href="#browser-compatibility-and-troubleshooting">Browser Compatibility and Troubleshooting</a></li>
+<li><a href="#deployment">Deployment</a></li>
+<li><a href="#next-steps">Next Steps</a></li>
+</ul>
 <a name="installation" class="anchor main"></a><h2>Installation</h2>
 <p>Ensure you have <a href="https://nodejs.org/en" target="_blank" rel="noopener">Node.js</a> installed.</p>
 <p>From the command-line, the JSPM CLI can then be installed using npm:</p>
@@ -103,31 +122,43 @@
 <p>To create a new JSPM project run:</p>
 <pre><code>jspm init my-project
 </code></pre>
-<p>This will guide you through a series of questions to set up your project:</p>
+<p>This will guide you through a series of questions to set up the project:</p>
 <pre><code>Creating package.json in my-project
 
-Package Name: (my-project) 
+Package Name: (my-project)
 Version: (dev)
-Description: 
+Description:
 Enable TypeScript with type stripping? (y/n)
 Exports Entry Point: (src/index.ts)
 Create a .gitignore file with JavaScript defaults? (y/n)
 Create an index.html example app file? (y/n)
 Create an AI prompt file? (y/n)
-Which AI prompt file would you like to create?
 </code></pre>
 <p>When the initialization completes, you'll have a new project with several files:</p>
 <pre><code>✓  my-project/tsconfig.json created
 ✓  my-project/.gitignore created
 ✓  my-project/index.html created
-✓  my-project/src/index.ts created   
-✓  my-project/src/landing.js created 
+✓  my-project/src/index.ts created
+✓  my-project/src/landing.js created
 ✓  my-project/src/landing.css created
-✓  my-project/CLAUDE.md created      
+✓  my-project/CLAUDE.md created
 ✓  my-project/package.json created
 
 Ok: Initialization complete.
 Info: Next, run cd my-project and jspm serve to start a local server.
+</code></pre>
+<p>Your project structure will look like this:</p>
+<pre><code>my-project/
+├── .gitignore           # Git ignore file
+├── CLAUDE.md            # AI prompt file (optional)
+├── index.html           # Main HTML entry point
+├── importmap.js         # Generated when you run jspm serve or install
+├── package.json         # Project configuration
+├── tsconfig.json        # TypeScript configuration (when enabled)
+└── src/
+    ├── index.ts         # Main application entry point
+    ├── landing.js       # Example landing page implementation
+    └── landing.css      # Landing page stylesheet
 </code></pre>
 <a name="starting-the-development-server" class="anchor main"></a><h2>Starting the Development Server</h2>
 <p>JSPM provides a development server that handles auto-installation, hot reloading, and TypeScript type stripping.</p>
@@ -135,10 +166,10 @@ Info: Next, run cd my-project and jspm serve to start a local server.
 <pre><code>cd my-project
 jspm serve
 </code></pre>
-<p>This will launch the local server on <code>http://localhost:5776</code>. You can press <code>o</code> to open the application in your browser, or navigate to the URL manually.</p>
-<p>The development server watches for changes to your files and automatically refreshes the browser on changes. Applications can respond to reloads by implementing the <code><span class="keyword">import</span>.meta.hot</code> API supported by ES Module Shims.</p>
-<p>Try changing the source of <code>src/landing.js</code> or <code>src/landing.css</code> to see live refreshes of both JS and CSS.</p>
-<a name="how-it-works" class="anchor main"></a><h2>How it Works</h2>
+<p>This will launch the local server on <code>http://localhost:5776</code> demonstrating the import map running natively in the browser. You can press <code>o</code> to open the application in the browser, or navigate to the URL manually.</p>
+<p>The development server watches for changes to files and automatically refreshes when they change. Modules will be reloaded automatically and can also respond to reloads by implementing the <code><span class="keyword">import</span>.meta.hot</code> API supported by ES Module Shims to avoid cascading reloads to their parents.</p>
+<a name="understanding-your-project-structure" class="anchor main"></a><h2>Understanding Your Project Structure</h2>
+<p>Before modifying files, let's understand the structure of the project:</p>
 <p>The following <code>package.json</code> was created by the initialization:</p>
 <p><em>package.json</em></p>
 <pre><code class="language-json">{
@@ -151,66 +182,93 @@ jspm serve
   }
 }
 </code></pre>
+<p>When starting the project the import map injection script is generated:</p>
 <p><em>importmap.js</em></p>
-<pre><code class="language-js">(map =&gt; {
+<pre><code class="language-js">((map) =&gt; {
   <span class="keyword">const</span> mapUrl = document.currentScript.src;
-  <span class="keyword">const</span> resolve = imports =&gt; Object.fromEntries(Object.entries(imports ).map(([k, v]) =&gt; [k, <span class="keyword">new</span> URL(v, mapUrl).href]));
-  document.head.appendChild(Object.assign(document.createElement(<span class="string">"script"</span>), {
-    type: <span class="string">"importmap"</span>,
-    innerHTML: JSON.stringify({
-      imports: resolve(map.imports),
-      scopes: Object.fromEntries(Object.entries(map.scopes).map(([k, v]) =&gt; [<span class="keyword">new</span> URL(k, mapUrl).href, resolve(v)]))
+  <span class="keyword">const</span> resolve = (imports) =&gt;
+    Object.fromEntries(
+      Object.entries(imports).map(([k, v]) =&gt; [k, <span class="keyword">new</span> URL(v, mapUrl).href])
+    );
+  document.head.appendChild(
+    Object.assign(document.createElement(<span class="string">"script"</span>), {
+      type: <span class="string">"importmap"</span>,
+      innerHTML: JSON.stringify({
+        imports: resolve(map.imports),
+        scopes: Object.fromEntries(
+          Object.entries(map.scopes).map(([k, v]) =&gt; [
+            <span class="keyword">new</span> URL(k, mapUrl).href,
+            resolve(v),
+          ])
+        ),
+      }),
     })
-  }));
-})
-({
-  <span class="string">"imports"</span>: {
-    <span class="string">"my-project"</span>: <span class="string">"./src/index.ts"</span>
+  );
+})({
+  imports: {
+    <span class="string">"my-project"</span>: <span class="string">"./src/index.ts"</span>,
   },
-  <span class="string">"scopes"</span>: {
+  scopes: {
     <span class="string">"./"</span>: {
-      <span class="string">"canvas-confetti"</span>: <span class="string">"https://ga.jspm.io/npm:canvas-confetti@<span class="number">1</span>.<span class="number">9</span>.<span class="number">3</span>/dist/confetti.module.mjs"</span>
-    }
-  }
+      <span class="string">"canvas-confetti"</span>:
+        <span class="string">"https://ga.jspm.io/npm:canvas-confetti@<span class="number">1</span>.<span class="number">9</span>.<span class="number">3</span>/dist/confetti.module.mjs"</span>,
+    },
+  },
 });
 </code></pre>
-<p>The generated <code>index.html</code> contains the following:</p>
+<p>The generated <code>index.html</code> contains:</p>
 <p><em>index.html</em></p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html lang=<span class="string">"en"</span>&gt;
-&lt;head&gt;
-  &lt;meta charset=<span class="string">"UTF<span class="number">-8</span>"</span>&gt;
-  &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=<span class="number">1</span>.<span class="number">0</span>"</span>&gt;
-  &lt;title&gt;my-project&lt;/title&gt;
-  &lt;script src=<span class="string">"importmap.js"</span>&gt;&lt;/script&gt;
-  &lt;script <span class="keyword">async</span> crossorigin=<span class="string">"anonymous"</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">2</span>.<span class="number">5</span>.<span class="number">1</span>/dist/es-module-shims.js"</span>&gt;&lt;/script&gt;     
-  &lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'my-project'</span>;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;&lt;/body&gt;
+  &lt;head&gt;
+    &lt;meta charset=<span class="string">"UTF<span class="number">-8</span>"</span> /&gt;
+    &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=<span class="number">1</span>.<span class="number">0</span>"</span> /&gt;
+    &lt;title&gt;my-project&lt;/title&gt;
+    &lt;script src=<span class="string">"importmap.js"</span>&gt;&lt;/script&gt;
+    &lt;script
+      <span class="keyword">async</span>
+      crossorigin=<span class="string">"anonymous"</span>
+      src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">2</span>.<span class="number">5</span>.<span class="number">1</span>/dist/es-module-shims.js"</span>
+    &gt;&lt;/script&gt;
+    &lt;script type=<span class="string">"module"</span>&gt;
+      <span class="keyword">import</span> <span class="string">"my-project"</span>;
+    &lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;&lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<p>When the server is started, or when running <code>jspm install</code>, the <code>importmap.js</code> file is initialized:</p>
-<p>When loading the HTML page in the browser:</p>
+<a name="what-are-import-maps" class="anchor main"></a><h2>What are Import Maps?</h2>
+<p>Import maps are a web standard that allow you to control how the browser resolves JavaScript module imports. They provide a way to map import specifiers (like <code><span class="keyword">import</span> * <span class="keyword">from</span> <span class="string">'lit'</span></code>) to actual URLs where those modules can be found.</p>
+<p>With import maps, you can:</p>
+<ul>
+<li>Use bare module specifiers in browsers without bundling</li>
+<li>Load dependencies from CDNs or local files</li>
+<li>Control versioning of dependencies</li>
+<li>Set up advanced module resolution patterns</li>
+</ul>
+<p>JSPM makes working with import maps simpler by automating their creation and management.</p>
+<a name="how-import-maps-work-in-the-project" class="anchor main"></a><h2>How Import Maps Work in the Project</h2>
+<p>When the server is started, or when running <code>jspm install</code>, the <code>importmap.js</code> file is initialized. When loading the HTML page in the browser:</p>
 <ol>
-<li>The import map injection script is being loaded, which injects a <code>&lt;script type=<span class="string">"importmap"</span>&gt;&lt;/script&gt;</code> with the generated import map directly into the head of the page.</li>
-<li>The ES Module Shims polyfill is being loaded which polyfills support for import maps and multiple import maps in older browsers, as well as supporting hot reloadinng.</li>
-<li>Finally we import the application main entry point with <code><span class="keyword">import</span> <span class="string">'my-project'</span></code>.</li>
+<li>The import map injection script loads first, which injects a <code>&lt;script type=<span class="string">"importmap"</span>&gt;{ ... }&lt;/script&gt;</code> element with the generated import map directly into the page's head.</li>
+<li>The ES Module Shims polyfill loads next, providing support for multiple import maps in browsers that don't natively support these features as well as for the hot reloading feature.</li>
+<li>Finally, the application's main entry point is imported with <code><span class="keyword">import</span> <span class="string">'my-project'</span></code>.</li>
 </ol>
-<p>The import map will resolve the entry point source, and the browser itself will load the TypeScript file from <code>src/index.ts</code>.<br>The JSPM server will strip the types but leave source locations in tact so source maps are not even necessary for debugging and for example VSCode attachment can easily work for debugging as well back to original sources.</p>
-<p>The <code>src/index.ts</code> in this example then loads a separate example page <code>landing.js</code> which in turn loads its own stylesheet using a natively-supported CSS import:</p>
+<p>The import map resolves this bare import to the source file at <code>./src/index.ts</code>. The JSPM server automatically strips TypeScript types while preserving source locations, making debugging straightforward even without separate source maps.</p>
+<p>The <code>src/index.ts</code> in this example loads a separate example page <code>landing.js</code>, which in turn loads its own stylesheet using a natively-supported CSS import:</p>
 <pre><code class="language-js"><span class="keyword">import</span> style <span class="keyword">from</span> <span class="string">'./landing.css'</span> with { type: <span class="string">'css'</span> };
 
 <span class="keyword">if</span> (!document.adoptedStyleSheets.includes(style))
   document.adoptedStyleSheets.push(style);
 </code></pre>
-<p>Any changes made to the stylesheet get written into the same stylesheet that is imported here instantly.</p>
+<p>Try changing the source of <code>src/landing.js</code> or <code>src/landing.css</code> to see live refreshes of both JS and CSS in action.</p>
 <blockquote>
-<p>While ES Module Shims is recommended for browser compatibility and hot reloading, it is not strictly required in modern versions of Chrome - the application will still work fine natively if it is removed.</p>
+<p>While ES Module Shims is recommended for browser compatibility and hot reloading, it is not strictly required in modern versions of Chrome - the application will still work natively if it is removed.</p>
 </blockquote>
-<p>The rest is just static file serving, apart from optional TypeScript type stripping on the server, there is no other magic at all here, just standard JS ecosystem conventions.</p>
+<p>It is also possible to run a completely static server with just <code>jspm serve --static</code> turning off hot reloading and entirely running on the native browser loader.</p>
 <a name="managing-entry-points" class="anchor main"></a><h2>Managing Entry Points</h2>
-<p>The top-level <code><span class="string">"imports"</span></code> in the import map are the main entry points. The <code>package.json</code> <code><span class="string">"name"</span></code> is important here as it names these entry points - just as we needed to do <code><span class="keyword">import</span> <span class="string">'my-project'</span></code> in the example.</p>
-<p><code>jspm install</code> uses scopes for all dependencies that are not the main entry points so that all imports should either be the package.json package name, or be a subpath of it.</p>
+<p>The top-level <code><span class="string">"imports"</span></code> section in the import map defines the main entry points. The <code>package.json</code> <code><span class="string">"name"</span></code> field is important here as it names these entry points - that's why we use <code><span class="keyword">import</span> <span class="string">'my-project'</span></code> in the example.</p>
+<p>JSPM uses scopes for all dependencies that are not main entry points, ensuring that all imports should either be the package.json package name or a subpath of it.</p>
 <p>To define new entry points, add them to the exports field of the package:</p>
 <pre><code class="language-json">{
   <span class="string">"name"</span>: <span class="string">"my-project"</span>,
@@ -224,32 +282,31 @@ jspm serve
 }
 </code></pre>
 <p>With the new entry point defined, another HTML page can contain <code><span class="keyword">import</span> <span class="string">'my-project/page2'</span></code>.</p>
-<p>Either run <code>jspm install</code> or <code>jspm serve</code> and the <code>importmap.js</code> file will be updated with this new mapping in the import map.</p>
-<p>The <code><span class="string">"exports"</span></code> field is a Node.js specification, the same one used for library entry points. It supports other useful features like conditional loading and pattern mappings, all of which are supported by JSPM. It is recommended to read the <a href="https://nodejs.org/docs/latest/api/packages.html#package-entry-points" target="_blank" rel="noopener">Node.js documentation</a> for further reference on this.</p>
+<p>Either run <code>jspm install</code> or restart <code>jspm serve</code> and the <code>importmap.js</code> file will be updated with this new mapping.</p>
+<p>The <code><span class="string">"exports"</span></code> field follows the Node.js specification used for library entry points. It supports other useful features like conditional loading and pattern mappings, all of which are supported by JSPM. Read the <a href="https://nodejs.org/docs/latest/api/packages.html#package-entry-points" target="_blank" rel="noopener">Node.js documentation</a> for more details.</p>
 <a name="adding-dependencies" class="anchor main"></a><h2>Adding Dependencies</h2>
-<p>Keeping the development server, you can add new dependencies to your code and JSPM will refresh the import map automatically.</p>
-<p>For example, edit <code>src/index.ts</code> (or <code>src/index.js</code> if you didn't enable TypeScript) to import and use Lit:</p>
+<p>While the development server is running, you can add new dependencies to the code and JSPM will refresh the import map automatically.</p>
+<p>For example, edit <code>src/index.ts</code> (or <code>src/index.js</code> if you didn't enable TypeScript) to import and use Lit, a popular library for creating web components:</p>
 <p><em>src/index.ts</em></p>
-<pre><code class="language-javascript"><span class="keyword">import</span> * <span class="keyword">as</span> lit <span class="keyword">from</span> <span class="string">'lit'</span>;
+<pre><code class="language-javascript"><span class="keyword">import</span> * <span class="keyword">as</span> lit <span class="keyword">from</span> <span class="string">"lit"</span>;
 
 class MyElement extends lit.LitElement {
   static properties = {
-    message: { type: String }
+    message: { type: String },
   };
   constructor() {
     super();
-    <span class="keyword">this</span>.message = <span class="string">'Hello <span class="keyword">from</span> JSPM and Lit!'</span>;
+    <span class="keyword">this</span>.message = <span class="string">"Hello <span class="keyword">from</span> JSPM and Lit!"</span>;
   }
   render() {
     <span class="keyword">return</span> lit.html<span class="string">`&lt;div&gt;${<span class="keyword">this</span>.message}&lt;/div&gt;`</span>;
   }
 }
 
-
-customElements.define(<span class="string">'my-element'</span>, MyElement);
-document.body.innerHTML = <span class="string">'&lt;my-element&gt;&lt;/my-element&gt;'</span>;
+customElements.define(<span class="string">"my-element"</span>, MyElement);
+document.body.innerHTML = <span class="string">"&lt;my-element&gt;&lt;/my-element&gt;"</span>;
 </code></pre>
-<p>This will scan the application entry points, detect the <code>lit</code> import, and update your <code>importmap.js</code> file with its resolved dependency graph:</p>
+<p>This will scan the application entry points, detect the <code>lit</code> import, and update the <code>importmap.js</code> file with its resolved dependency graph:</p>
 <p><em>importmap.js</em></p>
 <pre><code class="language-json">({ /* ...injection script... */ })
 ({
@@ -273,14 +330,13 @@ document.body.innerHTML = <span class="string">'&lt;my-element&gt;&lt;/my-elemen
   }
 });
 </code></pre>
-<p>JSPM's <code>importmap.js</code> acts like a lockfile in that once packages have been resolved to specific versions it will retain them at that version.</p>
-<p>It is still advisable to also add package version constraints to the package.json file as well to ensure proper constraints, and support for <code>jspm update</code>.</p>
+<p>JSPM's <code>importmap.js</code> acts like a lockfile - once packages have been resolved to specific versions, it will retain them at that version. However, it's still recommended to add package version constraints to the package.json file to ensure proper dependency management and to support the <code>jspm update</code> command.</p>
 <a name="using-specific-subpaths" class="anchor main"></a><h2>Using Specific Subpaths</h2>
-<p>Sometimes you may want to import a specific subpath of a package rather than the main entry point. For example, to use just the <code>html</code> feature of Lit:</p>
-<p><code>jspm ls</code> can be used to inspect what versions and entry points of packages are available:</p>
+<p>Often you may want to import a specific subpath of a package rather than the main entry point. For example, to use just the <code>html</code> feature of Lit:</p>
+<p>The <code>jspm ls</code> command can be used to inspect what versions and entry points of packages are available:</p>
 <pre><code>jspm ls lit -f html
 </code></pre>
-<p>This will show you available subpaths containing "html":</p>
+<p>This will show the available subpaths containing "html":</p>
 <pre><code>Package:        lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>
 Description:    A library <span class="keyword">for</span> building fast, lightweight web components
 License:        BSD<span class="number">-3</span>-Clause
@@ -301,19 +357,19 @@ Package Exports
   <span class="string">"default"</span>: <span class="string">"./static-html.js"</span>
 }
 </code></pre>
-<p>Now update your code to import just this subpath:</p>
+<p>Now updating the code to import just this subpath:</p>
 <p><em>src/index.ts</em></p>
-<pre><code class="language-javascript"><span class="keyword">import</span> { html, render } <span class="keyword">from</span> <span class="string">'lit/html.js'</span>;
+<pre><code class="language-javascript"><span class="keyword">import</span> { html, render } <span class="keyword">from</span> <span class="string">"lit/html.js"</span>;
 
 <span class="keyword">const</span> template = html<span class="string">`&lt;div&gt;Hello <span class="keyword">from</span> Lit HTML!&lt;/div&gt;`</span>;
 render(template, document.body);
 </code></pre>
-<p>Run <code>jspm install</code> again to update your import map:</p>
+<p>Run <code>jspm install</code> to update the import map with this more specific import:</p>
 <pre><code>jspm install
 </code></pre>
 <a name="using-conditional-environments" class="anchor main"></a><h2>Using Conditional Environments</h2>
-<p>JSPM supports conditional environments for different build modes, such as development and production.</p>
-<p>To switch the installed import map into production mappings we can enable the production condition with the <code>--conditions</code> flag:</p>
+<p>JSPM supports conditional environments for different build modes, such as development and production. This feature leverages <a href="https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports" target="_blank" rel="noopener">Node.js conditional exports</a> to provide different module implementations based on the environment.</p>
+<p>The default conditional environment for JSPM is <code>[<span class="string">"browser"</span>, <span class="string">"development"</span>, <span class="string">"module"</span>]</code>. To switch to production mappings, use the <code>--conditions</code> flag:</p>
 <pre><code>jspm install -C production
 </code></pre>
 <p>This updates the <code>importmap.js</code> file with production URLs:</p>
@@ -340,16 +396,14 @@ render(template, document.body);
   }
 });
 </code></pre>
-<p>Notice how the <em>development</em> prefix is no longer present in the module paths. This allows packages to provide different implementations for development and production, and is a feature of <a href="https://nodejs.org/dist/latest-v19.x/docs/api/packages.html#conditional-exports" target="_blank" rel="noopener">Node.js conditional exports</a>.</p>
-<p>The default conditional environment for JSPM is <code>[<span class="string">"browser"</span>, <span class="string">"development"</span>, <span class="string">"module"</span>]</code>. The <code>-C production</code> flag is always required to ensure a production map.</p>
-<a name="import-map-integrity" class="anchor main"></a><h2>Import Map Integrity</h2>
-<p>For security, it is recommended to generate import maps with the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap#integrity_metadata_map" target="_blank" rel="noopener"><code><span class="string">"integrity"</span></code></a> field populated.</p>
-<p>This field allows populating the Subresource Integrity for all modules both as part of the static module graph and also part of the dynamic module graph of the application (that may or may not be loaded at runtime).</p>
-<p>We can achieve this by adding the <code>--integrity</code> flag to any install operation.</p>
-<p>Instead of outputting into the same <code>importmap.js</code>, let's make this a separate <code>importmap.production.js</code> artifact by using the <code>-o</code> flag as well:</p>
+<p>Notice how the <em>development</em> prefix is no longer present in the module paths. This allows packages to provide different implementations for development and production.</p>
+<a name="import-map-integrity-for-security" class="anchor main"></a><h2>Import Map Integrity for Security</h2>
+<p>For security, it's recommended to generate import maps with the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap#integrity_metadata_map" target="_blank" rel="noopener"><code><span class="string">"integrity"</span></code></a> field populated.</p>
+<p>This field provides Subresource Integrity hashes for all modules in both the static and dynamic module graph of the application, protecting against compromised or malicious CDN resources.</p>
+<p>Add the <code>--integrity</code> flag to any install operation:</p>
 <pre><code>jspm install -C production --integrity -o importmap.production.js
 </code></pre>
-<p>This will create a new <code>importmap.production.js</code> with integrity hashes:</p>
+<p>This creates a separate <code>importmap.production.js</code> with integrity hashes:</p>
 <p><em>importmap.production.js</em></p>
 <pre><code class="language-json">({ /* ...injection script... */ })
 ({
@@ -380,21 +434,26 @@ render(template, document.body);
     <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>: <span class="string">"sha384-xfzuCGvBA/QtAtuRtqiLcIsxDpQiQj+MzJVRhA<span class="number">0</span>kw913TYcYzIB<span class="number">31</span>PY<span class="number">9</span>OIypK<span class="number">7</span>gl"</span>,
     <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>: <span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span>,
     <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>: <span class="string">"sha384-kPZntmv98MkUK<span class="number">0</span>U+<span class="number">5</span>niOLNQAQAK<span class="number">3</span>WE<span class="number">0</span>mqaX/br00elXsAxlcHvv5IQsZHFdHRAWH"</span>,
-    <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>       
+    <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>
   }
 })
 </code></pre>
-<a name="changing-providers" class="anchor main"></a><h2>Changing Providers</h2>
-<p>The benefits of using an ESM-native CDN like <code>jspm.io</code> is that dependencies are fully production optimized, and older packages that only support CommonJS are automatically converted by the CDN into ES modules to support browser usage.</p>
-<p>Lit is actually a package that is designed from the start as an ESM package and it is also optimized at publish time, so it's actually possible to create an import map directly against the original sources.</p>
-<a name="the-nodemodules-provider" class="anchor"></a><h3>The nodemodules Provider</h3>
-<p>To achieve this locally, install the dependencies into node_modules with npm, as well as the <code>es-module-shims</code> polyfill itself:</p>
+<a name="working-with-different-package-providers" class="anchor main"></a><h2>Working with Different Package Providers</h2>
+<p>A "provider" in JSPM is a source for JavaScript packages. The default provider, <code>jspm.io</code>, is an ESM-native CDN that optimizes dependencies for production and automatically converts CommonJS packages to ES modules.</p>
+<p>JSPM supports multiple providers that you can switch between depending on needs:</p>
+<a name="using-the-nodemodules-provider" class="anchor"></a><h3>Using the nodemodules Provider</h3>
+<p>To use local <code>node_modules</code> from npm as the package source:</p>
+<ol>
+<li>Install dependencies locally with npm:</li>
+</ol>
 <pre><code>npm install lit es-module-shims
 </code></pre>
-<p>Now the <code>--provider</code> option will resolve all packages against the <code>nodemodules</code> provider with JSPM, just like the conditional environment change was handled previously:</p>
+<ol start="2">
+<li>Switch to the nodemodules provider:</li>
+</ol>
 <pre><code>jspm install --provider nodemodules
 </code></pre>
-<p>If everything resolves correctly, the result is an <code>importmap.js</code> referencing the local <code>node_modules</code> folder:</p>
+<p>This results in an <code>importmap.js</code> that references the local <code>node_modules</code> folder:</p>
 <p><em>importmap.js</em></p>
 <pre><code class="language-json">({ /* ...injection script... */ })
 ({
@@ -418,72 +477,104 @@ render(template, document.body);
   }
 })
 </code></pre>
-<p>Alternatively, Lit can even be loaded from another CDN like UNPKG via <code>jspm install -p unpkg</code>.</p>
-<p>By default JSPM supports <code>jspm.io</code>, <code>nodemodules</code>, <code>esm.sh</code>, <code>denoland</code>, <code>unpkg</code>, <code>skypack</code> and <code>jsdelivr</code> package providers, and custom providers can be configured programatically in the JSPM Generator core generation library as well.</p>
+<p>You can also use other CDN providers. For example, to use UNPKG:</p>
+<pre><code>jspm install -p unpkg
+</code></pre>
+<p>JSPM supports <code>jspm.io</code>, <code>nodemodules</code>, <code>esm.sh</code>, <code>unpkg</code>, <code>skypack</code>, and <code>jsdelivr</code> package providers by default. Custom providers can be configured programmatically in the JSPM Generator library.</p>
 <blockquote>
-<p>In general it is recommended to stick with the <code>jspm.io</code> provider for the best compatibility, but in time the native user experience of other providers should improve considerably.</p>
+<p><code>jspm.io</code> is still recommended for compatibility, but it is just a matter of time before ESM-first workflows make it much easier to switch providers.</p>
 </blockquote>
-<a name="building" class="anchor"></a><h3>Building</h3>
-<p>Since the conventions and entry points are fully understood by JSPM's execution model, it can perform a build <em>of the entire package</em> without any configuration further being necessary:</p>
+<a name="building-for-production" class="anchor main"></a><h2>Building for Production</h2>
+<p>JSPM understands the project's conventions and entry points, allowing it to build the entire package without additional configuration:</p>
 <pre><code>jspm build
 </code></pre>
-<p>This will run RollupJS against the entry points producing an optimized copy of the package inside of the <code>dist</code> folder. Files can be managed with the <code><span class="string">"ignore"</span></code> and <code><span class="string">"files"</span></code> fields in the package.json to include or exclude from this copying.</p>
-<p>To create an import map for the built package we then need to install the optimized package.</p>
-<p>Instead of outputting an import map directly let's output an optimized HTML file with the import map and preload tags injected:</p>
+<p>This runs RollupJS against the entry points, producing an optimized copy of the package in the <code>dist</code> folder. You can control which files are included or excluded using the <code><span class="string">"ignore"</span></code> and <code><span class="string">"files"</span></code> fields in package.json.</p>
+<p>To create an import map for the built package with preload tags for optimal performance:</p>
 <pre><code>jspm install --dir dist -C production --integrity --preload -o app.html
 </code></pre>
-<p>Will then generate an HTML page:</p>
+<p>This generates a production-ready HTML page:</p>
 <pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
-    &lt;meta charset=<span class="string">"utf-8"</span>&gt;
-    &lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">2</span>.<span class="number">5</span>.<span class="number">1</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span> integrity=<span class="string">"sha384-Nce024cgIpt9LvkSDb7frhgilsi92irFYd1JDLfjX<span class="number">5</span>R<span class="number">3</span>Ozrad+<span class="number">5</span>TTxeszg5f+WtQ"</span>&gt;&lt;/script&gt;
+    &lt;meta charset=<span class="string">"utf-8"</span> /&gt;
+    &lt;script
+      <span class="keyword">async</span>
+      src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">2</span>.<span class="number">5</span>.<span class="number">1</span>/dist/es-module-shims.js"</span>
+      crossorigin=<span class="string">"anonymous"</span>
+      integrity=<span class="string">"sha384-Nce024cgIpt9LvkSDb7frhgilsi92irFYd1JDLfjX<span class="number">5</span>R<span class="number">3</span>Ozrad+<span class="number">5</span>TTxeszg5f+WtQ"</span>
+    &gt;&lt;/script&gt;
     &lt;script type=<span class="string">"importmap"</span>&gt;
-    {
-      <span class="string">"imports"</span>: {
-        <span class="string">"my-project"</span>: <span class="string">"./dist/src/index.js"</span>
-      },
-      <span class="string">"scopes"</span>: {
-        <span class="string">"./dist/"</span>: {
-          <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>
+      {
+        <span class="string">"imports"</span>: {
+          <span class="string">"my-project"</span>: <span class="string">"./dist/src/index.js"</span>
         },
-        <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/"</span>: {
-          <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>,
-          <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>
+        <span class="string">"scopes"</span>: {
+          <span class="string">"./dist/"</span>: {
+            <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>
+          },
+          <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/"</span>: {
+            <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>,
+            <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>
+          },
+          <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/"</span>: {
+            <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>,
+            <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>,
+            <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>,
+            <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>
+          }
         },
-        <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/"</span>: {
-          <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>,
-          <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>,
-          <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>,
-          <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>
+        <span class="string">"integrity"</span>: {
+          <span class="string">"./dist/src/index.js"</span>: <span class="string">"sha384-wx/myYGGnUfXlCxJwYrPM<span class="number">42</span>cKPKgodMDRmvrfSkApslhw67eQSUNgoYmLM<span class="number">7</span>Edbsy"</span>,
+          <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/css-tag.js"</span>: <span class="string">"sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ<span class="number">9</span>CgSSJ<span class="number">2</span>Auq37QyaMpqAqBy+HCOtHf6QSWKl"</span>,
+          <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>: <span class="string">"sha384-+PmQcPI<span class="number">0</span>ujsCr7U/<span class="number">4</span>NZXVH/i2/LRYjnJYfGjo4fXvYxmwMVycRQZ+Wh4TAQ/<span class="number">1</span>o9s"</span>,
+          <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>: <span class="string">"sha384-xfzuCGvBA/QtAtuRtqiLcIsxDpQiQj+MzJVRhA<span class="number">0</span>kw913TYcYzIB<span class="number">31</span>PY<span class="number">9</span>OIypK<span class="number">7</span>gl"</span>,
+          <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>: <span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span>,
+          <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>: <span class="string">"sha384-kPZntmv98MkUK<span class="number">0</span>U+<span class="number">5</span>niOLNQAQAK<span class="number">3</span>WE<span class="number">0</span>mqaX/br00elXsAxlcHvv5IQsZHFdHRAWH"</span>,
+          <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>
         }
-      },
-      <span class="string">"integrity"</span>: {
-        <span class="string">"./dist/src/index.js"</span>: <span class="string">"sha384-wx/myYGGnUfXlCxJwYrPM<span class="number">42</span>cKPKgodMDRmvrfSkApslhw67eQSUNgoYmLM<span class="number">7</span>Edbsy"</span>,
-        <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/css-tag.js"</span>: <span class="string">"sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ<span class="number">9</span>CgSSJ<span class="number">2</span>Auq37QyaMpqAqBy+HCOtHf6QSWKl"</span>,
-        <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>: <span class="string">"sha384-+PmQcPI<span class="number">0</span>ujsCr7U/<span class="number">4</span>NZXVH/i2/LRYjnJYfGjo4fXvYxmwMVycRQZ+Wh4TAQ/<span class="number">1</span>o9s"</span>,
-        <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>: <span class="string">"sha384-xfzuCGvBA/QtAtuRtqiLcIsxDpQiQj+MzJVRhA<span class="number">0</span>kw913TYcYzIB<span class="number">31</span>PY<span class="number">9</span>OIypK<span class="number">7</span>gl"</span>,
-        <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>: <span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span>,
-        <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>: <span class="string">"sha384-kPZntmv98MkUK<span class="number">0</span>U+<span class="number">5</span>niOLNQAQAK<span class="number">3</span>WE<span class="number">0</span>mqaX/br00elXsAxlcHvv5IQsZHFdHRAWH"</span>,
-        <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>: <span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>   
       }
-    }
     &lt;/script&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"./dist/src/index.js"</span> integrity=<span class="string">"sha384-wx/myYGGnUfXlCxJwYrPM<span class="number">42</span>cKPKgodMDRmvrfSkApslhw67eQSUNgoYmLM<span class="number">7</span>Edbsy"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/css-tag.js"</span> integrity=<span class="string">"sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ<span class="number">9</span>CgSSJ<span class="number">2</span>Auq37QyaMpqAqBy+HCOtHf6QSWKl"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span> integrity=<span class="string">"sha384-+PmQcPI<span class="number">0</span>ujsCr7U/<span class="number">4</span>NZXVH/i2/LRYjnJYfGjo4fXvYxmwMVycRQZ+Wh4TAQ/<span class="number">1</span>o9s"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span> integrity=<span class="string">"sha384-xfzuCGvBA/QtAtuRtqiLcIsxDpQiQj+MzJVRhA<span class="number">0</span>kw913TYcYzIB<span class="number">31</span>PY<span class="number">9</span>OIypK<span class="number">7</span>gl"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span> integrity=<span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span> integrity=<span class="string">"sha384-kPZntmv98MkUK<span class="number">0</span>U+<span class="number">5</span>niOLNQAQAK<span class="number">3</span>WE<span class="number">0</span>mqaX/br00elXsAxlcHvv5IQsZHFdHRAWH"</span> /&gt;
-    &lt;link rel=<span class="string">"modulepreload"</span> href=<span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span> integrity=<span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span> /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"./dist/src/index.js"</span>
+      integrity=<span class="string">"sha384-wx/myYGGnUfXlCxJwYrPM<span class="number">42</span>cKPKgodMDRmvrfSkApslhw67eQSUNgoYmLM<span class="number">7</span>Edbsy"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/css-tag.js"</span>
+      integrity=<span class="string">"sha384-yawoKnICWh5SyKPJlj47kOQj7ybzJ<span class="number">9</span>CgSSJ<span class="number">2</span>Auq37QyaMpqAqBy+HCOtHf6QSWKl"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">1</span>.<span class="number">0</span>/reactive-element.js"</span>
+      integrity=<span class="string">"sha384-+PmQcPI<span class="number">0</span>ujsCr7U/<span class="number">4</span>NZXVH/i2/LRYjnJYfGjo4fXvYxmwMVycRQZ+Wh4TAQ/<span class="number">1</span>o9s"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">2</span>.<span class="number">0</span>/lit-element.js"</span>
+      integrity=<span class="string">"sha384-xfzuCGvBA/QtAtuRtqiLcIsxDpQiQj+MzJVRhA<span class="number">0</span>kw913TYcYzIB<span class="number">31</span>PY<span class="number">9</span>OIypK<span class="number">7</span>gl"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/is-server.js"</span>
+      integrity=<span class="string">"sha384-c2UPp3lPxy1SKxJFIPcaK<span class="number">7</span>PaWWWohEEwAaeBsoYeIF<span class="number">7</span>ULocdSenWqg/<span class="number">7</span>Iln4Dkw5"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/lit-html.js"</span>
+      integrity=<span class="string">"sha384-kPZntmv98MkUK<span class="number">0</span>U+<span class="number">5</span>niOLNQAQAK<span class="number">3</span>WE<span class="number">0</span>mqaX/br00elXsAxlcHvv5IQsZHFdHRAWH"</span>
+    /&gt;
+    &lt;link
+      rel=<span class="string">"modulepreload"</span>
+      href=<span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">3</span>.<span class="number">0</span>/index.js"</span>
+      integrity=<span class="string">"sha384-IZzW+Sfdx55gIfvWXINdnp5aNwUifd4IB<span class="number">0</span>ROrRyipc+QWqXXpJhcbmT<span class="number">2</span>+<span class="number">7</span>tx9CCN"</span>
+    /&gt;
   &lt;/head&gt;
-  &lt;body&gt;
-  &lt;/body&gt;
+  &lt;body&gt;&lt;/body&gt;
 &lt;/html&gt;
 </code></pre>
-<a name="dependency-inlining" class="anchor"></a><h3>Dependency Inlining</h3>
-<p>If instead of having a production import map we wanted to have a single bundle that inlined the Lit dependency, this cam be achieved with the following externals convention in JSPM.</p>
-<p>Move the <code><span class="string">"lit"</span></code> dependency in the <code><span class="string">"dependencies"</span></code> of the package.json to instead in the <code><span class="string">"devDependencies"</span></code>:</p>
+<a name="creating-a-single-bundle-with-dependencies" class="anchor"></a><h3>Creating a Single Bundle with Dependencies</h3>
+<p>If you prefer a single bundle with all dependencies included instead of using an import map, you can control this by moving dependencies to <code>devDependencies</code> in the package.json:</p>
 <p><em>package.json</em></p>
 <pre><code class="language-json">{
   <span class="string">"name"</span>: <span class="string">"my-project"</span>,
@@ -499,18 +590,69 @@ render(template, document.body);
   }
 }
 </code></pre>
-<p>Then running <code>jspm build</code> again, the output package will be optimized with no dependencies, and no import map is necessary to execute the application.</p>
-<a name="css-and-json-builds" class="anchor"></a><h3>CSS and JSON Builds</h3>
-<p>Imports to CSS files and JSON files through native stylesheet imports:</p>
+<p>Then run <code>jspm build</code> again, and the output package will be optimized with all dependencies included, eliminating the need for an import map.</p>
+<a name="support-for-css-and-json-imports" class="anchor"></a><h3>Support for CSS and JSON Imports</h3>
+<p>JSPM fully supports native CSS imports:</p>
 <pre><code class="language-js"><span class="keyword">import</span> style <span class="keyword">from</span> <span class="string">'./style.css'</span> with { type: <span class="string">'css'</span> };
 
 <span class="keyword">if</span> (!document.adoptedStyleSheets.includes(style))
   document.adoptedStyleSheets.push(style);
 </code></pre>
-<p>and JSON imports:</p>
+<p>And JSON imports:</p>
 <pre><code class="language-js"><span class="keyword">import</span> json <span class="keyword">from</span> <span class="string">'./data.json'</span> with { type: <span class="string">'json'</span> };
 </code></pre>
-<p>are fully supported in build workflows, with CSS assets being rebased in the build process.</p>
+<p>These are properly handled in build workflows, with CSS assets being correctly rebased during the build process.</p>
+<a name="browser-compatibility" class="anchor main"></a><h2>Browser Compatibility</h2>
+<p>JSPM works natively in browsers that support import maps, which includes:</p>
+<ul>
+<li>Chrome 89+</li>
+<li>Edge 89+</li>
+<li>Safari 16.4+</li>
+<li>Firefox 108+</li>
+</ul>
+<p>If using the injection script import map, this requires multiple import maps support which only works natively in Chrome 135+ currently.</p>
+<p>If using CSS or JSON imports, these work in</p>
+<p><a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a> is a production suitable polyfill for older browsers in all of the above cases though, so it is recommended to use it in production for this reason.</p>
+<p>With ES Module Shims the latest features are supported on all of:</p>
+<ul>
+<li>Chrome 63+</li>
+<li>Edge 63+</li>
+<li>Safari 11.1+</li>
+<li>Firefox 67+</li>
+</ul>
+<a name="deployment" class="anchor main"></a><h2>Deployment</h2>
+<p>To deploy a JSPM application:</p>
+<ol>
+<li><p>Run a production build with integrity hashes:</p>
+<pre><code>jspm build
+jspm install --dir dist -C production --integrity -o index.html
+</code></pre>
+</li>
+<li><p>Upload the generated files to a web server or hosting provider. Required files include:</p>
+<ul>
+<li>The generated HTML file (e.g., index.html)</li>
+<li>Your application code in the dist directory</li>
+<li>Any static assets referenced by the application</li>
+</ul>
+</li>
+<li><p>For optimal performance, configure the server to:</p>
+<ul>
+<li>Set appropriate cache headers for static resources</li>
+<li>Enable HTTP/2 for parallel loading of modules</li>
+<li>Use compression (gzip or brotli) for all text-based resources</li>
+</ul>
+</li>
+</ol>
+<p>With these steps, you'll have a production-ready application that leverages the performance and security benefits of import maps.</p>
+<p>There is also support for a <code>jspm deploy</code> using the provider system for deployments. This in in early access - try it out via <code>jspm deploy -p jspm.io</code>.</p>
+<a name="next-steps" class="anchor main"></a><h2>Next Steps</h2>
+<ul>
+<li><a href="/jspm-cli">CLI Documentation</a> - Reference for all JSPM CLI commands</li>
+<li><a href="/integrations#online-generator">Online Generator</a> - Try the import map generator without installing the CLI</li>
+<li><a href="/faq">FAQ</a> - Answers to common questions about JSPM and import maps</li>
+<li><a href="https://github.com/jspm/jspm" target="_blank" rel="noopener">GitHub Repository</a> - View the source code and contribute to JSPM</li>
+<li><a href="https://github.com/jspm/jspm/issues" target="_blank" rel="noopener">Issue Tracker</a> - Report bugs or request features</li>
+</ul>
 <div class="nextprev"><div class="edit-container"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/getting-started.md" rel="noopener">Edit</a></div><div class="next"><a href="/faq">FAQ&nbsp;▶</a></div></div></div>
   </div>
 
