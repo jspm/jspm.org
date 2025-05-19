@@ -684,27 +684,14 @@ With ES Module Shims the latest features are supported on all of:
 
 ## Deployment
 
-To deploy a JSPM application:
+To deploy a JSPM application, run a production build and install it with integrity hashes:
 
-1. Run a production build with integrity hashes:
+```
+jspm build
+jspm install --dir dist -C production --integrity -o dist/importmap.js
+```
 
-   ```
-   jspm build
-   jspm install --dir dist -C production --integrity -o index.html
-   ```
-
-2. Upload the generated files to a web server or hosting provider. Required files include:
-
-   - The generated HTML file (e.g., index.html)
-   - Your application code in the dist directory
-   - Any static assets referenced by the application
-
-3. For optimal performance, configure the server to:
-   - Set appropriate cache headers for static resources
-   - Enable HTTP/2 for parallel loading of modules
-   - Use compression (gzip or brotli) for all text-based resources
-
-With these steps, you'll have a production-ready application that leverages the performance and security benefits of import maps.
+Then upload the generated `dist` files to a web server or hosting provider. Then either upload the generated HTML file (e.g., index.html), or otherwise reference the standard three scripts in any server render pipeline as remote URLs: The `<script src="dist/importmap.js"></script>` file, ES Module Shims for multiple import maps polyfill, and the main entry point executor via e.g. `<script type="module">import 'appname'</script>`. Any static assets referenced by the application should be copied into the dist directory for publishing
 
 There is also support for a `jspm deploy` using the provider system for deployments. This in in early access - try it out via `jspm deploy -p jspm.io`.
 

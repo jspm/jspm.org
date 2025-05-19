@@ -621,29 +621,11 @@ render(template, document.body);
 <li>Firefox 67+</li>
 </ul>
 <a name="deployment" class="anchor main"></a><h2>Deployment</h2>
-<p>To deploy a JSPM application:</p>
-<ol>
-<li><p>Run a production build with integrity hashes:</p>
+<p>To deploy a JSPM application, run a production build and install it with integrity hashes:</p>
 <pre><code>jspm build
-jspm install --dir dist -C production --integrity -o index.html
+jspm install --dir dist -C production --integrity -o dist/importmap.js
 </code></pre>
-</li>
-<li><p>Upload the generated files to a web server or hosting provider. Required files include:</p>
-<ul>
-<li>The generated HTML file (e.g., index.html)</li>
-<li>Your application code in the dist directory</li>
-<li>Any static assets referenced by the application</li>
-</ul>
-</li>
-<li><p>For optimal performance, configure the server to:</p>
-<ul>
-<li>Set appropriate cache headers for static resources</li>
-<li>Enable HTTP/2 for parallel loading of modules</li>
-<li>Use compression (gzip or brotli) for all text-based resources</li>
-</ul>
-</li>
-</ol>
-<p>With these steps, you'll have a production-ready application that leverages the performance and security benefits of import maps.</p>
+<p>Then upload the generated <code>dist</code> files to a web server or hosting provider. Then either upload the generated HTML file (e.g., index.html), or otherwise reference the standard three scripts in any server render pipeline as remote URLs: The <code>&lt;script src=<span class="string">"dist/importmap.js"</span>&gt;&lt;/script&gt;</code> file, ES Module Shims for multiple import maps polyfill, and the main entry point executor via e.g. <code>&lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'appname'</span>&lt;/script&gt;</code>. Any static assets referenced by the application should be copied into the dist directory for publishing</p>
 <p>There is also support for a <code>jspm deploy</code> using the provider system for deployments. This in in early access - try it out via <code>jspm deploy -p jspm.io</code>.</p>
 <a name="next-steps" class="anchor main"></a><h2>Next Steps</h2>
 <ul>

@@ -142,8 +142,8 @@
 </code></pre>
 <p>With the above, using just native browser semantics it is possible to run any JS application with an import map.</p>
 <a name="packagejson-is-the-manifest" class="anchor main"></a><h2>Package.json is the Manifest</h2>
-<p>Instead of hand-editing the <code>importmap.js</code> file, JSPM now determines out what dependencies are needed at what versions and updates the map, fully managing the import map.</p>
-<p>The information for how to link the application, and what dependency constraints is then taken from the local <code>package.json</code> file.</p>
+<p>Instead of hand-editing the <code>importmap.js</code> file, JSPM now fully determines what dependencies are needed at what versions and updates the map with full authority.</p>
+<p>The user manifest for the application, and what entry points and dependency constraints to use is then taken from the local <code>package.json</code> file.</p>
 <p>The key idea here is that we can define the application entry points from the package.json using the <code><span class="string">"name"</span></code> and <code><span class="string">"exports"</span></code> package.json fields.</p>
 <p>For example, for a package.json containing:</p>
 <pre><code class="language-json">{
@@ -156,7 +156,7 @@
   }
 }
 </code></pre>
-<p>JSPM will know when the user runs <code>jspm install</code> that there should be a <code><span class="string">"my-app"</span></code> import in the import map pointing to <code><span class="string">"./src/index.js"</span></code>.</p>
+<p>JSPM will then know when the user runs <code>jspm install</code> that there should be a <code><span class="string">"my-app"</span></code> import in the import map pointing to <code><span class="string">"./src/index.js"</span></code>.</p>
 <p>It will then link (<em>trace</em>) that entry point and its dependencies in turn, populating dependencies into scopes while respecting the package.json <code><span class="string">"dependencies"</span></code> resolution ranges.</p>
 <p>As a result, the only imports at the top-level <code><span class="string">"imports"</span></code> of the import map will be the enumerated <code><span class="string">"exports"</span></code> entry points (which also support subpath patterns).</p>
 <p><em>It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.</em></p>

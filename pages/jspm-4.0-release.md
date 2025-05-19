@@ -68,9 +68,9 @@ With the above, using just native browser semantics it is possible to run any JS
 
 ## Package.json is the Manifest
 
-Instead of hand-editing the `importmap.js` file, JSPM now determines out what dependencies are needed at what versions and updates the map, fully managing the import map.
+Instead of hand-editing the `importmap.js` file, JSPM now fully determines what dependencies are needed at what versions and updates the map with full authority.
 
-The information for how to link the application, and what dependency constraints is then taken from the local `package.json` file.
+The user manifest for the application, and what entry points and dependency constraints to use is then taken from the local `package.json` file.
 
 The key idea here is that we can define the application entry points from the package.json using the `"name"` and `"exports"` package.json fields.
 
@@ -88,7 +88,7 @@ For example, for a package.json containing:
 }
 ```
 
-JSPM will know when the user runs `jspm install` that there should be a `"my-app"` import in the import map pointing to `"./src/index.js"`.
+JSPM will then know when the user runs `jspm install` that there should be a `"my-app"` import in the import map pointing to `"./src/index.js"`.
 
 It will then link (_trace_) that entry point and its dependencies in turn, populating dependencies into scopes while respecting the package.json `"dependencies"` resolution ranges.
 
