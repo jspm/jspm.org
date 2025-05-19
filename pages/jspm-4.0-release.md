@@ -64,11 +64,11 @@ _importmap.js_
 });
 ```
 
-With the above, using just native browser semantics it is possible to run any browser application instantly.
+With the above, using just native browser semantics it is possible to run any JS application with an import map.
 
 ## Package.json is the Manifest
 
-Instead of hand-editing the `importmap.js` file, JSPM now figures out what dependencies are needed and at what versions and updates the map.
+Instead of hand-editing the `importmap.js` file, JSPM now determines out what dependencies are needed at what versions and updates the map, fully managing the import map.
 
 The information for how to link the application, and what dependency constraints is then taken from the local `package.json` file.
 
@@ -94,9 +94,9 @@ It will then link (_trace_) that entry point and its dependencies in turn, popul
 
 As a result, the only imports at the top-level `"imports"` of the import map will be the enumerated `"exports"` entry points (which also support subpath patterns).
 
-**It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.**
+_It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward._
 
-Of course we still support `--out`, `--map` and `--resolution` flags (amongst [others](/docs/cli/interfaces/GenerateFlags)) for custom map inputs and outputs including JSON and HTML outputs as previously. `jspm link` is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.
+We still support many map configuration options as before like `--out`, `--map` and `--resolution` flags (amongst [others](/docs/cli/interfaces/GenerateFlags)) for custom map inputs and outputs as well as for creating JSON and HTML files. In addition, `jspm link` is still supported (although may even be phased out eventually) for the more complex map manipulation workflows. But the important point here is that if we stop treating import maps as a user manifest and let JSPM own it as an artifact of its linking process that figures out mappings based on constraints, we get some really great ergonomics out of import maps development.
 
 ## Hot Reloading Server
 
@@ -115,7 +115,7 @@ The hot reloading system works by injecting a Server Side Events connection into
 
 The semantics of `jspm build` follow from the same standards-based runtime semantics.
 
-What makes this possible is clearly defining the application entry points, which we enforce from the start with `jspm install`, so that the package optimization is fully well defined without having to set the build entry points.
+What makes this possible is that by clearly defining the application entry points, enforced from the start with `jspm install`, the package optimization is also fully well defined without having to set any extra build entry points or configurations.
 
 This is very much the same thing as what the JSPM.IO CDN already does today for npm packages, but now available locally.
 

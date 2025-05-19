@@ -17,7 +17,7 @@
       if (isDark) {
         document.documentElement.style.colorScheme = 'dark';
         document.documentElement.classList.add('dark-mode');
-        // document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
+        document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
       }
     })();
   </script>
@@ -140,9 +140,9 @@
   }
 });
 </code></pre>
-<p>With the above, using just native browser semantics it is possible to run any browser application instantly.</p>
+<p>With the above, using just native browser semantics it is possible to run any JS application with an import map.</p>
 <a name="packagejson-is-the-manifest" class="anchor main"></a><h2>Package.json is the Manifest</h2>
-<p>Instead of hand-editing the <code>importmap.js</code> file, JSPM now figures out what dependencies are needed and at what versions and updates the map.</p>
+<p>Instead of hand-editing the <code>importmap.js</code> file, JSPM now determines out what dependencies are needed at what versions and updates the map, fully managing the import map.</p>
 <p>The information for how to link the application, and what dependency constraints is then taken from the local <code>package.json</code> file.</p>
 <p>The key idea here is that we can define the application entry points from the package.json using the <code><span class="string">"name"</span></code> and <code><span class="string">"exports"</span></code> package.json fields.</p>
 <p>For example, for a package.json containing:</p>
@@ -159,8 +159,8 @@
 <p>JSPM will know when the user runs <code>jspm install</code> that there should be a <code><span class="string">"my-app"</span></code> import in the import map pointing to <code><span class="string">"./src/index.js"</span></code>.</p>
 <p>It will then link (<em>trace</em>) that entry point and its dependencies in turn, populating dependencies into scopes while respecting the package.json <code><span class="string">"dependencies"</span></code> resolution ranges.</p>
 <p>As a result, the only imports at the top-level <code><span class="string">"imports"</span></code> of the import map will be the enumerated <code><span class="string">"exports"</span></code> entry points (which also support subpath patterns).</p>
-<p><strong>It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.</strong></p>
-<p>Of course we still support <code>--out</code>, <code>--map</code> and <code>--resolution</code> flags (amongst <a href="/docs/cli/interfaces/GenerateFlags">others</a>) for custom map inputs and outputs including JSON and HTML outputs as previously. <code>jspm link</code> is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.</p>
+<p><em>It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.</em></p>
+<p>We still support many map configuration options as before like <code>--out</code>, <code>--map</code> and <code>--resolution</code> flags (amongst <a href="/docs/cli/interfaces/GenerateFlags">others</a>) for custom map inputs and outputs as well as for creating JSON and HTML files. In addition, <code>jspm link</code> is still supported (although may even be phased out eventually) for the more complex map manipulation workflows. But the important point here is that if we stop treating import maps as a user manifest and let JSPM own it as an artifact of its linking process that figures out mappings based on constraints, we get some really great ergonomics out of import maps development.</p>
 <a name="hot-reloading-server" class="anchor main"></a><h2>Hot Reloading Server</h2>
 <p>The JSPM 4.0 server (<code>jspm serve</code>) provides a development environment with instant hot module reloading built off the same conventions as install:</p>
 <ul>
@@ -175,7 +175,7 @@
 </blockquote>
 <a name="building-for-production" class="anchor main"></a><h2>Building for Production</h2>
 <p>The semantics of <code>jspm build</code> follow from the same standards-based runtime semantics.</p>
-<p>What makes this possible is clearly defining the application entry points, which we enforce from the start with <code>jspm install</code>, so that the package optimization is fully well defined without having to set the build entry points.</p>
+<p>What makes this possible is that by clearly defining the application entry points, enforced from the start with <code>jspm install</code>, the package optimization is also fully well defined without having to set any extra build entry points or configurations.</p>
 <p>This is very much the same thing as what the JSPM.IO CDN already does today for npm packages, but now available locally.</p>
 <a name="future-directions" class="anchor main"></a><h2>Future Directions</h2>
 <p>The ability to seamlessly run an online sandbox without a build step or proprietary infrastructure remains a primary goal of the project, and we are seeing this use case continue to grow as more sandboxes choose to build on top of JSPM, especially with the rapid growth of AI sandboxes.</p>
