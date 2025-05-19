@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - JSPM 4.0 Release"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Discussing development and trust models for import map services"><meta property="og:description" content="Discussing development and trust models for import map services"><meta property="og:url" content="https://jspm.org/jspm-4.0-release"><meta name="twitter:card" content="summary_large_image">
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - JSPM 4.0 Release"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM 4.0 release post featuring a refreshed local development workflow for modern standards"><meta property="og:description" content="JSPM 4.0 release post featuring a refreshed local development workflow for modern standards"><meta property="og:url" content="https://jspm.org/jspm-4.0-release"><meta name="twitter:card" content="summary_large_image">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="/favicon.ico">
@@ -17,7 +17,7 @@
       if (isDark) {
         document.documentElement.style.colorScheme = 'dark';
         document.documentElement.classList.add('dark-mode');
-        document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
+        // document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
       }
     })();
   </script>
@@ -92,7 +92,7 @@
 
   <div class="content-container">
     <div class="content"><h1>JSPM 4.0 Release</h1>
-<p>JSPM 4.0 is now out, featuring a refreshed and opinionated standards-based workflow based on convention over configuration. It provides a modern workflow for working with native ESM workflows in the browser using import maps:</p>
+<p>JSPM 4.0 is now out, featuring a refreshed and opinionated standards-based workflow based on convention over configuration. It provides a modern workflow for working with native ESM in the browser using import maps:</p>
 <ul>
 <li><code>jspm install</code> without any arguments creates the <code>importmap.js</code> file.</li>
 <li><code>jspm serve</code> behaves as a static server except for supporting TypeScript type stripping and hot reloading.</li>

@@ -1,17 +1,17 @@
 /* Ensure dark mode consistency */
-(function() {
-  // Check for saved theme preference or use system preference
-  const savedTheme = localStorage.getItem('theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+// (function() {
+//   // Check for saved theme preference or use system preference
+//   const savedTheme = localStorage.getItem('theme');
+//   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+//   const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
   
-  // Apply theme class immediately to prevent flash
-  if (isDark) {
-    document.body.classList.add('dark-mode');
-    document.documentElement.classList.add('dark-mode');
-    document.documentElement.style.setProperty('color-scheme', 'dark');
-  }
-})();
+//   // Apply theme class immediately to prevent flash
+//   if (isDark) {
+//     document.body.classList.add('dark-mode');
+//     document.documentElement.classList.add('dark-mode');
+//     document.documentElement.style.setProperty('color-scheme', 'dark');
+//   }
+// })();
 
 /* Highlight active page */
 document.addEventListener('DOMContentLoaded', function() {

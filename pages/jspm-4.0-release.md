@@ -1,11 +1,11 @@
 +++
 title = "JSPM 4.0 Release"
-description = "Discussing development and trust models for import map services"
+description = "JSPM 4.0 release post featuring a refreshed local development workflow for modern standards"
 +++
 
 # JSPM 4.0 Release
 
-JSPM 4.0 is now out, featuring a refreshed and opinionated standards-based workflow based on convention over configuration. It provides a modern workflow for working with native ESM workflows in the browser using import maps:
+JSPM 4.0 is now out, featuring a refreshed and opinionated standards-based workflow based on convention over configuration. It provides a modern workflow for working with native ESM in the browser using import maps:
 
 * `jspm install` without any arguments creates the `importmap.js` file.
 * `jspm serve` behaves as a static server except for supporting TypeScript type stripping and hot reloading.
