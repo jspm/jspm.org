@@ -135,7 +135,7 @@ JSPM 4.0 lays the groundwork for addressing these security concerns, and the pro
 
 ## Next Steps
 
-JSPM 4.0 represents a significant step toward bringing back standards-first local import map workflows and we continue to believe that unifying package management with import maps creates a natural workflow for web development both in online sandboxes and local workflows.
+JSPM 4.0 represents a significant step toward bringing back standards-first local import map workflows and we continue to believe that unifying package management with import maps creates a natural workflow for web development both for online sandboxes and local development use cases.
 
 Please try out the new release and let us know your feedback!
 
