@@ -7,7 +7,7 @@ extensions = [
 
 [env]
 TYPEDOC_ARGS = """\
-  --plugin typedoc-material-theme --themeColor '#cb9820'\
+  --plugin typedoc-material-theme --themeColor '#1a202c'\
 """
 
 [[task]]

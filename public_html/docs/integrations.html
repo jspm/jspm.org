@@ -1,75 +1,161 @@
-<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Integrations"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM Integrations Documentation"><meta property="og:description" content="JSPM Integrations Documentation"><meta property="og:url" content="https://jspm.org/docs/integrations"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="/style.css?v1">
-<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
-<script defer="" src="/script.js?v1"></script>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M0FZNQ9ZPV');
-</script>
-<title>JSPM - Integrations</title></head><body class="page-docs-integrations">
-<div class="topbar">
-  <a style="display: block" href="/">
-    <div class="logobox" href="/"></div>
-    <h1 class="logo">jspm</h1>
-  </a>
-  <ul class="toplinks">
-    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
-    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
-    <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
-    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
-  </ul>
-  <div class="mobile-menu"></div>
-</div>
-<div class="sidebar">
-  <div class="toc">
-    <ul class="sections">
-      <li>
-        <a href="/getting-started">JSPM</a>
-        <ul class="section">
-          <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/faq">FAQ</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/docs/cli">Documentation</a>
-        <ul class="section">
-          <li><a href="/docs/cli">JSPM CLI</a></li>
-          <li><a href="/docs/generator">JSPM Generator</a></li>
-          <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/cdn/jspm-io">CDN</a>
-        <ul class="section">
-          <li><a href="/cdn/jspm-io">jspm.io</a></li>
-          <li><a href="/cdn/api">API</a></li>
-        </ul>
-      </li>
-
-      <li class="blog">
-        <a href="/jspm-cli">Blog</a>
-        <ul class="section">
-          <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
-          <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
-          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
-        </ul>
-      </li>
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Integrations"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM Integrations Documentation"><meta property="og:description" content="JSPM Integrations Documentation"><meta property="og:url" content="https://jspm.org/docs/integrations"><meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Immediate dark mode styles to prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      
+      // Update theme in localStorage if following system
+      if (!savedTheme && prefersDark) {
+        // We're using system preference - don't store anything in localStorage
+      }
+      
+      if (isDark) {
+        document.documentElement.style.colorScheme = 'dark';
+        document.documentElement.classList.add('dark-mode');
+        document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+  <script defer="" src="/script.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M0FZNQ9ZPV');
+  </script>
+<title>JSPM - Integrations</title></head>
+<body class="page-docs-integrations">
+  <div class="topbar">
+    <a href="/">
+      <div class="logobox"></div>
+      <h1 class="logo">JSPM</h1>
+    </a>
+    <ul class="toplinks">
+      <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+      <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+      <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
+      <li class="theme-toggle" title="Toggle dark/light mode"></li>
+      <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
     </ul>
-    <!-- <div class="footer"></div> -->
+    <div class="mobile-menu"></div>
   </div>
+
+  <div class="sidebar">
+    <div class="toc">
+      <ul class="sections">
+        <li>
+          <a href="/getting-started">JSPM</a>
+          <ul class="section">
+            <li><a href="/getting-started">Getting Started</a></li>
+            <li><a href="/faq">FAQ</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/docs/cli">Documentation</a>
+          <ul class="section">
+            <li><a href="/docs/cli">JSPM CLI</a></li>
+            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/integrations">Integrations</a></li>
+            <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/cdn/jspm-io">CDN</a>
+          <ul class="section">
+            <li><a href="/cdn/jspm-io">JSPM.IO</a></li>
+            <li><a href="/cdn/api">API</a></li>
+          </ul>
+        </li>
+
+        <li class="blog">
+          <a href="/jspm-cli">Blog</a>
+          <ul class="section">
+            <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
+            <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
+            <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="content-container">
+    <div class="content"><h1>Integrations</h1>
+<a name="online-generator" class="anchor main"></a><h2>Online Generator</h2>
+<p>The easiest way to try out JSPM is to generate an import map using the online generator at <a href="https://generator.jspm.io" target="_blank" rel="noopener">https://generator.jspm.io</a>.</p>
+<div style="text-align: center;">
+<a href="https://generator.jspm.io" target="_blank" rel="noopener"><img style="width: 100%" src="/steps/online-0.png"></a>
 </div>
-<div class="content-container">
-  <div class="content"><h1>Integrations</h1>
+
+<p>In the top-left corner enter an npm package name to add to the import map (<code>lit</code> in this example):</p>
+<div style="text-align: center;">
+<img src="/steps/online-1.png">
+</div>
+
+<p>Press <code>Return</code> to add the package to the map. Then add any other dependency entries. For example to add the <code>./html.js</code> subpath export of lit, add <code>lit/html.js</code>:</p>
+<div style="text-align: center;">
+<img src="/steps/online-2.png">
+</div>
+
+<p>Versions are supported in package names before the subpath and items can be removed or changed from the controls provided.</p>
+<p>The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.</p>
+<p>In <a href="https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA" target="_blank" rel="noopener">this example</a> we get:</p>
+<pre><code class="language-html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=<span class="string">"utf-8"</span>&gt;
+  &lt;title&gt;Untitled&lt;/title&gt;
+  &lt;meta name=<span class="string">"viewport"</span> content=<span class="string">"width=device-width, initial-scale=<span class="number">1</span>"</span>&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  <span class="comment">&lt;!--
+    JSPM Generator Import Map
+    Edit URL: https://generator.jspm.io/#U<span class="number">2</span>VhYGBiDs0rySzJSU<span class="number">1</span>hyMkscTDWM<span class="number">9</span>QzQbD<span class="number">0</span>M<span class="number">0</span>pyc/SyigHdBe16KgA
+  --&gt;</span>
+   &lt;script type=<span class="string">"importmap"</span>&gt;
+  {
+    <span class="string">"imports"</span>: {
+      <span class="string">"lit"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/index.js"</span>,
+      <span class="string">"lit/html.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/html.js"</span>
+    },
+    <span class="string">"scopes"</span>: {
+      <span class="string">"https://ga.jspm.io/"</span>: {
+        <span class="string">"@lit/reactive-element"</span>: <span class="string">"https://ga.jspm.io/npm:@lit/reactive-element@<span class="number">2</span>.<span class="number">0</span>.<span class="number">4</span>/development/reactive-element.js"</span>,
+        <span class="string">"lit-element/lit-element.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-element@<span class="number">4</span>.<span class="number">0</span>.<span class="number">6</span>/development/lit-element.js"</span>,
+        <span class="string">"lit-html"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/lit-html.js"</span>,
+        <span class="string">"lit-html/is-server.js"</span>: <span class="string">"https://ga.jspm.io/npm:lit-html@<span class="number">3</span>.<span class="number">1</span>.<span class="number">4</span>/development/is-server.js"</span>
+      }
+    }
+  }
+  &lt;/script&gt;
+  
+  <span class="comment">&lt;!-- ES Module Shims <span class="keyword">import</span> maps polyfills --&gt;</span>
+  &lt;script <span class="keyword">async</span> src=<span class="string">"https://ga.jspm.io/npm:es-module-shims@<span class="number">1</span>.<span class="number">10</span>.<span class="number">0</span>/dist/es-module-shims.js"</span> crossorigin=<span class="string">"anonymous"</span>&gt;&lt;/script&gt;
+  
+  &lt;script type=<span class="string">"module"</span>&gt;
+    <span class="keyword">import</span> * <span class="keyword">as</span> lit <span class="keyword">from</span> <span class="string">"lit"</span>;
+    <span class="keyword">import</span> * <span class="keyword">as</span> litHtml <span class="keyword">from</span> <span class="string">"lit/html.js"</span>;
+<span class="comment">  
+    // Write main module code here, or <span class="keyword">as</span> a separate file with a <span class="string">"src"</span> attribute on the module script.</span>
+    console.log(lit, litHtml);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<p>Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.</p>
+<p>The included <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims polyfill</a> ensures the import maps still work in browsers without import maps support.</p>
+<p>The online generator also provides full support for integrity, preloading and custom providers.</p>
 <a name="vscode-extension" class="anchor main"></a><h2>VSCode Extension</h2>
 <p>For an easy fully local workflow try the <a href="https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode" target="_blank" rel="noopener">JSPM Generator VSCode Extension</a>, which is supported as a Web Extension.</p>
 <p>This provides a workflow for writing native HTML imports directly, then post-processing the HTML file to insert the generated import map and polyfill.</p>
@@ -161,8 +247,7 @@ console.log(lit);
 <p><a href="https://github.com/rails/importmap-rails" target="_blank" rel="noopener">Import Map Rails</a> provides Ruby on Rails dependency management with import maps and JSPM.</p>
 <a name="symfony-assetmapper" class="anchor main"></a><h2>Symfony AssetMapper</h2>
 <p><a href="https://github.com/symfony/asset-mapper" target="_blank" rel="noopener">Symfony AssetMapper</a> provides dependency management with import maps and JSPM for the Symfony framework in PHP.</p>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/docs/integrations.md" rel="noopener">Edit</a><div class="next"><a href="/docs/cdn-resolution">CDN Resolution&nbsp;▶</a></div></div></div>
-</div>
-
+<div class="nextprev"><div class="edit-container"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/docs/integrations.md" rel="noopener">Edit</a></div><div class="next"><a href="/docs/cdn-resolution">CDN Resolution&nbsp;▶</a></div></div></div>
+  </div>
 
 </body></html>

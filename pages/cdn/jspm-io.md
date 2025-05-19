@@ -1,11 +1,11 @@
 +++
-title = "jspm.io"
-description = "jspm.io Native Modules CDN"
+title = "JSPM.IO"
+description = "JSPM.IO Native Modules CDN"
 prev-section = "docs/cdn-resolution"
 next-section = "cdn/api"
 +++
 
-# jspm.io <br />Import Maps CDN
+# JSPM.IO <br />Import Maps CDN
 
 `jspm.io` is a CDN built to support import maps with maximum performance featuring:
 

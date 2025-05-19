@@ -38,7 +38,7 @@ When using JSPM Generator, this polyfill is included by default. For background 
 
 Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser, providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.
 
-The [JSPM CLI](/docs/jspm-cli) provides the package management functions you would expect for managing these import maps.
+The [JSPM CLI](/docs/cli) provides the package management functions you would expect for managing these import maps.
 
 ## Is JSPM Standards-Compatible?
 
@@ -66,7 +66,7 @@ For best performance, ensure that [production preloading](/getting-started#prelo
 
 JSPM is the open source project suite of tools for working with import maps and import map package management.
 
-[jspm.io](/cdn/jspm-io) is the hosted module CDN serving all of npm with CommonJS to ES module conversion and individual package optimization and minification to be compatible with JSPM import maps.
+[jspm.io](https://jspm.io) is the JSPM CDN provider service serving all of npm with CommonJS to ES module conversion and individual package optimization and minification to be compatible with JSPM import maps.
 
 ## Can jspm.io be used for Production Apps?
 

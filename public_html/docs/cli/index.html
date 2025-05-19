@@ -1,160 +1,160 @@
 <!DOCTYPE html><html class="default" lang="en" data-base="./"><head><meta charset="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>JSPM CLI</title><meta name="description" content="Documentation for JSPM CLI"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><link rel="stylesheet" href="assets/custom.css"/><script defer src="assets/main.js"></script><script async src="assets/icons.js" id="tsd-icons-script"></script><script async src="assets/search.js" id="tsd-search-script"></script><script async src="assets/navigation.js" id="tsd-nav-script"></script><script async src="assets/hierarchy.js" id="tsd-hierarchy-script"></script><style>
 @media (prefers-color-scheme: dark) {
   :root {
-    --md-sys-color-primary: #f6be46;
-    --md-sys-color-on-primary: #412d00;
-    --md-sys-color-primary-container: #5d4200;
-    --md-sys-color-on-primary-container: #ffdea3;
-    --md-sys-color-secondary: #d9c4a0;
-    --md-sys-color-on-secondary: #3b2f15;
-    --md-sys-color-secondary-container: #53452a;
-    --md-sys-color-on-secondary-container: #f6e0bb;
-    --md-sys-color-tertiary: #b2cfa8;
-    --md-sys-color-on-tertiary: #1e361a;
-    --md-sys-color-tertiary-container: #344d2f;
-    --md-sys-color-on-tertiary-container: #cdebc2;
+    --md-sys-color-primary: #abc7ff;
+    --md-sys-color-on-primary: #002f66;
+    --md-sys-color-primary-container: #04458e;
+    --md-sys-color-on-primary-container: #d7e2ff;
+    --md-sys-color-secondary: #bec6dc;
+    --md-sys-color-on-secondary: #283041;
+    --md-sys-color-secondary-container: #3e4759;
+    --md-sys-color-on-secondary-container: #dae2f9;
+    --md-sys-color-tertiary: #ddbce0;
+    --md-sys-color-on-tertiary: #3f2844;
+    --md-sys-color-tertiary-container: #573e5c;
+    --md-sys-color-on-tertiary-container: #fad8fd;
     --md-sys-color-error: #ffb4ab;
     --md-sys-color-on-error: #690005;
     --md-sys-color-error-container: #93000a;
     --md-sys-color-on-error-container: #ffb4ab;
-    --md-sys-color-background: #1e1b16;
-    --md-sys-color-on-background: #e9e1d9;
-    --md-sys-color-surface: #1e1b16;
-    --md-sys-color-on-surface: #e9e1d9;
-    --md-sys-color-surface-variant: #4e4639;
-    --md-sys-color-on-surface-variant: #d1c5b4;
-    --md-sys-color-outline: #9a8f80;
-    --md-sys-color-outline-variant: #4e4639;
+    --md-sys-color-background: #1a1b1f;
+    --md-sys-color-on-background: #e3e2e6;
+    --md-sys-color-surface: #1a1b1f;
+    --md-sys-color-on-surface: #e3e2e6;
+    --md-sys-color-surface-variant: #44474e;
+    --md-sys-color-on-surface-variant: #c4c6d0;
+    --md-sys-color-outline: #8e9099;
+    --md-sys-color-outline-variant: #44474e;
     --md-sys-color-shadow: #000000;
     --md-sys-color-scrim: #000000;
-    --md-sys-color-inverse-surface: #e9e1d9;
-    --md-sys-color-inverse-on-surface: #34302a;
-    --md-sys-color-inverse-primary: #7a5900;
-    --md-sys-color-surface-dim: #16130e;
-    --md-sys-color-surface-bright: #3d3933;
-    --md-sys-color-surface-container-lowest: #110e09;
-    --md-sys-color-surface-container-low: #1e1b16;
-    --md-sys-color-surface-container: #221f1a;
-    --md-sys-color-surface-container-high: #2d2924;
-    --md-sys-color-surface-container-highest: #38342e
+    --md-sys-color-inverse-surface: #e3e2e6;
+    --md-sys-color-inverse-on-surface: #2f3033;
+    --md-sys-color-inverse-primary: #2c5da7;
+    --md-sys-color-surface-dim: #121316;
+    --md-sys-color-surface-bright: #38393c;
+    --md-sys-color-surface-container-lowest: #0d0e11;
+    --md-sys-color-surface-container-low: #1a1b1f;
+    --md-sys-color-surface-container: #1f1f23;
+    --md-sys-color-surface-container-high: #292a2d;
+    --md-sys-color-surface-container-highest: #343538
   }
 }
 :root[data-theme="dark"] {
-  --md-sys-color-primary: #f6be46;
-  --md-sys-color-on-primary: #412d00;
-  --md-sys-color-primary-container: #5d4200;
-  --md-sys-color-on-primary-container: #ffdea3;
-  --md-sys-color-secondary: #d9c4a0;
-  --md-sys-color-on-secondary: #3b2f15;
-  --md-sys-color-secondary-container: #53452a;
-  --md-sys-color-on-secondary-container: #f6e0bb;
-  --md-sys-color-tertiary: #b2cfa8;
-  --md-sys-color-on-tertiary: #1e361a;
-  --md-sys-color-tertiary-container: #344d2f;
-  --md-sys-color-on-tertiary-container: #cdebc2;
+  --md-sys-color-primary: #abc7ff;
+  --md-sys-color-on-primary: #002f66;
+  --md-sys-color-primary-container: #04458e;
+  --md-sys-color-on-primary-container: #d7e2ff;
+  --md-sys-color-secondary: #bec6dc;
+  --md-sys-color-on-secondary: #283041;
+  --md-sys-color-secondary-container: #3e4759;
+  --md-sys-color-on-secondary-container: #dae2f9;
+  --md-sys-color-tertiary: #ddbce0;
+  --md-sys-color-on-tertiary: #3f2844;
+  --md-sys-color-tertiary-container: #573e5c;
+  --md-sys-color-on-tertiary-container: #fad8fd;
   --md-sys-color-error: #ffb4ab;
   --md-sys-color-on-error: #690005;
   --md-sys-color-error-container: #93000a;
   --md-sys-color-on-error-container: #ffb4ab;
-  --md-sys-color-background: #1e1b16;
-  --md-sys-color-on-background: #e9e1d9;
-  --md-sys-color-surface: #1e1b16;
-  --md-sys-color-on-surface: #e9e1d9;
-  --md-sys-color-surface-variant: #4e4639;
-  --md-sys-color-on-surface-variant: #d1c5b4;
-  --md-sys-color-outline: #9a8f80;
-  --md-sys-color-outline-variant: #4e4639;
+  --md-sys-color-background: #1a1b1f;
+  --md-sys-color-on-background: #e3e2e6;
+  --md-sys-color-surface: #1a1b1f;
+  --md-sys-color-on-surface: #e3e2e6;
+  --md-sys-color-surface-variant: #44474e;
+  --md-sys-color-on-surface-variant: #c4c6d0;
+  --md-sys-color-outline: #8e9099;
+  --md-sys-color-outline-variant: #44474e;
   --md-sys-color-shadow: #000000;
   --md-sys-color-scrim: #000000;
-  --md-sys-color-inverse-surface: #e9e1d9;
-  --md-sys-color-inverse-on-surface: #34302a;
-  --md-sys-color-inverse-primary: #7a5900;
-  --md-sys-color-surface-dim: #16130e;
-  --md-sys-color-surface-bright: #3d3933;
-  --md-sys-color-surface-container-lowest: #110e09;
-  --md-sys-color-surface-container-low: #1e1b16;
-  --md-sys-color-surface-container: #221f1a;
-  --md-sys-color-surface-container-high: #2d2924;
-  --md-sys-color-surface-container-highest: #38342e
+  --md-sys-color-inverse-surface: #e3e2e6;
+  --md-sys-color-inverse-on-surface: #2f3033;
+  --md-sys-color-inverse-primary: #2c5da7;
+  --md-sys-color-surface-dim: #121316;
+  --md-sys-color-surface-bright: #38393c;
+  --md-sys-color-surface-container-lowest: #0d0e11;
+  --md-sys-color-surface-container-low: #1a1b1f;
+  --md-sys-color-surface-container: #1f1f23;
+  --md-sys-color-surface-container-high: #292a2d;
+  --md-sys-color-surface-container-highest: #343538
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    --md-sys-color-primary: #7a5900;
+    --md-sys-color-primary: #2c5da7;
     --md-sys-color-on-primary: #ffffff;
-    --md-sys-color-primary-container: #ffdea3;
-    --md-sys-color-on-primary-container: #261900;
-    --md-sys-color-secondary: #6c5c3f;
+    --md-sys-color-primary-container: #d7e2ff;
+    --md-sys-color-on-primary-container: #001b3f;
+    --md-sys-color-secondary: #565e71;
     --md-sys-color-on-secondary: #ffffff;
-    --md-sys-color-secondary-container: #f6e0bb;
-    --md-sys-color-on-secondary-container: #251a04;
-    --md-sys-color-tertiary: #4b6545;
+    --md-sys-color-secondary-container: #dae2f9;
+    --md-sys-color-on-secondary-container: #131c2b;
+    --md-sys-color-tertiary: #705574;
     --md-sys-color-on-tertiary: #ffffff;
-    --md-sys-color-tertiary-container: #cdebc2;
-    --md-sys-color-on-tertiary-container: #092007;
+    --md-sys-color-tertiary-container: #fad8fd;
+    --md-sys-color-on-tertiary-container: #29132e;
     --md-sys-color-error: #ba1a1a;
     --md-sys-color-on-error: #ffffff;
     --md-sys-color-error-container: #ffdad6;
     --md-sys-color-on-error-container: #410002;
-    --md-sys-color-background: #fffbff;
-    --md-sys-color-on-background: #1e1b16;
-    --md-sys-color-surface: #fffbff;
-    --md-sys-color-on-surface: #1e1b16;
-    --md-sys-color-surface-variant: #ede1cf;
-    --md-sys-color-on-surface-variant: #4e4639;
-    --md-sys-color-outline: #7f7667;
-    --md-sys-color-outline-variant: #d1c5b4;
+    --md-sys-color-background: #fdfbff;
+    --md-sys-color-on-background: #1a1b1f;
+    --md-sys-color-surface: #fdfbff;
+    --md-sys-color-on-surface: #1a1b1f;
+    --md-sys-color-surface-variant: #e0e2ec;
+    --md-sys-color-on-surface-variant: #44474e;
+    --md-sys-color-outline: #74777f;
+    --md-sys-color-outline-variant: #c4c6d0;
     --md-sys-color-shadow: #000000;
     --md-sys-color-scrim: #000000;
-    --md-sys-color-inverse-surface: #34302a;
-    --md-sys-color-inverse-on-surface: #f8efe7;
-    --md-sys-color-inverse-primary: #f6be46;
-    --md-sys-color-surface-dim: #e1d9d0;
-    --md-sys-color-surface-bright: #fff8f2;
+    --md-sys-color-inverse-surface: #2f3033;
+    --md-sys-color-inverse-on-surface: #f2f0f4;
+    --md-sys-color-inverse-primary: #abc7ff;
+    --md-sys-color-surface-dim: #dbd9dd;
+    --md-sys-color-surface-bright: #faf9fd;
     --md-sys-color-surface-container-lowest: #ffffff;
-    --md-sys-color-surface-container-low: #fbf2e9;
-    --md-sys-color-surface-container: #f5ede4;
-    --md-sys-color-surface-container-high: #efe7de;
-    --md-sys-color-surface-container-highest: #e9e1d9
+    --md-sys-color-surface-container-low: #f4f3f7;
+    --md-sys-color-surface-container: #efedf1;
+    --md-sys-color-surface-container-high: #e9e7ec;
+    --md-sys-color-surface-container-highest: #e3e2e6
   }
 }
 :root[data-theme="light"] {
-  --md-sys-color-primary: #7a5900;
+  --md-sys-color-primary: #2c5da7;
   --md-sys-color-on-primary: #ffffff;
-  --md-sys-color-primary-container: #ffdea3;
-  --md-sys-color-on-primary-container: #261900;
-  --md-sys-color-secondary: #6c5c3f;
+  --md-sys-color-primary-container: #d7e2ff;
+  --md-sys-color-on-primary-container: #001b3f;
+  --md-sys-color-secondary: #565e71;
   --md-sys-color-on-secondary: #ffffff;
-  --md-sys-color-secondary-container: #f6e0bb;
-  --md-sys-color-on-secondary-container: #251a04;
-  --md-sys-color-tertiary: #4b6545;
+  --md-sys-color-secondary-container: #dae2f9;
+  --md-sys-color-on-secondary-container: #131c2b;
+  --md-sys-color-tertiary: #705574;
   --md-sys-color-on-tertiary: #ffffff;
-  --md-sys-color-tertiary-container: #cdebc2;
-  --md-sys-color-on-tertiary-container: #092007;
+  --md-sys-color-tertiary-container: #fad8fd;
+  --md-sys-color-on-tertiary-container: #29132e;
   --md-sys-color-error: #ba1a1a;
   --md-sys-color-on-error: #ffffff;
   --md-sys-color-error-container: #ffdad6;
   --md-sys-color-on-error-container: #410002;
-  --md-sys-color-background: #fffbff;
-  --md-sys-color-on-background: #1e1b16;
-  --md-sys-color-surface: #fffbff;
-  --md-sys-color-on-surface: #1e1b16;
-  --md-sys-color-surface-variant: #ede1cf;
-  --md-sys-color-on-surface-variant: #4e4639;
-  --md-sys-color-outline: #7f7667;
-  --md-sys-color-outline-variant: #d1c5b4;
+  --md-sys-color-background: #fdfbff;
+  --md-sys-color-on-background: #1a1b1f;
+  --md-sys-color-surface: #fdfbff;
+  --md-sys-color-on-surface: #1a1b1f;
+  --md-sys-color-surface-variant: #e0e2ec;
+  --md-sys-color-on-surface-variant: #44474e;
+  --md-sys-color-outline: #74777f;
+  --md-sys-color-outline-variant: #c4c6d0;
   --md-sys-color-shadow: #000000;
   --md-sys-color-scrim: #000000;
-  --md-sys-color-inverse-surface: #34302a;
-  --md-sys-color-inverse-on-surface: #f8efe7;
-  --md-sys-color-inverse-primary: #f6be46;
-  --md-sys-color-surface-dim: #e1d9d0;
-  --md-sys-color-surface-bright: #fff8f2;
+  --md-sys-color-inverse-surface: #2f3033;
+  --md-sys-color-inverse-on-surface: #f2f0f4;
+  --md-sys-color-inverse-primary: #abc7ff;
+  --md-sys-color-surface-dim: #dbd9dd;
+  --md-sys-color-surface-bright: #faf9fd;
   --md-sys-color-surface-container-lowest: #ffffff;
-  --md-sys-color-surface-container-low: #fbf2e9;
-  --md-sys-color-surface-container: #f5ede4;
-  --md-sys-color-surface-container-high: #efe7de;
-  --md-sys-color-surface-container-highest: #e9e1d9
+  --md-sys-color-surface-container-low: #f4f3f7;
+  --md-sys-color-surface-container: #efedf1;
+  --md-sys-color-surface-container-high: #e9e7ec;
+  --md-sys-color-surface-container-highest: #e3e2e6
 }
 </style><link rel="stylesheet" href="assets/material-style.css"/></head><body><script>document.documentElement.dataset.theme = localStorage.getItem("tsd-theme") || "os";document.body.style.display="none";setTimeout(() => window.app?app.showPage():document.body.style.removeProperty("display"),500)</script><header class="tsd-page-toolbar"><div class="tsd-toolbar-contents container"><a href="index.html" class="title">JSPM CLI</a><div id="tsd-toolbar-links"><a href="/docs/cli">JSPM CLI Documentation</a><a href="/docs/generator">@jspm/generator</a><a href="/docs/import-map">@jspm/import-map</a><a href="https://generator.jspm.io">Online Generator</a></div><button id="tsd-search-trigger" class="tsd-widget" aria-label="Search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-search"></use></svg></button><dialog id="tsd-search" aria-label="Search"><input role="combobox" id="tsd-search-input" aria-controls="tsd-search-results" aria-autocomplete="list" aria-expanded="true" autocapitalize="off" autocomplete="off" placeholder="Search the docs" maxLength="100"/><ul role="listbox" id="tsd-search-results"></ul><div id="tsd-search-status" aria-live="polite" aria-atomic="true"><div>Preparing search index...</div></div></dialog><a href="#" class="tsd-widget menu" id="tsd-toolbar-menu-trigger" data-toggle="menu" aria-label="Menu"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><use href="assets/icons.svg#icon-menu"></use></svg></a></div></header><div class="container container-main"><div class="col-content"><div class="tsd-page-title"><h1>JSPM CLI</h1></div><div class="tsd-panel tsd-typography"><p>The JSPM CLI is the main command-line import map package management tool for JSPM.</p>
 <blockquote>
@@ -401,11 +401,11 @@ optionally using the JSPM overrides for these via the &quot;jspm&quot; property 
 <pre><code><span class="hl-0">jspm</span><span class="hl-1"> </span><span class="hl-0">deploy</span><span class="hl-1"> [</span><span class="hl-0">options</span><span class="hl-1">]</span>
 </code><button>Copy</button></pre>
 
-<p>Manages deployments to the JSPM providers.</p>
+<p>Manages deployments to the JSPM providers, currently in experimental preview.</p>
 <p>For publishing (default):</p>
 <p>jspm deploy</p>
 <ul>
-<li>The provider flag is always required, with limited availability only on the <a href="http://jspm.io">jspm.io</a> provider currently</li>
+<li>The provider flag is always required, with limited signups only available on the <a href="http://jspm.io">jspm.io</a> provider currently</li>
 <li>The package must have a valid package.json with name and version fields.</li>
 <li>The package.json &quot;files&quot; and &quot;ignore&quot; arrays will be respected.</li>
 <li>Semver versions are always immutable deployments that cannot be redeployed.</li>

@@ -133,16 +133,18 @@ Chomp.registerTemplate('static-site-generator', function (task) {
     if (edit !== false) {
       const nextprev = document.createElement('div');
       nextprev.className = 'nextprev';
-      nextprev.innerHTML = \`<a class="edit" target="_blank" href="${editUrl}/\${name || 'index'}.md">Edit</a>\`;
       body.querySelector('.content').appendChild(nextprev);
 
-      if (typeof nextSection === 'string') {
-        nextprev.innerHTML += \`<div class="next"><a href="\${nextSection}">\${nextSectionTitle}</a></div>\`;
-        nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
-      }
       if (typeof prevSection === 'string') {
         nextprev.innerHTML += \`<div class="prev"><a href="\${prevSection}">\${prevSectionTitle}</a></div>\`;
         nextprev.querySelector('.prev a').innerHTML = '&#9664;&nbsp;' + nextprev.querySelector('.prev a').innerHTML;
+      }
+      
+      nextprev.innerHTML += \`<div class="edit-container"><a class="edit" target="_blank" href="${editUrl}/\${name || 'index'}.md">Edit</a></div>\`;
+      
+      if (typeof nextSection === 'string') {
+        nextprev.innerHTML += \`<div class="next"><a href="\${nextSection}">\${nextSectionTitle}</a></div>\`;
+        nextprev.querySelector('.next a').innerHTML += '&nbsp;&#9654;';
       }
     }
     

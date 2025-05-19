@@ -1,117 +1,158 @@
-<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - ES Module Package Manager and CDN"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM - ES Module Package Manager and CDN"><meta property="og:description" content="JSPM - ES Module Package Manager and CDN"><meta property="og:url" content="https://jspm.org/"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="/style.css?v1">
-<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
-<script defer="" src="/script.js?v1"></script>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M0FZNQ9ZPV');
-</script>
-<title>JSPM - ES Module Package Manager and CDN</title></head><body class="page-index">
-<div class="topbar">
-  <a style="display: block" href="/">
-    <div class="logobox" href="/"></div>
-    <h1 class="logo">jspm</h1>
-  </a>
-  <ul class="toplinks">
-    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
-    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
-    <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
-    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
-  </ul>
-  <div class="mobile-menu"></div>
-</div>
-<div class="sidebar">
-  <div class="toc">
-    <ul class="sections">
-      <li>
-        <a href="/getting-started">JSPM</a>
-        <ul class="section">
-          <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/faq">FAQ</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/docs/cli">Documentation</a>
-        <ul class="section">
-          <li><a href="/docs/cli">JSPM CLI</a></li>
-          <li><a href="/docs/generator">JSPM Generator</a></li>
-          <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/cdn/jspm-io">CDN</a>
-        <ul class="section">
-          <li><a href="/cdn/jspm-io">jspm.io</a></li>
-          <li><a href="/cdn/api">API</a></li>
-        </ul>
-      </li>
-
-      <li class="blog">
-        <a href="/jspm-cli">Blog</a>
-        <ul class="section">
-          <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
-          <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
-          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
-        </ul>
-      </li>
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - ES Module Package Manager and CDN"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="JSPM - ES Module Package Manager and CDN"><meta property="og:description" content="JSPM - ES Module Package Manager and CDN"><meta property="og:url" content="https://jspm.org/"><meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Immediate dark mode styles to prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      
+      // Update theme in localStorage if following system
+      if (!savedTheme && prefersDark) {
+        // We're using system preference - don't store anything in localStorage
+      }
+      
+      if (isDark) {
+        document.documentElement.style.colorScheme = 'dark';
+        document.documentElement.classList.add('dark-mode');
+        document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+  <script defer="" src="/script.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M0FZNQ9ZPV');
+  </script>
+<title>JSPM - ES Module Package Manager and CDN</title></head>
+<body class="page-index">
+  <div class="topbar">
+    <a href="/">
+      <div class="logobox"></div>
+      <h1 class="logo">JSPM</h1>
+    </a>
+    <ul class="toplinks">
+      <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+      <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+      <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
+      <li class="theme-toggle" title="Toggle dark/light mode"></li>
+      <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
     </ul>
-    <!-- <div class="footer"></div> -->
+    <div class="mobile-menu"></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="toc">
+      <ul class="sections">
+        <li>
+          <a href="/getting-started">JSPM</a>
+          <ul class="section">
+            <li><a href="/getting-started">Getting Started</a></li>
+            <li><a href="/faq">FAQ</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/docs/cli">Documentation</a>
+          <ul class="section">
+            <li><a href="/docs/cli">JSPM CLI</a></li>
+            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/integrations">Integrations</a></li>
+            <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/cdn/jspm-io">CDN</a>
+          <ul class="section">
+            <li><a href="/cdn/jspm-io">JSPM.IO</a></li>
+            <li><a href="/cdn/api">API</a></li>
+          </ul>
+        </li>
+
+        <li class="blog">
+          <a href="/jspm-cli">Blog</a>
+          <ul class="section">
+            <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
+            <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
+            <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="content-container">
+    <div class="content"><div class="hero-section">
+  <div class="logobox"></div>
+  <h1 class="biglogo">JSPM</h1>
+
+  <p class="hero-description">
+    Standards based import map package management
+  </p>
+
+  <div class="hero-actions">
+    <a href="/getting-started" class="cta highlighted">Getting Started</a>
+    <a href="/jspm-4.0-release" class="cta">4.0 Release</a>
   </div>
 </div>
-<div class="content-container">
-  <div class="content"><div class="logobox"></div>
 
-<h1 class="biglogo">jspm</h1>
-
-<!-- <p style="text-align: center; margin-top: -5em; margin-bottom: 2em; font-size: 0.9em; padding-left: 14.5em;"><em>&nbsp;</em></p> -->
-
-<p style="text-align: center; margin-top: -1.5em"><em>
-JSPM provides package management for import maps, allowing any package from npm <br> to be loaded directly in the browser fully optimized without further tooling.
-</em></p>
-
-<br>
-
-<div style="display: flex; justify-content: center; column-gap: 2em;">
-  <a href="/getting-started" class="cta highlighted">Getting Started</a>
-  <a href="/jspm-cli" class="cta">Latest Release Post</a>
+<div class="features-container">
+  <div class="feature-card">
+    <a name="native-es-modules" class="anchor"></a><h3>Native ES Modules</h3>
+    <p>Run native ESM directly in the browser using import maps for dependency resolution, no other steps required.</p>
+  </div>
+  
+  <div class="feature-card">
+    <a name="fast-development" class="anchor"></a><h3>Fast Development</h3>
+    <p>Instant development with the live hot reloading dev server with full support for TypeScript.</p>
+  </div>
+  
+  <div class="feature-card">
+    <a name="production-ready" class="anchor"></a><h3>Production Ready</h3>
+    <p>Run package builds, generate optimized import maps with version lock, integrity and preloading for production. All on standards-based semantics.</p>
+  </div>
 </div>
 
-<br>
+<div class="sponsor-section">
+  <div class="sponsor-tier">
+    <div class="sponsor-tier-title">Silver Sponsor</div>
+    <div class="sponsors">
+      <a href="https://37signals.com/" target="_blank" rel="noopener">
+        <svg height="75" viewBox="0 0 1063 300" xmlns="http://www.w3.org/2000/svg"><path d="m883.34 287.739c-16.22-16.182-15.899-42.849 0-59.234 13.485-13.494 13.487-35.324 0-48.795-13.39-13.374-35.24-13.107-48.803 0-16.324 16.326-42.901 16.327-59.248 0-16.221-16.202-15.897-42.999.001-59.39 13.351-13.353 13.086-35.2951 0-48.8134-16.384-16.3668-16.385-42.857 0-59.2251 16.343-16.37627 42.926-16.37627 59.254.0056 16.225 16.1984 15.901 42.826-.008 59.2195-13.466 13.4839-13.466 35.3224.005 48.8134 13.395 13.361 35.245 13.098 48.799 0 16.344-16.347 43.025-16.351 59.352 0 16.248 16.186 15.929 42.988 0 59.39-13.465 13.467-13.472 35.303 0 48.801 16.412 16.341 16.42 42.885 0 59.234-16.32 16.341-43.005 16.341-59.352-.006zm59.345-275.4213c16.42 16.4115 16.42 42.9753.002 59.385-16.382 16.3955-42.991 16.3955-59.345.0052-16.454-16.402-16.445-42.9806 0-59.3841 16.362-16.43073 42.965-16.43072 59.343-.0061zm108.005 108.0003c16.41 16.411 16.41 42.98 0 59.39-16.38 16.395-42.99 16.39-59.348 0-16.454-16.402-16.445-42.981 0-59.384 16.358-16.431 42.968-16.431 59.348-.006zm-964.2515-30.3219v18.5909l-33.1261 28.732c21.4644.507 37.5204 13.69 37.5204 35.661 0 19.437-15.042 39.887-44.4499 39.887-15.887 0-28.9008-4.056-45.6329-15.549l10.9857-16.056c13.5209 8.451 22.8165 12.169 33.9712 12.169 14.0279 0 22.3094-8.113 22.3094-20.282 0-12.337-9.4646-19.267-23.4925-19.267-7.4365 0-11.8307 1.352-14.1969 2.197l-9.9716-13.69 38.7035-33.464h-52.0554v-18.9289zm13.1079 18.9289h61.3506c-20.281 27.042-39.548 65.07-44.45 101.069h25.521c5.577-38.704 24.507-77.576 45.126-102.928v-17.0699h-87.5476zm85.3986 38.873c0-14.704 12.845-27.042 36-27.042 14.535 0 25.013 3.38 37.182 13.521l-11.831 14.366c-10.478-8.113-17.07-10.141-25.858-10.141-8.789 0-14.535 3.549-14.535 8.62 0 5.37 5.171 6.51 18.531 9.454.515.113 1.042.229 1.581.348 23.662 5.24 33.464 11.493 33.464 27.549 0 16.563-13.521 28.225-37.013 28.225-15.887 0-27.718-3.887-41.746-16.394l12.676-14.197c12.676 10.31 19.436 12.845 29.577 12.845 8.619 0 15.042-3.211 15.042-9.127 0-6.564-7.661-8.214-18.572-10.564-.887-.191-1.796-.387-2.723-.59-24.338-5.409-31.775-11.493-31.775-26.873zm111.642-47.323c0 7.098-5.747 12.845-13.014 12.845-7.268 0-13.014-5.747-13.014-12.845 0-7.0986 5.746-12.845 13.014-12.845 7.267 0 13.014 5.7464 13.014 12.845zm-24 109.519v-86.365h21.971v86.365zm100.148-76.731c-5.239-7.775-13.689-12.507-26.365-12.507-21.803 0-38.028 17.746-38.028 43.605 0 26.028 16.225 43.605 38.028 43.605 11.661 0 19.774-4.226 25.182-10.986v6.929c0 15.211-9.295 20.958-21.126 20.958-9.972 0-17.915-3.042-30.084-10.31l-10.648 15.887c14.028 9.127 27.38 12.676 41.07 12.676 23.831 0 42.253-12.676 42.253-37.351v-82.14h-20.282zm-21.464 56.112c-12.507 0-20.788-10.141-20.788-25.014s8.281-24.845 20.788-24.845c12.169 0 20.957 9.972 20.957 24.845s-8.788 25.014-20.957 25.014zm106.233-68.619c-11.831 0-20.619 4.901-26.028 12.676v-9.803h-20.45v86.365h21.971v-52.056c0-10.816 7.268-18.253 17.408-18.253 10.479 0 16.056 6.423 16.056 17.746v52.563h21.972v-59.154c0-17.577-10.817-30.084-30.929-30.084zm86.796 0c-17.07 0-29.577 6.592-40.393 19.436l13.859 12.676c8.957-8.619 15.042-14.028 26.872-14.028 9.972 0 16.225 4.733 16.225 13.183v2.028l-20.281 3.718c-19.605 3.55-37.351 10.479-37.351 30.422 0 17.578 14.535 24.676 30.929 24.676 13.352 0 22.647-4.563 27.887-11.831v8.958h19.774v-58.309c0-18.253-12.676-30.929-37.521-30.929zm-6.422 74.534c-8.282 0-13.183-3.211-13.183-8.62 0-8.112 8.62-11.154 21.633-13.859l14.535-3.042v5.071c0 15.042-11.83 20.45-22.985 20.45zm62.29-105.2939v119.9979h21.971v-119.9979zm37.445 57.8019c0-14.704 12.845-27.042 36-27.042 14.535 0 25.013 3.38 37.182 13.521l-11.831 14.366c-10.478-8.113-17.07-10.141-25.858-10.141-8.789 0-14.535 3.549-14.535 8.62 0 5.37 5.171 6.51 18.531 9.454.515.113 1.042.229 1.581.348 23.662 5.24 33.464 11.493 33.464 27.549 0 16.563-13.521 28.225-37.013 28.225-15.887 0-27.718-3.887-41.746-16.394l12.676-14.197c12.676 10.31 19.436 12.845 29.577 12.845 8.619 0 15.042-3.211 15.042-9.127 0-6.564-7.661-8.214-18.572-10.564-.887-.191-1.796-.387-2.723-.59-24.338-5.409-31.775-11.493-31.775-26.873z"></path></svg>
+      </a>
+    </div>
+  </div>
 
-<p style="margin-top: 1em; margin-bottom: -1em; line-height: 2em; text-align: center;">Silver Sponsor</p>
-<p style="text-align: center">
-<a href="https://37signals.com/" target="_blank" rel="noopener"><svg style="margin-left: 50px" height="75" viewBox="0 0 1063 300" xmlns="http://www.w3.org/2000/svg"><path d="m883.34 287.739c-16.22-16.182-15.899-42.849 0-59.234 13.485-13.494 13.487-35.324 0-48.795-13.39-13.374-35.24-13.107-48.803 0-16.324 16.326-42.901 16.327-59.248 0-16.221-16.202-15.897-42.999.001-59.39 13.351-13.353 13.086-35.2951 0-48.8134-16.384-16.3668-16.385-42.857 0-59.2251 16.343-16.37627 42.926-16.37627 59.254.0056 16.225 16.1984 15.901 42.826-.008 59.2195-13.466 13.4839-13.466 35.3224.005 48.8134 13.395 13.361 35.245 13.098 48.799 0 16.344-16.347 43.025-16.351 59.352 0 16.248 16.186 15.929 42.988 0 59.39-13.465 13.467-13.472 35.303 0 48.801 16.412 16.341 16.42 42.885 0 59.234-16.32 16.341-43.005 16.341-59.352-.006zm59.345-275.4213c16.42 16.4115 16.42 42.9753.002 59.385-16.382 16.3955-42.991 16.3955-59.345.0052-16.454-16.402-16.445-42.9806 0-59.3841 16.362-16.43073 42.965-16.43072 59.343-.0061zm108.005 108.0003c16.41 16.411 16.41 42.98 0 59.39-16.38 16.395-42.99 16.39-59.348 0-16.454-16.402-16.445-42.981 0-59.384 16.358-16.431 42.968-16.431 59.348-.006zm-964.2515-30.3219v18.5909l-33.1261 28.732c21.4644.507 37.5204 13.69 37.5204 35.661 0 19.437-15.042 39.887-44.4499 39.887-15.887 0-28.9008-4.056-45.6329-15.549l10.9857-16.056c13.5209 8.451 22.8165 12.169 33.9712 12.169 14.0279 0 22.3094-8.113 22.3094-20.282 0-12.337-9.4646-19.267-23.4925-19.267-7.4365 0-11.8307 1.352-14.1969 2.197l-9.9716-13.69 38.7035-33.464h-52.0554v-18.9289zm13.1079 18.9289h61.3506c-20.281 27.042-39.548 65.07-44.45 101.069h25.521c5.577-38.704 24.507-77.576 45.126-102.928v-17.0699h-87.5476zm85.3986 38.873c0-14.704 12.845-27.042 36-27.042 14.535 0 25.013 3.38 37.182 13.521l-11.831 14.366c-10.478-8.113-17.07-10.141-25.858-10.141-8.789 0-14.535 3.549-14.535 8.62 0 5.37 5.171 6.51 18.531 9.454.515.113 1.042.229 1.581.348 23.662 5.24 33.464 11.493 33.464 27.549 0 16.563-13.521 28.225-37.013 28.225-15.887 0-27.718-3.887-41.746-16.394l12.676-14.197c12.676 10.31 19.436 12.845 29.577 12.845 8.619 0 15.042-3.211 15.042-9.127 0-6.564-7.661-8.214-18.572-10.564-.887-.191-1.796-.387-2.723-.59-24.338-5.409-31.775-11.493-31.775-26.873zm111.642-47.323c0 7.098-5.747 12.845-13.014 12.845-7.268 0-13.014-5.747-13.014-12.845 0-7.0986 5.746-12.845 13.014-12.845 7.267 0 13.014 5.7464 13.014 12.845zm-24 109.519v-86.365h21.971v86.365zm100.148-76.731c-5.239-7.775-13.689-12.507-26.365-12.507-21.803 0-38.028 17.746-38.028 43.605 0 26.028 16.225 43.605 38.028 43.605 11.661 0 19.774-4.226 25.182-10.986v6.929c0 15.211-9.295 20.958-21.126 20.958-9.972 0-17.915-3.042-30.084-10.31l-10.648 15.887c14.028 9.127 27.38 12.676 41.07 12.676 23.831 0 42.253-12.676 42.253-37.351v-82.14h-20.282zm-21.464 56.112c-12.507 0-20.788-10.141-20.788-25.014s8.281-24.845 20.788-24.845c12.169 0 20.957 9.972 20.957 24.845s-8.788 25.014-20.957 25.014zm106.233-68.619c-11.831 0-20.619 4.901-26.028 12.676v-9.803h-20.45v86.365h21.971v-52.056c0-10.816 7.268-18.253 17.408-18.253 10.479 0 16.056 6.423 16.056 17.746v52.563h21.972v-59.154c0-17.577-10.817-30.084-30.929-30.084zm86.796 0c-17.07 0-29.577 6.592-40.393 19.436l13.859 12.676c8.957-8.619 15.042-14.028 26.872-14.028 9.972 0 16.225 4.733 16.225 13.183v2.028l-20.281 3.718c-19.605 3.55-37.351 10.479-37.351 30.422 0 17.578 14.535 24.676 30.929 24.676 13.352 0 22.647-4.563 27.887-11.831v8.958h19.774v-58.309c0-18.253-12.676-30.929-37.521-30.929zm-6.422 74.534c-8.282 0-13.183-3.211-13.183-8.62 0-8.112 8.62-11.154 21.633-13.859l14.535-3.042v5.071c0 15.042-11.83 20.45-22.985 20.45zm62.29-105.2939v119.9979h21.971v-119.9979zm37.445 57.8019c0-14.704 12.845-27.042 36-27.042 14.535 0 25.013 3.38 37.182 13.521l-11.831 14.366c-10.478-8.113-17.07-10.141-25.858-10.141-8.789 0-14.535 3.549-14.535 8.62 0 5.37 5.171 6.51 18.531 9.454.515.113 1.042.229 1.581.348 23.662 5.24 33.464 11.493 33.464 27.549 0 16.563-13.521 28.225-37.013 28.225-15.887 0-27.718-3.887-41.746-16.394l12.676-14.197c12.676 10.31 19.436 12.845 29.577 12.845 8.619 0 15.042-3.211 15.042-9.127 0-6.564-7.661-8.214-18.572-10.564-.887-.191-1.796-.387-2.723-.59-24.338-5.409-31.775-11.493-31.775-26.873z"></path></svg></a>
-</p>
+  <div class="sponsor-tier">
+    <div class="sponsor-tier-title">CDN Infrastructure Sponsor</div>
+    <div class="sponsors">
+      <a href="https://www.cachefly.com/" target="_blank" rel="noopener">
+        <img src="cachefly.png" alt="CacheFly" width="185">
+      </a>
+    </div>
+  </div>
 
-<p style="line-height: 2em; font-weight: bold; text-align: center;">CDN Infrastructure Sponsor</p>
-<div style="display: flex; justify-content: center; align-items: center; gap: 2em">
-  <a href="https://www.cachefly.com/" style="display:block" target="_blank" rel="noopener"><img style="margin-left: -20px; width:185px;" src="cachefly.png"></a>
-</div>
-
-<p style="margin-top: 1em; margin-bottom: 0.2em; line-height: 2em; text-align: center; clear:both; font-size: 0.9em;">Bronze Sponsors</p>
-
-<div style="display: flex; justify-content: center; align-items: center; gap: 2em; flex-wrap: wrap; row-gap: 0; margin-bottom: -2em;">
-  <a href="https://socket.dev/" style="display:block" target="_blank" rel="noopener"><img style="width:135px" src="socket-logo.png"></a>
-  <a href="https://framer.com/" style="display:block" target="_blank" rel="noopener"><img style="width:155px; " src="framer-logo.png"></a>
-  <a href="https://scrimba.com/" style="display:block" target="_blank" rel="noopener"><img style="margin-left: -20px; width:185px;" src="scrimba.png"></a>
-</div>
-
-<!-- <a style="display:block;padding-top:1em;width:20em;margin-left:auto;margin-right:auto;text-decoration:none;" href="https://cloud.google.com">
-<p style="font-size:0.9em;line-height:1.5em;vertical-align:center;float:left; padding-left:5em">Running on</p>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 181 28" style="height:1em;float:left;padding-left:0.5em;margin-top:1em;margin-right:2em;"><defs><style>.cls-1{fill:#ea4335;}.cls-2{fill:#4285f4;}.cls-3{fill:#34a853;}.cls-4{fill:#fbbc05;}.cls-5{fill:#5f6368;}</style></defs><path class="cls-1" d="M21.85,7.41l1,0,2.85-2.85.14-1.21A12.81,12.81,0,0,0,5,9.6a1.55,1.55,0,0,1,1-.06l5.7-.94s.29-.48.44-.45a7.11,7.11,0,0,1,9.73-.74Z"/><path class="cls-2" d="M29.76,9.6a12.84,12.84,0,0,0-3.87-6.24l-4,4A7.11,7.11,0,0,1,24.5,13v.71a3.56,3.56,0,1,1,0,7.12H17.38l-.71.72v4.27l.71.71H24.5A9.26,9.26,0,0,0,29.76,9.6Z"/><path class="cls-3" d="M10.25,26.49h7.12v-5.7H10.25a3.54,3.54,0,0,1-1.47-.32l-1,.31L4.91,23.63l-.25,1A9.21,9.21,0,0,0,10.25,26.49Z"/><path class="cls-4" d="M10.25,8A9.26,9.26,0,0,0,4.66,24.6l4.13-4.13a3.56,3.56,0,1,1,4.71-4.71l4.13-4.13A9.25,9.25,0,0,0,10.25,8Z"/><path class="cls-5" d="M52.79,22.51a9.11,9.11,0,0,1-6.6-2.71,8.8,8.8,0,0,1-2.77-6.52,8.81,8.81,0,0,1,2.77-6.52A9.11,9.11,0,0,1,52.79,4a8.84,8.84,0,0,1,6.33,2.55L57.34,8.36a6.41,6.41,0,0,0-4.55-1.8,6.34,6.34,0,0,0-4.7,2,6.53,6.53,0,0,0-1.93,4.75A6.53,6.53,0,0,0,48.09,18a6.71,6.71,0,0,0,9.36.11A5.32,5.32,0,0,0,58.82,15h-6V12.44h8.49A8.12,8.12,0,0,1,61.41,14a8,8,0,0,1-2.19,5.9A8.51,8.51,0,0,1,52.79,22.51Zm19.74-1.7a6.12,6.12,0,0,1-8.47,0,5.7,5.7,0,0,1-1.73-4.25,5.71,5.71,0,0,1,1.73-4.25,6.13,6.13,0,0,1,8.47,0,5.71,5.71,0,0,1,1.73,4.25A5.7,5.7,0,0,1,72.52,20.81Zm-6.6-1.67a3.24,3.24,0,0,0,4.73,0,3.56,3.56,0,0,0,1-2.58,3.57,3.57,0,0,0-1-2.59,3.29,3.29,0,0,0-4.75,0,3.57,3.57,0,0,0-1,2.59A3.56,3.56,0,0,0,65.92,19.14Zm19.62,1.67a6.12,6.12,0,0,1-8.47,0,5.7,5.7,0,0,1-1.73-4.25,5.71,5.71,0,0,1,1.73-4.25,6.12,6.12,0,0,1,8.47,0,5.71,5.71,0,0,1,1.73,4.25A5.7,5.7,0,0,1,85.55,20.81Zm-6.6-1.67a3.24,3.24,0,0,0,4.73,0,3.56,3.56,0,0,0,1-2.58,3.57,3.57,0,0,0-1-2.59,3.29,3.29,0,0,0-4.75,0,3.57,3.57,0,0,0-1,2.59A3.56,3.56,0,0,0,78.94,19.14Zm15.16,8.71a5.24,5.24,0,0,1-3.33-1.06,6.13,6.13,0,0,1-1.94-2.46l2.28-.95a3.84,3.84,0,0,0,1.13,1.49,2.85,2.85,0,0,0,1.87.63,3,3,0,0,0,2.33-.9A3.65,3.65,0,0,0,97.28,22v-.86h-.09a3.81,3.81,0,0,1-3.13,1.35,5.43,5.43,0,0,1-4-1.74,5.75,5.75,0,0,1-1.71-4.19,5.81,5.81,0,0,1,1.71-4.22,5.42,5.42,0,0,1,4-1.75A4.3,4.3,0,0,1,95.9,11a3.7,3.7,0,0,1,1.3.95h.09V11h2.48V21.65a6.21,6.21,0,0,1-1.59,4.65A5.6,5.6,0,0,1,94.11,27.85Zm.18-7.68a2.91,2.91,0,0,0,2.26-1,3.7,3.7,0,0,0,.91-2.56A3.78,3.78,0,0,0,96.55,14a2.9,2.9,0,0,0-2.26-1,3.09,3.09,0,0,0-2.34,1,3.65,3.65,0,0,0-1,2.59,3.58,3.58,0,0,0,1,2.56A3.1,3.1,0,0,0,94.29,20.17Zm9.89-15.5V22.15h-2.61V4.67Zm7.16,17.84a5.68,5.68,0,0,1-4.21-1.71,5.79,5.79,0,0,1-1.69-4.24,5.86,5.86,0,0,1,1.63-4.28,5.36,5.36,0,0,1,4-1.67,5.05,5.05,0,0,1,2,.39,4.71,4.71,0,0,1,1.53,1,7,7,0,0,1,1,1.21,7.15,7.15,0,0,1,.59,1.17l.27.68-8,3.29a3,3,0,0,0,2.88,1.8,3.41,3.41,0,0,0,2.93-1.65l2,1.35a6.59,6.59,0,0,1-1.92,1.82A5.44,5.44,0,0,1,111.34,22.51ZM108,16.38l5.32-2.21a1.84,1.84,0,0,0-.83-.91,2.71,2.71,0,0,0-1.37-.35,3.09,3.09,0,0,0-2.15.95A3.17,3.17,0,0,0,108,16.38Z"/><path class="cls-5" d="M130.13,22.51a8.24,8.24,0,0,1-8.38-8.43,8.24,8.24,0,0,1,8.38-8.43,7.46,7.46,0,0,1,5.93,2.64l-1.44,1.4a5.44,5.44,0,0,0-4.48-2.05,6.11,6.11,0,0,0-4.45,1.78,6.24,6.24,0,0,0-1.81,4.66,6.24,6.24,0,0,0,1.81,4.66,6.11,6.11,0,0,0,4.45,1.78,6.36,6.36,0,0,0,5-2.34l1.44,1.44a7.86,7.86,0,0,1-2.77,2.11A8.48,8.48,0,0,1,130.13,22.51Z"/><path class="cls-5" d="M140.45,22.15h-2.07V6h2.07Z"/><path class="cls-5" d="M143.83,12.43a5.79,5.79,0,0,1,8.16,0,5.85,5.85,0,0,1,1.6,4.2,5.85,5.85,0,0,1-1.6,4.2,5.79,5.79,0,0,1-8.16,0,5.85,5.85,0,0,1-1.6-4.2A5.85,5.85,0,0,1,143.83,12.43Zm1.54,7.1a3.49,3.49,0,0,0,5.07,0,4,4,0,0,0,1.07-2.9,4,4,0,0,0-1.07-2.9,3.49,3.49,0,0,0-5.07,0,4,4,0,0,0-1.07,2.9A4,4,0,0,0,145.38,19.52Z"/><path class="cls-5" d="M165.06,22.15h-2V20.62H163A3.85,3.85,0,0,1,161.54,22a4.08,4.08,0,0,1-2.05.55,3.89,3.89,0,0,1-3.14-1.26,5,5,0,0,1-1.07-3.38V11.11h2.07v6.42q0,3.09,2.73,3.09a2.54,2.54,0,0,0,2.1-1,3.77,3.77,0,0,0,.81-2.39V11.11h2.07Z"/><path class="cls-5" d="M172.09,22.51a4.86,4.86,0,0,1-3.7-1.69,6,6,0,0,1-1.55-4.19,6,6,0,0,1,1.55-4.19,4.86,4.86,0,0,1,3.7-1.69,4.69,4.69,0,0,1,2.26.54,3.83,3.83,0,0,1,1.5,1.35h.09l-.09-1.53V6h2.07V22.15h-2V20.62h-.09a3.83,3.83,0,0,1-1.5,1.35A4.69,4.69,0,0,1,172.09,22.51Zm.34-1.89a3.3,3.3,0,0,0,2.49-1.08,4.05,4.05,0,0,0,1-2.91,4.05,4.05,0,0,0-1-2.91,3.38,3.38,0,0,0-5,0,4,4,0,0,0-1,2.9,4,4,0,0,0,1,2.9A3.3,3.3,0,0,0,172.43,20.62Z"/></svg>
-</a> 
-<br /> --></div>
-</div>
-
+  <div class="sponsor-tier">
+    <div class="sponsor-tier-title">Bronze Sponsors</div>
+    <div class="sponsors">
+      <a href="https://socket.dev/" target="_blank" rel="noopener">
+        <img src="socket-logo.png" alt="Socket" width="135">
+      </a>
+      <a href="https://framer.com/" target="_blank" rel="noopener">
+        <img src="framer-logo.png" alt="Framer" width="155">
+      </a>
+    </div>
+  </div>
+</div></div>
+  </div>
 
 </body></html>

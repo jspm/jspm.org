@@ -6,6 +6,82 @@ next-section = "docs/cdn-resolution"
 
 # Integrations
 
+## Online Generator
+
+The easiest way to try out JSPM is to generate an import map using the online generator at [https://generator.jspm.io](https://generator.jspm.io).
+
+<div style="text-align: center;">
+<a href="https://generator.jspm.io"><img style="width: 100%" src="/steps/online-0.png" /></a>
+</div>
+
+In the top-left corner enter an npm package name to add to the import map (`lit` in this example):
+
+<div style="text-align: center;">
+<img src="/steps/online-1.png" />
+</div>
+
+Press `Return` to add the package to the map. Then add any other dependency entries. For example to add the `./html.js` subpath export of lit, add `lit/html.js`:
+
+<div style="text-align: center;">
+<img src="/steps/online-2.png" />
+</div>
+
+Versions are supported in package names before the subpath and items can be removed or changed from the controls provided.
+
+The final import map is shown on the right, and can be retrieved as an HTML page template or as direct JSON.
+
+In [this example](https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA) we get:
+
+```html
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Untitled</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <!--
+    JSPM Generator Import Map
+    Edit URL: https://generator.jspm.io/#U2VhYGBiDs0rySzJSU1hyMkscTDWM9QzQbD0M0pyc/SyigHdBe16KgA
+  -->
+   <script type="importmap">
+  {
+    "imports": {
+      "lit": "https://ga.jspm.io/npm:lit@3.1.4/index.js",
+      "lit/html.js": "https://ga.jspm.io/npm:lit@3.1.4/html.js"
+    },
+    "scopes": {
+      "https://ga.jspm.io/": {
+        "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@2.0.4/development/reactive-element.js",
+        "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@4.0.6/development/lit-element.js",
+        "lit-html": "https://ga.jspm.io/npm:lit-html@3.1.4/development/lit-html.js",
+        "lit-html/is-server.js": "https://ga.jspm.io/npm:lit-html@3.1.4/development/is-server.js"
+      }
+    }
+  }
+  </script>
+  
+  <!-- ES Module Shims import maps polyfills -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
+  
+  <script type="module">
+    import * as lit from "lit";
+    import * as litHtml from "lit/html.js";
+  
+    // Write main module code here, or as a separate file with a "src" attribute on the module script.
+    console.log(lit, litHtml);
+  </script>
+</body>
+</html>
+```
+
+Saving the HTML template locally and serving over a local server provides a full native modules workflow for working with remote npm packages without needing any separate build steps.
+
+The included [ES Module Shims polyfill](https://github.com/guybedford/es-module-shims) ensures the import maps still work in browsers without import maps support.
+
+The online generator also provides full support for integrity, preloading and custom providers.
+
 ## VSCode Extension
 
 For an easy fully local workflow try the [JSPM Generator VSCode Extension](https://marketplace.visualstudio.com/items?itemName=JSPM.jspm-vscode), which is supported as a Web Extension.

@@ -1,128 +1,194 @@
-<!DOCTYPE html><html data-theme="light" lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - Import Map Services"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Discussing development and trust models for import map services"><meta property="og:description" content="Discussing development and trust models for import map services"><meta property="og:url" content="https://jspm.org/jspm-4.0-release"><meta name="twitter:card" content="summary_large_image"><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="stylesheet" href="/style.css?v1">
-<link rel="preload" as="font" href="/sourcesans-light.woff2" type="font/woff2" crossorigin="anonymous">
-<script defer="" src="/script.js?v1"></script>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-M0FZNQ9ZPV');
-</script>
-<title>JSPM - Import Map Services</title></head><body class="page-jspm-4.0-release">
-<div class="topbar">
-  <a style="display: block" href="/">
-    <div class="logobox" href="/"></div>
-    <h1 class="logo">jspm</h1>
-  </a>
-  <ul class="toplinks">
-    <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
-    <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
-    <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
-    <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
-  </ul>
-  <div class="mobile-menu"></div>
-</div>
-<div class="sidebar">
-  <div class="toc">
-    <ul class="sections">
-      <li>
-        <a href="/getting-started">JSPM</a>
-        <ul class="section">
-          <li><a href="/getting-started">Getting Started</a></li>
-          <li><a href="/faq">FAQ</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/docs/cli">Documentation</a>
-        <ul class="section">
-          <li><a href="/docs/cli">JSPM CLI</a></li>
-          <li><a href="/docs/generator">JSPM Generator</a></li>
-          <li><a href="/docs/integrations">Integrations</a></li>
-          <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
-        </ul>
-      </li>
-
-      <li>
-        <a href="/cdn/jspm-io">CDN</a>
-        <ul class="section">
-          <li><a href="/cdn/jspm-io">jspm.io</a></li>
-          <li><a href="/cdn/api">API</a></li>
-        </ul>
-      </li>
-
-      <li class="blog">
-        <a href="/jspm-cli">Blog</a>
-        <ul class="section">
-          <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
-          <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
-          <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
-        </ul>
-      </li>
+<!DOCTYPE html><html lang="en"><head><link rel="alternate" title="JSPM" type="application/json" href="https://jspm.org/feed.json"><meta property="og:title" content="JSPM - JSPM 4.0 Release"><meta property="og:image" content="https://jspm.org/jspm.png"><meta name="Description" content="Discussing development and trust models for import map services"><meta property="og:description" content="Discussing development and trust models for import map services"><meta property="og:url" content="https://jspm.org/jspm-4.0-release"><meta name="twitter:card" content="summary_large_image">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <!-- Immediate dark mode styles to prevent flash -->
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const isDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+      
+      // Update theme in localStorage if following system
+      if (!savedTheme && prefersDark) {
+        // We're using system preference - don't store anything in localStorage
+      }
+      
+      if (isDark) {
+        document.documentElement.style.colorScheme = 'dark';
+        document.documentElement.classList.add('dark-mode');
+        document.write('<style>:root{background-color:#1A202C!important;}body{background-color:#1A202C!important;color:#E2E8F0!important;} html.dark-mode body{background-color:#1A202C!important;color:#E2E8F0!important;} .topbar{background-color:#1A202C!important;border-color:#4A5568!important;} .sidebar{background-color:#2D3748!important;border-color:#4A5568!important;}</style>');
+      }
+    })();
+  </script>
+  <link rel="stylesheet" href="/style.css">
+  <script defer="" src="/script.js"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-M0FZNQ9ZPV"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M0FZNQ9ZPV');
+  </script>
+<title>JSPM - JSPM 4.0 Release</title></head>
+<body class="page-jspm-4.0-release">
+  <div class="topbar">
+    <a href="/">
+      <div class="logobox"></div>
+      <h1 class="logo">JSPM</h1>
+    </a>
+    <ul class="toplinks">
+      <li><a target="_blank" href="https://generator.jspm.io" rel="noopener">Online Generator</a></li>
+      <li><a target="_blank" href="https://status.jspm.io" rel="noopener">CDN Status</a></li>
+      <li><a target="_blank" href="https://opencollective.com/jspm" rel="noopener">Sponsor</a></li>
+      <li class="theme-toggle" title="Toggle dark/light mode"></li>
+      <li class="github"><a target="_blank" href="https://github.com/jspm/jspm" rel="noopener"></a></li>
     </ul>
-    <!-- <div class="footer"></div> -->
+    <div class="mobile-menu"></div>
   </div>
-</div>
-<div class="content-container">
-  <div class="content"><h1>Import Map<br>Services</h1>
-<p style="text-align: right; margin-top: -4em; margin-bottom: 4em; font-size: 0.9em;"><em>Guy Bedford, October 14<sup style="padding-left:0.15em">th</sup> 2024</em></p>
 
-<p>Import maps have been a stable feature across browsers since 2023. In that time we've seen adoption in major frameworks including Rails and Sympony. While many development teams have been coming up with management strategies for them, currently just about all those strategies use inline <code><span class="string">"importmap"</span></code> script tags with the JSON inlined into the HTML on the page in which they are used.</p>
-<p>We believe import map URLs will become a major model for browser module management in future, and further more that they will no longer be treated as opaque hosted assets, but rather that these maps will be managed solutions we call "import map services". Effectively, these are systems which are aware of the nature of the import map and integrate import map module management strategies with the wider development, deployment and security processes of the host.</p>
-<a name="providing-import-map-urls" class="anchor"></a><h3>Providing Import Map URLs</h3>
-<p>In the original import maps specification it supported the feature of "import map URLs", which allow defining import maps from a URL like the following:</p>
+  <div class="sidebar">
+    <div class="toc">
+      <ul class="sections">
+        <li>
+          <a href="/getting-started">JSPM</a>
+          <ul class="section">
+            <li><a href="/getting-started">Getting Started</a></li>
+            <li><a href="/faq">FAQ</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/docs/cli">Documentation</a>
+          <ul class="section">
+            <li><a href="/docs/cli">JSPM CLI</a></li>
+            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/integrations">Integrations</a></li>
+            <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a href="/cdn/jspm-io">CDN</a>
+          <ul class="section">
+            <li><a href="/cdn/jspm-io">JSPM.IO</a></li>
+            <li><a href="/cdn/api">API</a></li>
+          </ul>
+        </li>
+
+        <li class="blog">
+          <a href="/jspm-cli">Blog</a>
+          <ul class="section">
+            <li class="blog-link"><a href="/jspm-4.0-release"><em>JSPM 4.0 Release</em></a></li>
+            <li class="blog-link"><a href="/js-integrity-with-import-maps"><em>JavaScript Integrity Manifests with Import Maps</em></a></li>
+            <li class="blog-link"><a href="/jspm-dev-deprecation"><em>Deprecating jspm.dev</em></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="content-container">
+    <div class="content"><h1>JSPM 4.0 Release</h1>
+<p>JSPM 4.0 is now out, featuring a new opinionated standards-based workflow that puts convention over configuration. It provides an alternative modern workflow for working with native ESM workflows in the browser using import maps:</p>
+<ul>
+<li><code>jspm install</code> without any arguments creates the <code>importmap.js</code> file.</li>
+<li><code>jspm serve</code> behaves as a static server except for supporting TypeScript type stripping and hot reloading.</li>
+<li><code>jspm build</code> uses the same semantics as the above commands to provide zero config standards-based builds.</li>
+</ul>
+<p>Read the updated <a href="/getting-started">Getting Started</a> guide for more info, or continue reading below for the background on how this release came together.</p>
+<a name="standards-based-workflows" class="anchor main"></a><h2>Standards Based Workflows</h2>
+<p>Leaning into standards means that developers can focus on writing JavaScript without learning custom build toolchains or frameworks. The JSPM 4.0 workflow takes advantage of the latest browser capabilities:</p>
+<ol>
+<li><strong>Native ES Modules</strong>: Use standard import/export syntax without transpilation</li>
+<li><strong>Import Maps</strong>: Handle dependency mapping directly in the browser</li>
+<li><strong>TypeScript Type Stripping</strong>: TypeScript type stripping as the only code transform</li>
+<li><strong>No Custom Loaders</strong>: Everything runs on standard browser semantics</li>
+</ol>
+<p>This standards-first approach has several major benefits:</p>
+<ul>
+<li><strong>Simplified Debugging</strong>: Browser DevTools work naturally with standard modules, no source maps needed</li>
+<li><strong>Portable Code</strong>: Fewer framework-specific conventions means easier migration</li>
+<li><strong>Future-Proof</strong>: As standards evolve, your code remains compliant</li>
+<li><strong>Reduced Tooling</strong>: Less configuration, fewer build steps, and smaller bundles</li>
+<li><strong>Instant Development</strong>: JSPM import maps can even be generated in the browser for instant sandbox workflows, a technique used by Framer, one of the major project sponsors.</li>
+</ul>
+<a name="import-map-package-management" class="anchor main"></a><h2>Import Map Package Management</h2>
+<p>One of the major changes in JSPM 4.0 is import maps are now treated as package management artifacts more like lock files than manifests for hand-editing.</p>
+<p>All package management operations output by default to the new <code>importmap.js</code> import map injection script file. This is effectively a workaround for the lack of external import map support for an <code>importmap.json</code> file in browsers. The injection script has been recently widely support thanks to the new support for multiple import maps:</p>
 <pre><code class="language-html">&lt;script type=<span class="string">"importmap"</span> src=<span class="string">"https://site.com/importmap.json"</span>&gt;&lt;/script&gt;
 &lt;script type=<span class="string">"module"</span>&gt;<span class="keyword">import</span> <span class="string">'app'</span>&lt;/script&gt;
 </code></pre>
-<p>This was removed when merging into HTML (due to a combination of a lack of implementer resources as well as a need further further discussion and feedback around the performance and blocking behaviours).</p>
-<p>Even without support for this feature it is possible today to support hosted import maps via the following:</p>
-<pre><code class="language-html">&lt;script src=<span class="string">"https://host.com/import-map.js"</span>&gt;&lt;/script&gt;
-</code></pre>
-<p>Where the <code>import-map.js</code> script makes use of the old <code>document.write</code> toolbox:</p>
-<pre><code class="language-js">document.write(<span class="string">`&lt;script type=<span class="string">"importmap"</span>&gt;${JSON.stringify({
+<p>The injection script itself then directly inlines the new import map into the browser:</p>
+<pre><code class="language-js">(map =&gt; {
+  document.head.appendChild(Object.assign(document.createElement(<span class="string">"script"</span>), {
+    type: <span class="string">"importmap"</span>,
+    innerHTML: JSON.stringify(map)
+  }));
+})
+({
   <span class="string">"imports"</span>: {
-    <span class="string">"app"</span>: <span class="string">"/app.js"</span>,
-    <span class="string">"lib"</span>: <span class="string">"/lib/index.js"</span>
+    <span class="string">"my-app"</span>: <span class="string">"./src/index.js"</span>
+<span class="comment">    // ... imports</span>
   },
   <span class="string">"scopes"</span>: {
-    <span class="string">"/lib/"</span>: {
-      <span class="string">"dep"</span>: <span class="string">"/dep/index.js"</span>
-    }
+<span class="comment">    // ... scopes</span>
   }
-})}&lt;/script&gt;`</span>);
+});
 </code></pre>
-<p>The above works in all browsers today, effectively supporting the ability to offer import maps from arbitrary URLs, and hence import map services.</p>
-<p>Assuming good caching rules, it should be possible to only pay the blocking fetch cost on first load, but then use a locally cached map without a performance cost for subsequent page loads within the web application.</p>
-<a name="properties-of-import-map-services" class="anchor"></a><h3>Properties of Import Map Services</h3>
-<p>Import map services can provide streamlined features for common development scenarios. For example, being able to test &amp; gradually roll out a security update to a dependency in the map or providing targetted import maps, based on client data, varying the application code based on the user.</p>
-<p>Where these features are normally integrated into the HTML rendering framework and bundler, import map services would operate at a level of abstraction separated from the underlying framework, allowing a clearer separation of application code and import tooling.</p>
-<p>And since they operate at the runtime layer they represent a live source of truth for visibility into the usually opaque world of a JS deployments.</p>
-<a name="module-cdns-trust-models" class="anchor"></a><h3>Module CDNs &amp; Trust Models</h3>
-<p><code>jspm.io</code> offers a module CDN against which production-level import maps can be supported. It's been adopted by frameworks such as Rails and is used internally in Framer Sites for instant in-browser code loading.</p>
-<p>JSPM takes the position that it is possible to offer a trustless module CDN, provided the following properties:</p>
+<p>With the above, using just native browser semantics it is possible to run any browser application instantly.</p>
+<a name="packagejson-is-the-manifest" class="anchor main"></a><h2>Package.json is the Manifest</h2>
+<p>Instead of hand-editing the <code>importmap.js</code> file, JSPM now figures out what dependencies are needed and at what versions and updates the map.</p>
+<p>The information for how to link the application, and what dependency constraints is then taken from the local <code>package.json</code> file.</p>
+<p>The key idea here is that we can define the application entry points from the package.json using the <code><span class="string">"name"</span></code> and <code><span class="string">"exports"</span></code> package.json fields.</p>
+<p>For example, for a package.json containing:</p>
+<pre><code class="language-json">{
+  <span class="string">"name"</span>: <span class="string">"my-app"</span>,
+  <span class="string">"exports"</span>: {
+    <span class="string">"."</span>: <span class="string">"./src/index.js"</span>
+  },
+  <span class="string">"dependencies"</span>: {
+    <span class="string">"foo"</span>: <span class="string">"<span class="number">1</span>.<span class="number">2</span>.<span class="number">3</span>"</span>
+  }
+}
+</code></pre>
+<p>JSPM will know when the user runs <code>jspm install</code> that there should be a <code><span class="string">"my-app"</span></code> import in the import map pointing to <code><span class="string">"./src/index.js"</span></code>.</p>
+<p>It will then link (<em>trace</em>) that entry point and its dependencies in turn, populating dependencies into scopes while respecting the package.json <code><span class="string">"dependencies"</span></code> resolution ranges.</p>
+<p>As a result, the only imports at the top-level <code><span class="string">"imports"</span></code> of the import map will be the enumerated <code><span class="string">"exports"</span></code> entry points (which also support subpath patterns).</p>
+<p><strong>It was surprisingly hard to figure out good import map ergonomics for the project but this is a huge simplication that forms the new convention for the project going forward.</strong></p>
+<p>Of course we still support <code>--out</code>, <code>--map</code> and <code>--resolution</code> flags (amongs <a href="/docs/cli/interfaces/GenerateFlags">others</a>) for custom map inputs and outputs including JSON and HTML outputs as previously. <code>jspm link</code> is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.</p>
+<a name="hot-reloading-server" class="anchor main"></a><h2>Hot Reloading Server</h2>
+<p>The JSPM 4.0 server (<code>jspm serve</code>) provides a development environment with instant hot module reloading built off the same conventions as install:</p>
+<ul>
+<li><strong>Zero Configuration</strong>: Start serving your application with a single command.</li>
+<li><strong>Fast Refresh</strong>: Changes to your code are reflected instantly in the browser.</li>
+<li><strong>TypeScript Support</strong>: Write TypeScript without a separate build step.</li>
+<li><strong>Import Map Awareness</strong>: Handles import map updates without refreshes.</li>
+</ul>
+<p>The hot reloading system works by injecting a Server Side Events connection into the import map injection script itself. When files change, the server notifies the client and ES Module Shims handles the reloading of only the affected modules, preserving application state supporting the <code><span class="keyword">import</span>.meta.hot</code> API.</p>
+<blockquote>
+<p>The hot reloading server is made possible by <a href="https://github.com/guybedford/es-module-shims" target="_blank" rel="noopener">ES Module Shims</a>, which is used in JSPM to polyfill import map features in older browsers like multiple import maps support, recently adding support for hot reloading.</p>
+</blockquote>
+<a name="building-for-production" class="anchor main"></a><h2>Building for Production</h2>
+<p>The semantics of <code>jspm build</code> follow from the same standards-based runtime semantics.</p>
+<p><em>Then, instead of building the <code>dist</code> folder inside the package, we build the whole package, and output the new optimized package into the <code>dist</code> folder.</em></p>
+<p>This is very much the same thing as what the JSPM.IO CDN already does today for npm packages, but available locally.</p>
+<p>What makes this possible is clearly defining the application entry points, which we enforce from the start with <code>jspm install</code>, so that the package optimization is fully well defined without having to set the build entry points.</p>
+<a name="cdn-trust-models-and-future-direction" class="anchor main"></a><h2>CDN Trust Models and Future Direction</h2>
+<p>The core ergonomics of JSPM 4.0 still rely heavily on CDNs providing optimized packages for seamless import map generation. In-browser workflows are supported just as well as local CLI workflows, and the AI sandbox use cases with module CDNs are important to support.</p>
+<p>To give some background - the first versions of JSPM focused primarily on local packagae semantics but ultimately fell short on standards-based workflows, when custom loaders were required that created friction in the developer experience.</p>
+<p>Solving the CDN provider ecosystem ergonomics first Since JSPM 4.0, we've dramatically shifted our approach to solving the CDN provider ecosystem first. The JSPM generator now supports multiple CDN providers (jspm.io, unpkg, jsdelivr, skypack, and others), giving developers the freedom to choose their provider or even mix providers within a single import map. This provider-agnostic approach directly addresses the lock-in problem that has historically been a concern with CDN-based workflows.</p>
+<p><code>jspm.io</code> itself, as a module CDN provider, has been adopted by frameworks such as Rails and is used internally in Framer Sites for instant in-browser code loading. However, we recognize that trust and security remain critical considerations. Our roadmap for the future centers around three key principles to build a trustless module ecosystem:</p>
 <ol>
-<li>URLs are fully static and permanent, so that they can be cached and loaded with integrity.</li>
-<li>It is possible to verify the build process that generated those module URLs.</li>
-<li>Module conventions are well-defined enough to easily allow re-hosting / switching of providers.</li>
+<li><strong>Permanent URLs</strong>: Ensuring content-addressable, immutable package URLs that can be reliably cached and verified</li>
+<li><strong>Integrity Support</strong>: Working with browser vendors on full import map integrity support (see <a href="/js-integrity-with-import-maps">JavaScript Integrity Manifests with Import Maps</a>)</li>
+<li><strong>Provider Interchangeability</strong>: Continuing to improve standards and conventions that make switching CDN providers seamless. Clear conventions and standards here is the key to avoiding lock-in.</li>
 </ol>
-<p>Since import maps are soon to support the new <code><span class="string">"integrity"</span></code> field (see <a href="/js-integrity-with-import-maps">JavaScript Integrity Manifests with Import Maps</a>), when given the first two properties, they can form a trustless representation of the JS application that cannot be tampered with at runtime.</p>
-<p>The only remaining question about the module CDN provider like <code>jspm.io</code> provides are the well-known questions of user data management, privacy (we don't set tracking cookies) and the ability for a provider to block / censor.</p>
-<p>For these cases, we believe having an ecosystem of module CDN providers is the way forward to ensure it is always possible to easily switch providers in the event of a breach of the above trust, and this is why the JSPM Generator supports choosing any provider when generating import maps, aiming to participate to improve (3) above.</p>
-<a name="import-map-trust-models" class="anchor"></a><h3>Import Map Trust Models</h3>
-<p>Provided integrity is used and that it is possible to easily switch providers, the import map then, is the primary root of trust to consider - how it is generated and from where it is served, not really so much the module or asset CDN.</p>
-<p>By allowing users the tools to better manage their own import maps and also by offering tools to vet import maps, we hope that import map services can provide more visibility and not less - that security is top-of-mind enough at this point that such systems will be designed with these properties from the core to ensure that map generation follows a consistent security model.</p>
-<p>The other root trust is module registries themselves. All of us trusting Microsoft running npm is of course always assumed at this point, but the trust chain should still be a direct verifiable process from registry to module CDN, allowing trustless module CDNs, alongside the trust placed in registries and import map services.</p>
-<a name="jspmio-and-the-jspm-foundation" class="anchor"></a><h3>jspm.io and the JSPM Foundation</h3>
-<p>The role of the JSPM Foundation is in maintaining this aiming to be trustless in future infrastructure for <code>jspm.io</code>, based on the sponsorships we receive (thanks to our sponsors, we're just managing to stay cashflow neutral), while contributing to the JSPM OSS tooling that can allow treating module CDNs as changeable providers with tools like the <a href="https://jspm.org/docs/jspm-cli/stable/" target="_blank" rel="noopener">JSPM CLI</a> and <a href="https://jspm.org/docs/generator/stable/" target="_blank" rel="noopener">JSPM generator</a> to help build out the conventions in this space.</p>
-<p>The JSPM project still has a long way to go - we only recently adopted integrity, and still need to support verifiability. But as long as we stay true to the principles outlined here, it should be possible to find the right balance of trust models for the future of code execution on the web.</p>
-<p>And finally, for my colleagues working in this space, I hope that these ideas can resonate with you, and that we can aim to assume clear conventions and trust modules with verifiability and integrity as given table stakes, as we continue to build out these new systems and tools for native modules.</p>
-<div class="nextprev"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/jspm-4.0-release.md" rel="noopener">Edit</a></div></div>
-</div>
-
+<p>The JSPM Foundation aims to contribute to this trustless infrastructure for module delivery based on the sponsorships we receive, while developing the open source tooling that treats module CDNs as interchangeable providers. While we've made significant progress with JSPM 4.0, tackling the trust problem comprehensively remains a major future goal for the project.</p>
+<p>As we continue to build out these standards and tools for native modules, our hope is that the broader ecosystem will embrace clear conventions around verifiability and integrity as essential foundations for the future of code execution on the web.</p>
+<div class="nextprev"><div class="edit-container"><a class="edit" target="_blank" href="https://github.com/jspm/jspm.org/blob/main/pages/jspm-4.0-release.md" rel="noopener">Edit</a></div></div></div>
+  </div>
 
 </body></html>
