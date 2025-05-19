@@ -34,15 +34,18 @@ This standards-first approach has several major benefits:
 
 One of the major changes in JSPM 4.0 is import maps are now treated as package management artifacts more like lock files than manifests for hand-editing.
 
-All package management operations output by default to the new `importmap.js` import map injection script file. This is effectively a workaround for the lack of external import map support for an `importmap.json` file in browsers. This injection script approach only recently gained wide browser support thanks to the new multiple import maps feature:
+All package management operations output by default to the new `importmap.js` import map injection script file. This is effectively a workaround for the lack of external import map support for an `importmap.json` file in browsers. This injection script approach only recently gained wide browser support thanks to the new multiple import maps feature.
+
+We use the following new approach:
 
 ```html
-<script type="importmap" src="https://site.com/importmap.json"></script>
+<script src="importmap.js"></script>
 <script type="module">import 'app'</script>
 ```
 
-The injection script itself then directly inlines the new import map into the browser:
+Where the `importmap.js` injection script itself then directly inlines the new import map into the browser:
 
+_importmap.js_
 ```js
 (map => {
   document.head.appendChild(Object.assign(document.createElement("script"), {
@@ -91,7 +94,7 @@ It will then link (_trace_) that entry point and its dependencies in turn, popul
 
 As a result, the only imports at the top-level `"imports"` of the import map will be the enumerated `"exports"` entry points (which also support subpath patterns).
 
-**It was surprisingly hard to figure out good import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.**
+**It was surprisingly hard to figure out these import map ergonomics for the project but this is a major simplification that forms the new convention for the project going forward.**
 
 Of course we still support `--out`, `--map` and `--resolution` flags (amongst [others](/docs/cli/interfaces/GenerateFlags)) for custom map inputs and outputs including JSON and HTML outputs as previously. `jspm link` is also still supported for the more complex map manipulation workflows. But the important point here is that if we get past treating maps as a user-based manifest and let JSPM act as the linker that figures it out based on constraints, we get some really great ergonomics out of import maps development.
 
@@ -128,11 +131,11 @@ Getting back to enabling completely CDN-free local workflows remains a major goa
 
 While provenance is crucial, equally important is avoiding vendor lock-in through standards. This standards-first philosophy is what we consider most critical to get right, and it's what this 4.0 release primarily represents.
 
-JSPM 4.0 lays the groundwork for addressing these challenging security concerns. The project security focus will remain on these three problems: provider interchangeability via standards, CDN verification with integrity, and local provenance - all while maintaining the simplicity and developer experience that makes JSPM valuable.
+JSPM 4.0 lays the groundwork for addressing these security concerns, and the project security focus will remain on these three problems: provider interchangeability via standards, CDN verification with integrity, and local provenance.
 
 ## Next Steps
 
-JSPM 4.0 represents a significant step toward a web development model that prioritizes standards, simplicity, and security. Unifying package management with import maps creates a natural workflow for web development both in online sandboxes and local workflows.
+JSPM 4.0 represents a significant step toward bringing back standards-first local import map workflows and we continue to believe that unifying package management with import maps creates a natural workflow for web development both in online sandboxes and local workflows.
 
 Please try out the new release and let us know your feedback!
 
