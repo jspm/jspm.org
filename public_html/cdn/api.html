@@ -60,10 +60,10 @@
         </li>
 
         <li>
-          <a href="/docs/cli">Documentation</a>
+          <a href="/docs/cli/">Documentation</a>
           <ul class="section">
-            <li><a href="/docs/cli">JSPM CLI</a></li>
-            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/cli/">JSPM CLI</a></li>
+            <li><a href="/docs/generator/">JSPM Generator</a></li>
             <li><a href="/docs/integrations">Integrations</a></li>
             <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
           </ul>
@@ -97,7 +97,7 @@
 <p>Like the CDN itself, this API is designed to have reliable uptime and includes autoscaling under higher load.</p>
 <p>The service is supported by project donations and is approaching sustainability. If you plan to heavily rely on this API, and anticipate bringing heavier load, support for the project would always be appreciated.</p>
 <a name="generator" class="anchor main"></a><h2>Generator</h2>
-<p>The generator API provides a hosted version of <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> running as a service.</p>
+<p>The generator API provides a hosted version of <a href="https://github.com/jspm/jspm/tree/main/generator" target="_blank" rel="noopener">JSPM Generator</a> running as a service.</p>
 <p>It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.</p>
 <a name="usage" class="anchor"></a><h3>Usage</h3>
 <p>GET:</p>
@@ -110,7 +110,7 @@
 <p>The JSON response contains <code>{ staticDeps, dynamicDeps, map }</code>, where <code>staticDeps</code> and <code>dynamicDeps</code> represent the static dependency graph and dynamic import dependency graph respectfully,<br>which can be used to generate preload tags.</p>
 <p>Error responses will always have an <code>error</code> field and non-error responses will always omit an <code>error</code> field.</p>
 <p>When making a <code>GET</code> request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.</p>
-<p>All of the serializable <a href="https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html" target="_blank" rel="noopener">JSPM Generator Options</a> are supported.</p>
+<p>All of the serializable <a href="https://jspm.org/docs/generator/interfaces/GeneratorOptions.html" target="_blank" rel="noopener">JSPM Generator Options</a> are supported.</p>
 <a name="examples" class="anchor"></a><h3>Examples</h3>
 <p>Install a module for a development environment:</p>
 <pre><code class="language-sh">curl <span class="string">'https://api.jspm.io/generate?install=react&amp;env=development'</span>

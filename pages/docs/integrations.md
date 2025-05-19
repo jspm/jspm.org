@@ -172,7 +172,7 @@ With the [JSPM Vite plugin](https://github.com/jspm/vite-plugin-jspm), dependenc
 npm install vite-plugin-jspm --save-dev
 ```
 
-`vite` and `vite build` can be used for dev server and production builds respectively. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/generator#options).
+`vite` and `vite build` can be used for dev server and production builds respectively. The plugin takes all the options that are supported with [@jspm/generator](https://github.com/jspm/jspm/tree/main/generator#options).
 
 vite.config.mjs
 ```js

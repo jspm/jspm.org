@@ -60,10 +60,10 @@
         </li>
 
         <li>
-          <a href="/docs/cli">Documentation</a>
+          <a href="/docs/cli/">Documentation</a>
           <ul class="section">
-            <li><a href="/docs/cli">JSPM CLI</a></li>
-            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/cli/">JSPM CLI</a></li>
+            <li><a href="/docs/generator/">JSPM Generator</a></li>
             <li><a href="/docs/integrations">Integrations</a></li>
             <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
           </ul>
@@ -111,7 +111,7 @@
 <p>Within the package, all files are served at their original file name locations as per the package published on npm - <em>but instead of the original module files, optimized module files are served instead</em>.</p>
 <a name="packagejson" class="anchor"></a><h3>package.json</h3>
 <p>All packages contain a <code>package.json</code> file, which is the processed package.json by JSPM including the enumerated exports and file listing. The <code>package.json</code> is all that is needed to enumerate the exports of a package and resolve their URLs in the package, and is also a processed version of the <code>package.json</code> created by the CDN.</p>
-<p>When the <a href="/docs/jspm-cli">JSPM CLI</a> or <a href="/docs/generator">Generator</a> links a package, it uses this <code>package.json</code> file for resolution rules.</p>
+<p>When the <a href="/docs/jspm-cli">JSPM CLI</a> or <a href="/docs/generator/">Generator</a> links a package, it uses this <code>package.json</code> file for resolution rules.</p>
 <a name="conditional-exports" class="anchor"></a><h3>Conditional Exports</h3>
 <p>Because all modules are optimized into their existing file locations, conditional resolutions are fully supported and optimized.</p>
 <p>All custom condition names are supported, beyond the standard <code><span class="string">"browser"</span></code>, <code><span class="string">"react-native"</span></code>, <code><span class="string">"development"</span></code>, <code><span class="string">"production"</span></code>, <code><span class="string">"require"</span></code> and <code><span class="string">"import"</span></code> conditions.</p>
@@ -153,7 +153,7 @@
 <p><a href="https://github.com/systemjs/systemjs" target="_blank" rel="noopener">SystemJS</a> is a legacy module loader used by older applications without ES modules support by converting ES modules into the System module format.</p>
 <p>A SystemJS layer of the <code>jspm.io</code> CDN is available at <code>https://ga.system.jspm.io</code>. The URL scheme and modules provided is exactly identical to the <code>https://ga.jspm.io</code> variant but with the exception that all ES modules are converted into SystemJS modules.</p>
 <p>This enables turning any native ES module import map against <code>https://ga.jspm.io</code> into a SystemJS import map against <code>https://ga.system.jspm.io</code> and being able to load dependencies with the exact same execution semantics in all older browsers without modules support, the primary feature of the SystemJS project.</p>
-<p>Import maps for SystemJS can also be constructed with <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator</a> setting <code>defaultProvider: <span class="string">'jspm.io#system'</span></code> both <a href="https://generator.jspm.io" target="_blank" rel="noopener">online</a> and via the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">API</a>.</p>
+<p>Import maps for SystemJS can also be constructed with <a href="https://github.com/jspm/jspm/tree/main/generator" target="_blank" rel="noopener">JSPM Generator</a> setting <code>defaultProvider: <span class="string">'jspm.io#system'</span></code> both <a href="https://generator.jspm.io" target="_blank" rel="noopener">online</a> and via the <a href="https://github.com/jspm/jspm/tree/main/generator" target="_blank" rel="noopener">API</a>.</p>
 <blockquote>
 <p>For questions or further discussion about JSPM, <a href="https://discord.gg/dNRweUu" target="_blank" rel="noopener">join JSPM on Discord</a>.</p>
 </blockquote>

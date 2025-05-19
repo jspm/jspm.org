@@ -16,7 +16,7 @@ The service is supported by project donations and is approaching sustainability.
 
 ## Generator
 
-The generator API provides a hosted version of [JSPM Generator](https://github.com/jspm/generator) running as a service.
+The generator API provides a hosted version of [JSPM Generator](https://github.com/jspm/jspm/tree/main/generator) running as a service.
 
 It is recommended that whenever possible you host and run the JSPM Generator library directly yourself. This API is created as a convenience for runtimes and services that are unable to easily run JavaScript in their environments to generate the map themselves.
 
@@ -43,7 +43,7 @@ Error responses will always have an `error` field and non-error responses will a
 
 When making a `GET` request, each of the arguments is encoded as a string, comma-separated string or JSON encoding for objects, as appropriate.
 
-All of the serializable [JSPM Generator Options](https://jspm.org/docs/generator/stable/interfaces/GeneratorOptions.html) are supported.
+All of the serializable [JSPM Generator Options](https://jspm.org/docs/generator/interfaces/GeneratorOptions.html) are supported.
 
 ### Examples
 

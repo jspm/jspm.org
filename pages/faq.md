@@ -38,7 +38,7 @@ When using JSPM Generator, this polyfill is included by default. For background 
 
 Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser, providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.
 
-The [JSPM CLI](/docs/cli) provides the package management functions you would expect for managing these import maps.
+The [JSPM CLI](/docs/cli/) provides the package management functions you would expect for managing these import maps.
 
 ## Is JSPM Standards-Compatible?
 
@@ -78,7 +78,7 @@ See the [production workflow](/getting-started#production-workflow) in the Getti
 
 Yes, JSPM is designed to support any CDN providers, see the [provider switching workflows](/getting-started#changing-providers) in the getting started guide.
 
-PRs for new providers are always welcome to the [JSPM Generator core](https://github.com/jspm/generator) project. Custom providers can also be defined via configuration.
+PRs for new providers are always welcome to the [JSPM Generator core](https://github.com/jspm/jspm/tree/main/generator) project. Custom providers can also be defined via configuration.
 
 ## How is jspm.io Funded?
 

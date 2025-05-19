@@ -140,5 +140,5 @@ JSPM 4.0 represents a significant step toward bringing back standards-first loca
 Please try out the new release and let us know your feedback!
 
 * [Getting Started](/getting-started)
-* [CLI Docs](/docs/cli)
+* [CLI Docs](/docs/cli/)
 * [Online Import Map Generator](https://generator.jspm.io)

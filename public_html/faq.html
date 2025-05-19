@@ -60,10 +60,10 @@
         </li>
 
         <li>
-          <a href="/docs/cli">Documentation</a>
+          <a href="/docs/cli/">Documentation</a>
           <ul class="section">
-            <li><a href="/docs/cli">JSPM CLI</a></li>
-            <li><a href="/docs/generator">JSPM Generator</a></li>
+            <li><a href="/docs/cli/">JSPM CLI</a></li>
+            <li><a href="/docs/generator/">JSPM Generator</a></li>
             <li><a href="/docs/integrations">Integrations</a></li>
             <li><a href="/docs/cdn-resolution">CDN Resolution</a></li>
           </ul>
@@ -107,7 +107,7 @@
 <p>When using JSPM Generator, this polyfill is included by default. For background on ES Module Shims, see the blog post <a href="https://guybedford.com/es-module-shims-production-import-maps" target="_blank" rel="noopener">How ES Module Shims became a Production Import Maps Polyfill</a>.</p>
 <a name="what-is-import-map-package-management" class="anchor main"></a><h2>What is Import Map Package Management?</h2>
 <p>Treating packages that have their own versioning as the unit of optimization means that the import map itself becomes the version lock in the browser, providing the guarantee that the application will continue to behave the same today as tomorrow since the contract with the module CDN is clear.</p>
-<p>The <a href="/docs/cli">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
+<p>The <a href="/docs/cli/">JSPM CLI</a> provides the package management functions you would expect for managing these import maps.</p>
 <a name="is-jspm-standards-compatible" class="anchor main"></a><h2>Is JSPM Standards-Compatible?</h2>
 <p>JSPM is built entirely around the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules" target="_blank" rel="noopener">standards for modules in browsers</a>, the <a href="https://github.com/WICG/import-maps" target="_blank" rel="noopener">import maps standard</a> and the <a href="https://nodejs.org/dist/latest-v19.x/docs/api/esm.html#resolver-algorithm-specification" target="_blank" rel="noopener">Node.js module resolution specification</a>.</p>
 <p>JSPM then extends the Node.js module resolution algorithm in a backwards-compatible way to <a href="/docs/cdn-resolution">CDN module resolution</a>.</p>
@@ -127,7 +127,7 @@
 <p>See the <a href="/getting-started#production-workflow">production workflow</a> in the Getting Started guide for how to use jspm.io in production.</p>
 <a name="can-i-use-other-modules-cdns-with-jspm" class="anchor main"></a><h2>Can I use Other Modules CDNs with JSPM?</h2>
 <p>Yes, JSPM is designed to support any CDN providers, see the <a href="/getting-started#changing-providers">provider switching workflows</a> in the getting started guide.</p>
-<p>PRs for new providers are always welcome to the <a href="https://github.com/jspm/generator" target="_blank" rel="noopener">JSPM Generator core</a> project. Custom providers can also be defined via configuration.</p>
+<p>PRs for new providers are always welcome to the <a href="https://github.com/jspm/jspm/tree/main/generator" target="_blank" rel="noopener">JSPM Generator core</a> project. Custom providers can also be defined via configuration.</p>
 <a name="how-is-jspmio-funded" class="anchor main"></a><h2>How is jspm.io Funded?</h2>
 <p>jspm.io is funded through the JSPM Foundation, a member-run Canadian not-for-profit corporation, which has a long-term financial plan in place for continuing to support the project infrastructure costs.</p>
 <p>Donations and sponsorships are used to fund the server costs.</p>

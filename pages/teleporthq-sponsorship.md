@@ -11,7 +11,7 @@ _Collaborative low code in-browser development platform [teleportHQ](https://tel
 
 A massive thank you to teleportHQ for their sponsorship of the JSPM project and CDN, which will significantly aid the sustainability of the project.
 
-Running the [JSPM Generator](https://github.com/jspm/generator) in the browser with [ES Module Shims](https://github.com/guybedford/es-module-shims) allows teleportHQ to support arbitrary in-browser dynamic npm package loading without complex build tooling due to the simplicity of import maps and the performance and compatibility work handled by the JSPM ES Module CDN.
+Running the [JSPM Generator](https://github.com/jspm/jspm/tree/main/generator) in the browser with [ES Module Shims](https://github.com/guybedford/es-module-shims) allows teleportHQ to support arbitrary in-browser dynamic npm package loading without complex build tooling due to the simplicity of import maps and the performance and compatibility work handled by the JSPM ES Module CDN.
 
 <div style="background-color: #f1f5f7; padding: 0.5em 1.5em; margin: 2em 0em; font-style: italic">
 <p>&ldquo;At teleportHQ, we are creating a unified building experience for front-end teams. Developers, designers, marketers, project/product managers and business owners can collaborate and directly contribute to the building process, in real-time.&rdquo;</p>
