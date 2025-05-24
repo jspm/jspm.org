@@ -682,18 +682,13 @@ With ES Module Shims the latest features are supported on all of:
 - Safari 11.1+
 - Firefox 67+
 
-## Deployment
+## Publishing
 
-To deploy a JSPM application, run a production build and install it with integrity hashes:
+Currently publishing is only supported to the JSPM app package registry.
 
-```
-jspm build
-jspm install --dir dist -C production --integrity -o dist/importmap.js
-```
+After running a production build, the generated `dist` files to a web server or hosting provider. Either either upload the generated HTML file (e.g., index.html), or otherwise host the JS sources separately and reference the import map script in any server render pipeline from its remote URL: The `<script src="https://server.com/pkg@1.2.3/dist/importmap.js"></script>` file, ES Module Shims for multiple import maps polyfill, and the main entry point import via e.g. `<script type="module">import 'appname'</script>`.
 
-Then upload the generated `dist` files to a web server or hosting provider. Then either upload the generated HTML file (e.g., index.html), or otherwise reference the standard three scripts in any server render pipeline as remote URLs: The `<script src="dist/importmap.js"></script>` file, ES Module Shims for multiple import maps polyfill, and the main entry point executor via e.g. `<script type="module">import 'appname'</script>`. Any static assets referenced by the application should be copied into the dist directory for publishing
-
-There is also support for a `jspm deploy` using the provider system for deployments. This in in early access - try it out via `jspm deploy -p jspm.io`.
+There is also support for a `jspm publish` using the provider system for deployments that supports package and import map deployments. This in in early access - try it out via `jspm publish -p jspm.io`.
 
 ## Next Steps
 
