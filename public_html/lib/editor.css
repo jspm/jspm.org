@@ -1,0 +1,79 @@
+.codemirror {
+  height: 100%;
+  font-size: 0.9em;
+}
+.CodeMirror {
+  height: 100%;
+  background-color: var(--background-color, #fff);
+  color: var(--text-color, #333);
+  cursor: text;
+}
+
+/* Ensure text cursor in all text areas */
+.CodeMirror-scroll {
+  cursor: text;
+}
+
+.CodeMirror-lines {
+  cursor: text;
+}
+/* Dark theme overrides */
+:host-context(.dark-mode) .CodeMirror {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+:host-context(.dark-mode) .CodeMirror-gutters, :host-context(.dark-mode) .CodeMirror-scrollbar-filler{
+  background-color: #1e1e1e;
+  border-right: 1px solid #2d2d2d;
+}
+:host-context(.dark-mode) .CodeMirror-linenumber {
+  color: #858585;
+}
+:host-context(.dark-mode) .CodeMirror-cursor {
+  border-left: 1px solid #aeafad;
+}
+:host-context(.dark-mode) .CodeMirror-selected {
+  background: #264f78;
+}
+:host-context(.dark-mode) .cm-comment {
+  color: #6a9955;
+}
+:host-context(.dark-mode) .cm-string {
+  color: #ce9178;
+}
+:host-context(.dark-mode) .cm-string-2 {
+  color: #ce9178;
+}
+:host-context(.dark-mode) .cm-number {
+  color: #b5cea8;
+}
+:host-context(.dark-mode) .cm-keyword {
+  color: #569cd6;
+}
+:host-context(.dark-mode) .cm-def {
+  color: #dcdcaa;
+}
+:host-context(.dark-mode) .cm-variable {
+  color: #9cdcfe;
+}
+:host-context(.dark-mode) .cm-variable-2 {
+  color: #9cdcfe;
+}
+:host-context(.dark-mode) .cm-property {
+  color: #9cdcfe;
+}
+:host-context(.dark-mode) .cm-operator {
+  color: #d4d4d4;
+}
+:host-context(.dark-mode) .cm-tag {
+  color: #569cd6;
+}
+:host-context(.dark-mode) .cm-attribute {
+  color: #9cdcfe;
+}
+:host-context(.dark-mode) .cm-atom {
+  color: #569cd6;
+}
+:host-context(.dark-mode) .cm-meta {
+  color: #569cd6;
+}

@@ -1,0 +1,235 @@
+:host {
+  display: block;
+  height: 100%;
+  background-color: var(--background-alt, #f3f3f3);
+  border-right: 1px solid var(--border-color, #e0e0e0);
+  font-size: 13px;
+  user-select: none;
+  overflow: hidden;
+}
+
+.file-explorer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-explorer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color, #e0e0e0);
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--text-light, #666);
+  flex-shrink: 0;
+}
+
+.file-actions {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: var(--text-light, #666);
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background-color: var(--border-color, #e0e0e0);
+  color: var(--text-color, #333);
+}
+
+.file-tree {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem 0;
+}
+
+.file-item, .folder-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.file-item span, .folder-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-name {
+  flex: 1;
+  cursor: pointer;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+  transition: background-color 0.2s;
+}
+
+.file-name[data-renamable] {
+  cursor: text;
+}
+
+/* File names in selected file items */
+.file-item.selected .file-name {
+  cursor: text;
+}
+
+.file-item.selected .file-name[data-non-renamable] {
+  cursor: default;
+}
+
+
+.file-item.selected .file-name:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Dark mode file name hover */
+:host-context(.dark-mode) .file-item.selected .file-name:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 4px;
+  color: var(--text-light, #666);
+  opacity: 0;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.file-item:hover .delete-btn,
+.folder-header:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  background-color: var(--border-color, #e0e0e0);
+  color: #d73a49;
+}
+
+.file-item:hover, .folder-header:hover {
+  background-color: var(--border-color, #e0e0e0);
+}
+
+.file-item.selected {
+  background-color: var(--primary-color, #0072CE);
+  color: white;
+}
+
+/* Pull root level items flush to the left */
+.file-tree > .file-item,
+.file-tree > .folder-item {
+  margin-left: -1rem;
+}
+
+.folder-contents {
+  padding-left: 1rem;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+.chevron {
+  width: 12px;
+  flex-shrink: 0;
+}
+
+.file-indent {
+  width: 12px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.icon-wrapper {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.icon-wrapper svg {
+  max-width: 16px;
+  max-height: 16px;
+}
+
+/* Offset folder icons 1px to the right */
+.folder-header .icon-wrapper svg {
+  margin-left: 1px;
+}
+
+/* Dark mode styles */
+:host-context(.dark-mode) {
+  background-color: #252526;
+  color: #cccccc;
+}
+
+:host-context(.dark-mode) .file-explorer-header {
+  border-bottom-color: #3e3e42;
+  color: #969696;
+}
+
+:host-context(.dark-mode) .icon-btn {
+  color: #969696;
+}
+
+:host-context(.dark-mode) .icon-btn:hover {
+  background-color: #2a2d2e;
+  color: #cccccc;
+}
+
+:host-context(.dark-mode) .file-item:hover,
+:host-context(.dark-mode) .folder-header:hover {
+  background-color: #2a2d2e;
+}
+
+:host-context(.dark-mode) .file-item.selected {
+  background-color: #094771;
+}
+
+:host-context(.dark-mode) .delete-btn:hover {
+  background-color: #2a2d2e;
+  color: #f85149;
+}
+
+/* Rename input styles */
+.rename-input {
+  flex: 1;
+  background: var(--background-color, white);
+  border: 1px solid var(--primary-color, #0072CE);
+  border-radius: 3px;
+  padding: 0.1rem 0.3rem;
+  font-family: inherit;
+  font-size: inherit;
+  color: var(--text-color, #333);
+  outline: none;
+}
+
+:host-context(.dark-mode) .rename-input {
+  background-color: #1e1e1e;
+  color: #cccccc;
+  border-color: #007acc;
+}
