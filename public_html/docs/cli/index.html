@@ -268,15 +268,16 @@ This creates an import map for the local project based on its exports.</p>
 <p><strong>Options</strong></p>
 <ul>
 <li><code>-m, --map</code> <em>&lt;file&gt;</em>                 File containing initial import map (defaults to importmap.json, supports .js with a JSON import map embedded, or HTML with an inline import map)</li>
-<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: browser,development,module)</li>
+<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: )</li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;   Comma-separated dependency resolution overrides</li>
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;        Default module provider. Available providers: <a href="http://jspm.io">jspm.io</a>, nodemodules, deno, jsdelivr, skypack, unpkg, <a href="http://esm.sh">esm.sh</a>, <a href="http://jspm.io#system">jspm.io#system</a></li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                   Cache mode for fetches (online, offline, no-cache) (default: online)</li>
-<li><code>--integrity</code>                      Add module integrity attributes to the import map (default: false)</li>
+<li><code>--release</code>                        Enable release mode (--flatten-scopes, --combine-subpaths, --C=production) (default: false)</li>
+<li><code>--integrity</code>                      Add module integrity attributes to the import map</li>
 <li><code>--preload</code> <em>[mode]</em>                 Add module preloads to HTML output (default: static, dynamic)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                     URL to treat as server root, i.e. rebase import maps against</li>
-<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin (default: false)</li>
-<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /) (default: false)</li>
+<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin</li>
+<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /)</li>
 <li><code>-c, --compact</code>                    Output a compact import map (default: false)</li>
 <li><code>--stdout</code>                         Output the import map to stdout (default: false)</li>
 <li><code>-o, --out</code> <em>&lt;file&gt;</em>                 File to inject the final import map into (default: --map / importmap.js). For JS files outputs an injection wrapper script, for JSON files, the import map only, and for HTML files embeds the import map.</li>
@@ -325,15 +326,16 @@ the same options as the 'jspm install' command with no arguments.</p>
 <li><code>--static</code>                         Disable hot reloading and auto installation, providing a static server only (default: false)</li>
 <li><code>--no-install</code>                     Disable automatic import map installs in watch mode (default: true)</li>
 <li><code>-m, --map</code> <em>&lt;file&gt;</em>                 File containing initial import map (defaults to importmap.json, supports .js with a JSON import map embedded, or HTML with an inline import map)</li>
-<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: browser,development,module)</li>
+<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: )</li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;   Comma-separated dependency resolution overrides</li>
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;        Default module provider. Available providers: <a href="http://jspm.io">jspm.io</a>, nodemodules, deno, jsdelivr, skypack, unpkg, <a href="http://esm.sh">esm.sh</a>, <a href="http://jspm.io#system">jspm.io#system</a></li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                   Cache mode for fetches (online, offline, no-cache) (default: online)</li>
-<li><code>--integrity</code>                      Add module integrity attributes to the import map (default: false)</li>
+<li><code>--release</code>                        Enable release mode (--flatten-scopes, --combine-subpaths, --C=production) (default: false)</li>
+<li><code>--integrity</code>                      Add module integrity attributes to the import map</li>
 <li><code>--preload</code> <em>[mode]</em>                 Add module preloads to HTML output (default: static, dynamic)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                     URL to treat as server root, i.e. rebase import maps against</li>
-<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin (default: false)</li>
-<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /) (default: false)</li>
+<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin</li>
+<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /)</li>
 <li><code>-c, --compact</code>                    Output a compact import map (default: false)</li>
 <li><code>--stdout</code>                         Output the import map to stdout (default: false)</li>
 <li><code>-o, --out</code> <em>&lt;file&gt;</em>                 File to inject the final import map into (default: --map / importmap.js). For JS files outputs an injection wrapper script, for JSON files, the import map only, and for HTML files embeds the import map.</li>
@@ -355,7 +357,7 @@ the same options as the 'jspm install' command with no arguments.</p>
 </code><button>Copy</button></pre>
 
 <p>Start a server that uses importmap.json as the import map.</p>
-<pre><code><span class="hl-0">jspm</span><span class="hl-1"> </span><span class="hl-0">serve</span><span class="hl-1"> --</span><span class="hl-0">no</span><span class="hl-1">-</span><span class="hl-0">watch</span><span class="hl-1"> --</span><span class="hl-0">no</span><span class="hl-1">-</span><span class="hl-0">install</span><span class="hl-1"> --</span><span class="hl-0">no</span><span class="hl-1">-</span><span class="hl-0">type</span><span class="hl-1">-</span><span class="hl-0">stripping</span>
+<pre><code><span class="hl-0">jspm</span><span class="hl-1"> </span><span class="hl-0">serve</span><span class="hl-1"> --</span><span class="hl-0">static</span>
 </code><button>Copy</button></pre>
 
 <p>Start a server that does not generate the import map on startup, perform type stripping or provide a hot reload watcher</p>
@@ -366,18 +368,34 @@ the same options as the 'jspm install' command with no arguments.</p>
 <p>Builds a package and its dependencies using the JSPM import map and dependency resolution.
 Uses RollupJS under the hood to create optimized bundles.</p>
 <p>The package entry points as defined in the package.json &quot;exports&quot; field are built, with the
-entire package copied into the output directory. As such, it is a whole-package transformation.
-Includes and ignores can be specified using the package.json &quot;files&quot; and &quot;ignore&quot; fields,
+entire package copied into the output directory. As such, it is a whole-package transformation.</p>
+<p>Build externals are taken from the package.json &quot;dependencies&quot; to form a roughly configurationless
+build workflow (dependencies in &quot;devDependencies&quot; or otherwise are inlined into the build).</p>
+<p>Includes and ignores can be specified using the package.json &quot;files&quot; and &quot;ignore&quot; fields,
 optionally using the JSPM overrides for these via the &quot;jspm&quot; property in the package.json.</p>
+<p>Any build import map shoud be generated separately via a subsequent install operation on the
+build folder, for example like:</p>
+<p>jspm install -d dist -C production --flatten-scopes --combine-subpaths</p>
+<p>to generate an optimized production map.</p>
 <p><strong>Options</strong></p>
 <ul>
 <li><code>--no-minify</code>                      Disable build minification (default: true)</li>
 <li><code>-o, --out</code> <em>&lt;dir&gt;</em>                  Path to the output directory for the build (default: dist)</li>
+<li><code>--install</code>                        Generate import map after build completes (default: true)</li>
+<li><code>--integrity</code>                      Add module integrity attributes to the import map</li>
+<li><code>--preload</code> <em>[mode]</em>                 Add module preloads to HTML output (default: static, dynamic)</li>
+<li><code>--root</code> <em>&lt;url&gt;</em>                     URL to treat as server root, i.e. rebase import maps against</li>
+<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin</li>
+<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /)</li>
+<li><code>-c, --compact</code>                    Output a compact import map (default: false)</li>
+<li><code>--stdout</code>                         Output the import map to stdout (default: false)</li>
+<li><code>-o, --out</code> <em>&lt;file&gt;</em>                 File to inject the final import map into (default: --map / importmap.js). For JS files outputs an injection wrapper script, for JSON files, the import map only, and for HTML files embeds the import map.</li>
 <li><code>-m, --map</code> <em>&lt;file&gt;</em>                 File containing initial import map (defaults to importmap.json, supports .js with a JSON import map embedded, or HTML with an inline import map)</li>
-<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: browser,production,module)</li>
+<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: )</li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;   Comma-separated dependency resolution overrides</li>
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;        Default module provider. Available providers: <a href="http://jspm.io">jspm.io</a>, nodemodules, deno, jsdelivr, skypack, unpkg, <a href="http://esm.sh">esm.sh</a>, <a href="http://jspm.io#system">jspm.io#system</a></li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                   Cache mode for fetches (online, offline, no-cache) (default: online)</li>
+<li><code>--release</code>                        Enable release mode (--flatten-scopes, --combine-subpaths, --C=production) (default: false)</li>
 <li><code>-q, --quiet</code>                      Quiet output (default: false)</li>
 <li><code>-d, --dir</code> <em>&lt;directory&gt;</em>            Package directory to operate on (defaults to working directory)</li>
 <li><code>--disable-warning</code> <em>&lt;warnings&gt;</em>     Disable specific warnings (comma-separated list, e.g. file-count)</li>
@@ -427,15 +445,16 @@ optionally using the JSPM overrides for these via the &quot;jspm&quot; property 
 <li><code>-n, --name</code> <em>&lt;name&gt;</em>                Publish with a custom name instead of the name from package.json</li>
 <li><code>--eject</code> <em>&lt;package&gt;</em>                Eject a published package instead of publishing</li>
 <li><code>-m, --map</code> <em>&lt;file&gt;</em>                 File containing initial import map (defaults to importmap.json, supports .js with a JSON import map embedded, or HTML with an inline import map)</li>
-<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: browser,production,module)</li>
+<li><code>-C, --conditions</code> <em>&lt;environments&gt;</em>  Comma-separated environment condition overrides (default: )</li>
 <li><code>-r, --resolution</code> &lt;<a href="#resolutions">resolutions</a>&gt;   Comma-separated dependency resolution overrides</li>
 <li><code>-p, --provider</code> &lt;<a href="#providers">providers</a>&gt;        Default module provider. Available providers: <a href="http://jspm.io">jspm.io</a>, nodemodules, deno, jsdelivr, skypack, unpkg, <a href="http://esm.sh">esm.sh</a>, <a href="http://jspm.io#system">jspm.io#system</a></li>
 <li><code>--cache</code> <em>&lt;mode&gt;</em>                   Cache mode for fetches (online, offline, no-cache) (default: online)</li>
-<li><code>--integrity</code>                      Add module integrity attributes to the import map (default: false)</li>
+<li><code>--release</code>                        Enable release mode (--flatten-scopes, --combine-subpaths, --C=production) (default: true)</li>
+<li><code>--integrity</code>                      Add module integrity attributes to the import map</li>
 <li><code>--preload</code> <em>[mode]</em>                 Add module preloads to HTML output (default: static, dynamic)</li>
 <li><code>--root</code> <em>&lt;url&gt;</em>                     URL to treat as server root, i.e. rebase import maps against</li>
-<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin (default: true)</li>
-<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /) (default: true)</li>
+<li><code>-f, --flatten-scopes</code>             Flatten import map scopes into smaller single top-level scope per origin</li>
+<li><code>-s, --combine-subpaths</code>           Combine import map subpaths under folder maps (ending in /)</li>
 <li><code>-c, --compact</code>                    Output a compact import map (default: false)</li>
 <li><code>--stdout</code>                         Output the import map to stdout (default: false)</li>
 <li><code>-o, --out</code> <em>&lt;file&gt;</em>                 File to inject the final import map into (default: --map / importmap.js). For JS files outputs an injection wrapper script, for JSON files, the import map only, and for HTML files embeds the import map.</li>
