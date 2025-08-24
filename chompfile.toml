@@ -77,3 +77,12 @@ deps = ['jspm:build', 'jspm/cli/package.json', 'typedoc-cli.json']
 run = """
 typedoc jspm/cli/src/cli.ts --options typedoc-cli.json ${{TYPEDOC_ARGS}} --name "JSPM CLI" --readme jspm/cli/docs.md --out $TARGET
 """
+
+[[task]]
+name = 'publish'
+dep = 'build'
+run = """
+cd public_html
+jspm build
+jspm publish --dir dist -p jspm.io
+"""
