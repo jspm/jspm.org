@@ -12,7 +12,7 @@ TYPEDOC_ARGS = """\
 
 [[task]]
 name = 'build'
-deps = ['copy:css', 'generate:site', 'docs']
+deps = ['copy:css', 'generate:site', 'docs', 'build:sandbox']
 
 [[task]]
 name = 'copy:css'
@@ -79,10 +79,17 @@ typedoc jspm/cli/src/cli.ts --options typedoc-cli.json ${{TYPEDOC_ARGS}} --name 
 """
 
 [[task]]
+name = 'build:sandbox'
+run = '''
+cd public_html
+jspm install
+jspm build
+'''
+
+[[task]]
 name = 'publish'
 dep = 'build'
 run = """
 cd public_html
-jspm build
 jspm publish --dir dist -p jspm.io
 """
