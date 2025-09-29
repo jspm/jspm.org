@@ -177,7 +177,7 @@
 <p>The full exact version is required.</p>
 <p>The response is a JSON file containing a <code>pkgUrl</code> and <code>files</code> list providing the URLs to the files in the package.</p>
 <a name="examples" class="anchor"></a><h3>Examples</h3>
-<pre><code class="language-sh">curl https://api.jspm.io/download?packages=jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>&amp;provider=jspm.io
+<pre><code class="language-sh">curl https://api.jspm.io/download/?packages=jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>&amp;provider=jspm.io
 </code></pre>
 <p>Output:</p>
 <pre><code class="language-json">{
@@ -204,7 +204,7 @@
   }
 }
 </code></pre>
-<pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"packages"</span>: [<span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>"</span>, <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">0</span>"</span>], <span class="string">"provider"</span>: <span class="string">"jsdelivr"</span>, <span class="string">"exclude"</span>: [<span class="string">"sourcemaps"</span>, <span class="string">"types"</span>, <span class="string">"unused"</span>] }'</span> https://api.jspm.io/download
+<pre><code class="language-sh">curl -X POST -d <span class="string">'{ <span class="string">"packages"</span>: [<span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">1</span>"</span>, <span class="string">"jquery@<span class="number">3</span>.<span class="number">7</span>.<span class="number">0</span>"</span>], <span class="string">"provider"</span>: <span class="string">"jsdelivr"</span>, <span class="string">"exclude"</span>: [<span class="string">"sourcemaps"</span>, <span class="string">"types"</span>, <span class="string">"unused"</span>] }'</span> https://api.jspm.io/download/
 </code></pre>
 <p>Output:</p>
 <pre><code class="language-json">{
