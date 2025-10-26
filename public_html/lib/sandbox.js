@@ -19,22 +19,7 @@ import { run } from './run.ts';
 const { resolved: { version: esmsVersion } } = await lookup('es-module-shims');
 export { esmsVersion }
 
-export class JspmSandbox extends LitElement {
-  static styles = styles;
-  static get properties () {
-    return {
-      selectedUrl: String,
-      running: Boolean,
-      fileSystem: { type: Object },
-      currentFile: { type: String }
-    };
-  }
-  constructor () {
-    super();
-    this.examples = Object.create(null);
-    this.running = false;
-    this.fileSystem = { 
-      'index.html': `<!--
+const defaultIndex = `<!--
 
 JSPM Sandbox
 
@@ -61,7 +46,24 @@ and then run \`jspm install\` or \`jspm serve\` to get a local server with the s
 
 <script src="importmap.js"></script>
 <script type="module">import "app";</script>
-`,
+`;
+
+export class JspmSandbox extends LitElement {
+  static styles = styles;
+  static get properties () {
+    return {
+      selectedUrl: String,
+      running: Boolean,
+      fileSystem: { type: Object },
+      currentFile: { type: String }
+    };
+  }
+  constructor () {
+    super();
+    this.examples = Object.create(null);
+    this.running = false;
+    this.fileSystem = { 
+      'index.html': defaultIndex,
       'index.js': exampleLandingJs,
       'style.css': exampleLandingCss,
       'importmap.js': '',
@@ -172,6 +174,9 @@ and then run \`jspm install\` or \`jspm serve\` to get a local server with the s
     }
     if (!this.fileSystem['package.json']) {
       this.fileSystem['package.json'] = '{\n  "name": "app",\n  "version": "1.0.0",\n  "type": "module",\n  "exports": {\n    ".": "./index.js"\n  },\n  "dependencies": {}\n}\n';
+    }
+    if (!this.fileSystem['index.html']) {
+      this.fileSystem['index.html'] = defaultIndex;
     }
   }
   firstUpdated () {
