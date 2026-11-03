@@ -15,10 +15,10 @@
     "Serve": "/docs/cli/#serve",
     "Build": "/docs/cli/#build",
     "Ls": "/docs/cli/#ls",
-    "Deploy": "/docs/cli/#deploy",
+    "Publish": "/docs/cli/#publish",
     "Configuration": "/docs/cli/#configuration",
     "Providers": "/docs/cli/#providers",
-    "Resolutions": "/docs/cli/#resolution"
+    "Resolutions": "/docs/cli/#resolutions"
   },
   "visibilityFilters": {
     "inherited": false
